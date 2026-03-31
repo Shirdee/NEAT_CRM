@@ -1,0 +1,7 @@
+interface:
+  display_name: "CTO"
+  short_description: "Architecture, tradeoffs, and technical review."
+  default_prompt: "Use $cto to review the architecture, define boundaries, and call out implementation risks."
+
+policy:
+  allow_implicit_invocation: false

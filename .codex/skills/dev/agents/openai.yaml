@@ -1,0 +1,7 @@
+interface:
+  display_name: "DEV"
+  short_description: "Implementation, fixes, and test coverage."
+  default_prompt: "Use $dev to implement the scoped task, update tests, and report what changed."
+
+policy:
+  allow_implicit_invocation: false
