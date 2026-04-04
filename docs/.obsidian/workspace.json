@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_02/todo/sprint_02_todo.md",
+                "file": "sprints/sprint_03/reports/sprint_03_report.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sprint_02_todo"
+              "title": "sprint_03_report"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "sprints/sprint_02/todo/sprint_02_todo.md",
+                "file": "sprints/sprint_03/reports/sprint_03_report.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for sprint_02_todo"
+              "title": "Backlinks for sprint_03_report"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "sprints/sprint_02/todo/sprint_02_todo.md",
+                "file": "sprints/sprint_03/reports/sprint_03_report.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from sprint_02_todo"
+              "title": "Outgoing links from sprint_03_report"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "sprints/sprint_02/todo/sprint_02_todo.md",
+                "file": "sprints/sprint_03/reports/sprint_03_report.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of sprint_02_todo"
+              "title": "Outline of sprint_03_report"
             }
           }
         ]
@@ -185,9 +185,23 @@
   },
   "active": "715068f8537100ab",
   "lastOpenFiles": [
+    "sprints/sprint_03/sprint_03_index.md",
+    "Engineering Docs/SWRS.md",
+    "sprints/sprint_03/reports/sprint_03_report.md",
+    "sprints/sprint_03/reports",
+    "Engineering Docs/README.md",
+    "Engineering Docs",
+    "sprints/sprint_03/todo/sprint_03_todo.md",
+    "sprints/sprint_02/sprint_02_resume.md",
+    "sprints/sprint_03/reviews/sprint_03_review.md",
+    "sprints/sprint_03/todo",
+    "sprints/sprint_03/reviews",
+    "sprints/sprint_03",
+    "ROADMAP.md",
+    "DELIVERY_PLAN.md",
+    "sprints/sprint_02/todo/sprint_02_todo.md",
     "sprints/sprint_02/reviews/sprint_02_review.md",
     "sprints/sprint_02/sprint_02_index.md",
-    "sprints/sprint_02/todo/sprint_02_todo.md",
     "sprints/sprint_02/todo",
     "sprints/sprint_02/reviews",
     "sprints/sprint_02",
@@ -200,14 +214,10 @@
     "docs/sprints/sprint_01/sprint_01_index.md",
     "docs/sprints/sprint_01/todo",
     "docs/sprints/sprint_01",
-    "docs/sprints",
-    "docs",
     "DOCUMENTATION_STANDARD.md",
     "PRD.md",
     "docs/PRD.md",
     "backend/AGENTS.md",
-    "docs/backend/AGENTS.md",
-    "docs/backend",
-    "ROADMAP.md"
+    "docs/backend/AGENTS.md"
   ]
 }

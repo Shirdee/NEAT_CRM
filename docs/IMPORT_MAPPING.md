@@ -77,6 +77,25 @@ Potential workbook columns map to:
 - email columns -> `contact_emails`
 - phone columns -> `contact_phones`
 
+Contact validation contract:
+- required:
+  - first name and last name, or one full name that can be split into both
+  - company reference
+  - at least one contact method: email or phone
+- optional:
+  - role or title
+  - notes
+  - extra email or phone values
+
+Ignored workbook metadata columns:
+- row-number style columns are ignored during import parsing and validation
+- examples:
+  - `Row Number`
+  - `row_no`
+  - `row_number`
+  - `מספר שורה`
+  - `שורה`
+
 ### Interaction-like Columns
 
 - interaction date -> `interactions.interaction_date`

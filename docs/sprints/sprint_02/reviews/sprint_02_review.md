@@ -26,6 +26,8 @@ QA and PM follow-up on 2026-04-04 confirms that Sprint 2 implementation now matc
 - The delivered implementation stays inside Sprint 2 import-pipeline scope and does not drift into Sprint 3 CRM CRUD work.
 - The manual cleanup workflow now exists inside staged review, which satisfies the Sprint 2 review requirement.
 - New operator expectations raised during execution are now part of the documented Sprint 2 truth: sample workbook download, actionable staging errors, and support for importing new companies that other staged rows depend on.
+- Founder-approved validation rules are now part of the documented Sprint 2 truth: contacts require only name, company, and email or phone, and workbook row-number columns are ignored.
+- Import retention rules are now part of the documented Sprint 2 truth: the product should work from the current import only and should not preserve import history as an ongoing feature.
 
 ## CTO Findings
 
@@ -68,6 +70,9 @@ Status: approved for Sprint 2 implementation closeout; real-workbook validation 
 - sample workbook download exists for guided import testing
 - staging APIs now return actionable error messages to the UI
 - validation and commit both support new companies created within the same batch, even when dependent rows appear earlier in workbook order
+- contact validation now uses the reduced minimum required-field set approved by the founder
+- row-number workbook columns are ignored during import parsing and validation
+- import behavior is documented as current-batch-only rather than history-preserving
 
 ### QA Verdict
 
@@ -120,6 +125,9 @@ Sprint 2 now includes these operator controls in the staged import review:
 - sample workbook download so admins can test the import with a known structure
 - clearer server error surfacing during batch creation and row staging
 - batch-safe company creation behavior so contact and activity rows can resolve against companies added in the same import
+- reduced contact minimum requirements so real workbook cleanup is less brittle
+- ignored row-number workbook columns so source-sheet indexing metadata does not pollute import validation
+- single-current-import behavior so the UI and product scope do not retain old import history
 
 ## Approved Technical Boundaries
 

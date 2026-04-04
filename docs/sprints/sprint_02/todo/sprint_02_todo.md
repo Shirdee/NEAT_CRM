@@ -43,6 +43,7 @@ Review alone is not enough: admins must be able to resolve flagged rows before f
 - objective: persist staged import rows, issues, and summaries
 - scope: Prisma schema updates if needed, repository APIs, fallback-store support
 - must include: import batch lifecycle, staged row storage, issue persistence, review reads, and commit operations
+- retention rule: keep only the current import batch in product behavior and do not preserve import history as an ongoing user-facing feature
 - done when: batch data survives page reloads and can be reviewed before commit
 
 ### DEV-203: Implement Workbook Profiling
@@ -63,7 +64,7 @@ Review alone is not enough: admins must be able to resolve flagged rows before f
 
 - objective: surface cleanup issues before commit
 - scope: normalization rules, lookup matching, invalid-data checks, orphan detection, duplicate candidate detection
-- must include: raw imported text preservation, predictable issue codes, and support for rows that depend on new companies introduced elsewhere in the same batch
+- must include: raw imported text preservation, predictable issue codes, support for rows that depend on new companies introduced elsewhere in the same batch, founder-approved contact minimum requirements, and ignored row-number workbook columns
 - done when: admins can review flagged rows and duplicate candidates before commit
 
 ### DEV-206: Build Admin Review And Commit Flow
@@ -183,7 +184,7 @@ Status note:
 
 Current status against definition of done:
 
-- satisfied: admin-only import flow, staged persistence, reviewable issues, staged editing, row decision state, manual mapping resolution UX, duplicate controls, commit gating, local fallback, sample workbook support, actionable staging errors, new-company creation support, tests, repo checks
+- satisfied: admin-only import flow, staged persistence, reviewable issues, staged editing, row decision state, manual mapping resolution UX, duplicate controls, commit gating, local fallback, sample workbook support, actionable staging errors, new-company creation support, founder-approved contact minimum requirements, ignored row-number columns, current-import-only behavior, tests, repo checks
 - follow-up only: final QA validation with the real workbook before production use
 
 ## QA Targets For DEV
@@ -195,6 +196,9 @@ Current status against definition of done:
 - invalid data is flagged predictably
 - duplicate candidates are surfaced correctly
 - dependent rows do not fail just because the referenced company is created later in the same batch
+- contact rows fail only when the reduced required set is missing: name, company, and email or phone
+- row-number workbook columns do not affect staged data or validation outcomes
+- only the current import batch is surfaced in product behavior; old import history is not retained for normal use
 - admins can edit flagged rows and rerun validation without losing batch state
 - unresolved rows stay blocked from commit
 - admins can manually link staged rows to existing records where needed

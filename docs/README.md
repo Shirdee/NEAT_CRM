@@ -21,6 +21,7 @@ Project scaffold initialized. The runnable CRM application scaffold lives in `ap
 - `docs/CODEX.md` for shared project context
 - `docs/AGENTS.md` for role definitions and handoffs
 - `docs/` for product, architecture, decisions, UI, sprint docs, and agent references
+- `docs/Engineering Docs/` for engineering requirements and design-verification traceability
 - `docs/frontend/` and `docs/backend/` for delivery-surface agent notes
 - `docs/.codex/skills/` for local PM, CTO, DEV, and QA role skills
 
@@ -39,5 +40,6 @@ Provide the full CRM instructions and PM will convert them into the initial PRD,
 - [[AGENTS|Project Agents]]
 - [[PRD|PRD]]
 - [[ARCHITECTURE|Architecture]]
+- [[Engineering Docs/SWRS|Software Requirements Sheet]]
 - [[DELIVERY_PLAN|Delivery Plan]]
 - [[sprints/README|Sprints]]

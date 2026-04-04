@@ -18,7 +18,7 @@
       "query": "tag:#planning  ",
       "color": {
         "a": 1,
-        "rgb": 11657298
+        "rgb": 9742847
       }
     },
     {
@@ -27,6 +27,20 @@
         "a": 1,
         "rgb": 8147680
       }
+    },
+    {
+      "query": "path:sprints/sprint_03  ",
+      "color": {
+        "a": 1,
+        "rgb": 16756224
+      }
+    },
+    {
+      "query": "path:\"Engineering Docs\"  ",
+      "color": {
+        "a": 1,
+        "rgb": 5431473
+      }
     }
   ],
   "collapse-display": true,
@@ -34,11 +48,11 @@
   "textFadeMultiplier": 0,
   "nodeSizeMultiplier": 1,
   "lineSizeMultiplier": 1,
-  "collapse-forces": false,
+  "collapse-forces": true,
   "centerStrength": 0.518713248970312,
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 416,
-  "scale": 1.5801954913418166,
+  "scale": 1.6125581378006733,
   "close": false
 }
