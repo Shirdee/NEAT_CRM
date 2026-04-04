@@ -1,3 +1,4 @@
+import type {AppLocale} from "@/i18n/routing";
 import {getTranslations} from "next-intl/server";
 
 import {Link} from "@/i18n/navigation";
@@ -7,12 +8,18 @@ import {LocaleSwitcher} from "../i18n/locale-switcher";
 
 type AppShellProps = {
   children: React.ReactNode;
+  locale: AppLocale;
   session: UserSession;
 };
 
-export async function AppShell({children, session}: AppShellProps) {
+export async function AppShell({children, locale, session}: AppShellProps) {
   const t = await getTranslations("Shell");
-  const navItems = [{href: "/dashboard", label: t("nav.dashboard")}];
+  const navItems = [
+    {href: "/dashboard", label: t("nav.dashboard")},
+    {href: "/companies", label: t("nav.companies")},
+    {href: "/contacts", label: t("nav.contacts")},
+    {href: "/search", label: t("nav.search")}
+  ];
 
   if (canManageAdminLists(session.role)) {
     navItems.push({href: "/admin/lists", label: t("nav.adminLists")});
@@ -40,6 +47,13 @@ export async function AppShell({children, session}: AppShellProps) {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
+            <form action={`/${locale}/search`} className="min-w-[220px] flex-1">
+              <input
+                className="w-full rounded-full border border-white/15 bg-white/10 px-4 py-2 text-sm text-white placeholder:text-white/60"
+                name="q"
+                placeholder={t("searchPlaceholder")}
+              />
+            </form>
             <LocaleSwitcher />
             <form action="/api/logout" method="post">
               <button

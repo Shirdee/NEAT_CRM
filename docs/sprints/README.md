@@ -12,7 +12,8 @@ aliases:
 ## Status
 
 Sprint 1 is complete.
-Sprint 2 planning and DEV handoff docs are now present in the repository.
+Sprint 2 implementation is complete and approved for closeout.
+Sprint 3 implementation is complete in the repository, with one remaining tooling follow-up on local lint.
 
 ## Rules
 
@@ -32,3 +33,4 @@ See [[DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint imp
 - [[AGENTS|Project Agents]]
 - [[sprints/sprint_01/sprint_01_index|Sprint 01 Index]]
 - [[sprints/sprint_02/sprint_02_index|Sprint 02 Index]]
+- [[sprints/sprint_03/sprint_03_index|Sprint 03 Index]]

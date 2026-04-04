@@ -22,7 +22,7 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <AppShell session={session}>
+    <AppShell locale={locale === "he" ? "he" : "en"} session={session}>
       <section className="rounded-[28px] bg-white p-6 shadow-soft">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
         {children}

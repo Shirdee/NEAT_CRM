@@ -41,9 +41,13 @@
     "signOut": "Sign out",
     "nav": {
       "dashboard": "Dashboard",
+      "companies": "Companies",
+      "contacts": "Contacts",
+      "search": "Search",
       "adminLists": "Admin lists",
       "adminImports": "Imports"
     },
+    "searchPlaceholder": "Search companies, contacts, email, phone, or notes",
     "roles": {
       "admin": "Admin",
       "editor": "Editor",
@@ -150,6 +154,109 @@
     },
     "backToAdminLists": "Back to admin lists",
     "backToDashboard": "Back to dashboard"
+  },
+  "Companies": {
+    "title": "Companies",
+    "subtitle": "Sprint 3 turns the CRM into a usable lead database with searchable, filterable company records and mobile-safe detail views.",
+    "create": "Create company",
+    "empty": "No companies matched the current filters.",
+    "errors": {
+      "generic": "The requested company action could not be completed."
+    },
+    "filters": {
+      "query": "Search name, website, or notes",
+      "allSources": "All sources",
+      "allStages": "All stages",
+      "apply": "Apply filters"
+    },
+    "columns": {
+      "company": "Company",
+      "website": "Website",
+      "stage": "Stage",
+      "source": "Source",
+      "contacts": "Contacts"
+    },
+    "labels": {
+      "noNotes": "No notes yet."
+    }
+  },
+  "CompanyForm": {
+    "createTitle": "Create company",
+    "editTitle": "Edit company",
+    "subtitle": "Keep company records light, bilingual-ready, and grounded in the shared lookup values from Sprint 1.",
+    "error": "A company name is required before saving.",
+    "back": "Back"
+  },
+  "CompanyDetail": {
+    "eyebrow": "Company record",
+    "edit": "Edit company",
+    "created": "Company created successfully.",
+    "updated": "Company updated successfully.",
+    "website": "Website",
+    "stage": "Stage",
+    "source": "Source",
+    "contactsTitle": "Related contacts",
+    "addContact": "Add contact",
+    "contactsEmpty": "This company does not have related contacts yet.",
+    "noNotes": "No company notes yet.",
+    "noRole": "No role set"
+  },
+  "Contacts": {
+    "title": "Contacts",
+    "subtitle": "Contacts now support optional company linking plus multiple emails and phones for realistic daily sales work.",
+    "create": "Create contact",
+    "empty": "No contacts matched the current filters.",
+    "errors": {
+      "generic": "The requested contact action could not be completed."
+    },
+    "filters": {
+      "query": "Search name, company, email, phone, or notes",
+      "allCompanies": "All companies",
+      "apply": "Apply filters"
+    },
+    "columns": {
+      "contact": "Contact",
+      "company": "Company",
+      "email": "Primary email",
+      "phone": "Primary phone"
+    },
+    "labels": {
+      "noRole": "No role set",
+      "noCompany": "No linked company"
+    }
+  },
+  "ContactForm": {
+    "createTitle": "Create contact",
+    "editTitle": "Edit contact",
+    "subtitle": "Use one line per email or phone so the shared Sprint 3 form layer can preserve multiple communication methods cleanly.",
+    "error": "A contact needs a name and at least one email or phone number.",
+    "back": "Back"
+  },
+  "ContactDetail": {
+    "eyebrow": "Contact record",
+    "edit": "Edit contact",
+    "created": "Contact created successfully.",
+    "updated": "Contact updated successfully.",
+    "role": "Role",
+    "company": "Company",
+    "nameParts": "Name",
+    "emails": "Emails",
+    "phones": "Phones",
+    "primary": "Primary",
+    "noEmails": "No emails saved yet.",
+    "noPhones": "No phone numbers saved yet.",
+    "noCompany": "No linked company",
+    "noNotes": "No contact notes yet."
+  },
+  "Search": {
+    "title": "Global search",
+    "subtitle": "Search now covers the Sprint 3 company and contact surfaces from one entry point.",
+    "placeholder": "Search company name, contact name, email, phone, website, or notes",
+    "empty": "Start typing to search the CRM.",
+    "companiesTitle": "Companies",
+    "contactsTitle": "Contacts",
+    "noCompanies": "No company results.",
+    "noContacts": "No contact results."
   },
   "AccessDenied": {
     "eyebrow": "Permissions",
