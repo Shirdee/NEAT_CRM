@@ -12,6 +12,7 @@ type UploadPanelProps = {
   title: string;
   body: string;
   selectFileLabel: string;
+  sampleLabel: string;
   startImportLabel: string;
   stagingLabel: string;
   successLabel: string;
@@ -33,6 +34,7 @@ export function ImportUploadPanel({
   title,
   body,
   selectFileLabel,
+  sampleLabel,
   startImportLabel,
   stagingLabel,
   successLabel,
@@ -43,6 +45,15 @@ export function ImportUploadPanel({
   const [statusText, setStatusText] = useState("");
   const [errorText, setErrorText] = useState("");
   const [isPending, startTransition] = useTransition();
+
+  async function readErrorMessage(response: Response, fallbackMessage: string) {
+    try {
+      const body = (await response.json()) as {error?: string};
+      return body.error ?? fallbackMessage;
+    } catch {
+      return fallbackMessage;
+    }
+  }
 
   async function handleImport() {
     if (!file) {
@@ -82,7 +93,7 @@ export function ImportUploadPanel({
     });
 
     if (!batchResponse.ok) {
-      throw new Error("Failed to create import batch.");
+      throw new Error(await readErrorMessage(batchResponse, "Failed to create import batch."));
     }
 
     const batch = (await batchResponse.json()) as {id: string};
@@ -113,7 +124,7 @@ export function ImportUploadPanel({
         });
 
         if (!stageResponse.ok) {
-          throw new Error("Failed while staging workbook rows.");
+          throw new Error(await readErrorMessage(stageResponse, "Failed while staging workbook rows."));
         }
 
         setStatusText(`${stagingLabel} ${sheet.name} ${chunkIndex + 1}/${chunks.length}`);
@@ -131,7 +142,16 @@ export function ImportUploadPanel({
       <p className="mt-2 text-sm leading-6 text-slate-600">{body}</p>
       <div className="mt-5 space-y-3">
         <label className="block rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-4 py-5 text-sm text-slate-700">
-          <span className="mb-3 block font-medium text-ink">{selectFileLabel}</span>
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <span className="block font-medium text-ink">{selectFileLabel}</span>
+            <a
+              className="text-xs font-medium text-coral underline underline-offset-4"
+              download
+              href="/api/imports/sample"
+            >
+              {sampleLabel}
+            </a>
+          </div>
           <input
             accept=".xlsx,.xls,.csv"
             className="block w-full text-sm"

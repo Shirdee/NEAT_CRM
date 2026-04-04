@@ -58,6 +58,7 @@ export default async function AdminImportsPage({
             body={t("upload.body")}
             errorLabel={t("upload.error")}
             locale={locale}
+            sampleLabel={t("upload.sample")}
             selectFileLabel={t("upload.selectFile")}
             stagingLabel={t("upload.staging")}
             startImportLabel={t("upload.submit")}

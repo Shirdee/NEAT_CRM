@@ -578,6 +578,7 @@ export function validateBatchRows(input: {
 
   const companyNames = new Set(input.existing.companyNames);
   const companyDomains = new Set(input.existing.websiteDomains);
+  const availableCompanyNames = new Set(input.existing.companyNames);
   const contactFingerprints = new Set(input.existing.contactFingerprints);
   const emailFingerprints = new Set(input.existing.emails);
   const phoneFingerprints = new Set(input.existing.phones);
@@ -596,6 +597,17 @@ export function validateBatchRows(input: {
     }
 
     return decision === "keep_new";
+  }
+
+  for (const {row} of normalizedRows) {
+    if (
+      row.entityType === "company" &&
+      row.companyName &&
+      row.reviewDecision.reviewState !== "skipped" &&
+      row.reviewDecision.duplicateDecision !== "skip"
+    ) {
+      availableCompanyNames.add(normalizeCompanyName(row.companyName));
+    }
   }
 
   for (const {row} of normalizedRows) {
@@ -704,7 +716,7 @@ export function validateBatchRows(input: {
 
       if (
         row.companyName &&
-        !companyNames.has(normalizeCompanyName(row.companyName)) &&
+        !availableCompanyNames.has(normalizeCompanyName(row.companyName)) &&
         !(
           row.reviewDecision.duplicateDecision === "attach_existing" &&
           Boolean(row.reviewDecision.existingTargetId)

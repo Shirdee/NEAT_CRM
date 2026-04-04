@@ -60,4 +60,36 @@ describe("workbook import helpers", () => {
     );
     expect(validation.rows.find((row) => row.sourceRowKey === "Contacts:2")?.status).toBe("flagged");
   });
+
+  it("allows contacts to reference companies created later in the same batch", () => {
+    const validation = validateBatchRows({
+      rows: [
+        {
+          sheetName: "Contacts",
+          rowNumber: 2,
+          headers: ["Full Name", "Company Name", "Email"],
+          cells: ["Dana Founder", "Acme", "dana@example.com"]
+        },
+        {
+          sheetName: "Companies",
+          rowNumber: 2,
+          headers: ["Company Name", "Website"],
+          cells: ["Acme", "acme.test"]
+        }
+      ],
+      lookups: {},
+      existing: {
+        companyNames: new Set<string>(),
+        websiteDomains: new Set<string>(),
+        contactFingerprints: new Set<string>(),
+        emails: new Set<string>(),
+        phones: new Set<string>()
+      }
+    });
+
+    expect(validation.issues.some((issue) => issue.issueCode === "orphan_company_reference")).toBe(
+      false
+    );
+    expect(validation.rows.find((row) => row.sourceRowKey === "Contacts:2")?.status).toBe("ready");
+  });
 });

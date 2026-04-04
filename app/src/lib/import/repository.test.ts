@@ -245,4 +245,71 @@ describe("import repository fallback flow", () => {
 
     expect(reviewAfter?.rows[0]?.status).toBe("skipped");
   });
+
+  it("commits contacts that reference companies staged later in the same batch", async () => {
+    const profile = profileWorkbookSource([
+      {
+        name: "Contacts",
+        rows: [
+          ["Full Name", "Company Name", "Email"],
+          ["Dana Founder", "Acme", "dana@acme.test"]
+        ]
+      },
+      {
+        name: "Companies",
+        rows: [
+          ["Company Name", "Website"],
+          ["Acme", "acme.test"]
+        ]
+      }
+    ]);
+
+    const batch = await createImportBatch({
+      uploadedById: "user_admin",
+      sourceFilename: "out-of-order.xlsx",
+      profile
+    });
+
+    await stageImportRows({
+      batchId: batch.id,
+      rows: [
+        ...createStageableRows("Contacts", ["Full Name", "Company Name", "Email"], [
+          ["Dana Founder", "Acme", "dana@acme.test"]
+        ]),
+        ...createStageableRows("Companies", ["Company Name", "Website"], [["Acme", "acme.test"]])
+      ]
+    });
+
+    const review = await getImportBatchReview(batch.id);
+
+    expect(review?.issues.some((issue) => issue.issueCode === "orphan_company_reference")).toBe(
+      false
+    );
+
+    await updateImportRow({
+      batchId: batch.id,
+      rowId: review!.rows.find((row) => row.entityType === "contact")!.id,
+      rawFields: review!.rows.find((row) => row.entityType === "contact")!.rawFields,
+      reviewDecision: {
+        reviewState: "ready"
+      }
+    });
+
+    await updateImportRow({
+      batchId: batch.id,
+      rowId: review!.rows.find((row) => row.entityType === "company")!.id,
+      rawFields: review!.rows.find((row) => row.entityType === "company")!.rawFields,
+      reviewDecision: {
+        reviewState: "ready"
+      }
+    });
+
+    const result = await commitImportBatch({
+      batchId: batch.id,
+      userId: "user_admin",
+      allowWarnings: false
+    });
+
+    expect(result).toMatchObject({created: 2, skipped: 0});
+  });
 });

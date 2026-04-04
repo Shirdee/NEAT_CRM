@@ -187,6 +187,10 @@ function serializeRow(row: StageableImportRow) {
   }, {});
 }
 
+function toJsonValue<T>(value: T): Prisma.InputJsonValue {
+  return JSON.parse(JSON.stringify(value, (_key, currentValue) => currentValue ?? null)) as Prisma.InputJsonValue;
+}
+
 function getDefaultReviewDecision(): ImportRowReviewDecision {
   return {
     reviewState: "review",
@@ -498,8 +502,8 @@ async function writeValidationState(batchId: string, input: {
         data: {
           entityType: row.entityType,
           status: row.status,
-          normalizedJson: row.normalizedFields as Prisma.InputJsonValue,
-          reviewJson: row.reviewDecision as Prisma.InputJsonValue,
+          normalizedJson: toJsonValue(row.normalizedFields),
+          reviewJson: toJsonValue(row.reviewDecision),
           fingerprint: row.duplicateFingerprints[0] ?? null
         }
       })
@@ -511,7 +515,7 @@ async function writeValidationState(batchId: string, input: {
       where: {id: batchId},
       data: {
         status,
-        summaryJson: summary as Prisma.InputJsonValue
+        summaryJson: toJsonValue(summary)
       }
     }),
     ...input.issues.map((issue) =>
@@ -543,6 +547,23 @@ function normalizedLookupId(row: PersistedImportRow, categoryKey: string) {
   return lookupCandidates.find((candidate) => candidate.categoryKey === categoryKey)?.resolvedValueId ?? null;
 }
 
+function importCommitPriority(entityType: string) {
+  switch (entityType) {
+    case "company":
+      return 0;
+    case "contact":
+      return 1;
+    case "interaction":
+      return 2;
+    case "task":
+      return 3;
+    case "opportunity":
+      return 4;
+    default:
+      return 5;
+  }
+}
+
 export async function createImportBatch(input: {
   uploadedById: string;
   sourceFilename: string;
@@ -571,7 +592,7 @@ export async function createImportBatch(input: {
       uploadedById: input.uploadedById,
       sourceFilename: input.sourceFilename,
       status: "profiling",
-      summaryJson: summary as Prisma.InputJsonValue
+      summaryJson: toJsonValue(summary)
     }
   });
 
@@ -639,7 +660,7 @@ export async function stageImportRows(input: {
             }
           },
           update: {
-            rawJson: serializeRow(row) as Prisma.InputJsonValue,
+            rawJson: toJsonValue(serializeRow(row)),
             sheetName: row.sheetName,
             rowNumber: row.rowNumber,
             status: "staged"
@@ -651,9 +672,9 @@ export async function stageImportRows(input: {
             rowNumber: row.rowNumber,
             sourceRowKey: `${row.sheetName}:${row.rowNumber}`,
             status: "staged",
-            rawJson: serializeRow(row) as Prisma.InputJsonValue,
-            normalizedJson: {} as Prisma.InputJsonValue,
-            reviewJson: getDefaultReviewDecision() as Prisma.InputJsonValue
+            rawJson: toJsonValue(serializeRow(row)),
+            normalizedJson: toJsonValue({}),
+            reviewJson: toJsonValue(getDefaultReviewDecision())
           }
         })
       )
@@ -804,9 +825,9 @@ export async function updateImportRow(input: {
         id: input.rowId
       },
       data: {
-        rawJson: input.rawFields as Prisma.InputJsonValue,
+        rawJson: toJsonValue(input.rawFields),
         status: "staged",
-        reviewJson: nextReviewDecision as Prisma.InputJsonValue
+        reviewJson: toJsonValue(nextReviewDecision)
       }
     });
   }
@@ -971,10 +992,17 @@ export async function commitImportBatch(input: {
   let updated = 0;
   let skipped = 0;
   const committedAt = new Date().toISOString();
+  const readyRows = persisted.rows
+    .filter((candidate: PersistedImportRow) => candidate.status === "ready")
+    .slice()
+    .sort(
+      (left: PersistedImportRow, right: PersistedImportRow) =>
+        importCommitPriority(left.entityType) - importCommitPriority(right.entityType) ||
+        left.sheetName.localeCompare(right.sheetName) ||
+        left.rowNumber - right.rowNumber
+    );
 
-  for (const row of persisted.rows.filter(
-    (candidate: PersistedImportRow) => candidate.status === "ready"
-  )) {
+  for (const row of readyRows) {
     const normalized = row.normalizedJson;
     const reviewDecision = row.reviewJson ?? getDefaultReviewDecision();
     const companyName = typeof normalized.companyName === "string" ? normalized.companyName : "";
@@ -1310,7 +1338,7 @@ export async function commitImportBatch(input: {
         data: {
           status: "committed",
           completedAt: new Date(committedAt),
-          summaryJson: nextSummary as Prisma.InputJsonValue
+          summaryJson: toJsonValue(nextSummary)
         }
       })
     ]);

@@ -98,6 +98,7 @@
       "title": "Start a staged import",
       "body": "Choose an Excel or CSV file. The browser profiles and parses it first, then sends staged chunks to the server for validation.",
       "selectFile": "Workbook file",
+      "sample": "Download sample workbook",
       "submit": "Profile and stage import",
       "staging": "Staging workbook chunks",
       "success": "Workbook staged successfully.",
