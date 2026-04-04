@@ -11,8 +11,8 @@ aliases:
 
 ## Status
 
-Planning package prepared.
-Implementation has not started.
+Sprint 1 is complete.
+Sprint 2 planning and DEV handoff docs are now present in the repository.
 
 ## Rules
 
@@ -30,3 +30,5 @@ See [[DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint imp
 - [[PRD|PRD]]
 - [[DECISIONS|Decisions]]
 - [[AGENTS|Project Agents]]
+- [[sprints/sprint_01/sprint_01_index|Sprint 01 Index]]
+- [[sprints/sprint_02/sprint_02_index|Sprint 02 Index]]

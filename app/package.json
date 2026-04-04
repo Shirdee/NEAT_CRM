@@ -11,7 +11,8 @@
     "test": "vitest run",
     "prisma:generate": "prisma generate",
     "db:migrate": "prisma migrate deploy",
-    "db:seed": "node prisma/seed.mjs"
+    "db:seed": "node prisma/seed.mjs",
+    "import:local": "tsx src/lib/import/run-local.ts"
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
@@ -21,7 +22,8 @@
     "prisma": "^6.6.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.2",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/node": "^24.6.0",
@@ -32,6 +34,7 @@
     "eslint-config-next": "^16.0.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.17",
+    "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "vercel": "^50.39.0"
   }

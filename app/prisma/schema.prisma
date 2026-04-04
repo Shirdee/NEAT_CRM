@@ -74,6 +74,7 @@ model ImportBatch {
   summaryJson    Json?
   uploadedBy     User          @relation(fields: [uploadedById], references: [id])
   issues         ImportIssue[]
+  rows           ImportRow[]
 }
 
 model ImportIssue {
@@ -88,6 +89,27 @@ model ImportIssue {
   message          String
   resolutionStatus String
   batch            ImportBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+}
+
+model ImportRow {
+  id             String      @id @default(uuid())
+  batchId        String
+  entityType     String
+  sheetName      String
+  rowNumber      Int
+  sourceRowKey   String
+  status         String
+  rawJson        Json
+  normalizedJson Json
+  reviewJson     Json?
+  fingerprint    String?
+  committedAt    DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  batch          ImportBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@unique([batchId, sourceRowKey])
+  @@index([batchId, status])
 }
 
 model Company {

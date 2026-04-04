@@ -41,7 +41,8 @@
     "signOut": "התנתקות",
     "nav": {
       "dashboard": "דשבורד",
-      "adminLists": "רשימות ניהול"
+      "adminLists": "רשימות ניהול",
+      "adminImports": "ייבוא"
     },
     "roles": {
       "admin": "מנהל",
@@ -85,6 +86,69 @@
     "activate": "הפעלה",
     "backToDashboard": "חזרה לדשבורד",
     "valueCount": "{count, plural, one {# ערך} other {# ערכים}}"
+  },
+  "AdminImports": {
+    "title": "סקירת ייבוא חוברת עבודה",
+    "subtitle": "ספרינט 2 מעלה נתוני workbook בצ'אנקים מבוקרים, מפרופל את מבנה המקור, מציף בעיות ניקוי ושומר את ההתחייבות הסופית מאחורי סקירת מנהל.",
+    "messages": {
+      "committed": "האצווה שנבחרה הוטמעה בהצלחה.",
+      "updated": "שורת הסטייג'ינג עודכנה ונבדקה מחדש."
+    },
+    "upload": {
+      "title": "התחלת ייבוא מדורג",
+      "body": "בחרו קובץ Excel או CSV. הדפדפן מפרופל ומנתח אותו קודם, ואז שולח צ'אנקים לשרת לצורך ולידציה.",
+      "selectFile": "קובץ workbook",
+      "submit": "פרופיל והעלאת ייבוא",
+      "staging": "העלאת צ'אנקי workbook",
+      "success": "הקובץ הועלה לסטייג'ינג בהצלחה.",
+      "error": "יש לבחור קובץ workbook לפני תחילת הייבוא."
+    },
+    "history": {
+      "title": "היסטוריית אצוות",
+      "empty": "עדיין אין אצוות ייבוא.",
+      "count": "{count, plural, one {# אצווה} other {# אצוות}}"
+    },
+    "review": {
+      "empty": "יש לבחור או ליצור אצוות ייבוא כדי לראות פרופיל, בעיות ומוכנות להטמעה.",
+      "statusLabel": "סטטוס האצווה הנוכחית: {status}",
+      "sheetRows": "{count, plural, one {# שורה} other {# שורות}}",
+      "sheetColumns": "{count, plural, one {# עמודה} other {# עמודות}}",
+      "commitTitle": "שער הטמעה",
+      "commitBody": "ההטמעה הסופית נשארת חסומה עד שפותרים בעיות חוסמות. אזהרות דורשות אישור מפורש של מנהל לפני ההטמעה.",
+      "allowWarnings": "בדקתי את האזהרות ואני רוצה לאפשר הטמעה.",
+      "commit": "הטמעת שורות מוכנות",
+      "updateRow": "שמירה ובדיקה מחדש של השורה",
+      "issuesTitle": "בעיות ולידציה",
+      "noIssues": "לא נוצרו בעיות ולידציה עבור האצווה הזאת.",
+      "rowsTitle": "תצוגה מקדימה של שורות בסטייג'ינג",
+      "controls": {
+        "rowState": "מצב שורה",
+        "entityOverride": "דריסת ישות",
+        "duplicateDecision": "טיפול בכפילות",
+        "attachExisting": "קישור לקיים",
+        "auto": "זיהוי אוטומטי",
+        "none": "ללא קישור קיים"
+      },
+      "states": {
+        "review": "דורש סקירה",
+        "ready": "מוכן",
+        "skipped": "דולג"
+      },
+      "decisions": {
+        "auto": "אוטומטי",
+        "keepNew": "לשמור כחדש",
+        "attachExisting": "לחבר לקיים",
+        "skip": "לדלג על השורה"
+      },
+      "unsaved": "שינויים שלא נשמרו בסקירת הסטייג'ינג יאבדו אם תצא/י מהעמוד.",
+      "counts": {
+        "total": "{count, plural, one {# שורה בסטייג'ינג} other {# שורות בסטייג'ינג}}",
+        "warnings": "{count, plural, one {# אזהרה} other {# אזהרות}}",
+        "errors": "{count, plural, one {# שגיאה} other {# שגיאות}}"
+      }
+    },
+    "backToAdminLists": "חזרה לרשימות הניהול",
+    "backToDashboard": "חזרה לדשבורד"
   },
   "AccessDenied": {
     "eyebrow": "הרשאות",

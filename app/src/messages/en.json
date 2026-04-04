@@ -41,7 +41,8 @@
     "signOut": "Sign out",
     "nav": {
       "dashboard": "Dashboard",
-      "adminLists": "Admin lists"
+      "adminLists": "Admin lists",
+      "adminImports": "Imports"
     },
     "roles": {
       "admin": "Admin",
@@ -85,6 +86,69 @@
     "activate": "Activate",
     "backToDashboard": "Back to dashboard",
     "valueCount": "{count, plural, one {# value} other {# values}}"
+  },
+  "AdminImports": {
+    "title": "Workbook import review",
+    "subtitle": "Sprint 2 stages workbook data in controlled chunks, profiles the source structure, surfaces cleanup issues, and keeps the final commit behind admin review.",
+    "messages": {
+      "committed": "The selected batch was committed successfully.",
+      "updated": "The staged row was updated and revalidated."
+    },
+    "upload": {
+      "title": "Start a staged import",
+      "body": "Choose an Excel or CSV file. The browser profiles and parses it first, then sends staged chunks to the server for validation.",
+      "selectFile": "Workbook file",
+      "submit": "Profile and stage import",
+      "staging": "Staging workbook chunks",
+      "success": "Workbook staged successfully.",
+      "error": "Choose a workbook file before starting the import."
+    },
+    "history": {
+      "title": "Batch history",
+      "empty": "No import batches exist yet.",
+      "count": "{count, plural, one {# batch} other {# batches}}"
+    },
+    "review": {
+      "empty": "Select or create an import batch to inspect profile, issues, and commit readiness.",
+      "statusLabel": "Current batch status: {status}",
+      "sheetRows": "{count, plural, one {# row} other {# rows}}",
+      "sheetColumns": "{count, plural, one {# column} other {# columns}}",
+      "commitTitle": "Commit gate",
+      "commitBody": "The final commit stays blocked until blocking issues are resolved. Warnings require an explicit admin acknowledgment before commit.",
+      "allowWarnings": "I reviewed the warnings and want to allow commit.",
+      "commit": "Commit ready rows",
+      "updateRow": "Save and revalidate row",
+      "issuesTitle": "Validation issues",
+      "noIssues": "No validation issues were generated for this batch.",
+      "rowsTitle": "Staged rows preview",
+      "controls": {
+        "rowState": "Row state",
+        "entityOverride": "Entity override",
+        "duplicateDecision": "Duplicate handling",
+        "attachExisting": "Attach existing",
+        "auto": "Auto detect",
+        "none": "No attached record"
+      },
+      "states": {
+        "review": "Needs review",
+        "ready": "Ready",
+        "skipped": "Skipped"
+      },
+      "decisions": {
+        "auto": "Auto",
+        "keepNew": "Keep as new",
+        "attachExisting": "Attach existing",
+        "skip": "Skip row"
+      },
+      "unsaved": "Unsaved staged review changes will be lost if you leave this page.",
+      "counts": {
+        "total": "{count, plural, one {# staged row} other {# staged rows}}",
+        "warnings": "{count, plural, one {# warning} other {# warnings}}",
+        "errors": "{count, plural, one {# error} other {# errors}}"
+      }
+    },
+    "backToAdminLists": "Back to admin lists",
+    "backToDashboard": "Back to dashboard"
   },
   "AccessDenied": {
     "eyebrow": "Permissions",
