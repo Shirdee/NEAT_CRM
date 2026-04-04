@@ -56,14 +56,14 @@ Review alone is not enough: admins must be able to resolve flagged rows before f
 
 - objective: support browser parsing and server-side chunk staging
 - scope: admin import entrypoint, client-side workbook parsing, chunk submission, batch creation, retry-safe chunk handling
-- must include: no assumption of one large workbook upload to a single Vercel request
+- must include: no assumption of one large workbook upload to a single Vercel request, plus actionable error feedback when batch creation or staging fails
 - done when: an admin can upload a workbook-like file and stage it in chunks for review
 
 ### DEV-205: Implement Validation And Duplicate Detection
 
 - objective: surface cleanup issues before commit
 - scope: normalization rules, lookup matching, invalid-data checks, orphan detection, duplicate candidate detection
-- must include: raw imported text preservation and predictable issue codes
+- must include: raw imported text preservation, predictable issue codes, and support for rows that depend on new companies introduced elsewhere in the same batch
 - done when: admins can review flagged rows and duplicate candidates before commit
 
 ### DEV-206: Build Admin Review And Commit Flow
@@ -121,6 +121,13 @@ Status note:
 - must include: the same validation and commit behavior as the hosted path
 - done when: the repo has a documented fallback execution path for Hobby-limit edge cases
 
+### DEV-209: Add Guided Import Support
+
+- objective: reduce failed test runs and improve import onboarding
+- scope: downloadable sample workbook, known-good sheet structure, and matching import-screen affordance
+- must include: a sample file that exercises company, contact, interaction, and task sheets
+- done when: an admin can download a sample workbook directly from the import screen and use it to test the staged import flow
+
 ### DEV-208: Verify And Harden
 
 - objective: finish Sprint 2 with tests and regression checks
@@ -133,6 +140,7 @@ Status note:
 - code-level verification is passing
 - Sprint 2 implementation closeout is approved
 - real-workbook validation remains a production-readiness follow-up
+- guided import support and clearer staging errors are implemented
 
 ## Recommended Execution Order
 
@@ -148,7 +156,8 @@ Status note:
 10. DEV-206E Add Manual Duplicate Resolution Controls
 11. DEV-206 Build Admin Review And Commit Flow
 12. DEV-207 Add Local Fallback Path
-13. DEV-208 Verify And Harden
+13. DEV-209 Add Guided Import Support
+14. DEV-208 Verify And Harden
 
 ## Non-Scope Guardrails
 
@@ -174,21 +183,24 @@ Status note:
 
 Current status against definition of done:
 
-- satisfied: admin-only import flow, staged persistence, reviewable issues, staged editing, row decision state, manual mapping resolution UX, duplicate controls, commit gating, local fallback, tests, repo checks
+- satisfied: admin-only import flow, staged persistence, reviewable issues, staged editing, row decision state, manual mapping resolution UX, duplicate controls, commit gating, local fallback, sample workbook support, actionable staging errors, new-company creation support, tests, repo checks
 - follow-up only: final QA validation with the real workbook before production use
 
 ## QA Targets For DEV
 
 - docs match implementation
 - admin can import; editor and viewer cannot
+- admin can download a sample workbook and use it to exercise the import path
 - profiling output is truthful
 - invalid data is flagged predictably
 - duplicate candidates are surfaced correctly
+- dependent rows do not fail just because the referenced company is created later in the same batch
 - admins can edit flagged rows and rerun validation without losing batch state
 - unresolved rows stay blocked from commit
 - admins can manually link staged rows to existing records where needed
 - admins can explicitly skip or approve staged rows
 - duplicate resolution choices persist and affect final commit output correctly
+- staging failures return usable error text in the UI
 - commit counts are accurate
 - Sprint 1 auth, admin lists, and locale flows still pass regression
 

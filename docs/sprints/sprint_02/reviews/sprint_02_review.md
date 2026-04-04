@@ -25,6 +25,7 @@ QA and PM follow-up on 2026-04-04 confirms that Sprint 2 implementation now matc
 - DEV should avoid drifting into full CRM record management screens.
 - The delivered implementation stays inside Sprint 2 import-pipeline scope and does not drift into Sprint 3 CRM CRUD work.
 - The manual cleanup workflow now exists inside staged review, which satisfies the Sprint 2 review requirement.
+- New operator expectations raised during execution are now part of the documented Sprint 2 truth: sample workbook download, actionable staging errors, and support for importing new companies that other staged rows depend on.
 
 ## CTO Findings
 
@@ -64,6 +65,9 @@ Status: approved for Sprint 2 implementation closeout; real-workbook validation 
 - unsaved-changes protection is implemented in staged row review
 - commit logic still blocks unresolved rows and blocking issues
 - hosted chunked import path and local fallback path are both implemented
+- sample workbook download exists for guided import testing
+- staging APIs now return actionable error messages to the UI
+- validation and commit both support new companies created within the same batch, even when dependent rows appear earlier in workbook order
 
 ### QA Verdict
 
@@ -110,6 +114,12 @@ Sprint 2 now includes these operator controls in the staged import review:
 - visible unresolved vs ready vs skipped state
 - clear issue-to-field context
 - protection against losing unsaved edits
+
+## Delivered Operator Support Additions
+
+- sample workbook download so admins can test the import with a known structure
+- clearer server error surfacing during batch creation and row staging
+- batch-safe company creation behavior so contact and activity rows can resolve against companies added in the same import
 
 ## Approved Technical Boundaries
 
