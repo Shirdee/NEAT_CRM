@@ -43,8 +43,32 @@ const entityHints: Array<{entityType: ImportEntityType; hints: string[]}> = [
   {entityType: "opportunity", hints: ["opportunity", "deal", "pipeline"]}
 ];
 
+const ignoredImportHeaders = new Set([
+  "row number",
+  "row_number",
+  "row no",
+  "row_no",
+  "row num",
+  "row_num",
+  "line number",
+  "line_number",
+  "line no",
+  "line_no",
+  "serial",
+  "serial number",
+  "serial_number",
+  "מספר שורה",
+  "שורה"
+]);
+
 function normalizeHeader(value: string) {
-  return normalizeLookupValue(value).replace(/[^a-z0-9]+/g, "_");
+  const normalizedValue = normalizeLookupValue(value);
+
+  if (ignoredImportHeaders.has(normalizedValue)) {
+    return "";
+  }
+
+  return normalizedValue.replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
 }
 
 function hasAny(keys: string[], candidates: string[]) {
@@ -61,6 +85,39 @@ function getFirstValue(record: Record<string, string>, candidates: string[]) {
   }
 
   return "";
+}
+
+function deriveContactNameParts(firstName: string, lastName: string, fullNameValue: string) {
+  if (firstName && lastName) {
+    return {
+      firstName,
+      lastName,
+      fullName: `${firstName} ${lastName}`.trim()
+    };
+  }
+
+  const nameParts = fullNameValue
+    .trim()
+    .split(/\s+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+
+  if (nameParts.length >= 2) {
+    const derivedFirstName = firstName || nameParts[0] || "";
+    const derivedLastName = lastName || nameParts.slice(1).join(" ");
+
+    return {
+      firstName: derivedFirstName,
+      lastName: derivedLastName,
+      fullName: `${derivedFirstName} ${derivedLastName}`.trim()
+    };
+  }
+
+  return {
+    firstName,
+    lastName,
+    fullName: fullNameValue.trim()
+  };
 }
 
 function toRecord(headers: string[], cells: string[]) {
@@ -299,9 +356,12 @@ function normalizeRow(
   const websiteDomain = extractWebsiteDomain(website);
   const firstName = getFirstValue(rawFields, ["first_name", "first"]);
   const lastName = getFirstValue(rawFields, ["last_name", "last"]);
+  const fullNameValue = getFirstValue(rawFields, ["full_name", "contact_name", "name"]);
+  const contactNameParts = deriveContactNameParts(firstName, lastName, fullNameValue);
+  const resolvedFirstName = contactNameParts.firstName;
+  const resolvedLastName = contactNameParts.lastName;
   const fullName =
-    getFirstValue(rawFields, ["full_name", "contact_name", "name"]) ||
-    [firstName, lastName].filter(Boolean).join(" ").trim();
+    contactNameParts.fullName || [resolvedFirstName, resolvedLastName].filter(Boolean).join(" ").trim();
   const normalizedContactName = fullName ? normalizePersonName(fullName) : "";
   const notes = getFirstValue(rawFields, ["notes", "summary", "description"]);
   const dateValue = getFirstValue(rawFields, [
@@ -361,12 +421,32 @@ function normalizeRow(
   }
 
   if (entityType === "contact") {
-    if (!fullName) {
+    if (!resolvedFirstName || !resolvedLastName) {
       issues.push({
         severity: "error",
-        issueCode: "missing_contact_name",
+        issueCode: "missing_contact_name_parts",
         rawValue: null,
-        message: "Contact rows require a contact name.",
+        message: "Contact rows require a first name and last name.",
+        resolutionStatus: "open"
+      });
+    }
+
+    if (!companyName) {
+      issues.push({
+        severity: "error",
+        issueCode: "missing_contact_company",
+        rawValue: null,
+        message: "Contact rows require a company reference.",
+        resolutionStatus: "open"
+      });
+    }
+
+    if (emails.length === 0 && phones.length === 0) {
+      issues.push({
+        severity: "error",
+        issueCode: "missing_contact_method",
+        rawValue: null,
+        message: "Contact rows require an email address or phone number.",
         resolutionStatus: "open"
       });
     }
@@ -505,8 +585,8 @@ function normalizeRow(
   const normalizedFields: Record<string, unknown> = {
     companyName,
     fullName,
-    firstName,
-    lastName,
+    firstName: resolvedFirstName,
+    lastName: resolvedLastName,
     emails,
     phones,
     website,
