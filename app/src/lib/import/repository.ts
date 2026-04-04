@@ -572,6 +572,11 @@ export async function createImportBatch(input: {
   const summary = buildEmptySummary(input.profile);
 
   if (!hasDatabaseUrl()) {
+    const state = getFallbackState();
+    state.batches = [];
+    state.rows = [];
+    state.issues = [];
+
     const batch: PersistedImportBatch = {
       id: randomUUID(),
       uploadedById: input.uploadedById,
@@ -582,18 +587,22 @@ export async function createImportBatch(input: {
       summaryJson: summary
     };
 
-    getFallbackState().batches.unshift(batch);
+    state.batches.unshift(batch);
     return mapBatchListItem(batch);
   }
 
   const prisma = (await getPrisma()) as any;
-  const batch = await prisma.importBatch.create({
-    data: {
-      uploadedById: input.uploadedById,
-      sourceFilename: input.sourceFilename,
-      status: "profiling",
-      summaryJson: toJsonValue(summary)
-    }
+  const batch = await prisma.$transaction(async (transaction: any) => {
+    await transaction.importBatch.deleteMany();
+
+    return transaction.importBatch.create({
+      data: {
+        uploadedById: input.uploadedById,
+        sourceFilename: input.sourceFilename,
+        status: "profiling",
+        summaryJson: toJsonValue(summary)
+      }
+    });
   });
 
   return mapBatchListItem({
@@ -721,6 +730,7 @@ export async function listImportBatches() {
     return getFallbackState().batches
       .slice()
       .sort((left, right) => right.startedAt.localeCompare(left.startedAt))
+      .slice(0, 1)
       .map(mapBatchListItem);
   }
 
@@ -741,7 +751,7 @@ export async function listImportBatches() {
       completedAt: batch.completedAt?.toISOString() ?? null,
       summaryJson: (batch.summaryJson as BatchSummary | null) ?? null
     })
-  );
+  ).slice(0, 1);
 }
 
 export async function getImportBatchReview(batchId: string): Promise<ImportBatchReview | null> {

@@ -7,6 +7,7 @@ import {
   commitImportBatch,
   createImportBatch,
   getImportBatchReview,
+  listImportBatches,
   resetImportFallbackStore,
   stageImportRows,
   updateImportRow
@@ -311,5 +312,43 @@ describe("import repository fallback flow", () => {
     });
 
     expect(result).toMatchObject({created: 2, skipped: 0});
+  });
+
+  it("keeps only the current import batch and clears prior import history", async () => {
+    const firstBatch = await createImportBatch({
+      uploadedById: "user_admin",
+      sourceFilename: "first.xlsx",
+      profile: profileWorkbookSource([
+        {
+          name: "Companies",
+          rows: [["Company Name"], ["Acme"]]
+        }
+      ])
+    });
+
+    await stageImportRows({
+      batchId: firstBatch.id,
+      rows: createStageableRows("Companies", ["Company Name"], [["Acme"]])
+    });
+
+    const secondBatch = await createImportBatch({
+      uploadedById: "user_admin",
+      sourceFilename: "second.xlsx",
+      profile: profileWorkbookSource([
+        {
+          name: "Companies",
+          rows: [["Company Name"], ["Orbit"]]
+        }
+      ])
+    });
+
+    const batches = await listImportBatches();
+    const removedFirstBatch = await getImportBatchReview(firstBatch.id);
+    const currentBatch = await getImportBatchReview(secondBatch.id);
+
+    expect(batches).toHaveLength(1);
+    expect(batches[0]?.id).toBe(secondBatch.id);
+    expect(removedFirstBatch).toBeNull();
+    expect(currentBatch?.id).toBe(secondBatch.id);
   });
 });

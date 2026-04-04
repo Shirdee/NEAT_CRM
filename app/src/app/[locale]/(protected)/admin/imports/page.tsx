@@ -4,7 +4,6 @@ import {redirect} from "next/navigation";
 import {Link} from "@/i18n/navigation";
 import {canManageAdminLists, getCurrentSession} from "@/lib/auth/session";
 import {getImportBatchReview, listImportBatches} from "@/lib/import/repository";
-import type {ImportBatchListItem} from "@/lib/import/types";
 
 import {commitImportBatchAction, updateImportRowAction} from "./actions";
 import {RowReviewForm} from "./row-review-form";
@@ -53,7 +52,7 @@ export default async function AdminImportsPage({
         </p>
       ) : null}
       <section className="grid gap-6 xl:grid-cols-[340px_minmax(0,1fr)]">
-        <div className="space-y-6">
+        <div>
           <ImportUploadPanel
             body={t("upload.body")}
             errorLabel={t("upload.error")}
@@ -65,37 +64,6 @@ export default async function AdminImportsPage({
             successLabel={t("upload.success")}
             title={t("upload.title")}
           />
-          <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold text-ink">{t("history.title")}</h3>
-              <span className="rounded-full bg-mist px-3 py-1 text-xs font-medium text-ink">
-                {t("history.count", {count: batches.length})}
-              </span>
-            </div>
-            <div className="mt-4 space-y-3">
-              {batches.length === 0 ? (
-                <p className="text-sm text-slate-500">{t("history.empty")}</p>
-              ) : (
-                batches.map((item: ImportBatchListItem) => (
-                  <Link
-                    className={`block rounded-2xl border px-4 py-3 text-sm ${
-                      item.id === selectedBatchId
-                        ? "border-ink bg-mist text-ink"
-                        : "border-slate-200 text-slate-700"
-                    }`}
-                    href={`/admin/imports?batch=${item.id}`}
-                    key={item.id}
-                    locale={locale}
-                  >
-                    <span className="block font-medium">{item.sourceFilename}</span>
-                    <span className="mt-1 block text-xs uppercase tracking-[0.2em] text-slate-500">
-                      {item.status}
-                    </span>
-                  </Link>
-                ))
-              )}
-            </div>
-          </article>
         </div>
         <div className="space-y-6">
           {selectedBatch ? (
