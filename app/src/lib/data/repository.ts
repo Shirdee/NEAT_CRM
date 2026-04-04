@@ -1,7 +1,5 @@
 import type {User} from "@prisma/client";
 
-import {prisma} from "@/lib/prisma/client";
-
 import {
   createFallbackCategory,
   createFallbackValue,
@@ -20,10 +18,18 @@ function hasDatabaseUrl() {
   return Boolean(process.env.DATABASE_URL?.trim());
 }
 
+async function getPrisma() {
+  const {prisma} = await import("@/lib/prisma/client");
+
+  return prisma;
+}
+
 export async function getUserByEmail(email: string): Promise<UserLike | null> {
   if (!hasDatabaseUrl()) {
     return getFallbackUserByEmail(email);
   }
+
+  const prisma = await getPrisma();
 
   return prisma.user.findUnique({
     where: {
@@ -36,6 +42,8 @@ export async function listAdminListCategories() {
   if (!hasDatabaseUrl()) {
     return listFallbackCategories();
   }
+
+  const prisma = await getPrisma();
 
   return prisma.listCategory.findMany({
     include: {
@@ -53,6 +61,8 @@ export async function createListCategory(input: {key: string; name: string}) {
   if (!hasDatabaseUrl()) {
     return createFallbackCategory(input);
   }
+
+  const prisma = await getPrisma();
 
   return prisma.listCategory.create({
     data: {
@@ -72,6 +82,7 @@ export async function createListValue(input: {
     return createFallbackValue(input);
   }
 
+  const prisma = await getPrisma();
   const latest = await prisma.listValue.findFirst({
     where: {categoryId: input.categoryId},
     orderBy: {sortOrder: "desc"}
@@ -98,6 +109,8 @@ export async function updateListValue(input: {
     return updateFallbackValue(input);
   }
 
+  const prisma = await getPrisma();
+
   return prisma.listValue.update({
     where: {id: input.id},
     data: {
@@ -113,6 +126,7 @@ export async function toggleListValueActive(id: string) {
     return toggleFallbackValue(id);
   }
 
+  const prisma = await getPrisma();
   const current = await prisma.listValue.findUniqueOrThrow({
     where: {id}
   });
