@@ -1,16 +1,27 @@
+---
+tags:
+  - crm
+  - context
+  - planning
+aliases:
+  - CRM Context
+---
+
 # CRM Project Context
 
 ## Identity
 
 - project name: CRM
-- purpose: build a customer relationship management product based on the founder brief
-- status: initialized scaffold, awaiting full requirements
+- purpose: build an internal bilingual CRM for sales lead management and meeting booking
+- status: planning phase, awaiting founder approval on PM and CTO delivery plan
 
 ## Working Assumptions
 
 - this repository is the dedicated CRM workspace
-- scope, stack, and delivery priorities are not finalized yet
-- docs should be updated as the source of truth once requirements are provided
+- implementation must not begin until the founder approves the plan
+- the workbook import is a major delivery dependency
+- docs such as [[docs/PRD]], [[docs/ARCHITECTURE]], and [[docs/DELIVERY_PLAN]] are the current planning source of truth
+- the target deployment must remain compatible with Vercel Hobby and an otherwise free stack
 
 ## Skill Routing
 
@@ -20,13 +31,15 @@
 
 ## Commands
 
-- pending: define setup, run, test, lint, and deploy commands after stack selection
+- pending approval: Next.js on Vercel with PostgreSQL, Prisma, and Auth.js
+- implementation commands will be added after Sprint 1 starts
 
 ## Definition Of Done
 
 - requirements are captured in docs
 - implementation matches approved scope
 - verification is completed before handoff
+- workbook import accuracy is approved before launch
 
 ## Prompt Examples
 
@@ -34,3 +47,12 @@
 - `$cto propose the CRM architecture and call out risks`
 - `$dev implement the approved CRM task and add tests`
 - `$qa verify the delivered CRM slice and list regressions`
+
+## Related
+
+- [[README|Project Home]]
+- [[AGENTS|Project Agents]]
+- [[docs/PRD|PRD]]
+- [[docs/ARCHITECTURE|Architecture]]
+- [[docs/DECISIONS|Decisions]]
+- [[docs/DELIVERY_PLAN|Delivery Plan]]

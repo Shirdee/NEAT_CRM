@@ -1,14 +1,32 @@
+---
+tags:
+  - crm
+  - sprints
+  - planning
+aliases:
+  - CRM Sprints
+---
+
 # CRM Sprints
 
-Sprint tracking for CRM delivery.
+## Status
 
-## Current State
+Planning package prepared.
+Implementation has not started.
 
-Sprint scaffolding is ready. Sprint scope will be finalized after the full requirements arrive.
+## Rules
 
-## Folder Layout
+- no sprint execution begins before founder approval
+- work proceeds one sprint at a time
+- each sprint closes with QA checks and an approval gate for the next sprint
 
-- `sprint_01/` contains the initial planning shell
-- `todo/` tracks scoped implementation work
-- `reports/` tracks progress and blockers
-- `reviews/` tracks QA and closeout notes
+## Planning Reference
+
+See [[docs/DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint implementation and deployment plan.
+
+## Related
+
+- [[docs/DELIVERY_PLAN|Delivery Plan]]
+- [[docs/PRD|PRD]]
+- [[docs/DECISIONS|Decisions]]
+- [[AGENTS|Project Agents]]

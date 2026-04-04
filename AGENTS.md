@@ -1,3 +1,12 @@
+---
+tags:
+  - crm
+  - roles
+  - workflow
+aliases:
+  - CRM Agents
+---
+
 # CRM Agents
 
 ## Prime Directive
@@ -51,3 +60,13 @@ Owns priorities, acceptance, and final decisions.
 3. DEV implements approved tasks
 4. QA verifies behavior and regression risk
 5. PM closes the loop
+
+## Related
+
+- [[README|Project Home]]
+- [[CODEX|Project Context]]
+- [[docs/DELIVERY_PLAN|Delivery Plan]]
+- [[docs/PRD|PRD]]
+- [[docs/ARCHITECTURE|Architecture]]
+- [[frontend/AGENTS|Frontend Agents]]
+- [[backend/AGENTS|Backend Agents]]

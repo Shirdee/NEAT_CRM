@@ -1,3 +1,12 @@
+---
+tags:
+  - crm
+  - project
+  - index
+aliases:
+  - CRM Home
+---
+
 # CRM
 
 Starter workspace for a new CRM project.
@@ -17,3 +26,12 @@ Project scaffold initialized. Product scope, stack, and implementation plan are 
 ## Next Step
 
 Provide the full CRM instructions and PM will convert them into the initial PRD, architecture direction, decisions log, and first sprint slice.
+
+## Related
+
+- [[CODEX|Project Context]]
+- [[AGENTS|Project Agents]]
+- [[docs/PRD|PRD]]
+- [[docs/ARCHITECTURE|Architecture]]
+- [[docs/DELIVERY_PLAN|Delivery Plan]]
+- [[docs/sprints/README|Sprints]]

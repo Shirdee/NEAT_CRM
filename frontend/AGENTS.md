@@ -1,3 +1,12 @@
+---
+tags:
+  - crm
+  - frontend
+  - roles
+aliases:
+  - CRM Frontend Agents
+---
+
 # CRM Frontend Agents
 
 ## Purpose
@@ -34,3 +43,12 @@
 - preserve accessibility and keyboard support
 - test user-visible flows, not only helpers
 - follow the design system and UI kit
+
+## Related
+
+- [[AGENTS|Project Agents]]
+- [[CODEX|Project Context]]
+- [[docs/SCREENS_AND_FLOWS|Screens And Flows]]
+- [[docs/ui/UI_KIT|UI Kit]]
+- [[docs/PRD|PRD]]
+- [[backend/AGENTS|Backend Agents]]

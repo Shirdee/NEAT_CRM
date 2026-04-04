@@ -1,3 +1,12 @@
+---
+tags:
+  - crm
+  - backend
+  - roles
+aliases:
+  - CRM Backend Agents
+---
+
 # CRM Backend Agents
 
 ## Purpose
@@ -34,3 +43,12 @@
 - move logic into testable units
 - avoid hardcoded secrets
 - protect migrations, contracts, and irreversible data changes
+
+## Related
+
+- [[AGENTS|Project Agents]]
+- [[CODEX|Project Context]]
+- [[docs/ARCHITECTURE|Architecture]]
+- [[docs/DATA_MODEL|Data Model]]
+- [[docs/IMPORT_MAPPING|Import Mapping]]
+- [[frontend/AGENTS|Frontend Agents]]
