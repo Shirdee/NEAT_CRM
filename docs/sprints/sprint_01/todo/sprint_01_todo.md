@@ -15,7 +15,8 @@ aliases:
 
 Reviewed by [[AGENTS|PM]] and [[AGENTS|CTO]].
 Application implementation is complete.
-Sprint 1 is still open for delivery closeout on real infrastructure.
+Hosted deployment is complete on Vercel.
+Live database closeout is complete on real infrastructure.
 
 ## Sprint Goal
 
@@ -122,7 +123,6 @@ Stand up the secure, bilingual, free-tier-friendly foundation for the CRM so lat
 - founder must approve Sprint 1 start
 - founder must confirm credentials login is accepted for MVP
 - database provider credentials are still needed
-- Vercel project access is still needed
 
 ## Sprint 1 Closeout Plan
 
@@ -145,7 +145,28 @@ Stand up the secure, bilingual, free-tier-friendly foundation for the CRM so lat
 - objective: complete the preview deployment path on Vercel Hobby
 - scope: environment variables, preview build, route smoke test
 - done when: one preview deployment succeeds and core Sprint 1 routes load correctly
-- dependencies: Vercel project access, DEV-CLOSEOUT-001, DEV-CLOSEOUT-002
+- dependencies: DEV-CLOSEOUT-001, DEV-CLOSEOUT-002
+
+Status update:
+
+- completed on 2026-04-04 through the GitHub-connected `neat-crm` Vercel project
+- production deployment is live on `https://neat-crm.vercel.app`
+- hosted `/en/login` and `/he/login` were verified after deploy
+- completed on 2026-04-04 against the Neon production database
+- migration `20260404190000_sprint1_foundation` applied successfully
+- seed completed successfully
+- verified database counts: 3 users, 4 categories, 8 list values
+
+## Final Remaining Work
+
+- none for Sprint 1 closeout
+
+Closeout evidence:
+
+- Vercel production env was pulled on 2026-04-04 and included `DATABASE_URL`
+- `npm run db:migrate` succeeded against the real Neon database
+- `npm run db:seed` succeeded against the real Neon database
+- direct database verification confirmed seeded foundation records
 
 ## Related
 

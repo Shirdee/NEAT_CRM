@@ -3,4 +3,6 @@ node_modules
 .next
 tsconfig.tsbuildinfo
 .env.local
+.env.production.local
+app/.env.production.local
 app/.vercel

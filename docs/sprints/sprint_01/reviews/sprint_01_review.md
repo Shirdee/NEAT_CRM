@@ -16,6 +16,7 @@ aliases:
 
 Planning review completed by [[AGENTS|PM]] and [[AGENTS|CTO]].
 DEV implementation and QA follow-up were completed on 2026-04-04.
+PM closeout review was updated on 2026-04-04 after GitHub-to-Vercel deployment verification.
 
 ## PM Findings
 
@@ -40,7 +41,7 @@ DEV implementation and QA follow-up were completed on 2026-04-04.
 - no integration work
 - no workbook import implementation in Sprint 1
 
-## Open Decisions Still Blocking Start
+## Historical Start Blockers
 
 - founder approval to begin Sprint 1
 - founder confirmation that credentials auth is acceptable
@@ -89,18 +90,39 @@ Status: code-side findings addressed; external infrastructure hookup still pendi
 
 - No blocking code findings remain from the previous QA pass.
 - Live PostgreSQL migration execution is still unverified because database provider credentials were not available in the workspace.
-- Vercel preview deployment setup is still unverified because project access was not available in the workspace.
+- Vercel deployment is now verified through the GitHub-connected `neat-crm` project and is no longer a Sprint 1 blocker.
 
 ### QA Verdict
 
 QA can confirm that the application-side Sprint 1 scope is implemented and regression-checked.
-QA cannot honestly confirm the final live database migration run or hosted preview hookup until external credentials are provided, but there are no remaining code-level blockers in the repository.
+QA cannot honestly confirm the final live database migration run or real seeded data path until database credentials are provided, but there are no remaining code-level blockers in the repository.
+
+## PM Closeout Update
+
+Review date: 2026-04-04
+Reviewer: [[AGENTS|PM]]
+Status: Sprint 1 closeout completed
+
+### Verified Hosted Delivery
+
+- commit `18a7d98` was pushed to `main`
+- the GitHub-connected Vercel project `neat-crm` produced a `READY` deployment
+- production alias `https://neat-crm.vercel.app` is live
+- hosted `/en/login` returned `200`
+- hosted `/he/login` returned `200`
+- the hosted Hebrew route renders with `dir="rtl"`
+- Vercel production env was pulled locally on 2026-04-04 and included `DATABASE_URL`
+- Prisma migration `20260404190000_sprint1_foundation` was applied successfully against Neon
+- Sprint 1 seed completed successfully against Neon
+- direct database verification confirmed 3 users, 4 categories, and 8 list values
+
+### Remaining Sprint Blocker
+
+- none
 
 ### Recommended Next Steps For DEV
 
-- apply the migration against the chosen PostgreSQL provider once credentials exist
-- seed the initial users and lookup values into the real database
-- connect the repository to Vercel and verify the preview deployment path with real environment variables
+- move to Sprint 2 planning and implementation
 
 ## Related
 

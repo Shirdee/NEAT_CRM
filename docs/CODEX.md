@@ -13,7 +13,7 @@ aliases:
 
 - project name: CRM
 - purpose: build an internal bilingual CRM for sales lead management and meeting booking
-- status: planning phase, awaiting founder approval on PM and CTO delivery plan
+- status: Sprint 1 is complete in the repository, deployed on Vercel, and verified against a live PostgreSQL database
 
 ## Working Assumptions
 
@@ -32,8 +32,8 @@ aliases:
 
 ## Commands
 
-- pending approval: Next.js on Vercel with PostgreSQL, Prisma, and Auth.js
-- implementation commands will be added after Sprint 1 starts
+- active stack: Next.js on Vercel with PostgreSQL, Prisma, and signed credentials auth
+- implementation commands live in `crm/app/package.json`
 
 ## Definition Of Done
 

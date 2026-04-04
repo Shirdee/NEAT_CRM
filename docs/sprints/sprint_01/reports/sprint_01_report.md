@@ -13,7 +13,8 @@ aliases:
 ## Status
 
 Implementation complete in the repository.
-External infrastructure validation is still pending PostgreSQL and Vercel access.
+Hosted deployment validation is complete.
+External infrastructure validation is complete, including live PostgreSQL migration and seed execution.
 
 ## Current State
 
@@ -26,6 +27,11 @@ External infrastructure validation is still pending PostgreSQL and Vercel access
 - a deployment runbook now exists in `crm/app/DEPLOYMENT.md`
 - admin lists now support admin-managed category and value updates without code changes
 - repository checks pass: `npm run lint`, `npm run typecheck`, `npm test`, `npm run build`
+- GitHub-driven Vercel deployment is live on `https://neat-crm.vercel.app`
+- hosted `/en/login` and `/he/login` have been verified after deployment
+- Neon production database is connected through Vercel env vars
+- Prisma migration `20260404190000_sprint1_foundation` has been applied to the live database
+- seed completed successfully with 3 users, 4 categories, and 8 list values confirmed directly
 
 ## Delivery Notes
 
@@ -37,8 +43,6 @@ External infrastructure validation is still pending PostgreSQL and Vercel access
 
 ## Risks To Watch
 
-- the real PostgreSQL migration path is still unverified until provider credentials are available
-- preview deployment on Vercel still needs project access and environment-variable setup
 - seeded fallback data should be replaced by database-backed records once infra is connected
 
 ## Related

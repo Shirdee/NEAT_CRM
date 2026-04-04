@@ -12,8 +12,8 @@ aliases:
 
 ## Status
 
-Sprint 1 implementation is complete in the repository and has passed the current QA pass.
-Sprint 1 remains open only for external delivery closeout: live PostgreSQL migration verification and Vercel preview verification.
+Sprint 1 implementation is complete in the repository and has passed QA.
+Sprint 1 closeout is complete: Vercel deployment, PostgreSQL migration, and baseline seed verification are all done.
 
 ## Objective
 
@@ -39,26 +39,30 @@ Establish the secure app shell, core schema, permissions framework, bilingual fo
 - base Prisma schema and migrations
 - bilingual infrastructure for Hebrew and English
 - admin list management foundation
-- Vercel preview deployment with free-tier-compatible setup
+- Vercel deployment with free-tier-compatible setup
 
 ## Current Closure Read
 
 - application-side scope is complete
 - no blocking code findings remain from QA
-- sprint closure is blocked only by unverified external delivery steps
+- GitHub-connected Vercel deployment is live and route-smoke-tested
+- Neon PostgreSQL migration and Sprint 1 seed have been applied successfully
+- Sprint 1 has no remaining delivery blockers
 
-## Remaining Closeout Work
+## Verified Hosted Delivery
 
-1. apply the Prisma migration against the real PostgreSQL provider and confirm the schema lands cleanly
-2. seed the baseline users and lookup values into the real database, then smoke-test login and admin lists against live data
-3. connect the repository to Vercel, configure preview and production environment variables, and verify one preview deployment
+- production deployment is live on `https://neat-crm.vercel.app`
+- GitHub-driven Vercel deployment is working from commit `18a7d98`
+- hosted `/en/login` and `/he/login` both returned `200`
+- Hebrew hosted route renders with RTL layout
+- real PostgreSQL env vars are now connected through Vercel and Neon
+- Prisma migration `20260404190000_sprint1_foundation` was applied successfully
+- seeded database counts were verified: 3 users, 4 categories, 8 list values
 
-## DEV Boundary For Closeout
+## Sprint 1 Outcome
 
-- no new product features
-- no UI reshaping
-- no extra CRUD beyond the current Sprint 1 foundation
-- focus only on infra completion, data seeding, and release verification
+- Sprint 1 is complete
+- Sprint 2 can begin without reopening Sprint 1 foundation work
 
 ## Linked Sprint Docs
 
