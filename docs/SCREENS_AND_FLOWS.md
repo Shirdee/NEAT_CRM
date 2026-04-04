@@ -92,10 +92,10 @@ aliases:
 
 ## Related
 
-- [[docs/PRD|PRD]]
-- [[docs/ARCHITECTURE|Architecture]]
-- [[docs/PERMISSIONS|Permissions]]
-- [[docs/ui/UI_KIT|UI Kit]]
+- [[PRD|PRD]]
+- [[ARCHITECTURE|Architecture]]
+- [[PERMISSIONS|Permissions]]
+- [[ui/UI_KIT|UI Kit]]
 - [[frontend/AGENTS|Frontend Agents]]
-- [[docs/DELIVERY_PLAN|Delivery Plan]]
+- [[DELIVERY_PLAN|Delivery Plan]]
 - tables should collapse columns into stacked labels on small screens

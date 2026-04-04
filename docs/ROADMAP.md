@@ -20,7 +20,7 @@ The product should begin as a lean internal CRM with the fewest possible moving 
 - keep the initial stack simple and free-tier friendly
 - avoid adding supporting services until product usage clearly justifies them
 - expand from operations, to reporting, to integrations, then to automation
-- keep the roadmap aligned with [[docs/DELIVERY_PLAN|Delivery Plan]]
+- keep the roadmap aligned with [[DELIVERY_PLAN|Delivery Plan]]
 
 ## MVP Sprint Roadmap
 
@@ -216,8 +216,8 @@ These are candidates only, not commitments:
 
 ## Related
 
-- [[docs/PRD|PRD]]
-- [[docs/DELIVERY_PLAN|Delivery Plan]]
-- [[docs/DECISIONS|Decisions]]
-- [[docs/SCREENS_AND_FLOWS|Screens And Flows]]
-- [[docs/ARCHITECTURE|Architecture]]
+- [[PRD|PRD]]
+- [[DELIVERY_PLAN|Delivery Plan]]
+- [[DECISIONS|Decisions]]
+- [[SCREENS_AND_FLOWS|Screens And Flows]]
+- [[ARCHITECTURE|Architecture]]

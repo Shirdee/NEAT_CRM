@@ -61,8 +61,8 @@ aliases:
 
 ## Related
 
-- [[docs/PRD|PRD]]
-- [[docs/ARCHITECTURE|Architecture]]
-- [[docs/DATA_MODEL|Data Model]]
-- [[docs/DECISIONS|Decisions]]
-- [[docs/DELIVERY_PLAN|Delivery Plan]]
+- [[PRD|PRD]]
+- [[ARCHITECTURE|Architecture]]
+- [[DATA_MODEL|Data Model]]
+- [[DECISIONS|Decisions]]
+- [[DELIVERY_PLAN|Delivery Plan]]

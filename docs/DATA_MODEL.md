@@ -232,9 +232,9 @@ Examples:
 
 ## Related
 
-- [[docs/PRD|PRD]]
-- [[docs/ARCHITECTURE|Architecture]]
-- [[docs/IMPORT_MAPPING|Import Mapping]]
-- [[docs/PERMISSIONS|Permissions]]
-- [[docs/SCREENS_AND_FLOWS|Screens And Flows]]
-- [[docs/DELIVERY_PLAN|Delivery Plan]]
+- [[PRD|PRD]]
+- [[ARCHITECTURE|Architecture]]
+- [[IMPORT_MAPPING|Import Mapping]]
+- [[PERMISSIONS|Permissions]]
+- [[SCREENS_AND_FLOWS|Screens And Flows]]
+- [[DELIVERY_PLAN|Delivery Plan]]

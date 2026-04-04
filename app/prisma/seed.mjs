@@ -1,0 +1,148 @@
+import {createHash} from "node:crypto";
+
+import {PrismaClient} from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+function hashPassword(password) {
+  return createHash("sha256").update(`crm-sprint-1:${password}`).digest("hex");
+}
+
+const users = [
+  {
+    id: "user_admin",
+    email: "admin@crm.local",
+    fullName: "Sprint Admin",
+    role: "admin",
+    languagePreference: "en",
+    isActive: true,
+    passwordHash: hashPassword("shir")
+  },
+  {
+    id: "user_editor",
+    email: "editor@crm.local",
+    fullName: "Sprint Editor",
+    role: "editor",
+    languagePreference: "en",
+    isActive: true,
+    passwordHash: hashPassword("editor-review")
+  },
+  {
+    id: "user_viewer",
+    email: "viewer@crm.local",
+    fullName: "Sprint Viewer",
+    role: "viewer",
+    languagePreference: "he",
+    isActive: true,
+    passwordHash: hashPassword("viewer-review")
+  }
+];
+
+const categories = [
+  {
+    id: "cat_lead_source",
+    key: "lead_source",
+    name: "Lead Sources",
+    values: [
+      {key: "referral", labelEn: "Referral", labelHe: "הפניה", sortOrder: 1},
+      {key: "website", labelEn: "Website", labelHe: "אתר", sortOrder: 2}
+    ]
+  },
+  {
+    id: "cat_opportunity_stage",
+    key: "opportunity_stage",
+    name: "Opportunity Stages",
+    values: [
+      {key: "qualified", labelEn: "Qualified", labelHe: "מאומת", sortOrder: 1},
+      {key: "proposal", labelEn: "Proposal", labelHe: "הצעה", sortOrder: 2}
+    ]
+  },
+  {
+    id: "cat_task_type",
+    key: "task_type",
+    name: "Task Types",
+    values: [
+      {key: "call", labelEn: "Call", labelHe: "שיחה", sortOrder: 1},
+      {key: "meeting", labelEn: "Meeting", labelHe: "פגישה", sortOrder: 2}
+    ]
+  },
+  {
+    id: "cat_import_status",
+    key: "import_status",
+    name: "Import Statuses",
+    values: [
+      {key: "staged", labelEn: "Staged", labelHe: "הועלה", sortOrder: 1},
+      {key: "approved", labelEn: "Approved", labelHe: "אושר", sortOrder: 2}
+    ]
+  }
+];
+
+async function main() {
+  for (const user of users) {
+    await prisma.user.upsert({
+      where: {email: user.email},
+      update: {
+        fullName: user.fullName,
+        passwordHash: user.passwordHash,
+        role: user.role,
+        languagePreference: user.languagePreference,
+        isActive: user.isActive
+      },
+      create: user
+    });
+  }
+
+  for (const category of categories) {
+    await prisma.listCategory.upsert({
+      where: {key: category.key},
+      update: {
+        name: category.name
+      },
+      create: {
+        id: category.id,
+        key: category.key,
+        name: category.name
+      }
+    });
+
+    const existingCategory = await prisma.listCategory.findUniqueOrThrow({
+      where: {key: category.key}
+    });
+
+    for (const value of category.values) {
+      await prisma.listValue.upsert({
+        where: {
+          categoryId_key: {
+            categoryId: existingCategory.id,
+            key: value.key
+          }
+        },
+        update: {
+          labelEn: value.labelEn,
+          labelHe: value.labelHe,
+          sortOrder: value.sortOrder,
+          isActive: true
+        },
+        create: {
+          categoryId: existingCategory.id,
+          key: value.key,
+          labelEn: value.labelEn,
+          labelHe: value.labelHe,
+          sortOrder: value.sortOrder,
+          isActive: true
+        }
+      });
+    }
+  }
+
+  console.log("Sprint 1 seed complete.");
+}
+
+main()
+  .catch((error) => {
+    console.error(error);
+    process.exitCode = 1;
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });

@@ -1,0 +1,95 @@
+{
+  "LocaleSwitcher": {
+    "en": "EN",
+    "he": "HE"
+  },
+  "Login": {
+    "eyebrow": "Sprint 1 Foundation",
+    "title": "A secure CRM shell for sales work, structured admin lists, and bilingual delivery.",
+    "subtitle": "This first slice establishes the app router, locale handling, and protected navigation so the rest of Sprint 1 can land on stable ground.",
+    "highlights": {
+      "secure": {
+        "title": "Protected routes",
+        "body": "Public and private route groups are already separated to keep auth work contained."
+      },
+      "bilingual": {
+        "title": "English and Hebrew",
+        "body": "Core shell strings are now framework-level translations instead of hardcoded UI text."
+      },
+      "mobile": {
+        "title": "Responsive shell",
+        "body": "The foundation is designed for desktop tables and one-thumb mobile access."
+      }
+    },
+    "form": {
+      "title": "Sign in to the foundation shell",
+      "subtitle": "Sprint 1 now uses trusted server-side credentials and signed sessions instead of a demo role picker.",
+      "email": "Work email",
+      "password": "Password",
+      "submit": "Enter CRM",
+      "hint": "Sprint 1 review account: admin@crm.local with password shir.",
+      "errors": {
+        "missingCredentials": "Email and password are required.",
+        "invalidCredentials": "Those credentials were not accepted."
+      }
+    }
+  },
+  "Shell": {
+    "eyebrow": "Internal CRM",
+    "title": "Foundation Shell",
+    "welcome": "{fullName} is signed in as {role} using {email}.",
+    "signOut": "Sign out",
+    "nav": {
+      "dashboard": "Dashboard",
+      "adminLists": "Admin lists"
+    },
+    "roles": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    }
+  },
+  "Dashboard": {
+    "title": "Sprint 1 baseline is live",
+    "subtitle": "The current shell proves route protection, responsive layout, and locale plumbing while keeping {role} access visible during implementation.",
+    "cards": {
+      "auth": "Credentials are validated against trusted server-side user records, and the session cookie is signed before protected routes open.",
+      "rbac": "Role-aware shell navigation is already separated from page content, which keeps permission work focused.",
+      "data": "Prisma, the baseline schema, and admin-managed lookup values are now part of the Sprint 1 foundation."
+    }
+  },
+  "AdminLists": {
+    "title": "Admin list foundation",
+    "subtitle": "Admin users can now create categories, add values, edit bilingual labels, and toggle activation state without touching code.",
+    "restrictedTitle": "Admin access required",
+    "restrictedBody": "Only admin users should manage shared lookup values. Editors and viewers are intentionally blocked from this area.",
+    "goToAccessDenied": "Review access state",
+    "errors": {
+      "generic": "Complete all required fields before submitting admin list changes."
+    },
+    "createCategory": {
+      "title": "Create a category",
+      "body": "Add a reusable lookup group for Sprint 2 imports and Sprint 3 CRM forms.",
+      "namePlaceholder": "Display name",
+      "keyPlaceholder": "machine_key",
+      "submit": "Create category"
+    },
+    "createValue": {
+      "keyPlaceholder": "value_key",
+      "labelEnPlaceholder": "English label",
+      "labelHePlaceholder": "Hebrew label",
+      "submit": "Add value"
+    },
+    "updateValue": "Save value",
+    "deactivate": "Deactivate",
+    "activate": "Activate",
+    "backToDashboard": "Back to dashboard",
+    "valueCount": "{count, plural, one {# value} other {# values}}"
+  },
+  "AccessDenied": {
+    "eyebrow": "Permissions",
+    "title": "This area is outside your current role",
+    "body": "Sprint 1 enforces role boundaries on the server. Viewer users are read-only, and editor users do not manage admin settings.",
+    "cta": "Back to dashboard"
+  }
+}

@@ -100,9 +100,9 @@ These are proposed PM and CTO decisions pending founder approval.
 
 ## Related
 
-- [[docs/PRD|PRD]]
-- [[docs/ARCHITECTURE|Architecture]]
-- [[docs/DELIVERY_PLAN|Delivery Plan]]
-- [[docs/IMPORT_MAPPING|Import Mapping]]
-- [[docs/PERMISSIONS|Permissions]]
+- [[PRD|PRD]]
+- [[ARCHITECTURE|Architecture]]
+- [[DELIVERY_PLAN|Delivery Plan]]
+- [[IMPORT_MAPPING|Import Mapping]]
+- [[PERMISSIONS|Permissions]]
 - [[CODEX|Project Context]]

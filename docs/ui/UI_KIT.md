@@ -25,7 +25,7 @@ Placeholder for the CRM design language and component guidance.
 
 ## Related
 
-- [[docs/PRD|PRD]]
-- [[docs/SCREENS_AND_FLOWS|Screens And Flows]]
-- [[docs/ARCHITECTURE|Architecture]]
+- [[PRD|PRD]]
+- [[SCREENS_AND_FLOWS|Screens And Flows]]
+- [[ARCHITECTURE|Architecture]]
 - [[frontend/AGENTS|Frontend Agents]]

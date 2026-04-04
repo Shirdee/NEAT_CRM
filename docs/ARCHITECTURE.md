@@ -153,7 +153,7 @@ Computed or derived behavior:
 - inactive lead status
 - dashboard summary aggregates
 
-The full schema proposal lives in [[docs/DATA_MODEL|Data Model]].
+The full schema proposal lives in [[DATA_MODEL|Data Model]].
 
 ## Key Technical Decisions
 
@@ -246,9 +246,9 @@ The recommendation above aligns with current official docs checked on 2026-03-31
 ## Related
 
 - [[CODEX|Project Context]]
-- [[docs/PRD|PRD]]
-- [[docs/DATA_MODEL|Data Model]]
-- [[docs/IMPORT_MAPPING|Import Mapping]]
-- [[docs/PERMISSIONS|Permissions]]
-- [[docs/DELIVERY_PLAN|Delivery Plan]]
-- [[docs/DECISIONS|Decisions]]
+- [[PRD|PRD]]
+- [[DATA_MODEL|Data Model]]
+- [[IMPORT_MAPPING|Import Mapping]]
+- [[PERMISSIONS|Permissions]]
+- [[DELIVERY_PLAN|Delivery Plan]]
+- [[DECISIONS|Decisions]]

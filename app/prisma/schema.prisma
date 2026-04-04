@@ -1,0 +1,212 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  admin
+  editor
+  viewer
+}
+
+enum LocalePreference {
+  en
+  he
+}
+
+model User {
+  id                 String           @id @default(uuid())
+  email              String           @unique
+  fullName           String
+  passwordHash       String
+  role               UserRole
+  languagePreference LocalePreference @default(en)
+  isActive           Boolean          @default(true)
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  createdCompanies   Company[]        @relation("companies_created_by")
+  updatedCompanies   Company[]        @relation("companies_updated_by")
+  createdContacts    Contact[]        @relation("contacts_created_by")
+  updatedContacts    Contact[]        @relation("contacts_updated_by")
+  interactions       Interaction[]
+  tasks              Task[]
+  opportunitiesMade  Opportunity[]    @relation("opportunities_created_by")
+  opportunitiesEdit  Opportunity[]    @relation("opportunities_updated_by")
+  importBatches      ImportBatch[]
+}
+
+model ListCategory {
+  id        String      @id @default(uuid())
+  key       String      @unique
+  name      String
+  createdAt DateTime    @default(now())
+  values    ListValue[]
+}
+
+model ListValue {
+  id         String       @id @default(uuid())
+  categoryId String
+  key        String
+  labelEn    String
+  labelHe    String
+  sortOrder  Int          @default(0)
+  isActive   Boolean      @default(true)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  category   ListCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([categoryId, key])
+  @@index([categoryId, sortOrder])
+}
+
+model ImportBatch {
+  id             String        @id @default(uuid())
+  uploadedById   String
+  sourceFilename String
+  status         String
+  startedAt      DateTime      @default(now())
+  completedAt    DateTime?
+  summaryJson    Json?
+  uploadedBy     User          @relation(fields: [uploadedById], references: [id])
+  issues         ImportIssue[]
+}
+
+model ImportIssue {
+  id               String      @id @default(uuid())
+  batchId          String
+  entityType       String
+  sheetName        String
+  rowNumber        Int?
+  severity         String
+  issueCode        String
+  rawValue         String?
+  message          String
+  resolutionStatus String
+  batch            ImportBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+}
+
+model Company {
+  id                 String        @id @default(uuid())
+  companyName        String
+  website            String?
+  sourceValueId      String?
+  companyTypeValueId String?
+  stageValueId       String?
+  segmentValueId     String?
+  notes              String?
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
+  createdById        String?
+  updatedById        String?
+  createdBy          User?         @relation("companies_created_by", fields: [createdById], references: [id])
+  updatedBy          User?         @relation("companies_updated_by", fields: [updatedById], references: [id])
+  contacts           Contact[]
+  interactions       Interaction[]
+  tasks              Task[]
+  opportunities      Opportunity[]
+}
+
+model Contact {
+  id            String         @id @default(uuid())
+  firstName     String?
+  lastName      String?
+  fullName      String
+  roleTitle     String?
+  companyId     String?
+  notes         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  createdById   String?
+  updatedById   String?
+  company       Company?       @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  createdBy     User?          @relation("contacts_created_by", fields: [createdById], references: [id])
+  updatedBy     User?          @relation("contacts_updated_by", fields: [updatedById], references: [id])
+  emails        ContactEmail[]
+  phones        ContactPhone[]
+  interactions  Interaction[]
+  tasks         Task[]
+  opportunities Opportunity[]
+}
+
+model ContactEmail {
+  id           String   @id @default(uuid())
+  contactId    String
+  email        String
+  labelValueId String?
+  isPrimary    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  contact      Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+}
+
+model ContactPhone {
+  id           String   @id @default(uuid())
+  contactId    String
+  phoneNumber  String
+  labelValueId String?
+  isPrimary    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  contact      Contact  @relation(fields: [contactId], references: [id], onDelete: Cascade)
+}
+
+model Interaction {
+  id                     String    @id @default(uuid())
+  interactionDate        DateTime
+  companyId              String?
+  contactId              String?
+  interactionTypeValueId String
+  subject                String
+  summary                String
+  outcomeStatusValueId   String?
+  createdById            String
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  company                Company?  @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  contact                Contact?  @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  createdBy              User      @relation(fields: [createdById], references: [id])
+  tasks                  Task[]
+}
+
+model Task {
+  id                   String       @id @default(uuid())
+  companyId            String?
+  contactId            String?
+  relatedInteractionId String?
+  taskTypeValueId      String
+  dueDate              DateTime
+  priorityValueId      String
+  statusValueId        String
+  notes                String?
+  createdById          String
+  createdAt            DateTime     @default(now())
+  updatedAt            DateTime     @updatedAt
+  completedAt          DateTime?
+  company              Company?     @relation(fields: [companyId], references: [id], onDelete: SetNull)
+  contact              Contact?     @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  relatedInteraction   Interaction? @relation(fields: [relatedInteractionId], references: [id], onDelete: SetNull)
+  createdBy            User         @relation(fields: [createdById], references: [id])
+}
+
+model Opportunity {
+  id                      String    @id @default(uuid())
+  companyId               String
+  contactId               String?
+  opportunityName         String
+  opportunityStageValueId String
+  opportunityTypeValueId  String
+  estimatedValue          Decimal?
+  statusValueId           String
+  targetCloseDate         DateTime?
+  notes                   String?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+  createdById             String
+  updatedById             String?
+  company                 Company   @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  contact                 Contact?  @relation(fields: [contactId], references: [id], onDelete: SetNull)
+  createdBy               User      @relation("opportunities_created_by", fields: [createdById], references: [id])
+  updatedBy               User?     @relation("opportunities_updated_by", fields: [updatedById], references: [id])
+}

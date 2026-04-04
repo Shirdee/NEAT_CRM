@@ -22,11 +22,11 @@ Implementation has not started.
 
 ## Planning Reference
 
-See [[docs/DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint implementation and deployment plan.
+See [[DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 
 ## Related
 
-- [[docs/DELIVERY_PLAN|Delivery Plan]]
-- [[docs/PRD|PRD]]
-- [[docs/DECISIONS|Decisions]]
+- [[DELIVERY_PLAN|Delivery Plan]]
+- [[PRD|PRD]]
+- [[DECISIONS|Decisions]]
 - [[AGENTS|Project Agents]]
