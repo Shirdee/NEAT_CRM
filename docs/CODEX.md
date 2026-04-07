@@ -24,12 +24,6 @@ aliases:
 - the target deployment must remain compatible with Vercel Hobby and an otherwise free stack
 - all project-owned Markdown docs should follow [[DOCUMENTATION_STANDARD|Documentation Standard]]
 
-## Skill Routing
-
-- keep project role skills in `docs/.codex/skills/`
-- support explicit skill calls with `$pm`, `$cto`, `$dev`, and `$qa`
-- prefer PM for sequencing, CTO for architecture, DEV for implementation, and QA for verification
-
 ## Commands
 
 - active stack: Next.js on Vercel with PostgreSQL, Prisma, and signed credentials auth
@@ -42,17 +36,9 @@ aliases:
 - verification is completed before handoff
 - workbook import accuracy is approved before launch
 
-## Prompt Examples
-
-- `$pm turn the CRM brief into milestone docs and sprint 1`
-- `$cto propose the CRM architecture and call out risks`
-- `$dev implement the approved CRM task and add tests`
-- `$qa verify the delivered CRM slice and list regressions`
-
 ## Related
 
 - [[README|Project Home]]
-- [[AGENTS|Project Agents]]
 - [[DOCUMENTATION_STANDARD|Documentation Standard]]
 - [[PRD|PRD]]
 - [[ARCHITECTURE|Architecture]]

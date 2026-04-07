@@ -13,7 +13,7 @@ aliases:
 
 ## Status
 
-Reviewed by [[AGENTS|PM]] and [[AGENTS|CTO]].
+Reviewed by PM and CTO.
 This doc is the Sprint 3 execution handoff to DEV and QA.
 Sprint 3 implementation is now complete in the repository.
 
@@ -29,6 +29,46 @@ Make the CRM usable for core lead management by shipping companies, contacts, an
 - DEV and QA should treat these docs as the current Sprint 3 source of truth
 
 ## DEV Task List
+
+## Finish Tasks
+
+### FIN-01: Repair ESLint Toolchain
+
+- objective: restore lint as a trustworthy verification gate
+- scope: dependency cleanup, lockfile alignment, and lint rerun
+- done when: `npm run lint` passes in `crm/app`
+
+Status:
+
+- complete on 2026-04-07
+
+### FIN-02: Review Workspace Drift
+
+- objective: understand current uncommitted doc and workspace changes before final closeout
+- scope: classify intentional edits, accidental deletions, and Obsidian-only drift
+- done when: remaining drift is either accepted and documented or explicitly excluded from closeout
+
+### FIN-03: Run Final Verification
+
+- objective: confirm Sprint 3 ends with the strongest practical verification set
+- scope: `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
+- done when: the verification set is rerun after tooling repair and the results are documented
+
+Status:
+
+- complete on 2026-04-07
+
+### FIN-04: Close Sprint 3 Docs
+
+- objective: move Sprint 3 from near-closeout to truthful final status
+- scope: index, review, report, and todo docs
+- done when: Sprint 3 docs reflect the actual final verification state and residual risk
+
+### FIN-05: Commit And Push Closeout
+
+- objective: publish the final closeout state cleanly
+- scope: code, docs, and verification-driven adjustments only
+- done when: final closeout changes are committed and pushed
 
 ### DEV-301: Extend Shared CRM Data Access
 
@@ -102,23 +142,18 @@ Make the CRM usable for core lead management by shipping companies, contacts, an
 
 Current verification read:
 
-- passed: `npm test`
+- passed: `npm run lint`
 - passed: `npm run typecheck`
+- passed: `npm test`
 - passed: `npm run build`
-- blocked by tooling: `npm run lint`
 
 ## Recommended Execution Order
 
-1. DEV-301 Extend Shared CRM Data Access
-2. DEV-302 Add Companies List Flow
-3. DEV-303 Add Company Detail And Form Flow
-4. DEV-304 Add Contacts List Flow
-5. DEV-305 Add Contact Detail And Form Flow
-6. DEV-306 Add Multiple Email And Phone Editing
-7. DEV-307 Add Company And Contact Linking Rules
-8. DEV-308 Build Global Search Foundation
-9. DEV-309 Mobile And Navigation Hardening
-10. DEV-310 Verify And Harden
+1. FIN-01 Repair ESLint Toolchain
+2. FIN-02 Review Workspace Drift
+3. FIN-03 Run Final Verification
+4. FIN-04 Close Sprint 3 Docs
+5. FIN-05 Commit And Push Closeout
 
 ## Non-Scope Guardrails
 
@@ -143,8 +178,8 @@ Current verification read:
 
 Current status against definition of done:
 
-- satisfied: companies list and detail, contacts list and detail, create and edit flows, viewer read-only behavior in route guards, optional company-contact linkage, multiple emails and phones, global search, mobile-aware route structure, tests, typecheck, and build
-- follow-up only: restore lint as a reliable gate in this workspace
+- satisfied: companies list and detail, contacts list and detail, create and edit flows, viewer read-only behavior in route guards, optional company-contact linkage, multiple emails and phones, global search, mobile-aware route structure, lint, tests, typecheck, and build
+- follow-up only: review current workspace drift before final closeout publishing
 
 ## QA Execution Plan
 
@@ -163,7 +198,7 @@ Current status against definition of done:
 Current QA read:
 
 - approved in code for delivered Sprint 3 scope
-- residual risk is tooling, not a proven feature defect
+- residual risk is now workspace drift review, not a proven Sprint 3 feature defect
 
 ## CTO To DEV Handoff
 
@@ -194,9 +229,9 @@ If DEV and QA complete the items above without scope drift, Sprint 3 should be r
 Current PM read:
 
 - Sprint 3 implementation matches the intended slice
-- the remaining open item is the local lint toolchain, not a roadmap-scope gap
+- the remaining open item is unresolved workspace drift review
 
 ## Blockers And Approval Dependencies
 
 - none for repository implementation
-- remaining follow-up: repair the local ESLint dependency issue if full verification green status is required
+- remaining follow-up: review current workspace drift and decide what belongs in final closeout

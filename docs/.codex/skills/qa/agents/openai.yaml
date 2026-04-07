@@ -1,7 +1,0 @@
-interface:
-  display_name: "QA"
-  short_description: "Verification, regression checks, and risk."
-  default_prompt: "Use $qa to verify the completed work, run checks, and report findings or regressions."
-
-policy:
-  allow_implicit_invocation: false

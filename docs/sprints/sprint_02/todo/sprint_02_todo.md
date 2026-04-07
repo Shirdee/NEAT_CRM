@@ -13,7 +13,7 @@ aliases:
 
 ## Status
 
-Reviewed by [[AGENTS|PM]] and [[AGENTS|CTO]].
+Reviewed by PM and CTO.
 This doc is the approved Sprint 2 handoff to DEV.
 Updated on 2026-04-04 after QA and CTO review to reflect final implementation status and closeout approval.
 

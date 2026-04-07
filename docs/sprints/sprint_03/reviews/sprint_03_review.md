@@ -14,9 +14,10 @@ aliases:
 
 ## Review Status
 
-Planning review completed by [[AGENTS|PM]] and [[AGENTS|CTO]].
+Planning review completed by PM and CTO.
 DEV implementation and QA verification are complete in the repository.
-Sprint 3 is ready for PM closeout with one tooling caveat on local lint.
+Sprint 3 is ready for PM closeout from an engineering perspective.
+The remaining non-feature follow-up is workspace-drift review.
 
 ## PM Findings
 
@@ -73,13 +74,14 @@ Sprint 3 is ready for PM closeout with one tooling caveat on local lint.
 ## QA Review
 
 Review date: 2026-04-04
-Reviewer: [[AGENTS|QA]]
-Status: Sprint 3 feature scope approved in code; local lint remains a tooling follow-up
+Reviewer: QA
+Status: Sprint 3 feature scope approved in code; verification set is green as of 2026-04-07
 
 ### Verified
 
-- `crm/app` passes `npm test`
+- `crm/app` passes `npm run lint`
 - `crm/app` passes `npm run typecheck`
+- `crm/app` passes `npm test`
 - `crm/app` passes `npm run build`
 - companies list, detail, create, and edit flows are implemented
 - contacts list, detail, create, and edit flows are implemented
@@ -93,12 +95,13 @@ Status: Sprint 3 feature scope approved in code; local lint remains a tooling fo
 ### Findings
 
 - No blocking Sprint 3 feature defect was found during code-side verification.
-- `npm run lint` remains blocked by a local dependency-tree issue in `eslint-plugin-import`, which is separate from the delivered Sprint 3 behavior.
+- No blocking tooling failure remains in the Sprint 3 verification set.
+- The remaining review item is workspace drift outside the Sprint 3 feature slice.
 
 ### QA Verdict
 
 QA approves the Sprint 3 implementation scope in the repository.
-Release confidence is good on code behavior, with the remaining caveat that lint is not currently a trustworthy gate in this workspace.
+Release confidence is good on code behavior.
 
 ## QA Notes
 

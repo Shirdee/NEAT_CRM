@@ -96,6 +96,5 @@ aliases:
 - [[ARCHITECTURE|Architecture]]
 - [[PERMISSIONS|Permissions]]
 - [[ui/UI_KIT|UI Kit]]
-- [[frontend/AGENTS|Frontend Agents]]
 - [[DELIVERY_PLAN|Delivery Plan]]
 - tables should collapse columns into stacked labels on small screens

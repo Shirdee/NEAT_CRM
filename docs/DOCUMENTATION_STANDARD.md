@@ -51,7 +51,7 @@ Use `docs/` as the Obsidian vault root for wiki links, for example:
 - `[[PRD|PRD]]`
 - `[[ARCHITECTURE|Architecture]]`
 - `[[CODEX|Project Context]]`
-- `[[frontend/AGENTS|Frontend Agents]]`
+- `[[SCREENS_AND_FLOWS|Screens And Flows]]`
 
 Do not rely on ambiguous bare links when a stable path is clearer.
 Do not prefix wiki links with `docs/` because `docs` is the vault root.
@@ -85,5 +85,4 @@ Before closing documentation work:
 
 - [[README|Project Home]]
 - [[CODEX|Project Context]]
-- [[AGENTS|Project Agents]]
 - [[DELIVERY_PLAN|Delivery Plan]]

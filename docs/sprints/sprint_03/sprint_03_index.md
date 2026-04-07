@@ -16,8 +16,8 @@ aliases:
 Sprint 1 is complete.
 Sprint 2 implementation is complete and approved for closeout, with one operational follow-up: validate the real workbook before production import use.
 Sprint 3 implementation is complete in the repository.
-QA verification passed for tests, typecheck, and build.
-One tooling follow-up remains before a fully clean closeout: local lint is blocked by an ESLint dependency issue.
+QA verification now passes for lint, typecheck, tests, and build as of 2026-04-07.
+Sprint 3 closeout work is now focused on workspace-drift review and final closeout publishing.
 
 ## Objective
 
@@ -58,15 +58,23 @@ Deliver the first day-to-day CRM record workflows:
 
 ## Verification Summary
 
-- passed: `npm test`
+- passed: `npm run lint`
 - passed: `npm run typecheck`
+- passed: `npm test`
 - passed: `npm run build`
-- blocked by tooling: `npm run lint`
 
-Lint note:
+Verification note:
 
-- the lint failure came from a local `eslint-plugin-import` dependency issue looking for `debug/src/index.js`
-- this was not observed as a Sprint 3 feature failure in app code
+- the earlier local ESLint dependency failure was cleared during Sprint 3 closeout work
+- the verification set is now green on the current repository state
+
+## Closeout Tasks
+
+1. FIN-01 Repair the ESLint toolchain and restore `npm run lint` - complete
+2. FIN-02 Review current workspace drift and classify intentional vs accidental doc changes - open
+3. FIN-03 Run the final verification set after tooling repair - complete
+4. FIN-04 Update Sprint 3 docs to reflect final closeout state - in progress
+5. FIN-05 Commit and push the final closeout snapshot - pending
 
 ## Main Carry-Ins From Earlier Sprints
 

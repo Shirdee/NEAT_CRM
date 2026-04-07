@@ -14,7 +14,7 @@ aliases:
 
 ## Review Status
 
-Planning review completed by [[AGENTS|PM]] and [[AGENTS|CTO]].
+Planning review completed by PM and CTO.
 Sprint 2 may be handed to DEV because the planning docs now exist in the repository.
 QA and PM follow-up on 2026-04-04 confirms that Sprint 2 implementation now matches the approved roadmap scope and Sprint 2 is ready for closeout.
 
@@ -47,7 +47,7 @@ QA and PM follow-up on 2026-04-04 confirms that Sprint 2 implementation now matc
 ## QA Review Update
 
 Review date: 2026-04-04
-Reviewer: [[AGENTS|QA]]
+Reviewer: QA
 Status: approved for Sprint 2 implementation closeout; real-workbook validation remains an operational follow-up
 
 ### Verified

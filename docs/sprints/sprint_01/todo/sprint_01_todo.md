@@ -13,7 +13,7 @@ aliases:
 
 ## Status
 
-Reviewed by [[AGENTS|PM]] and [[AGENTS|CTO]].
+Reviewed by PM and CTO.
 Application implementation is complete.
 Hosted deployment is complete on Vercel.
 Live database closeout is complete on real infrastructure.

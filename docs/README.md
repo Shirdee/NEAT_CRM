@@ -19,11 +19,9 @@ Project scaffold initialized. The runnable CRM application scaffold lives in `ap
 
 - `app/` for the Next.js CRM scaffold, source code, config, and app-local environment example
 - `docs/CODEX.md` for shared project context
-- `docs/AGENTS.md` for role definitions and handoffs
 - `docs/` for product, architecture, decisions, UI, sprint docs, and agent references
 - `docs/Engineering Docs/` for engineering requirements and design-verification traceability
-- `docs/frontend/` and `docs/backend/` for delivery-surface agent notes
-- `docs/.codex/skills/` for local PM, CTO, DEV, and QA role skills
+- shared operating rules live in the template's `core/` docs
 
 ## Working Commands
 
@@ -37,7 +35,6 @@ Provide the full CRM instructions and PM will convert them into the initial PRD,
 ## Related
 
 - [[CODEX|Project Context]]
-- [[AGENTS|Project Agents]]
 - [[PRD|PRD]]
 - [[ARCHITECTURE|Architecture]]
 - [[Engineering Docs/SWRS|Software Requirements Sheet]]

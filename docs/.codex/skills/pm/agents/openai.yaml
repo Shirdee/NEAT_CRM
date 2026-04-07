@@ -1,7 +1,0 @@
-interface:
-  display_name: "PM"
-  short_description: "Project planning, coordination, and doc upkeep."
-  default_prompt: "Use $pm to plan the work, update project docs, and set up the next handoff."
-
-policy:
-  allow_implicit_invocation: false

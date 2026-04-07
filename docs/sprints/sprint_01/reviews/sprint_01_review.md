@@ -14,7 +14,7 @@ aliases:
 
 ## Review Status
 
-Planning review completed by [[AGENTS|PM]] and [[AGENTS|CTO]].
+Planning review completed by PM and CTO.
 DEV implementation and QA follow-up were completed on 2026-04-04.
 PM closeout review was updated on 2026-04-04 after GitHub-to-Vercel deployment verification.
 
@@ -66,7 +66,7 @@ When DEV finishes Sprint 1, QA should verify:
 ## QA Review
 
 Review date: 2026-04-04
-Reviewer: [[AGENTS|QA]]
+Reviewer: QA
 Status: code-side findings addressed; external infrastructure hookup still pending credentials
 
 ### Verified
@@ -100,7 +100,7 @@ QA cannot honestly confirm the final live database migration run or real seeded 
 ## PM Closeout Update
 
 Review date: 2026-04-04
-Reviewer: [[AGENTS|PM]]
+Reviewer: PM
 Status: Sprint 1 closeout completed
 
 ### Verified Hosted Delivery

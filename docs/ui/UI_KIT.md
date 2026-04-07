@@ -28,4 +28,3 @@ Placeholder for the CRM design language and component guidance.
 - [[PRD|PRD]]
 - [[SCREENS_AND_FLOWS|Screens And Flows]]
 - [[ARCHITECTURE|Architecture]]
-- [[frontend/AGENTS|Frontend Agents]]
