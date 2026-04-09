@@ -1,6 +1,7 @@
 "use server";
 
 import {revalidatePath} from "next/cache";
+import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
@@ -88,7 +89,11 @@ export async function createInteractionAction(boundLocale: string, formData: For
     }
 
     redirect(`/${locale}/interactions/${interaction.id}?success=created`);
-  } catch {
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
     redirect(`/${locale}/interactions/new?${buildInteractionRedirectParams(formData, "validation")}`);
   }
 }
@@ -120,7 +125,11 @@ export async function updateInteractionAction(boundLocale: string, formData: For
     revalidatePath(`/${locale}/companies`);
     revalidatePath(`/${locale}/contacts`);
     redirect(`/${locale}/interactions/${interactionId}?success=updated`);
-  } catch {
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
     redirect(
       `/${locale}/interactions/${interactionId}/edit?${buildInteractionRedirectParams(formData, "validation")}`
     );

@@ -1,6 +1,7 @@
 "use server";
 
 import {revalidatePath} from "next/cache";
+import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
@@ -44,7 +45,11 @@ export async function createTaskAction(boundLocale: string, formData: FormData) 
     revalidatePath(`/${locale}/companies`);
     revalidatePath(`/${locale}/contacts`);
     redirect(`/${locale}/tasks/${task.id}?success=created`);
-  } catch {
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
     redirect(`/${locale}/tasks/new?error=validation`);
   }
 }
@@ -78,7 +83,11 @@ export async function updateTaskAction(boundLocale: string, formData: FormData) 
     revalidatePath(`/${locale}/companies`);
     revalidatePath(`/${locale}/contacts`);
     redirect(`/${locale}/tasks/${taskId}?success=updated`);
-  } catch {
+  } catch (error) {
+    if (isRedirectError(error)) {
+      throw error;
+    }
+
     redirect(`/${locale}/tasks/${taskId}/edit?error=validation`);
   }
 }
