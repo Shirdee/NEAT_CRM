@@ -5,6 +5,7 @@ import {InteractionForm} from "@/components/crm/interaction-form";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getInteractionFormOptions} from "@/lib/data/crm";
+import {SurfaceCard} from "@/components/ui/surface-card";
 
 import {createInteractionAction} from "../actions";
 
@@ -64,7 +65,12 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <h2 className="text-3xl font-semibold text-ink">{compactMode ? t("quickAddTitle") : t("createTitle")}</h2>
+        <p className="text-xs uppercase tracking-[0.3em] text-coral">
+          {compactMode ? t("quickAddTitle") : t("createTitle")}
+        </p>
+        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
+          {compactMode ? t("quickAddTitle") : t("createTitle")}
+        </h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">
           {compactMode ? t("quickAddSubtitle") : t("subtitle")}
         </p>
@@ -72,7 +78,13 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
       {error ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
       ) : null}
-      <section className={`rounded-[24px] border border-slate-200 bg-white ${compactMode ? "p-4 sm:p-5" : "p-6"}`}>
+      <SurfaceCard
+        className={
+          compactMode
+            ? "rounded-[30px] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(236,246,243,0.85))] p-4 sm:p-5"
+            : "rounded-[30px] p-6"
+        }
+      >
         <InteractionForm
           allowFollowUpAfterCreate
           action={action}
@@ -97,7 +109,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
             summary: summary ?? ""
           }}
         />
-      </section>
+      </SurfaceCard>
       <Link className="inline-flex text-sm font-medium text-slate-700" href="/interactions" locale={locale}>
         {t("back")}
       </Link>

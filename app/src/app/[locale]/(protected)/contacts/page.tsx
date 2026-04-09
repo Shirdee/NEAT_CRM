@@ -3,6 +3,9 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getContactFormOptions, listContacts} from "@/lib/data/crm";
+import {FilterShell} from "@/components/ui/filter-shell";
+import {InfoPair} from "@/components/ui/info-pair";
+import {SurfaceCard} from "@/components/ui/surface-card";
 
 type ContactsPageProps = {
   params: Promise<{locale: "en" | "he"}>;
@@ -23,12 +26,13 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
     <div className="space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-3">
-          <h2 className="text-3xl font-semibold text-ink">{t("title")}</h2>
+          <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("columns.contact")}</p>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
           <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
         </div>
         {session && canEditRecords(session.role) ? (
           <Link
-            className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white"
+            className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white sm:w-auto"
             href="/contacts/new"
             locale={locale}
           >
@@ -41,37 +45,39 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("errors.generic")}</p>
       ) : null}
 
-      <form className="grid gap-4 rounded-[24px] border border-slate-200 bg-white p-5 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto]">
-        <input
-          className="rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={query.q ?? ""}
-          name="q"
-          placeholder={t("filters.query")}
-        />
-        <select
-          className="rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={query.companyId ?? ""}
-          name="companyId"
-        >
-          <option value="">{t("filters.allCompanies")}</option>
-          {companies.map((company) => (
-            <option key={company.id} value={company.id}>
-              {company.companyName}
-            </option>
-          ))}
-        </select>
-        <button
-          className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white"
-          type="submit"
-        >
-          {t("filters.apply")}
-        </button>
-      </form>
+      <FilterShell>
+        <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto]">
+          <input
+            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            defaultValue={query.q ?? ""}
+            name="q"
+            placeholder={t("filters.query")}
+          />
+          <select
+            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            defaultValue={query.companyId ?? ""}
+            name="companyId"
+          >
+            <option value="">{t("filters.allCompanies")}</option>
+            {companies.map((company) => (
+              <option key={company.id} value={company.id}>
+                {company.companyName}
+              </option>
+            ))}
+          </select>
+          <button
+            className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white sm:col-span-2 xl:col-span-1"
+            type="submit"
+          >
+            {t("filters.apply")}
+          </button>
+        </form>
+      </FilterShell>
 
       {contacts.length === 0 ? (
-        <section className="rounded-[24px] border border-dashed border-slate-300 bg-white p-8 text-sm text-slate-600">
+        <SurfaceCard className="border-dashed border-slate-300 p-8 text-sm text-slate-600">
           {t("empty")}
-        </section>
+        </SurfaceCard>
       ) : (
         <div className="space-y-4">
           <div className="hidden grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-4 rounded-[24px] bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 lg:grid">
@@ -82,15 +88,20 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
           </div>
           {contacts.map((contact) => (
             <Link
-              className="block rounded-[24px] border border-slate-200 bg-white p-5 transition hover:border-coral/50 hover:shadow-soft"
+              className="block rounded-[26px] border border-slate-200 bg-white p-4 transition hover:border-coral/50 hover:shadow-soft sm:p-5"
               href={`/contacts/${contact.id}`}
               key={contact.id}
               locale={locale}
             >
-              <div className="grid gap-4 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:items-center">
-                <div>
+              <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-4 lg:space-y-0">
+                <div className="space-y-3">
                   <p className="text-lg font-semibold text-ink">{contact.fullName}</p>
                   <p className="mt-2 text-sm text-slate-600">{contact.roleTitle || t("labels.noRole")}</p>
+                  <div className="grid gap-3 sm:grid-cols-3 lg:hidden">
+                    <InfoPair label={t("columns.company")} value={contact.companyName || t("labels.noCompany")} />
+                    <InfoPair label={t("columns.email")} value={contact.primaryEmail || "—"} />
+                    <InfoPair label={t("columns.phone")} value={contact.primaryPhone || "—"} />
+                  </div>
                 </div>
                 <div className="text-sm text-slate-600">{contact.companyName || t("labels.noCompany")}</div>
                 <div className="text-sm text-slate-600">{contact.primaryEmail || "—"}</div>

@@ -63,7 +63,7 @@ export function InteractionForm({
   const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
   return (
-    <form action={action} className="space-y-5">
+    <form action={action} className={`space-y-5 ${compact ? "space-y-4" : ""}`}>
       {hiddenFields
         ? Object.entries(hiddenFields).map(([name, value]) => (
             <input key={name} name={name} type="hidden" value={value} />
@@ -72,7 +72,7 @@ export function InteractionForm({
       {lockedCompany ? <input name="companyId" type="hidden" value={lockedCompany.id} /> : null}
       {lockedContact ? <input name="contactId" type="hidden" value={lockedContact.id} /> : null}
       {(lockedCompany || lockedContact) && mode === "create" ? (
-        <div className="rounded-[20px] border border-slate-200 bg-mist px-4 py-3 text-sm text-slate-700">
+        <div className="rounded-[20px] border border-slate-200 bg-mint px-4 py-3 text-sm text-slate-700">
           <div className="flex flex-wrap gap-2">
             {lockedCompany ? (
               <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">
@@ -93,7 +93,7 @@ export function InteractionForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "תאריך ושעה" : "Date and time"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("interactionDate") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-[22px] border px-4 py-3 ${isInvalid("interactionDate") ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-slate-50/70"}`}
             defaultValue={defaults.interactionDate}
             name="interactionDate"
             required
@@ -140,7 +140,7 @@ export function InteractionForm({
       <label className="block space-y-2 text-sm text-slate-700">
         <span className="font-medium">{locale === "he" ? "נושא" : "Subject"}</span>
         <input
-          className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("subject") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+          className={`w-full rounded-[22px] border px-4 py-3 ${isInvalid("subject") ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-slate-50/70"}`}
           defaultValue={defaults.subject}
           name="subject"
           required
@@ -149,29 +149,55 @@ export function InteractionForm({
       <label className="block space-y-2 text-sm text-slate-700">
         <span className="font-medium">{locale === "he" ? "סיכום" : "Summary"}</span>
         <textarea
-          className={`w-full rounded-2xl border px-4 py-3 ${compact ? "min-h-24" : "min-h-32"} ${isInvalid("summary") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+          className={`w-full rounded-[22px] border px-4 py-3 ${compact ? "min-h-24" : "min-h-32"} ${isInvalid("summary") ? "border-amber-500 bg-amber-50" : "border-slate-200 bg-slate-50/70"}`}
           defaultValue={defaults.summary}
           name="summary"
           required
         />
       </label>
-      <label className="block space-y-2 text-sm text-slate-700">
-        <span className="font-medium">{locale === "he" ? "תוצאה" : "Outcome"}</span>
-        <select
-          className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={defaults.outcomeStatusValueId}
-          name="outcomeStatusValueId"
+      {compact ? (
+        <details className="rounded-[22px] border border-slate-200 bg-white px-4 py-4">
+          <summary className="cursor-pointer text-sm font-medium text-slate-700">
+            {locale === "he" ? "שדות נוספים" : "More details"}
+          </summary>
+          <label className="mt-4 block space-y-2 text-sm text-slate-700">
+            <span className="font-medium">{locale === "he" ? "תוצאה" : "Outcome"}</span>
+            <select
+              className="w-full rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+              defaultValue={defaults.outcomeStatusValueId}
+              name="outcomeStatusValueId"
+            >
+              <option value="">{locale === "he" ? "ללא" : "None"}</option>
+              {outcomeOptions.map((option) => (
+                <option key={option.id} value={option.id}>
+                  {lookupLabel(option, locale)}
+                </option>
+              ))}
+            </select>
+          </label>
+        </details>
+      ) : (
+        <label className="block space-y-2 text-sm text-slate-700">
+          <span className="font-medium">{locale === "he" ? "תוצאה" : "Outcome"}</span>
+          <select
+            className="w-full rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            defaultValue={defaults.outcomeStatusValueId}
+            name="outcomeStatusValueId"
+          >
+            <option value="">{locale === "he" ? "ללא" : "None"}</option>
+            {outcomeOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {lookupLabel(option, locale)}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
+      <div className={`flex flex-wrap gap-3 ${compact ? "flex-col" : ""}`}>
+        <button
+          className={`inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white ${compact ? "w-full" : ""}`}
+          type="submit"
         >
-          <option value="">{locale === "he" ? "ללא" : "None"}</option>
-          {outcomeOptions.map((option) => (
-            <option key={option.id} value={option.id}>
-              {lookupLabel(option, locale)}
-            </option>
-          ))}
-        </select>
-      </label>
-      <div className="flex flex-wrap gap-3">
-        <button className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white" type="submit">
           {mode === "create"
             ? locale === "he"
               ? "יצירת אינטראקציה"
@@ -182,7 +208,7 @@ export function InteractionForm({
         </button>
         {mode === "create" && allowFollowUpAfterCreate ? (
           <button
-            className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
+            className={`inline-flex items-center justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700 ${compact ? "w-full" : ""}`}
             name="intent"
             type="submit"
             value="create-and-add-follow-up"
