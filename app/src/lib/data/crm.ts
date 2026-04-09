@@ -405,18 +405,26 @@ export async function listLookupOptions(categoryKey: string) {
     return listFallbackLookupValues(categoryKey);
   }
 
-  const prisma = await getPrisma();
-  const values = await prisma.listValue.findMany({
-    where: {
-      category: {
-        key: categoryKey
+  try {
+    const prisma = await getPrisma();
+    const values = await prisma.listValue.findMany({
+      where: {
+        category: {
+          key: categoryKey
+        },
+        isActive: true
       },
-      isActive: true
-    },
-    orderBy: [{sortOrder: "asc"}, {labelEn: "asc"}]
-  });
+      orderBy: [{sortOrder: "asc"}, {labelEn: "asc"}]
+    });
 
-  return normalizeLookupOptions(values);
+    if (values.length === 0) {
+      return listFallbackLookupValues(categoryKey);
+    }
+
+    return normalizeLookupOptions(values);
+  } catch {
+    return listFallbackLookupValues(categoryKey);
+  }
 }
 
 export async function getCompanyFormOptions() {

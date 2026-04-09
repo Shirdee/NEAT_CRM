@@ -10,7 +10,17 @@ import {createInteractionAction} from "../actions";
 
 type NewInteractionPageProps = {
   params: Promise<{locale: "en" | "he"}>;
-  searchParams: Promise<{compact?: string; error?: string; companyId?: string; contactId?: string}>;
+  searchParams: Promise<{
+    compact?: string;
+    contactId?: string;
+    companyId?: string;
+    error?: string;
+    interactionDate?: string;
+    interactionTypeValueId?: string;
+    outcomeStatusValueId?: string;
+    subject?: string;
+    summary?: string;
+  }>;
 };
 
 function nowLocalInput() {
@@ -21,7 +31,17 @@ function nowLocalInput() {
 
 export default async function NewInteractionPage({params, searchParams}: NewInteractionPageProps) {
   const {locale} = await params;
-  const {compact, error, companyId, contactId} = await searchParams;
+  const {
+    compact,
+    error,
+    companyId,
+    contactId,
+    interactionDate,
+    interactionTypeValueId,
+    outcomeStatusValueId,
+    subject,
+    summary
+  } = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("InteractionForm");
 
@@ -57,6 +77,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
           companies={options.companies}
           compact={compactMode}
           contacts={options.contacts}
+          hiddenFields={compactMode ? {compact: "1"} : undefined}
           interactionTypeOptions={options.interactionTypeOptions}
           lockedCompany={lockedCompany}
           lockedContact={lockedContact}
@@ -66,7 +87,11 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
           values={{
             companyId: companyId ?? "",
             contactId: contactId ?? "",
-            interactionDate: nowLocalInput()
+            interactionDate: interactionDate ?? nowLocalInput(),
+            interactionTypeValueId: interactionTypeValueId ?? "",
+            outcomeStatusValueId: outcomeStatusValueId ?? "",
+            subject: subject ?? "",
+            summary: summary ?? ""
           }}
         />
       </section>

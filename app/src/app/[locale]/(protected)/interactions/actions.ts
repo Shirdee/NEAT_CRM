@@ -24,6 +24,30 @@ async function requireWritableUser(locale: string) {
   return session;
 }
 
+function buildInteractionRedirectParams(formData: FormData, error: string) {
+  const params = new URLSearchParams({error});
+  const fields = [
+    "interactionDate",
+    "companyId",
+    "contactId",
+    "interactionTypeValueId",
+    "subject",
+    "summary",
+    "outcomeStatusValueId",
+    "compact"
+  ];
+
+  for (const field of fields) {
+    const value = String(formData.get(field) ?? "").trim();
+
+    if (value) {
+      params.set(field, value);
+    }
+  }
+
+  return params.toString();
+}
+
 export async function createInteractionAction(boundLocale: string, formData: FormData) {
   const locale = isLocale(boundLocale) ? boundLocale : "en";
   const session = await requireWritableUser(locale);
@@ -65,7 +89,7 @@ export async function createInteractionAction(boundLocale: string, formData: For
 
     redirect(`/${locale}/interactions/${interaction.id}?success=created`);
   } catch {
-    redirect(`/${locale}/interactions/new?error=validation`);
+    redirect(`/${locale}/interactions/new?${buildInteractionRedirectParams(formData, "validation")}`);
   }
 }
 
@@ -97,6 +121,8 @@ export async function updateInteractionAction(boundLocale: string, formData: For
     revalidatePath(`/${locale}/contacts`);
     redirect(`/${locale}/interactions/${interactionId}?success=updated`);
   } catch {
-    redirect(`/${locale}/interactions/${interactionId}/edit?error=validation`);
+    redirect(
+      `/${locale}/interactions/${interactionId}/edit?${buildInteractionRedirectParams(formData, "validation")}`
+    );
   }
 }

@@ -10,7 +10,16 @@ import {updateInteractionAction} from "../../actions";
 
 type EditInteractionPageProps = {
   params: Promise<{locale: "en" | "he"; interactionId: string}>;
-  searchParams: Promise<{error?: string}>;
+  searchParams: Promise<{
+    error?: string;
+    interactionDate?: string;
+    interactionTypeValueId?: string;
+    outcomeStatusValueId?: string;
+    companyId?: string;
+    contactId?: string;
+    subject?: string;
+    summary?: string;
+  }>;
 };
 
 function toInputDateTime(value: Date | string) {
@@ -19,7 +28,16 @@ function toInputDateTime(value: Date | string) {
 
 export default async function EditInteractionPage({params, searchParams}: EditInteractionPageProps) {
   const {locale, interactionId} = await params;
-  const {error} = await searchParams;
+  const {
+    error,
+    interactionDate,
+    interactionTypeValueId,
+    outcomeStatusValueId,
+    companyId,
+    contactId,
+    subject,
+    summary
+  } = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("InteractionForm");
 
@@ -58,13 +76,13 @@ export default async function EditInteractionPage({params, searchParams}: EditIn
           mode="edit"
           outcomeOptions={options.outcomeOptions}
           values={{
-            interactionDate: toInputDateTime(interaction.interactionDate),
-            companyId: interaction.companyId ?? "",
-            contactId: interaction.contactId ?? "",
-            interactionTypeValueId: interaction.interactionTypeValueId,
-            subject: interaction.subject,
-            summary: interaction.summary,
-            outcomeStatusValueId: interaction.outcomeStatusValueId ?? ""
+            interactionDate: interactionDate ?? toInputDateTime(interaction.interactionDate),
+            companyId: companyId ?? interaction.companyId ?? "",
+            contactId: contactId ?? interaction.contactId ?? "",
+            interactionTypeValueId: interactionTypeValueId ?? interaction.interactionTypeValueId,
+            subject: subject ?? interaction.subject,
+            summary: summary ?? interaction.summary,
+            outcomeStatusValueId: outcomeStatusValueId ?? interaction.outcomeStatusValueId ?? ""
           }}
         />
       </section>

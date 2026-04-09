@@ -1,6 +1,8 @@
 import type {AppLocale} from "@/i18n/routing";
 import type {LookupOption} from "@/lib/data/crm";
 
+import {SearchableOptionField} from "./searchable-option-field";
+
 type InteractionFormValues = {
   interactionDate: string;
   companyId: string;
@@ -116,38 +118,28 @@ export function InteractionForm({
           </div>
         </div>
         {lockedCompany ? null : (
-          <label className="space-y-2 text-sm text-slate-700">
-            <span className="font-medium">{locale === "he" ? "חברה" : "Company"}</span>
-            <select
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-              defaultValue={defaults.companyId}
-              name="companyId"
-            >
-              <option value="">{locale === "he" ? "ללא חברה" : "No company"}</option>
-              {companies.map((company) => (
-                <option key={company.id} value={company.id}>
-                  {company.companyName}
-                </option>
-              ))}
-            </select>
-          </label>
+          <SearchableOptionField
+            emptyLabel={locale === "he" ? "ללא חברה" : "No company"}
+            label={locale === "he" ? "חברה" : "Company"}
+            name="companyId"
+            noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
+            options={companies.map((company) => ({id: company.id, label: company.companyName}))}
+            placeholder={locale === "he" ? "חיפוש חברה" : "Search company"}
+            searchPlaceholder={locale === "he" ? "חיפוש חברה אחרת" : "Search another company"}
+            value={defaults.companyId}
+          />
         )}
         {lockedContact ? null : (
-          <label className="space-y-2 text-sm text-slate-700">
-            <span className="font-medium">{locale === "he" ? "איש קשר" : "Contact"}</span>
-            <select
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-              defaultValue={defaults.contactId}
-              name="contactId"
-            >
-              <option value="">{locale === "he" ? "ללא איש קשר" : "No contact"}</option>
-              {contacts.map((contact) => (
-                <option key={contact.id} value={contact.id}>
-                  {contact.fullName}
-                </option>
-              ))}
-            </select>
-          </label>
+          <SearchableOptionField
+            emptyLabel={locale === "he" ? "ללא איש קשר" : "No contact"}
+            label={locale === "he" ? "איש קשר" : "Contact"}
+            name="contactId"
+            noResultsLabel={locale === "he" ? "לא נמצאו אנשי קשר" : "No contacts found"}
+            options={contacts.map((contact) => ({id: contact.id, label: contact.fullName}))}
+            placeholder={locale === "he" ? "חיפוש איש קשר" : "Search contact"}
+            searchPlaceholder={locale === "he" ? "חיפוש איש קשר אחר" : "Search another contact"}
+            value={defaults.contactId}
+          />
         )}
       </div>
       <label className="block space-y-2 text-sm text-slate-700">

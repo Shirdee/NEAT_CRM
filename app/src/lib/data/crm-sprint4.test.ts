@@ -40,6 +40,15 @@ describe("crm sprint 4 fallback flows", () => {
     });
   });
 
+  it("falls back to seeded lookup values when a required lookup category is empty", async () => {
+    process.env.DATABASE_URL = "postgres://placeholder";
+    const options = await listLookupOptions("interaction_type");
+
+    expect(options.length).toBeGreaterThan(0);
+    expect(options.some((option) => option.key === "call")).toBe(true);
+    delete process.env.DATABASE_URL;
+  });
+
   it("creates and completes a task from an interaction context", async () => {
     const taskTypeId = (await listLookupOptions("task_type"))[0]?.id ?? "";
 
