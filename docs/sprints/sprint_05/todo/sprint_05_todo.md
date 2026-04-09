@@ -22,6 +22,22 @@ This doc is the Sprint 5 execution handoff to DEV and QA.
 Sprint 5 is approved as the frontend UI implementation pass for the existing CRM app.
 DEV and QA must treat `crm/docs/sprints/sprint_05/ui` as the source of truth for this sprint.
 
+Progress snapshot:
+
+- DEV-501 completed
+- DEV-502 completed
+- DEV-503 partially completed through the shared surface, metric, filter, chip, and info primitives
+- DEV-504 completed
+- DEV-505 completed
+- DEV-506 completed for companies and contacts with responsive mobile card behavior
+- DEV-507 completed for company detail
+- DEV-508 completed for tasks
+- DEV-509 completed for quick-add interaction
+- Stitch phone review completed for the implemented mobile screens and fixes applied in code
+- DEV-510 pending
+- DEV-511 pending final parity pass
+- DEV-512 partially completed with `typecheck` and `build` passing
+
 ## Sprint Goal
 
 Ship the priority CRM UI pass across shared shell, tokens, primitives, and the in-scope screens without changing the underlying product rules owned by earlier sprints.
@@ -52,7 +68,7 @@ Ship the priority CRM UI pass across shared shell, tokens, primitives, and the i
 ### DEV-503: Build Shared Primitive Layer
 
 - objective: create the minimal reusable primitive layer needed by the Sprint 5 screens
-- scope: card primitives, KPI card, sticky filter bar, table shell and rows, status chips, summary header, activity timeline item, quick-add drawer or sheet, and import review row
+- scope: card primitives, KPI card, sticky filter bar, table shell and rows, status chips, summary header, activity timeline item, quick-add drawer or sheet, import review row, and reusable live-search picker for DB-backed record selection
 - must include: narrow component APIs and no duplicate visual logic inside the route files
 - done when: the priority screens are assembled mainly from shared primitives rather than one-off route markup
 
@@ -95,7 +111,7 @@ Ship the priority CRM UI pass across shared shell, tokens, primitives, and the i
 
 - objective: update the interaction create flow into the approved fast-entry UI
 - scope: interaction create page, interaction form layout, drawer or sheet behavior, field prioritization, and progressive reveal for optional fields
-- must include: desktop drawer feel and mobile bottom-sheet or full-screen modal behavior
+- must include: desktop drawer feel, mobile bottom-sheet or full-screen modal behavior, and live-search record pickers for existing company and contact selection
 - done when: interaction logging is low-friction on desktop and iPhone-width screens without changing mutation rules
 
 ### DEV-510: Implement Import Review Screen
@@ -105,6 +121,8 @@ Ship the priority CRM UI pass across shared shell, tokens, primitives, and the i
 - must include: dense but clear review ergonomics for admin work
 - done when: import review is easier to scan and act on without losing current data-review behavior
 
+status: pending
+
 ### DEV-511: RTL, Mobile, And Acceptance Hardening
 
 - objective: close the UI sprint with layout and parity hardening
@@ -112,12 +130,18 @@ Ship the priority CRM UI pass across shared shell, tokens, primitives, and the i
 - must include: no horizontal scrolling on required mobile flows
 - done when: the implemented Sprint 5 screens hold up in bilingual and mobile usage
 
+status: in progress
+note: mobile treatment was reviewed against Stitch and corrected on the implemented list, detail, and quick-add screens, but a final project-wide RTL and iPhone-width pass is still required
+
 ### DEV-512: Verify And Harden
 
 - objective: complete Sprint 5 with regression checks and repository verification
 - scope: route checks, visual regression by manual QA where practical, role-behavior review after UI changes, and repo verification commands
 - must include: `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
 - done when: Sprint 5 behavior is covered and the prior functional sprints still pass
+
+status: in progress
+note: `npm run typecheck` and `npm run build` passed after the phone review fixes; `npm run lint` and `npm test` still need final resolution or explicit blocker closeout
 
 ## Recommended Execution Order
 
@@ -181,9 +205,18 @@ DEV should treat the following as the approved Sprint 5 build direction:
 5. verify RTL and mobile during implementation
 - do not defer these checks until the end if screen-level fixes are already visible during build
 
+6. treat live-search record linking as a default requirement
+- any field used to find an existing CRM record in the database should use the shared live-search picker unless the option set is intentionally small and bounded like a lookup list
+
 ## PM Closeout Target
 
 If DEV and QA complete the items above without scope drift, Sprint 5 should leave the CRM visually coherent and ready for the later opportunities and reporting sprint.
+
+## PM Update
+
+Sprint 5 documentation now reflects the actual implementation state instead of the initial plan only.
+The implemented phone UI was compared against the Stitch mobile screens and corrected to match the approved surface-led direction more closely.
+Remaining work is now clearly constrained to import review, remaining responsive parity screens, final RTL and phone hardening, and unresolved verification gates.
 
 ## Blockers And Approval Dependencies
 

@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 import type {AppLocale} from "@/i18n/routing";
 import type {LookupOption} from "@/lib/data/crm";
@@ -25,10 +25,6 @@ export function InteractionTypeField({
   value
 }: InteractionTypeFieldProps) {
   const [selectedId, setSelectedId] = useState(value ?? "");
-
-  useEffect(() => {
-    setSelectedId(value ?? "");
-  }, [value]);
 
   return (
     <div className="space-y-2 text-sm text-slate-700">

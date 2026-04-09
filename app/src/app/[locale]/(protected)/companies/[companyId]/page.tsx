@@ -39,7 +39,7 @@ export default async function CompanyDetailPage({
         </p>
       ) : null}
 
-      <SurfaceCard className="space-y-5">
+      <SurfaceCard className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.9))]">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
@@ -61,14 +61,14 @@ export default async function CompanyDetailPage({
                   {t("addInteraction")}
                 </Link>
                 <Link
-                  className="inline-flex items-center justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
+                  className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700"
                   href={`/tasks/new?companyId=${company.id}`}
                   locale={locale}
                 >
                   {t("addTask")}
                 </Link>
                 <Link
-                  className="inline-flex items-center justify-center rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
+                  className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700"
                   href={`/companies/${company.id}/edit`}
                   locale={locale}
                 >
@@ -113,7 +113,7 @@ export default async function CompanyDetailPage({
       </SurfaceCard>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <SurfaceCard className="space-y-4">
+        <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-lg font-semibold text-ink">{t("interactionsTitle")}</h3>
             <Link className="text-sm font-medium text-coral" href={`/interactions?companyId=${company.id}`} locale={locale}>
@@ -127,7 +127,7 @@ export default async function CompanyDetailPage({
             </Link>
           ) : null}
         </SurfaceCard>
-        <SurfaceCard className="space-y-4">
+        <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-lg font-semibold text-ink">{t("tasksTitle")}</h3>
             <Link className="text-sm font-medium text-coral" href={`/tasks?companyId=${company.id}`} locale={locale}>
@@ -148,7 +148,7 @@ export default async function CompanyDetailPage({
         </SurfaceCard>
       </section>
 
-      <SurfaceCard className="space-y-4">
+      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-lg font-semibold text-ink">{t("contactsTitle")}</h3>
           {session && canEditRecords(session.role) ? (

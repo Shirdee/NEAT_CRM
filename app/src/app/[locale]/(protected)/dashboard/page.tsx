@@ -6,6 +6,10 @@ import {SurfaceCard} from "@/components/ui/surface-card";
 import {getCurrentSession} from "@/lib/auth/session";
 import {listCompanies, listInteractions, listTasks} from "@/lib/data/crm";
 
+function getCurrentTimestamp() {
+  return Date.now();
+}
+
 export default async function DashboardPage() {
   const t = await getTranslations("Dashboard");
   const session = await getCurrentSession();
@@ -15,7 +19,7 @@ export default async function DashboardPage() {
     listCompanies()
   ]);
 
-  const now = Date.now();
+  const now = getCurrentTimestamp();
   const weekFromNow = now + 7 * 24 * 60 * 60 * 1000;
   const openTasks = tasks.filter((task) => !task.completedAt);
   const overdueTasks = openTasks.filter((task) => new Date(task.dueDate).getTime() < now);

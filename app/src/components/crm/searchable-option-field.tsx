@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 
 type SearchableOption = {
   id: string;
@@ -36,14 +36,10 @@ export function SearchableOptionField({
     () => options.find((option) => option.id === value) ?? null,
     [options, value]
   );
+  const selectedId = value ?? "";
   const [query, setQuery] = useState(selectedOption?.label ?? "");
-  const [selectedId, setSelectedId] = useState(value ?? "");
   const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    setSelectedId(value ?? "");
-    setQuery(selectedOption?.label ?? "");
-  }, [selectedOption, value]);
+  const displayQuery = isOpen ? query : selectedOption?.label ?? query;
 
   const filteredOptions = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
@@ -80,19 +76,18 @@ export function SearchableOptionField({
           }}
           onChange={(event) => {
             setQuery(event.target.value);
-            setSelectedId("");
+            onValueChange?.("");
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
           placeholder={selectedId ? searchPlaceholder : placeholder}
-          value={query}
+          value={displayQuery}
         />
         {query ? (
           <button
             className="absolute end-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-500"
             onClick={() => {
               setQuery("");
-              setSelectedId("");
               setIsOpen(false);
               onValueChange?.("");
             }}
@@ -107,15 +102,14 @@ export function SearchableOptionField({
               className={`block w-full rounded-2xl px-3 py-2 text-left text-sm ${
                 !selectedId ? "bg-mist text-ink" : "text-slate-700 hover:bg-mist"
               }`}
-            onMouseDown={(event) => {
-              event.preventDefault();
-              setSelectedId("");
-              setQuery("");
-              setIsOpen(false);
-              onValueChange?.("");
-            }}
-            type="button"
-          >
+              onMouseDown={(event) => {
+                event.preventDefault();
+                setQuery("");
+                setIsOpen(false);
+                onValueChange?.("");
+              }}
+              type="button"
+            >
               {emptyLabel}
             </button>
             {filteredOptions.length === 0 ? (
@@ -129,7 +123,6 @@ export function SearchableOptionField({
                   key={option.id}
                   onMouseDown={(event) => {
                     event.preventDefault();
-                    setSelectedId(option.id);
                     setQuery(option.label);
                     setIsOpen(false);
                     onValueChange?.(option.id);

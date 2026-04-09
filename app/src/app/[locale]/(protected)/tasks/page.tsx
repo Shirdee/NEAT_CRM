@@ -109,13 +109,13 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
       <FilterShell>
         <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <input
-            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.companyId ?? ""}
             name="companyId"
           >
@@ -127,7 +127,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <select
-            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.contactId ?? ""}
             name="contactId"
           >
@@ -139,7 +139,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <select
-            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.statusValueId ?? ""}
             name="statusValueId"
           >
@@ -160,7 +160,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
       </FilterShell>
 
       {tasks.length === 0 ? (
-        <SurfaceCard className="border-dashed border-slate-300 p-8 text-sm text-slate-600">
+        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-8 text-sm text-slate-600">
           {t("empty")}
         </SurfaceCard>
       ) : (
@@ -177,7 +177,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
                 <div className="space-y-3">
                   {section.items.map((task) => (
                     <Link
-                      className="block rounded-[26px] border border-slate-200 bg-white p-4 transition hover:border-coral/50 hover:shadow-soft sm:p-5"
+                      className="block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))] p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)] sm:p-5"
                       href={`/tasks/${task.id}`}
                       key={task.id}
                       locale={locale}

@@ -64,7 +64,13 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
 
   return (
     <div className="space-y-6">
-      <div className="space-y-3">
+      <div
+        className={
+          compactMode
+            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.8),rgba(249,235,231,0.95))] px-5 py-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] backdrop-blur"
+            : "space-y-3"
+        }
+      >
         <p className="text-xs uppercase tracking-[0.3em] text-coral">
           {compactMode ? t("quickAddTitle") : t("createTitle")}
         </p>
@@ -81,7 +87,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
       <SurfaceCard
         className={
           compactMode
-            ? "rounded-[30px] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(236,246,243,0.85))] p-4 sm:p-5"
+            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.92))] p-4 sm:p-5"
             : "rounded-[30px] p-6"
         }
       >

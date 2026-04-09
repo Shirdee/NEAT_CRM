@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 
 import type {AppLocale} from "@/i18n/routing";
 
@@ -44,33 +44,6 @@ export function CompanyContactLinkFields({
   const [companyId, setCompanyId] = useState(value.companyId ?? "");
   const [contactId, setContactId] = useState(value.contactId ?? "");
 
-  useEffect(() => {
-    setCompanyId(value.companyId ?? "");
-    setContactId(value.contactId ?? "");
-  }, [value.companyId, value.contactId]);
-
-  const selectedContact = useMemo(
-    () => contacts.find((contact) => contact.id === contactId) ?? null,
-    [contactId, contacts]
-  );
-
-  useEffect(() => {
-    if (!selectedContact) {
-      return;
-    }
-
-    if (selectedContact.companyId) {
-      if (companyId !== selectedContact.companyId) {
-        setCompanyId(selectedContact.companyId);
-      }
-      return;
-    }
-
-    if (companyId) {
-      setCompanyId("");
-    }
-  }, [companyId, selectedContact]);
-
   const filteredContacts = useMemo(() => {
     if (!companyId) {
       return contacts;
@@ -80,6 +53,8 @@ export function CompanyContactLinkFields({
   }, [companyId, contacts]);
 
   const filteredCompanies = useMemo(() => {
+    const selectedContact = contacts.find((contact) => contact.id === contactId);
+
     if (!selectedContact) {
       return companies;
     }
@@ -89,19 +64,39 @@ export function CompanyContactLinkFields({
     }
 
     return companies.filter((company) => company.id === selectedContact.companyId);
-  }, [companies, selectedContact]);
+  }, [companies, contactId, contacts]);
 
-  useEffect(() => {
+  const handleCompanyChange = (nextCompanyId: string) => {
+    setCompanyId(nextCompanyId);
+
     if (!contactId) {
       return;
     }
 
-    const stillVisible = filteredContacts.some((contact) => contact.id === contactId);
+    const stillVisible = contacts.some(
+      (contact) => contact.id === contactId && (!nextCompanyId || contact.companyId === nextCompanyId)
+    );
 
     if (!stillVisible) {
       setContactId("");
     }
-  }, [contactId, filteredContacts]);
+  };
+
+  const handleContactChange = (nextContactId: string) => {
+    setContactId(nextContactId);
+
+    if (!nextContactId) {
+      return;
+    }
+
+    const selectedContact = contacts.find((contact) => contact.id === nextContactId);
+
+    if (!selectedContact) {
+      return;
+    }
+
+    setCompanyId(selectedContact.companyId ?? "");
+  };
 
   return (
     <>
@@ -111,7 +106,7 @@ export function CompanyContactLinkFields({
         label={locale === "he" ? "חברה" : "Company"}
         name={companyFieldName}
         noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
-        onValueChange={setCompanyId}
+        onValueChange={handleCompanyChange}
         options={filteredCompanies.map((company) => ({id: company.id, label: company.companyName}))}
         placeholder={locale === "he" ? "חיפוש חברה" : "Search company"}
         searchPlaceholder={locale === "he" ? "חיפוש חברה אחרת" : "Search another company"}
@@ -123,7 +118,7 @@ export function CompanyContactLinkFields({
         label={locale === "he" ? "איש קשר" : "Contact"}
         name={contactFieldName}
         noResultsLabel={locale === "he" ? "לא נמצאו אנשי קשר" : "No contacts found"}
-        onValueChange={setContactId}
+        onValueChange={handleContactChange}
         options={filteredContacts.map((contact) => ({id: contact.id, label: contact.fullName}))}
         placeholder={locale === "he" ? "חיפוש איש קשר" : "Search contact"}
         searchPlaceholder={locale === "he" ? "חיפוש איש קשר אחר" : "Search another contact"}

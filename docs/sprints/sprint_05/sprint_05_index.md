@@ -16,10 +16,30 @@ updated: 2026-04-09
 
 ## Status
 
-Sprint 5 planning has been initialized.
+Sprint 5 is in active implementation.
 Sprint 5 is the approved frontend UI implementation slice that follows the existing CRM product and data flows already in the repository.
 For Sprint 5, the docs in `crm/docs/sprints/sprint_05/ui` are the source of truth for implementation scope, visual direction, and acceptance criteria.
 Sprint 4 remains the current backend and workflow implementation reference for interactions and follow-up behavior until PM closes or defers any remaining Sprint 4 polish.
+
+Implemented so far:
+
+- shared UI tokens and shell foundation
+- shared card, metric, filter, chip, and info primitives
+- login and dashboard UI pass
+- responsive companies list
+- responsive contacts list
+- responsive tasks view
+- responsive company detail
+- responsive quick-add interaction flow
+- Stitch-aligned phone surface pass across the implemented mobile screens
+
+Still open:
+
+- interactions list and interaction detail responsive polish
+- contact detail responsive polish
+- import review UI pass
+- final RTL and iPhone-width hardening across all Sprint 5 screens
+- final lint and test resolution if environment blockers persist
 
 ## Objective
 
@@ -49,6 +69,7 @@ If route code, older sprint planning, and UI docs disagree on presentation, the 
 - Shared tokens, shell primitives, and reusable screen sections should be introduced before heavy route-by-route restyling.
 - UI work must preserve RBAC, i18n, validation, and current mutation behavior from earlier sprints.
 - Route components should consume a narrow primitive layer and avoid one-off visual logic when a shared pattern already exists.
+- Any DB-backed record picker should use a consistent live-search pattern rather than route-local static selects.
 
 ## Sprint 5 Deliverables
 
@@ -64,6 +85,13 @@ If route code, older sprint planning, and UI docs disagree on presentation, the 
 - updated quick-add interaction flow
 - updated import review screen
 - bilingual, RTL-safe, and mobile-safe verification across the priority screens
+- standardized live-search behavior for all DB-backed record pickers on the implemented screens
+
+Current completion note:
+
+- login, dashboard, companies, contacts, tasks, company detail, and quick-add interaction are implemented
+- the implemented phone UI has been reviewed against the Stitch mobile work and corrected toward the approved warm layered surface system
+- import review and the remaining screen parity work are still pending
 
 ## Main Carry-Ins
 
@@ -87,6 +115,13 @@ If route code, older sprint planning, and UI docs disagree on presentation, the 
 - required mobile flows work without horizontal scroll
 - any deviation from the UI docs is documented and approved
 - repo verification commands pass, or blockers are documented explicitly
+
+## Latest Validation Snapshot
+
+- passed: `npm run typecheck`
+- passed: `npm run build`
+- not yet cleared in Sprint 5 closeout: `npm run lint`
+- not yet cleared in Sprint 5 closeout: `npm test`
 
 ## Linked Sprint Docs
 

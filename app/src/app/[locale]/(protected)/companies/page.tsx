@@ -58,13 +58,13 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
       <FilterShell>
         <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.3fr)_repeat(2,minmax(0,0.8fr))_auto]">
           <input
-            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.source ?? ""}
             name="source"
           >
@@ -76,7 +76,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             ))}
           </select>
           <select
-            className="rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3"
+            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.stage ?? ""}
             name="stage"
           >
@@ -97,7 +97,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
       </FilterShell>
 
       {companies.length === 0 ? (
-        <SurfaceCard className="border-dashed border-slate-300 p-8 text-sm text-slate-600">
+        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-8 text-sm text-slate-600">
           {t("empty")}
         </SurfaceCard>
       ) : (
@@ -111,7 +111,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
           </div>
           {companies.map((company) => (
             <Link
-              className="block rounded-[26px] border border-slate-200 bg-white p-4 transition hover:border-coral/50 hover:shadow-soft sm:p-5"
+              className="block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))] p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)] sm:p-5"
               href={`/companies/${company.id}`}
               key={company.id}
               locale={locale}
@@ -125,14 +125,14 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
                         {company.notes || t("labels.noNotes")}
                       </p>
                     </div>
-                    <div className="flex flex-wrap gap-2 lg:hidden">
+                    <div className="flex flex-wrap gap-2">
                       <StatusChip tone="teal">
                         {displayLabel(locale, {
                           en: company.stageLabelEn,
                           he: company.stageLabelHe
                         })}
                       </StatusChip>
-                      <StatusChip>{company.contactsCount}</StatusChip>
+                      <StatusChip>{`${t("columns.contacts")}: ${company.contactsCount}`}</StatusChip>
                     </div>
                   </div>
                   <div className="grid gap-3 sm:grid-cols-3 lg:hidden">
@@ -154,19 +154,19 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
                   </div>
                 </div>
                 <div className="text-sm text-slate-600">{company.website || "—"}</div>
-                <div className="text-sm text-slate-600">
+                <div className="hidden text-sm text-slate-600 lg:block">
                   {displayLabel(locale, {
                     en: company.stageLabelEn,
                     he: company.stageLabelHe
                   })}
                 </div>
-                <div className="text-sm text-slate-600">
+                <div className="hidden text-sm text-slate-600 lg:block">
                   {displayLabel(locale, {
                     en: company.sourceLabelEn,
                     he: company.sourceLabelHe
                   })}
                 </div>
-                <div className="text-sm font-medium text-ink">{company.contactsCount}</div>
+                <div className="hidden text-sm font-medium text-ink lg:block">{company.contactsCount}</div>
               </div>
             </Link>
           ))}
