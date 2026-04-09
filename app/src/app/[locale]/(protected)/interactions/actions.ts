@@ -27,6 +27,7 @@ async function requireWritableUser(locale: string) {
 export async function createInteractionAction(boundLocale: string, formData: FormData) {
   const locale = isLocale(boundLocale) ? boundLocale : "en";
   const session = await requireWritableUser(locale);
+  const intent = String(formData.get("intent") ?? "");
 
   try {
     const payload = normalizeInteractionPayload({
@@ -45,6 +46,23 @@ export async function createInteractionAction(boundLocale: string, formData: For
     revalidatePath(`/${locale}/interactions`);
     revalidatePath(`/${locale}/companies`);
     revalidatePath(`/${locale}/contacts`);
+
+    if (intent === "create-and-add-follow-up") {
+      const params = new URLSearchParams({
+        relatedInteractionId: interaction.id
+      });
+
+      if (interaction.companyId) {
+        params.set("companyId", interaction.companyId);
+      }
+
+      if (interaction.contactId) {
+        params.set("contactId", interaction.contactId);
+      }
+
+      redirect(`/${locale}/tasks/new?${params.toString()}`);
+    }
+
     redirect(`/${locale}/interactions/${interaction.id}?success=created`);
   } catch {
     redirect(`/${locale}/interactions/new?error=validation`);

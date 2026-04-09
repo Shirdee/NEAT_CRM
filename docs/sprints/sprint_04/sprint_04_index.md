@@ -16,7 +16,7 @@ updated: 2026-04-09
 
 Sprint 4 planning was re-reviewed by CTO against the finished Sprint 3 repository state.
 Sprint 4 is now active implementation work.
-The current Sprint 4 slice in the repository includes shared interactions and tasks reads and writes, interaction and follow-up create/edit routes, create-follow-up-from-interaction behavior, activity summaries on company and contact detail, and a green QA verification pass on 2026-04-09.
+The current Sprint 4 slice in the repository includes shared interactions and tasks reads and writes, interaction and follow-up create/edit routes, explicit interaction-type selection on the interaction form, direct follow-up creation from the interaction create flow, create-follow-up-from-interaction behavior, activity summaries on company and contact detail, and a green QA verification pass on 2026-04-09.
 
 ## Objective
 
@@ -52,7 +52,7 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 
 ## Current Implementation Read
 
-- completed in repository: shared activity read and write layer, fallback seed coverage for interactions and tasks, interactions list/detail/create/edit, follow-up list/detail/create/edit, create-follow-up-from-interaction path, company/contact activity summaries, shell nav links, locale strings, Sprint 4 fallback tests
+- completed in repository: shared activity read and write layer, fallback seed coverage for interactions and tasks, interactions list/detail/create/edit, explicit interaction-type selection in the interaction form, direct interaction-create to follow-up-create handoff, follow-up list/detail/create/edit, create-follow-up-from-interaction path, company/contact activity summaries, shell nav links, locale strings, Sprint 4 fallback tests
 - next build slice: mobile quick-add UX and any remaining mobile-entry polish needed for Sprint 4 closeout
 
 ## Main Carry-Ins

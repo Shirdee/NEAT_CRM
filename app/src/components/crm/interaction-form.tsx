@@ -12,6 +12,7 @@ type InteractionFormValues = {
 };
 
 type InteractionFormProps = {
+  allowFollowUpAfterCreate?: boolean;
   action: (formData: FormData) => void | Promise<void>;
   companies: Array<{id: string; companyName: string}>;
   contacts: Array<{id: string; fullName: string}>;
@@ -28,6 +29,7 @@ function lookupLabel(option: LookupOption, locale: AppLocale) {
 }
 
 export function InteractionForm({
+  allowFollowUpAfterCreate,
   action,
   companies,
   contacts,
@@ -66,22 +68,27 @@ export function InteractionForm({
             type="datetime-local"
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <div className="space-y-2 text-sm text-slate-700 lg:col-span-2">
           <span className="font-medium">{locale === "he" ? "סוג אינטראקציה" : "Interaction type"}</span>
-          <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-            defaultValue={defaults.interactionTypeValueId}
-            name="interactionTypeValueId"
-            required
-          >
-            <option value="">{locale === "he" ? "בחירה" : "Select type"}</option>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {interactionTypeOptions.map((option) => (
-              <option key={option.id} value={option.id}>
-                {lookupLabel(option, locale)}
-              </option>
+              <label
+                className="cursor-pointer rounded-[20px] border border-slate-200 bg-white p-4 transition hover:border-coral/50 hover:bg-mist"
+                key={option.id}
+              >
+                <input
+                  className="sr-only"
+                  defaultChecked={defaults.interactionTypeValueId === option.id}
+                  name="interactionTypeValueId"
+                  required
+                  type="radio"
+                  value={option.id}
+                />
+                <span className="text-sm font-medium text-ink">{lookupLabel(option, locale)}</span>
+              </label>
             ))}
-          </select>
-        </label>
+          </div>
+        </div>
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "חברה" : "Company"}</span>
           <select
@@ -146,15 +153,27 @@ export function InteractionForm({
           ))}
         </select>
       </label>
-      <button className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white" type="submit">
-        {mode === "create"
-          ? locale === "he"
-            ? "יצירת אינטראקציה"
-            : "Create interaction"
-          : locale === "he"
-            ? "שמירת שינויים"
-            : "Save changes"}
-      </button>
+      <div className="flex flex-wrap gap-3">
+        <button className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white" type="submit">
+          {mode === "create"
+            ? locale === "he"
+              ? "יצירת אינטראקציה"
+              : "Create interaction"
+            : locale === "he"
+              ? "שמירת שינויים"
+              : "Save changes"}
+        </button>
+        {mode === "create" && allowFollowUpAfterCreate ? (
+          <button
+            className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
+            name="intent"
+            type="submit"
+            value="create-and-add-follow-up"
+          >
+            {locale === "he" ? "יצירה והוספת מעקב" : "Create and add follow-up"}
+          </button>
+        ) : null}
+      </div>
     </form>
   );
 }

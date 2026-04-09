@@ -43,6 +43,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
       ) : null}
       <section className="rounded-[24px] border border-slate-200 bg-white p-6">
         <InteractionForm
+          allowFollowUpAfterCreate
           action={action}
           companies={options.companies}
           contacts={options.contacts}

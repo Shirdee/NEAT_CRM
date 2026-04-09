@@ -14,7 +14,7 @@ updated: 2026-04-09
 
 - project name: CRM
 - purpose: build an internal bilingual CRM for sales lead management and meeting booking
-- status: Sprint 1 through Sprint 3 are complete in the repository; Sprint 4 is active and now includes interaction and follow-up create/edit flows plus verified QA coverage for the current slice
+- status: Sprint 1 through Sprint 3 are complete in the repository; Sprint 4 is active and now includes interaction and follow-up create/edit flows, explicit interaction-type selection in the interaction form, direct follow-up creation from the interaction create flow, and verified QA coverage for the current slice
 
 ## Working Assumptions
 

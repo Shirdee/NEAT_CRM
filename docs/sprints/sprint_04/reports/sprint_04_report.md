@@ -19,13 +19,15 @@ The second Sprint 4 implementation slice is now in the repository and has comple
 
 ## Report Scope
 
-This report captures the repository-truth state after the Sprint 4 interaction and follow-up mutation slice landed and was verified on 2026-04-09.
+This report captures the repository-truth state after the Sprint 4 interaction and follow-up mutation slice, the interaction-form UX extension, and the current verification pass landed on 2026-04-09.
 
 ## Delivered In This Slice
 
 - interaction create route
 - interaction edit route
 - interaction create and update actions
+- explicit interaction-type selection in the interaction form
+- create-interaction then add-follow-up submit path
 - shared interaction mutation path in the CRM data layer
 - follow-up create route
 - follow-up edit route
@@ -46,6 +48,8 @@ Primary implementation areas:
 - `crm/app/src/lib/data/fallback-store.ts`
 - `crm/app/src/components/crm/interaction-form.tsx`
 - `crm/app/src/components/crm/task-form.tsx`
+- `crm/app/src/app/[locale]/(protected)/interactions/actions.ts`
+- `crm/app/src/app/[locale]/(protected)/interactions/new/page.tsx`
 - `crm/app/src/app/[locale]/(protected)/interactions/`
 - `crm/app/src/app/[locale]/(protected)/tasks/`
 - `crm/app/src/app/[locale]/(protected)/companies/[companyId]/page.tsx`
@@ -76,6 +80,8 @@ Completed in repository:
 
 - shared activity read and write layer
 - interactions list, detail, create, and edit flow
+- explicit interaction-type selection in the interaction form
+- direct continuation from interaction creation into follow-up creation
 - follow-ups list, detail, create, and edit flow
 - create-follow-up-from-interaction path
 - task completion through task status updates

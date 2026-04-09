@@ -53,9 +53,9 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 - objective: support create, read, and update behavior for interactions
 - scope: interaction detail screen, create and edit form, relation picking, subject, summary, outcome, and date handling
-- must include: company-only, contact-only, and company-plus-contact linkage paths plus read-only presentation for viewers
+- must include: company-only, contact-only, and company-plus-contact linkage paths, explicit interaction-type selection, and read-only presentation for viewers
 - done when: interaction records can be created and edited through the app without violating RBAC
-- current read: completed for detail, create, and edit flow
+- current read: completed for detail, create, edit, and explicit interaction-type selection flow
 
 ### DEV-404: Add Mobile Quick-Add Interaction Flow
 
@@ -85,9 +85,9 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 - objective: connect activity logging to next-action execution
 - scope: action entrypoint on interaction surfaces, prefilled task create path, related interaction linkage, and return-path UX
-- must include: relation inheritance from the interaction and no duplicate relation re-entry for the common case
+- must include: relation inheritance from the interaction, no duplicate relation re-entry for the common case, and a direct continuation path from the new interaction screen
 - done when: a user can log an interaction and immediately create the next follow-up from it
-- current read: completed
+- current read: completed, including direct handoff from interaction creation into the follow-up create screen
 
 ### DEV-408: Add Inactivity Indicators And Filters
 
@@ -143,7 +143,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 Current completion read:
 
-- completed: shared activity read and write layer, interactions list/detail/create/edit, follow-ups list/detail/create/edit, task completion flow, create-follow-up-from-interaction, inactivity summaries on company/contact detail, shell nav links, deeper company/contact cross-links, locale strings, tests, typecheck, build
+- completed: shared activity read and write layer, interactions list/detail/create/edit, explicit interaction-type selection in the interaction form, direct interaction-create to follow-up-create handoff, follow-ups list/detail/create/edit, task completion flow, create-follow-up-from-interaction, inactivity summaries on company/contact detail, shell nav links, deeper company/contact cross-links, locale strings, tests, typecheck, build
 - still open: quick-add UX and any remaining mobile-entry polish needed for Sprint 4 closeout
 
 ## QA Execution Plan
@@ -164,7 +164,7 @@ Current completion read:
 Current QA read:
 
 - verified: `npm test`, `npm run typecheck`, `npm run build`
-- verified in code: interaction mutations, task mutations, task completion, create-follow-up-from-interaction, company/contact activity summaries, route coverage in the build output
+- verified in code: interaction mutations, explicit interaction-type form selection, direct interaction-create to follow-up-create handoff, task mutations, task completion, create-follow-up-from-interaction, company/contact activity summaries, route coverage in the build output
 - residual risk: browser-level/manual UX verification and the still-open quick-add/mobile slice
 
 ## CTO To DEV Handoff
