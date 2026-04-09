@@ -5,6 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Sprints
+updated: 2026-04-09
 ---
 
 # CRM Sprints
@@ -14,11 +15,11 @@ aliases:
 Sprint 1 is complete.
 Sprint 2 implementation is complete and approved for closeout.
 Sprint 3 implementation is complete in the repository and the verification set is green.
-Sprint 4 planning is prepared and pending founder approval before DEV execution begins.
+Sprint 4 is now in active implementation.
+The current Sprint 4 repository state includes shared activity data access, interactions and follow-up read/write flows, company and contact activity summaries, and a passing QA verification set for the current slice.
 
 ## Rules
 
-- no sprint execution begins before founder approval
 - work proceeds one sprint at a time
 - each sprint closes with QA checks and an approval gate for the next sprint
 

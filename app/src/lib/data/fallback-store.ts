@@ -4,13 +4,17 @@ import {
   seededCategories,
   seededCompanies,
   seededContacts,
+  seededInteractions,
+  seededTasks,
   seededUsers,
   type SeedListCategory,
   type SeedCompany,
   type SeedContact,
   type SeedContactEmail,
   type SeedContactPhone,
+  type SeedInteraction,
   type SeedListValue,
+  type SeedTask,
   type SeedUser
 } from "./seed";
 
@@ -18,6 +22,8 @@ type MutableState = {
   categories: SeedListCategory[];
   companies: SeedCompany[];
   contacts: SeedContact[];
+  interactions: SeedInteraction[];
+  tasks: SeedTask[];
   users: SeedUser[];
 };
 
@@ -33,6 +39,8 @@ function cloneState(): MutableState {
       emails: contact.emails.map((email) => ({...email})),
       phones: contact.phones.map((phone) => ({...phone}))
     })),
+    interactions: seededInteractions.map((interaction) => ({...interaction})),
+    tasks: seededTasks.map((task) => ({...task})),
     users: seededUsers.map((user) => ({...user}))
   };
 }
@@ -231,8 +239,18 @@ export async function getFallbackCompanyById(id: string) {
     return null;
   }
 
+  const relatedInteractions = getState()
+    .interactions.filter((interaction) => interaction.companyId === id)
+    .sort((left, right) => new Date(right.interactionDate).getTime() - new Date(left.interactionDate).getTime());
+  const relatedTasks = getState().tasks.filter((task) => task.companyId === id);
+
   return {
     ...company,
+    lastInteractionDate: relatedInteractions[0]?.interactionDate ?? null,
+    openTasksCount: relatedTasks.filter((task) => !task.completedAt).length,
+    overdueTasksCount: relatedTasks.filter(
+      (task) => !task.completedAt && new Date(task.dueDate).getTime() < Date.now()
+    ).length,
     contacts: getState()
       .contacts.filter((contact) => contact.companyId === id)
       .map((contact) => ({
@@ -347,10 +365,19 @@ export async function getFallbackContactById(id: string) {
   }
 
   const company = getState().companies.find((item) => item.id === contact.companyId);
+  const relatedInteractions = getState()
+    .interactions.filter((interaction) => interaction.contactId === id)
+    .sort((left, right) => new Date(right.interactionDate).getTime() - new Date(left.interactionDate).getTime());
+  const relatedTasks = getState().tasks.filter((task) => task.contactId === id);
 
   return {
     ...contact,
-    companyName: company?.companyName ?? null
+    companyName: company?.companyName ?? null,
+    lastInteractionDate: relatedInteractions[0]?.interactionDate ?? null,
+    openTasksCount: relatedTasks.filter((task) => !task.completedAt).length,
+    overdueTasksCount: relatedTasks.filter(
+      (task) => !task.completedAt && new Date(task.dueDate).getTime() < Date.now()
+    ).length
   };
 }
 
@@ -460,4 +487,260 @@ export async function searchFallbackCrm(query: string) {
   const contacts = (await listFallbackContacts({query: needle})).slice(0, 6);
 
   return {companies, contacts};
+}
+
+export async function listFallbackInteractions(filters?: {
+  query?: string;
+  companyId?: string;
+  contactId?: string;
+  interactionTypeValueId?: string;
+}) {
+  const needle = normalizeText(filters?.query ?? "");
+
+  return getState()
+    .interactions
+    .filter((interaction) => {
+      if (filters?.companyId && interaction.companyId !== filters.companyId) {
+        return false;
+      }
+
+      if (filters?.contactId && interaction.contactId !== filters.contactId) {
+        return false;
+      }
+
+      if (
+        filters?.interactionTypeValueId &&
+        interaction.interactionTypeValueId !== filters.interactionTypeValueId
+      ) {
+        return false;
+      }
+
+      if (!needle) {
+        return true;
+      }
+
+      const companyName =
+        getState().companies.find((company) => company.id === interaction.companyId)?.companyName ?? "";
+      const contactName =
+        getState().contacts.find((contact) => contact.id === interaction.contactId)?.fullName ?? "";
+
+      return [interaction.subject, interaction.summary, companyName, contactName]
+        .join(" ")
+        .toLowerCase()
+        .includes(needle);
+    })
+    .sort(
+      (left, right) =>
+        new Date(right.interactionDate).getTime() - new Date(left.interactionDate).getTime()
+    )
+    .map((interaction) => ({
+      ...interaction,
+      companyName:
+        getState().companies.find((company) => company.id === interaction.companyId)?.companyName ?? null,
+      contactName:
+        getState().contacts.find((contact) => contact.id === interaction.contactId)?.fullName ?? null
+    }));
+}
+
+export async function getFallbackInteractionById(id: string) {
+  const interaction = getState().interactions.find((item) => item.id === id);
+
+  if (!interaction) {
+    return null;
+  }
+
+  return {
+    ...interaction,
+    companyName:
+      getState().companies.find((company) => company.id === interaction.companyId)?.companyName ?? null,
+    contactName:
+      getState().contacts.find((contact) => contact.id === interaction.contactId)?.fullName ?? null,
+    relatedTasks: getState()
+      .tasks.filter((task) => task.relatedInteractionId === interaction.id)
+      .sort((left, right) => new Date(left.dueDate).getTime() - new Date(right.dueDate).getTime())
+      .map((task) => ({
+        id: task.id,
+        dueDate: task.dueDate,
+        notes: task.notes,
+        statusValueId: task.statusValueId
+      }))
+  };
+}
+
+export async function listFallbackTasks(filters?: {
+  query?: string;
+  companyId?: string;
+  contactId?: string;
+  statusValueId?: string;
+}) {
+  const needle = normalizeText(filters?.query ?? "");
+
+  return getState()
+    .tasks
+    .filter((task) => {
+      if (filters?.companyId && task.companyId !== filters.companyId) {
+        return false;
+      }
+
+      if (filters?.contactId && task.contactId !== filters.contactId) {
+        return false;
+      }
+
+      if (filters?.statusValueId && task.statusValueId !== filters.statusValueId) {
+        return false;
+      }
+
+      if (!needle) {
+        return true;
+      }
+
+      const companyName = getState().companies.find((company) => company.id === task.companyId)?.companyName ?? "";
+      const contactName = getState().contacts.find((contact) => contact.id === task.contactId)?.fullName ?? "";
+
+      return [task.notes ?? "", companyName, contactName].join(" ").toLowerCase().includes(needle);
+    })
+    .sort((left, right) => new Date(left.dueDate).getTime() - new Date(right.dueDate).getTime())
+    .map((task) => ({
+      ...task,
+      companyName: getState().companies.find((company) => company.id === task.companyId)?.companyName ?? null,
+      contactName: getState().contacts.find((contact) => contact.id === task.contactId)?.fullName ?? null
+    }));
+}
+
+export async function getFallbackTaskById(id: string) {
+  const task = getState().tasks.find((item) => item.id === id);
+
+  if (!task) {
+    return null;
+  }
+
+  return {
+    ...task,
+    companyName: getState().companies.find((company) => company.id === task.companyId)?.companyName ?? null,
+    contactName: getState().contacts.find((contact) => contact.id === task.contactId)?.fullName ?? null,
+    interactionSubject:
+      getState().interactions.find((interaction) => interaction.id === task.relatedInteractionId)?.subject ?? null
+  };
+}
+
+export async function createFallbackInteraction(input: {
+  interactionDate: string;
+  companyId: string | null;
+  contactId: string | null;
+  interactionTypeValueId: string;
+  subject: string;
+  summary: string;
+  outcomeStatusValueId: string | null;
+  actorUserId: string;
+}) {
+  const timestamp = new Date().toISOString();
+  const interaction: SeedInteraction = {
+    id: randomUUID(),
+    interactionDate: new Date(input.interactionDate).toISOString(),
+    companyId: input.companyId,
+    contactId: input.contactId,
+    interactionTypeValueId: input.interactionTypeValueId,
+    subject: input.subject,
+    summary: input.summary,
+    outcomeStatusValueId: input.outcomeStatusValueId,
+    createdById: input.actorUserId,
+    createdAt: timestamp,
+    updatedAt: timestamp
+  };
+
+  getState().interactions.push(interaction);
+  return interaction;
+}
+
+export async function updateFallbackInteraction(input: {
+  id: string;
+  interactionDate: string;
+  companyId: string | null;
+  contactId: string | null;
+  interactionTypeValueId: string;
+  subject: string;
+  summary: string;
+  outcomeStatusValueId: string | null;
+}) {
+  const interaction = getState().interactions.find((item) => item.id === input.id);
+
+  if (!interaction) {
+    throw new Error("Interaction not found");
+  }
+
+  interaction.interactionDate = new Date(input.interactionDate).toISOString();
+  interaction.companyId = input.companyId;
+  interaction.contactId = input.contactId;
+  interaction.interactionTypeValueId = input.interactionTypeValueId;
+  interaction.subject = input.subject;
+  interaction.summary = input.summary;
+  interaction.outcomeStatusValueId = input.outcomeStatusValueId;
+  interaction.updatedAt = new Date().toISOString();
+
+  return interaction;
+}
+
+export async function createFallbackTask(input: {
+  companyId: string | null;
+  contactId: string | null;
+  relatedInteractionId: string | null;
+  taskTypeValueId: string;
+  dueDate: string;
+  priorityValueId: string;
+  statusValueId: string;
+  notes: string | null;
+  actorUserId: string;
+  completedAt: string | null;
+}) {
+  const timestamp = new Date().toISOString();
+  const task: SeedTask = {
+    id: randomUUID(),
+    companyId: input.companyId,
+    contactId: input.contactId,
+    relatedInteractionId: input.relatedInteractionId,
+    taskTypeValueId: input.taskTypeValueId,
+    dueDate: new Date(input.dueDate).toISOString(),
+    priorityValueId: input.priorityValueId,
+    statusValueId: input.statusValueId,
+    notes: input.notes,
+    createdById: input.actorUserId,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+    completedAt: input.completedAt
+  };
+
+  getState().tasks.push(task);
+  return task;
+}
+
+export async function updateFallbackTask(input: {
+  id: string;
+  companyId: string | null;
+  contactId: string | null;
+  relatedInteractionId: string | null;
+  taskTypeValueId: string;
+  dueDate: string;
+  priorityValueId: string;
+  statusValueId: string;
+  notes: string | null;
+  completedAt: string | null;
+}) {
+  const task = getState().tasks.find((item) => item.id === input.id);
+
+  if (!task) {
+    throw new Error("Task not found");
+  }
+
+  task.companyId = input.companyId;
+  task.contactId = input.contactId;
+  task.relatedInteractionId = input.relatedInteractionId;
+  task.taskTypeValueId = input.taskTypeValueId;
+  task.dueDate = new Date(input.dueDate).toISOString();
+  task.priorityValueId = input.priorityValueId;
+  task.statusValueId = input.statusValueId;
+  task.notes = input.notes;
+  task.completedAt = input.completedAt;
+  task.updatedAt = new Date().toISOString();
+
+  return task;
 }

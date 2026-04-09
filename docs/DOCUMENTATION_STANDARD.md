@@ -6,6 +6,7 @@ tags:
   - obsidian
 aliases:
   - CRM Documentation Standard
+updated: 2026-04-07
 ---
 
 # CRM Documentation Standard
@@ -27,8 +28,26 @@ Every new project-owned Markdown file created by any agent should include:
 
 - YAML frontmatter with useful `tags`
 - an `aliases` section when a short or human-friendly title helps
+- an `updated` property in frontmatter for active docs, using ISO date format
 - at least one Obsidian wiki link to the note's parent or source context
 - a `## Related` section with links to upstream and downstream notes where relevant
+- frontmatter dates instead of body text when the note is operational, planning, sprint, or handoff documentation
+
+## Date Standard
+
+Use explicit dates in ISO format such as `2026-04-07`.
+
+When writing or updating PM-owned planning or tracking docs:
+
+- include a frontmatter `created` date when the note is first added, when creation tracking matters
+- include a frontmatter `updated` date when the note changes materially
+- include dated status updates when tasks are added, started, completed, or closed
+- prefer a small number of meaningful dated entries over noisy change logs
+
+Default rule:
+
+- use `updated: YYYY-MM-DD` in YAML frontmatter as the default revision marker
+- do not add standalone body lines such as `Updated on YYYY-MM-DD.` unless a note has a special reason to show date history inside the content
 
 ## Required Linking Behavior
 
@@ -80,6 +99,12 @@ Before closing documentation work:
 - confirm the wiki links point to real project docs
 - confirm moved files have updated links
 - confirm the note is connected to the relevant context and reasoning
+- confirm important doc revisions and task state changes are dated
+
+## Structure Rule
+
+- Do not create a dedicated folder for a single note unless it clearly improves navigation, follows an existing pattern, or is expected to grow soon.
+- Prefer flatter structures when the extra folder adds ceremony but no clarity.
 
 ## Related
 

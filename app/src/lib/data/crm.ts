@@ -1,17 +1,33 @@
-import type {Company, Contact, ContactEmail, ContactPhone, ListValue} from "@prisma/client";
+import type {
+  Company,
+  Contact,
+  ContactEmail,
+  ContactPhone,
+  Interaction,
+  ListValue,
+  Task
+} from "@prisma/client";
 
 import {
   createFallbackCompany,
   createFallbackContact,
+  createFallbackInteraction,
+  createFallbackTask,
+  getFallbackInteractionById,
+  getFallbackTaskById,
   getFallbackCompanyById,
   getFallbackContactById,
   listFallbackCompanies,
   listFallbackCompanyOptions,
   listFallbackContacts,
+  listFallbackInteractions,
   listFallbackLookupValues,
+  listFallbackTasks,
   searchFallbackCrm,
   updateFallbackCompany,
-  updateFallbackContact
+  updateFallbackContact,
+  updateFallbackInteraction,
+  updateFallbackTask
 } from "./fallback-store";
 
 function hasDatabaseUrl() {
@@ -54,6 +70,29 @@ export type ContactInput = {
   actorUserId: string;
 };
 
+export type InteractionInput = {
+  interactionDate: string;
+  companyId: string | null;
+  contactId: string | null;
+  interactionTypeValueId: string;
+  subject: string;
+  summary: string;
+  outcomeStatusValueId: string | null;
+  actorUserId: string;
+};
+
+export type TaskInput = {
+  companyId: string | null;
+  contactId: string | null;
+  relatedInteractionId: string | null;
+  taskTypeValueId: string;
+  dueDate: string;
+  priorityValueId: string;
+  statusValueId: string;
+  notes: string | null;
+  actorUserId: string;
+};
+
 export type CompanyListItem = Company & {
   contactsCount: number;
   sourceLabelEn?: string | null;
@@ -80,12 +119,69 @@ export type CompanyDetail = Company & {
   sourceLabelHe?: string | null;
   stageLabelEn?: string | null;
   stageLabelHe?: string | null;
+  lastInteractionDate?: Date | string | null;
+  openTasksCount?: number;
+  overdueTasksCount?: number;
+  inactivityLabel?: "active" | "stale";
 };
 
 export type ContactDetail = Contact & {
   companyName: string | null;
   emails: ContactEmail[];
   phones: ContactPhone[];
+  lastInteractionDate?: Date | string | null;
+  openTasksCount?: number;
+  overdueTasksCount?: number;
+  inactivityLabel?: "active" | "stale";
+};
+
+export type InteractionListItem = Interaction & {
+  companyName: string | null;
+  contactName: string | null;
+  interactionTypeLabelEn?: string | null;
+  interactionTypeLabelHe?: string | null;
+  outcomeLabelEn?: string | null;
+  outcomeLabelHe?: string | null;
+};
+
+export type InteractionDetail = Interaction & {
+  companyName: string | null;
+  contactName: string | null;
+  interactionTypeLabelEn?: string | null;
+  interactionTypeLabelHe?: string | null;
+  outcomeLabelEn?: string | null;
+  outcomeLabelHe?: string | null;
+  relatedTasks: Array<{
+    id: string;
+    dueDate: Date | string;
+    notes: string | null;
+    statusValueId: string;
+    statusLabelEn?: string | null;
+    statusLabelHe?: string | null;
+  }>;
+};
+
+export type TaskListItem = Task & {
+  companyName: string | null;
+  contactName: string | null;
+  taskTypeLabelEn?: string | null;
+  taskTypeLabelHe?: string | null;
+  priorityLabelEn?: string | null;
+  priorityLabelHe?: string | null;
+  statusLabelEn?: string | null;
+  statusLabelHe?: string | null;
+};
+
+export type TaskDetail = Task & {
+  companyName: string | null;
+  contactName: string | null;
+  interactionSubject: string | null;
+  taskTypeLabelEn?: string | null;
+  taskTypeLabelHe?: string | null;
+  priorityLabelEn?: string | null;
+  priorityLabelHe?: string | null;
+  statusLabelEn?: string | null;
+  statusLabelHe?: string | null;
 };
 
 function normalizeLookupOptions(values: ListValue[]): LookupOption[] {
@@ -101,6 +197,24 @@ function buildLookupMap(values: LookupOption[]) {
   return new Map(values.map((value) => [value.id, value]));
 }
 
+const INACTIVITY_THRESHOLD_DAYS = 14;
+
+function deriveInactivityLabel(lastInteractionDate: Date | string | null | undefined) {
+  if (!lastInteractionDate) {
+    return "stale";
+  }
+
+  const diffMs = Date.now() - new Date(lastInteractionDate).getTime();
+  const thresholdMs = INACTIVITY_THRESHOLD_DAYS * 24 * 60 * 60 * 1000;
+
+  return diffMs > thresholdMs ? "stale" : "active";
+}
+
+async function getTaskStatusKey(statusValueId: string) {
+  const options = await listLookupOptions("task_status");
+  return options.find((option) => option.id === statusValueId)?.key ?? null;
+}
+
 function normalizeText(value: string) {
   return value.trim();
 }
@@ -108,6 +222,16 @@ function normalizeText(value: string) {
 function cleanOptional(value: string | null | undefined) {
   const normalized = String(value ?? "").trim();
   return normalized ? normalized : null;
+}
+
+function cleanRequired(value: string | null | undefined, field: string) {
+  const normalized = cleanOptional(value);
+
+  if (!normalized) {
+    throw new Error(`${field} is required.`);
+  }
+
+  return normalized;
 }
 
 function dedupeValues(values: string[]) {
@@ -208,6 +332,74 @@ export function normalizeContactPayload(input: {
   };
 }
 
+export function normalizeInteractionPayload(input: {
+  interactionDate: string;
+  companyId: string;
+  contactId: string;
+  interactionTypeValueId: string;
+  subject: string;
+  summary: string;
+  outcomeStatusValueId: string;
+  actorUserId: string;
+}): InteractionInput {
+  const interactionDate = cleanRequired(input.interactionDate, "Interaction date");
+  const interactionTypeValueId = cleanRequired(input.interactionTypeValueId, "Interaction type");
+  const subject = cleanRequired(input.subject, "Subject");
+  const summary = cleanRequired(input.summary, "Summary");
+  const companyId = cleanOptional(input.companyId);
+  const contactId = cleanOptional(input.contactId);
+
+  if (!companyId && !contactId) {
+    throw new Error("Interaction must be linked to a company or contact.");
+  }
+
+  return {
+    interactionDate,
+    companyId,
+    contactId,
+    interactionTypeValueId,
+    subject,
+    summary,
+    outcomeStatusValueId: cleanOptional(input.outcomeStatusValueId),
+    actorUserId: input.actorUserId
+  };
+}
+
+export function normalizeTaskPayload(input: {
+  companyId: string;
+  contactId: string;
+  relatedInteractionId: string;
+  taskTypeValueId: string;
+  dueDate: string;
+  priorityValueId: string;
+  statusValueId: string;
+  notes: string;
+  actorUserId: string;
+}): TaskInput {
+  const taskTypeValueId = cleanRequired(input.taskTypeValueId, "Task type");
+  const dueDate = cleanRequired(input.dueDate, "Due date");
+  const priorityValueId = cleanRequired(input.priorityValueId, "Priority");
+  const statusValueId = cleanRequired(input.statusValueId, "Status");
+  const companyId = cleanOptional(input.companyId);
+  const contactId = cleanOptional(input.contactId);
+
+  if (!companyId && !contactId) {
+    throw new Error("Task must be linked to a company or contact.");
+  }
+
+  return {
+    companyId,
+    contactId,
+    relatedInteractionId: cleanOptional(input.relatedInteractionId),
+    taskTypeValueId,
+    dueDate,
+    priorityValueId,
+    statusValueId,
+    notes: cleanOptional(input.notes),
+    actorUserId: input.actorUserId
+  };
+}
+
 export async function listLookupOptions(categoryKey: string) {
   if (!hasDatabaseUrl()) {
     return listFallbackLookupValues(categoryKey);
@@ -255,6 +447,51 @@ export async function getContactFormOptions() {
   });
 
   return {companies};
+}
+
+export async function getInteractionFormOptions() {
+  const [{companies}, interactionTypeOptions, outcomeOptions] = await Promise.all([
+    getContactFormOptions(),
+    listLookupOptions("interaction_type"),
+    listLookupOptions("interaction_outcome_status")
+  ]);
+  const contacts = await listContacts();
+
+  return {
+    companies,
+    contacts: contacts.map((contact) => ({
+      id: contact.id,
+      fullName: contact.fullName
+    })),
+    interactionTypeOptions,
+    outcomeOptions
+  };
+}
+
+export async function getTaskFormOptions() {
+  const [{companies}, taskTypeOptions, priorityOptions, statusOptions] = await Promise.all([
+    getContactFormOptions(),
+    listLookupOptions("task_type"),
+    listLookupOptions("task_priority"),
+    listLookupOptions("task_status")
+  ]);
+  const contacts = await listContacts();
+  const interactions = await listInteractions();
+
+  return {
+    companies,
+    contacts: contacts.map((contact) => ({
+      id: contact.id,
+      fullName: contact.fullName
+    })),
+    interactions: interactions.map((interaction) => ({
+      id: interaction.id,
+      subject: interaction.subject
+    })),
+    taskTypeOptions,
+    priorityOptions,
+    statusOptions
+  };
 }
 
 export async function listCompanies(filters?: {
@@ -339,6 +576,10 @@ export async function getCompanyById(id: string) {
 
     return {
       ...company,
+      lastInteractionDate: company.lastInteractionDate ?? null,
+      openTasksCount: company.openTasksCount ?? 0,
+      overdueTasksCount: company.overdueTasksCount ?? 0,
+      inactivityLabel: deriveInactivityLabel(company.lastInteractionDate ?? null),
       sourceLabelEn: company.sourceValueId ? sourceMap.get(company.sourceValueId)?.labelEn ?? null : null,
       sourceLabelHe: company.sourceValueId ? sourceMap.get(company.sourceValueId)?.labelHe ?? null : null,
       stageLabelEn: company.stageValueId ? stageMap.get(company.stageValueId)?.labelEn ?? null : null,
@@ -358,6 +599,21 @@ export async function getCompanyById(id: string) {
         orderBy: {
           fullName: "asc"
         }
+      },
+      interactions: {
+        select: {
+          interactionDate: true
+        },
+        orderBy: {
+          interactionDate: "desc"
+        },
+        take: 1
+      },
+      tasks: {
+        select: {
+          dueDate: true,
+          completedAt: true
+        }
       }
     }
   });
@@ -375,6 +631,12 @@ export async function getCompanyById(id: string) {
 
   return {
     ...company,
+    lastInteractionDate: company.interactions[0]?.interactionDate ?? null,
+    openTasksCount: company.tasks.filter((task) => !task.completedAt).length,
+    overdueTasksCount: company.tasks.filter(
+      (task) => !task.completedAt && new Date(task.dueDate).getTime() < Date.now()
+    ).length,
+    inactivityLabel: deriveInactivityLabel(company.interactions[0]?.interactionDate ?? null),
     contacts: company.contacts.map((contact) => ({
       id: contact.id,
       fullName: contact.fullName,
@@ -478,7 +740,19 @@ export async function listContacts(filters?: {query?: string; companyId?: string
 
 export async function getContactById(id: string) {
   if (!hasDatabaseUrl()) {
-    return getFallbackContactById(id);
+    const contact = await getFallbackContactById(id);
+
+    if (!contact) {
+      return null;
+    }
+
+    return {
+      ...contact,
+      lastInteractionDate: contact.lastInteractionDate ?? null,
+      openTasksCount: contact.openTasksCount ?? 0,
+      overdueTasksCount: contact.overdueTasksCount ?? 0,
+      inactivityLabel: deriveInactivityLabel(contact.lastInteractionDate ?? null)
+    };
   }
 
   const prisma = await getPrisma();
@@ -491,7 +765,22 @@ export async function getContactById(id: string) {
         }
       },
       emails: true,
-      phones: true
+      phones: true,
+      interactions: {
+        select: {
+          interactionDate: true
+        },
+        orderBy: {
+          interactionDate: "desc"
+        },
+        take: 1
+      },
+      tasks: {
+        select: {
+          dueDate: true,
+          completedAt: true
+        }
+      }
     }
   });
 
@@ -501,7 +790,13 @@ export async function getContactById(id: string) {
 
   return {
     ...contact,
-    companyName: contact.company?.companyName ?? null
+    companyName: contact.company?.companyName ?? null,
+    lastInteractionDate: contact.interactions[0]?.interactionDate ?? null,
+    openTasksCount: contact.tasks.filter((task) => !task.completedAt).length,
+    overdueTasksCount: contact.tasks.filter(
+      (task) => !task.completedAt && new Date(task.dueDate).getTime() < Date.now()
+    ).length,
+    inactivityLabel: deriveInactivityLabel(contact.interactions[0]?.interactionDate ?? null)
   };
 }
 
@@ -596,5 +891,404 @@ export async function searchCrm(query: string) {
   return {
     companies: companies.slice(0, 8),
     contacts: contacts.slice(0, 8)
+  };
+}
+
+export async function createInteraction(input: InteractionInput) {
+  if (!hasDatabaseUrl()) {
+    return createFallbackInteraction(input);
+  }
+
+  const prisma = await getPrisma();
+
+  return prisma.interaction.create({
+    data: {
+      interactionDate: new Date(input.interactionDate),
+      companyId: input.companyId,
+      contactId: input.contactId,
+      interactionTypeValueId: input.interactionTypeValueId,
+      subject: input.subject,
+      summary: input.summary,
+      outcomeStatusValueId: input.outcomeStatusValueId,
+      createdById: input.actorUserId
+    }
+  });
+}
+
+export async function updateInteraction(id: string, input: InteractionInput) {
+  if (!hasDatabaseUrl()) {
+    return updateFallbackInteraction({
+      id,
+      ...input
+    });
+  }
+
+  const prisma = await getPrisma();
+
+  return prisma.interaction.update({
+    where: {id},
+    data: {
+      interactionDate: new Date(input.interactionDate),
+      companyId: input.companyId,
+      contactId: input.contactId,
+      interactionTypeValueId: input.interactionTypeValueId,
+      subject: input.subject,
+      summary: input.summary,
+      outcomeStatusValueId: input.outcomeStatusValueId
+    }
+  });
+}
+
+export async function createTask(input: TaskInput) {
+  const statusKey = await getTaskStatusKey(input.statusValueId);
+  const completedAt = statusKey === "completed" ? new Date().toISOString() : null;
+
+  if (!hasDatabaseUrl()) {
+    return createFallbackTask({
+      ...input,
+      completedAt
+    });
+  }
+
+  const prisma = await getPrisma();
+
+  return prisma.task.create({
+    data: {
+      companyId: input.companyId,
+      contactId: input.contactId,
+      relatedInteractionId: input.relatedInteractionId,
+      taskTypeValueId: input.taskTypeValueId,
+      dueDate: new Date(input.dueDate),
+      priorityValueId: input.priorityValueId,
+      statusValueId: input.statusValueId,
+      notes: input.notes,
+      createdById: input.actorUserId,
+      completedAt: completedAt ? new Date(completedAt) : null
+    }
+  });
+}
+
+export async function updateTask(id: string, input: TaskInput) {
+  const statusKey = await getTaskStatusKey(input.statusValueId);
+  const completedAt = statusKey === "completed" ? new Date().toISOString() : null;
+
+  if (!hasDatabaseUrl()) {
+    return updateFallbackTask({
+      id,
+      ...input,
+      completedAt
+    });
+  }
+
+  const prisma = await getPrisma();
+
+  return prisma.task.update({
+    where: {id},
+    data: {
+      companyId: input.companyId,
+      contactId: input.contactId,
+      relatedInteractionId: input.relatedInteractionId,
+      taskTypeValueId: input.taskTypeValueId,
+      dueDate: new Date(input.dueDate),
+      priorityValueId: input.priorityValueId,
+      statusValueId: input.statusValueId,
+      notes: input.notes,
+      completedAt: completedAt ? new Date(completedAt) : null
+    }
+  });
+}
+
+export async function listInteractions(filters?: {
+  query?: string;
+  companyId?: string;
+  contactId?: string;
+  interactionTypeValueId?: string;
+}) {
+  const [typeOptions, outcomeOptions] = await Promise.all([
+    listLookupOptions("interaction_type"),
+    listLookupOptions("interaction_outcome_status")
+  ]);
+  const typeMap = buildLookupMap(typeOptions);
+  const outcomeMap = buildLookupMap(outcomeOptions);
+
+  if (!hasDatabaseUrl()) {
+    const items = await listFallbackInteractions(filters);
+
+    return items.map((item) => ({
+      ...item,
+      interactionTypeLabelEn: typeMap.get(item.interactionTypeValueId)?.labelEn ?? null,
+      interactionTypeLabelHe: typeMap.get(item.interactionTypeValueId)?.labelHe ?? null,
+      outcomeLabelEn: item.outcomeStatusValueId ? outcomeMap.get(item.outcomeStatusValueId)?.labelEn ?? null : null,
+      outcomeLabelHe: item.outcomeStatusValueId ? outcomeMap.get(item.outcomeStatusValueId)?.labelHe ?? null : null
+    }));
+  }
+
+  const prisma = await getPrisma();
+  const interactions = await prisma.interaction.findMany({
+    where: {
+      companyId: filters?.companyId || undefined,
+      contactId: filters?.contactId || undefined,
+      interactionTypeValueId: filters?.interactionTypeValueId || undefined,
+      OR: filters?.query
+        ? [
+            {subject: {contains: filters.query, mode: "insensitive"}},
+            {summary: {contains: filters.query, mode: "insensitive"}},
+            {company: {companyName: {contains: filters.query, mode: "insensitive"}}},
+            {contact: {fullName: {contains: filters.query, mode: "insensitive"}}}
+          ]
+        : undefined
+    },
+    include: {
+      company: {
+        select: {
+          companyName: true
+        }
+      },
+      contact: {
+        select: {
+          fullName: true
+        }
+      }
+    },
+    orderBy: {
+      interactionDate: "desc"
+    }
+  });
+
+  return interactions.map((interaction) => ({
+    ...interaction,
+    companyName: interaction.company?.companyName ?? null,
+    contactName: interaction.contact?.fullName ?? null,
+    interactionTypeLabelEn: typeMap.get(interaction.interactionTypeValueId)?.labelEn ?? null,
+    interactionTypeLabelHe: typeMap.get(interaction.interactionTypeValueId)?.labelHe ?? null,
+    outcomeLabelEn: interaction.outcomeStatusValueId
+      ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelEn ?? null
+      : null,
+    outcomeLabelHe: interaction.outcomeStatusValueId
+      ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelHe ?? null
+      : null
+  }));
+}
+
+export async function getInteractionById(id: string) {
+  const [typeOptions, outcomeOptions, taskStatusOptions] = await Promise.all([
+    listLookupOptions("interaction_type"),
+    listLookupOptions("interaction_outcome_status"),
+    listLookupOptions("task_status")
+  ]);
+  const typeMap = buildLookupMap(typeOptions);
+  const outcomeMap = buildLookupMap(outcomeOptions);
+  const taskStatusMap = buildLookupMap(taskStatusOptions);
+
+  if (!hasDatabaseUrl()) {
+    const interaction = await getFallbackInteractionById(id);
+
+    if (!interaction) {
+      return null;
+    }
+
+    return {
+      ...interaction,
+      interactionTypeLabelEn: typeMap.get(interaction.interactionTypeValueId)?.labelEn ?? null,
+      interactionTypeLabelHe: typeMap.get(interaction.interactionTypeValueId)?.labelHe ?? null,
+      outcomeLabelEn: interaction.outcomeStatusValueId
+        ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelEn ?? null
+        : null,
+      outcomeLabelHe: interaction.outcomeStatusValueId
+        ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelHe ?? null
+        : null,
+      relatedTasks: interaction.relatedTasks.map((task) => ({
+        ...task,
+        statusLabelEn: taskStatusMap.get(task.statusValueId)?.labelEn ?? null,
+        statusLabelHe: taskStatusMap.get(task.statusValueId)?.labelHe ?? null
+      }))
+    };
+  }
+
+  const prisma = await getPrisma();
+  const interaction = await prisma.interaction.findUnique({
+    where: {id},
+    include: {
+      company: {
+        select: {
+          companyName: true
+        }
+      },
+      contact: {
+        select: {
+          fullName: true
+        }
+      },
+      tasks: {
+        orderBy: {
+          dueDate: "asc"
+        }
+      }
+    }
+  });
+
+  if (!interaction) {
+    return null;
+  }
+
+  return {
+    ...interaction,
+    companyName: interaction.company?.companyName ?? null,
+    contactName: interaction.contact?.fullName ?? null,
+    interactionTypeLabelEn: typeMap.get(interaction.interactionTypeValueId)?.labelEn ?? null,
+    interactionTypeLabelHe: typeMap.get(interaction.interactionTypeValueId)?.labelHe ?? null,
+    outcomeLabelEn: interaction.outcomeStatusValueId
+      ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelEn ?? null
+      : null,
+    outcomeLabelHe: interaction.outcomeStatusValueId
+      ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelHe ?? null
+      : null,
+    relatedTasks: interaction.tasks.map((task) => ({
+      id: task.id,
+      dueDate: task.dueDate,
+      notes: task.notes,
+      statusValueId: task.statusValueId,
+      statusLabelEn: taskStatusMap.get(task.statusValueId)?.labelEn ?? null,
+      statusLabelHe: taskStatusMap.get(task.statusValueId)?.labelHe ?? null
+    }))
+  };
+}
+
+export async function listTasks(filters?: {
+  query?: string;
+  companyId?: string;
+  contactId?: string;
+  statusValueId?: string;
+}) {
+  const [taskTypeOptions, priorityOptions, statusOptions] = await Promise.all([
+    listLookupOptions("task_type"),
+    listLookupOptions("task_priority"),
+    listLookupOptions("task_status")
+  ]);
+  const taskTypeMap = buildLookupMap(taskTypeOptions);
+  const priorityMap = buildLookupMap(priorityOptions);
+  const statusMap = buildLookupMap(statusOptions);
+
+  if (!hasDatabaseUrl()) {
+    const items = await listFallbackTasks(filters);
+
+    return items.map((task) => ({
+      ...task,
+      taskTypeLabelEn: taskTypeMap.get(task.taskTypeValueId)?.labelEn ?? null,
+      taskTypeLabelHe: taskTypeMap.get(task.taskTypeValueId)?.labelHe ?? null,
+      priorityLabelEn: priorityMap.get(task.priorityValueId)?.labelEn ?? null,
+      priorityLabelHe: priorityMap.get(task.priorityValueId)?.labelHe ?? null,
+      statusLabelEn: statusMap.get(task.statusValueId)?.labelEn ?? null,
+      statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null
+    }));
+  }
+
+  const prisma = await getPrisma();
+  const tasks = await prisma.task.findMany({
+    where: {
+      companyId: filters?.companyId || undefined,
+      contactId: filters?.contactId || undefined,
+      statusValueId: filters?.statusValueId || undefined,
+      OR: filters?.query
+        ? [
+            {notes: {contains: filters.query, mode: "insensitive"}},
+            {company: {companyName: {contains: filters.query, mode: "insensitive"}}},
+            {contact: {fullName: {contains: filters.query, mode: "insensitive"}}}
+          ]
+        : undefined
+    },
+    include: {
+      company: {
+        select: {
+          companyName: true
+        }
+      },
+      contact: {
+        select: {
+          fullName: true
+        }
+      }
+    },
+    orderBy: [{completedAt: "asc"}, {dueDate: "asc"}]
+  });
+
+  return tasks.map((task) => ({
+    ...task,
+    companyName: task.company?.companyName ?? null,
+    contactName: task.contact?.fullName ?? null,
+    taskTypeLabelEn: taskTypeMap.get(task.taskTypeValueId)?.labelEn ?? null,
+    taskTypeLabelHe: taskTypeMap.get(task.taskTypeValueId)?.labelHe ?? null,
+    priorityLabelEn: priorityMap.get(task.priorityValueId)?.labelEn ?? null,
+    priorityLabelHe: priorityMap.get(task.priorityValueId)?.labelHe ?? null,
+    statusLabelEn: statusMap.get(task.statusValueId)?.labelEn ?? null,
+    statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null
+  }));
+}
+
+export async function getTaskById(id: string) {
+  const [taskTypeOptions, priorityOptions, statusOptions] = await Promise.all([
+    listLookupOptions("task_type"),
+    listLookupOptions("task_priority"),
+    listLookupOptions("task_status")
+  ]);
+  const taskTypeMap = buildLookupMap(taskTypeOptions);
+  const priorityMap = buildLookupMap(priorityOptions);
+  const statusMap = buildLookupMap(statusOptions);
+
+  if (!hasDatabaseUrl()) {
+    const task = await getFallbackTaskById(id);
+
+    if (!task) {
+      return null;
+    }
+
+    return {
+      ...task,
+      taskTypeLabelEn: taskTypeMap.get(task.taskTypeValueId)?.labelEn ?? null,
+      taskTypeLabelHe: taskTypeMap.get(task.taskTypeValueId)?.labelHe ?? null,
+      priorityLabelEn: priorityMap.get(task.priorityValueId)?.labelEn ?? null,
+      priorityLabelHe: priorityMap.get(task.priorityValueId)?.labelHe ?? null,
+      statusLabelEn: statusMap.get(task.statusValueId)?.labelEn ?? null,
+      statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null
+    };
+  }
+
+  const prisma = await getPrisma();
+  const task = await prisma.task.findUnique({
+    where: {id},
+    include: {
+      company: {
+        select: {
+          companyName: true
+        }
+      },
+      contact: {
+        select: {
+          fullName: true
+        }
+      },
+      relatedInteraction: {
+        select: {
+          subject: true
+        }
+      }
+    }
+  });
+
+  if (!task) {
+    return null;
+  }
+
+  return {
+    ...task,
+    companyName: task.company?.companyName ?? null,
+    contactName: task.contact?.fullName ?? null,
+    interactionSubject: task.relatedInteraction?.subject ?? null,
+    taskTypeLabelEn: taskTypeMap.get(task.taskTypeValueId)?.labelEn ?? null,
+    taskTypeLabelHe: taskTypeMap.get(task.taskTypeValueId)?.labelHe ?? null,
+    priorityLabelEn: priorityMap.get(task.priorityValueId)?.labelEn ?? null,
+    priorityLabelHe: priorityMap.get(task.priorityValueId)?.labelHe ?? null,
+    statusLabelEn: statusMap.get(task.statusValueId)?.labelEn ?? null,
+    statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null
   };
 }

@@ -5,6 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Context
+updated: 2026-04-09
 ---
 
 # CRM Project Context
@@ -13,12 +14,12 @@ aliases:
 
 - project name: CRM
 - purpose: build an internal bilingual CRM for sales lead management and meeting booking
-- status: Sprint 1 is complete in the repository, deployed on Vercel, and verified against a live PostgreSQL database
+- status: Sprint 1 through Sprint 3 are complete in the repository; Sprint 4 is active and now includes interaction and follow-up create/edit flows plus verified QA coverage for the current slice
 
 ## Working Assumptions
 
 - this repository is the dedicated CRM workspace
-- implementation must not begin until the founder approves the plan
+- Sprint 4 has moved from planning into active implementation
 - the workbook import is a major delivery dependency
 - docs such as [[PRD]], [[ARCHITECTURE]], and [[DELIVERY_PLAN]] are the current planning source of truth
 - the target deployment must remain compatible with Vercel Hobby and an otherwise free stack

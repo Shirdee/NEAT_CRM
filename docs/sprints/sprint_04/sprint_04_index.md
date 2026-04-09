@@ -7,15 +7,16 @@ tags:
   - dev-handoff
 aliases:
   - Sprint 04 Index
+updated: 2026-04-09
 ---
 
 # Sprint 04 Index
 
 ## Status
 
-Sprint 4 planning is prepared by PM and CTO for DEV handoff.
-Sprint 4 execution should not begin until founder approval confirms that Sprint 3 is accepted for closeout and the next roadmap slice is approved.
-Sprint 4 is the next planned implementation sprint.
+Sprint 4 planning was re-reviewed by CTO against the finished Sprint 3 repository state.
+Sprint 4 is now active implementation work.
+The current Sprint 4 slice in the repository includes shared interactions and tasks reads and writes, interaction and follow-up create/edit routes, create-follow-up-from-interaction behavior, activity summaries on company and contact detail, and a green QA verification pass on 2026-04-09.
 
 ## Objective
 
@@ -34,6 +35,7 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 - Interaction and task workflows should reuse the existing RBAC, i18n, and table-first route patterns from Sprint 3.
 - Inactivity logic should be derived from existing interaction data before adding any new background system or automation.
 - Quick-add flows should be built as thin product surfaces on top of centralized server-side mutations.
+- Sprint 3 completion was revalidated in the repository before this approval was renewed.
 
 ## Sprint 4 Deliverables
 
@@ -47,6 +49,11 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 - create follow-up from interaction flow
 - inactivity indicators for company and contact workflows
 - navigation and mobile-action entrypoints for the new Sprint 4 routes
+
+## Current Implementation Read
+
+- completed in repository: shared activity read and write layer, fallback seed coverage for interactions and tasks, interactions list/detail/create/edit, follow-up list/detail/create/edit, create-follow-up-from-interaction path, company/contact activity summaries, shell nav links, locale strings, Sprint 4 fallback tests
+- next build slice: mobile quick-add UX and any remaining mobile-entry polish needed for Sprint 4 closeout
 
 ## Main Carry-Ins
 
@@ -64,9 +71,16 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 - viewers remain read-only across Sprint 4 routes
 - tests and repo verification targets pass, or any tooling blocker is documented explicitly
 
+Current verification read:
+
+- passed: `npm test`
+- passed: `npm run typecheck`
+- passed: `npm run build`
+
 ## Linked Sprint Docs
 
 - [[sprints/sprint_04/reviews/sprint_04_review|Sprint 04 Review]]
+- [[sprints/sprint_04/reports/sprint_04_report|Sprint 04 Report]]
 - [[sprints/sprint_04/todo/sprint_04_todo|Sprint 04 Todo]]
 
 ## Related

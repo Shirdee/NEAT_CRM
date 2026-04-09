@@ -43,6 +43,8 @@
       "dashboard": "Dashboard",
       "companies": "Companies",
       "contacts": "Contacts",
+      "interactions": "Interactions",
+      "tasks": "Follow-ups",
       "search": "Search",
       "adminLists": "Admin lists",
       "adminImports": "Imports"
@@ -197,6 +199,18 @@
     "source": "Source",
     "contactsTitle": "Related contacts",
     "addContact": "Add contact",
+    "interactionsTitle": "Interactions",
+    "viewInteractions": "View interactions",
+    "addInteraction": "Log interaction",
+    "tasksTitle": "Follow-ups",
+    "viewTasks": "View follow-ups",
+    "addTask": "Create follow-up",
+    "activity": "Last activity",
+    "active": "Active",
+    "inactive": "Inactive",
+    "noActivity": "No interactions yet.",
+    "openTasksCount": "{count, plural, one {# open follow-up} other {# open follow-ups}}",
+    "overdueTasksCount": "{count, plural, one {# overdue follow-up} other {# overdue follow-ups}}",
     "contactsEmpty": "This company does not have related contacts yet.",
     "noNotes": "No company notes yet.",
     "noRole": "No role set"
@@ -242,11 +256,110 @@
     "nameParts": "Name",
     "emails": "Emails",
     "phones": "Phones",
+    "interactionsTitle": "Interactions",
+    "viewInteractions": "View interactions",
+    "addInteraction": "Log interaction",
+    "tasksTitle": "Follow-ups",
+    "viewTasks": "View follow-ups",
+    "addTask": "Create follow-up",
+    "activity": "Last activity",
+    "active": "Active",
+    "inactive": "Inactive",
+    "noActivity": "No interactions yet.",
+    "openTasksCount": "{count, plural, one {# open follow-up} other {# open follow-ups}}",
+    "overdueTasksCount": "{count, plural, one {# overdue follow-up} other {# overdue follow-ups}}",
     "primary": "Primary",
     "noEmails": "No emails saved yet.",
     "noPhones": "No phone numbers saved yet.",
     "noCompany": "No linked company",
     "noNotes": "No contact notes yet."
+  },
+  "Interactions": {
+    "title": "Interactions",
+    "subtitle": "Sprint 4 begins the daily activity layer with a searchable interaction history across companies and contacts.",
+    "readiness": "Sprint 4 activity layer",
+    "create": "Log interaction",
+    "empty": "No interactions matched the current filters.",
+    "filters": {
+      "query": "Search subject, summary, company, or contact",
+      "allCompanies": "All companies",
+      "allContacts": "All contacts",
+      "allTypes": "All interaction types",
+      "apply": "Apply filters"
+    },
+    "labels": {
+      "noCompany": "No company",
+      "noContact": "No contact"
+    }
+  },
+  "InteractionDetail": {
+    "eyebrow": "Interaction record",
+    "edit": "Edit interaction",
+    "createFollowUp": "Create follow-up",
+    "created": "Interaction created successfully.",
+    "updated": "Interaction updated successfully.",
+    "date": "Interaction date",
+    "type": "Type",
+    "company": "Company",
+    "contact": "Contact",
+    "tasksTitle": "Related follow-ups",
+    "viewTasks": "View all follow-ups",
+    "tasksEmpty": "No follow-up tasks are linked to this interaction yet.",
+    "noTaskNotes": "Task without notes",
+    "noCompany": "No linked company",
+    "noContact": "No linked contact"
+  },
+  "InteractionForm": {
+    "createTitle": "Log interaction",
+    "editTitle": "Edit interaction",
+    "subtitle": "Keep interaction logging lightweight while preserving the company and contact context that drives follow-up work.",
+    "error": "An interaction needs a date, type, subject, summary, and at least one linked company or contact.",
+    "back": "Back"
+  },
+  "Tasks": {
+    "title": "Follow-ups",
+    "subtitle": "The first follow-up queue shows overdue and upcoming work with direct links back to the related records.",
+    "create": "Create follow-up",
+    "empty": "No follow-ups matched the current filters.",
+    "filters": {
+      "query": "Search notes, company, or contact",
+      "allCompanies": "All companies",
+      "allContacts": "All contacts",
+      "allStatuses": "All statuses",
+      "apply": "Apply filters"
+    },
+    "labels": {
+      "noNotes": "No notes",
+      "noCompany": "No company",
+      "noContact": "No contact"
+    }
+  },
+  "TaskDetail": {
+    "eyebrow": "Follow-up task",
+    "edit": "Edit follow-up",
+    "created": "Follow-up created successfully.",
+    "updated": "Follow-up updated successfully.",
+    "subtitle": "Sprint 4 links next actions back to the exact record context they belong to.",
+    "dueDate": "Due date",
+    "status": "Status",
+    "priority": "Priority",
+    "type": "Task type",
+    "company": "Company",
+    "contact": "Contact",
+    "completedAt": "Completed at",
+    "relatedInteraction": "Related interaction",
+    "viewInteraction": "View interaction",
+    "noInteraction": "No linked interaction",
+    "noCompany": "No linked company",
+    "noContact": "No linked contact",
+    "noNotes": "Task without notes"
+  },
+  "TaskForm": {
+    "createTitle": "Create follow-up",
+    "editTitle": "Edit follow-up",
+    "subtitle": "Keep next actions concrete, linked, and easy to complete from the same shared Sprint 4 task flow.",
+    "error": "A follow-up needs a due date, type, priority, status, and at least one linked company or contact.",
+    "back": "Back"
   },
   "Search": {
     "title": "Global search",

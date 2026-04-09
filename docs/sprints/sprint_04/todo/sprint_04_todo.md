@@ -7,6 +7,7 @@ tags:
   - dev-handoff
 aliases:
   - Sprint 04 Todo
+updated: 2026-04-09
 ---
 
 # Sprint 04 Todo
@@ -15,7 +16,9 @@ aliases:
 
 Reviewed by PM and CTO.
 This doc is the Sprint 4 execution handoff to DEV and QA.
-Execution is pending founder approval.
+CTO has re-approved this handoff after checking the finished Sprint 3 repository state.
+Execution is now approved to proceed as the active workstream.
+The current Sprint 4 mutation slice is in the repository and has passed the current QA verification set.
 
 ## Sprint Goal
 
@@ -36,6 +39,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: Prisma queries, repository helpers, typed filters, relation lookups, and derived recency data for company and contact screens
 - must include: one consistent access path for list views, detail views, quick-add flows, and follow-up creation from an interaction
 - done when: Sprint 4 pages and actions use centralized activity services instead of embedding query logic
+- current read: completed for shared interaction and task reads plus form-option loading
 
 ### DEV-402: Add Interactions List Flow
 
@@ -43,6 +47,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: protected route, chronological table-first list UI, default filters, empty state, and relation display
 - must include: filters for interaction type, date range, company, contact, and creator where practical
 - done when: authenticated users can browse and filter interaction history on desktop and mobile
+- current read: interactions list route is implemented with core filters for company, contact, type, and query
 
 ### DEV-403: Add Interaction Detail And Form Flow
 
@@ -50,6 +55,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: interaction detail screen, create and edit form, relation picking, subject, summary, outcome, and date handling
 - must include: company-only, contact-only, and company-plus-contact linkage paths plus read-only presentation for viewers
 - done when: interaction records can be created and edited through the app without violating RBAC
+- current read: completed for detail, create, and edit flow
 
 ### DEV-404: Add Mobile Quick-Add Interaction Flow
 
@@ -57,6 +63,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: quick-add drawer or sheet, compact validated form, route entrypoints from company, contact, and top-level shell actions
 - must include: mobile-first layout, relation prefill when launched from a record, and shared mutation logic with the full form
 - done when: users can log an interaction in a low-friction flow on iPhone-width screens and desktop
+- current read: still open
 
 ### DEV-405: Add Follow-Ups Table Flow
 
@@ -64,6 +71,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: protected route, overdue and upcoming default views, status and priority filters, and relation display to company and contact
 - must include: viewer-safe read access, mobile-safe stacked presentation, and clear overdue emphasis
 - done when: authenticated users can browse and filter follow-up tasks for daily execution
+- current read: follow-up list route is implemented with core filters for company, contact, status, and query
 
 ### DEV-406: Add Task Detail And Form Flow
 
@@ -71,6 +79,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: task detail screen, create and edit form, due date, priority, status, note fields, and completion controls
 - must include: company-only, contact-only, and interaction-linked task paths plus consistent `completedAt` handling when task state changes to complete
 - done when: follow-up tasks can be created and maintained through the app without violating RBAC
+- current read: completed for detail, create, edit, and completion through status-driven updates
 
 ### DEV-407: Add Create-Follow-Up-From-Interaction Flow
 
@@ -78,6 +87,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: action entrypoint on interaction surfaces, prefilled task create path, related interaction linkage, and return-path UX
 - must include: relation inheritance from the interaction and no duplicate relation re-entry for the common case
 - done when: a user can log an interaction and immediately create the next follow-up from it
+- current read: completed
 
 ### DEV-408: Add Inactivity Indicators And Filters
 
@@ -85,6 +95,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: derived last-interaction recency, inactivity badges or labels, and company/contact filters or summaries where useful
 - must include: one simple threshold rule documented in code or config and reuse of imported plus app-created interaction history
 - done when: users can identify inactive companies and contacts from existing record workflows
+- current read: completed for company and contact activity summaries
 
 ### DEV-409: Navigation And Record-Surface Hardening
 
@@ -92,6 +103,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: nav entrypoints, record detail links to interactions and tasks, page headings, sticky primary actions, and empty states
 - must include: consistent pathing from company and contact detail into activity and follow-up work
 - done when: Sprint 4 surfaces feel like one coherent layer of the CRM instead of isolated routes
+- current read: completed for shell navigation plus company/contact cross-links into interactions and follow-ups
 
 ### DEV-410: Verify And Harden
 
@@ -102,16 +114,9 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 ## Recommended Execution Order
 
-1. DEV-401 Extend Shared CRM Activity Data Access
-2. DEV-402 Add Interactions List Flow
-3. DEV-403 Add Interaction Detail And Form Flow
-4. DEV-404 Add Mobile Quick-Add Interaction Flow
-5. DEV-405 Add Follow-Ups Table Flow
-6. DEV-406 Add Task Detail And Form Flow
-7. DEV-407 Add Create-Follow-Up-From-Interaction Flow
-8. DEV-408 Add Inactivity Indicators And Filters
-9. DEV-409 Navigation And Record-Surface Hardening
-10. DEV-410 Verify And Harden
+1. DEV-404 Add Mobile Quick-Add Interaction Flow
+2. mobile-specific follow-up quick-entry polish if still needed after DEV-404
+3. DEV-410 Verify And Harden after the remaining quick-add/mobile slice
 
 ## Non-Scope Guardrails
 
@@ -136,6 +141,11 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - mobile layouts are usable on iPhone width
 - tests and repo checks pass
 
+Current completion read:
+
+- completed: shared activity read and write layer, interactions list/detail/create/edit, follow-ups list/detail/create/edit, task completion flow, create-follow-up-from-interaction, inactivity summaries on company/contact detail, shell nav links, deeper company/contact cross-links, locale strings, tests, typecheck, build
+- still open: quick-add UX and any remaining mobile-entry polish needed for Sprint 4 closeout
+
 ## QA Execution Plan
 
 - verify role behavior: admin and editor can mutate, viewer cannot
@@ -150,6 +160,12 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - run regression on Sprint 1 auth, locale, and admin-list behavior
 - run regression on Sprint 2 imported interaction and task visibility
 - run regression on Sprint 3 companies, contacts, and search behavior
+
+Current QA read:
+
+- verified: `npm test`, `npm run typecheck`, `npm run build`
+- verified in code: interaction mutations, task mutations, task completion, create-follow-up-from-interaction, company/contact activity summaries, route coverage in the build output
+- residual risk: browser-level/manual UX verification and the still-open quick-add/mobile slice
 
 ## CTO To DEV Handoff
 
@@ -182,13 +198,13 @@ If DEV and QA complete the items above without scope drift, Sprint 4 should be r
 
 ## Blockers And Approval Dependencies
 
-- founder approval is still required before Sprint 4 execution begins
 - inactivity threshold wording may need founder confirmation if a specific business rule is preferred over a simple default
 
 ## Related
 
 - [[sprints/sprint_04/sprint_04_index|Sprint 04 Index]]
 - [[sprints/sprint_04/reviews/sprint_04_review|Sprint 04 Review]]
+- [[sprints/sprint_04/reports/sprint_04_report|Sprint 04 Report]]
 - [[DELIVERY_PLAN|Delivery Plan]]
 - [[ARCHITECTURE|Architecture]]
 - [[PERMISSIONS|Permissions]]

@@ -8,6 +8,7 @@ tags:
   - cto
 aliases:
   - Sprint 04 Review
+updated: 2026-04-09
 ---
 
 # Sprint 04 Review
@@ -15,7 +16,8 @@ aliases:
 ## Review Status
 
 Planning review completed by PM and CTO.
-Sprint 4 is ready for DEV handoff once founder approval is given.
+CTO re-reviewed Sprint 4 against the repository after Sprint 3 completion and approves Sprint 4 for execution.
+PM doc review updated after the current Sprint 4 mutation slice and QA verification landed in the repository.
 
 ## PM Findings
 
@@ -23,6 +25,7 @@ Sprint 4 is ready for DEV handoff once founder approval is given.
 - Scope should stay narrow: log activity, create next actions, and surface overdue or inactive work.
 - Sprint 4 should not absorb dashboard delivery, opportunity management, or broader reporting.
 - QA should treat Sprint 4 as both a new feature sprint and a regression pass on search, record detail, RBAC, and bilingual rendering.
+- The current repository state now reflects the main interaction and follow-up mutation loop, so documentation should trace not only planning and handoff but also delivered implementation and QA outcomes.
 
 ## CTO Findings
 
@@ -30,6 +33,8 @@ Sprint 4 is ready for DEV handoff once founder approval is given.
 - Shared repository modules should own list queries, detail queries, and mutations for interactions and tasks.
 - Inactivity should be computed from interaction recency in query or service code; no queue, cron, or automation system should be introduced in Sprint 4.
 - Quick-add should use the same validation, permission, and relation rules as full create and edit flows rather than a separate lightweight data model.
+- Sprint 3 is visibly finished enough in the repository to support this handoff: protected routes, shared CRM data access, list-detail pages, and search are all present.
+- The current Sprint 4 implementation follows the approved direction: it extends the shared data layer first, adds read routes, then layers mutation flows and cross-record activity entrypoints on top.
 
 ## Roadmap Alignment Check
 
@@ -74,13 +79,25 @@ When DEV finishes Sprint 4, QA should verify:
 - Sprint 2 imported activity data remains compatible
 - Sprint 3 company, contact, and search flows still pass
 
+Current engineering verification read:
+
+- passed: `npm test`
+- passed: `npm run typecheck`
+- passed: `npm run build`
+
+Current QA verdict:
+
+- no blocking findings in the current Sprint 4 slice
+- residual risk remains focused on browser-level/manual verification and the still-open quick-add/mobile UX scope
+
 ## CTO Decision
 
-CTO approves Sprint 4 as the next implementation slice and recommends handing it to DEV without reopening schema or platform choices unless a concrete repository gap is found during build.
+CTO re-approves Sprint 4 as the next implementation slice and recommends proceeding directly to DEV execution without reopening schema or platform choices unless a concrete repository gap is found during build.
 
 ## Related
 
 - [[sprints/sprint_04/sprint_04_index|Sprint 04 Index]]
+- [[sprints/sprint_04/reports/sprint_04_report|Sprint 04 Report]]
 - [[sprints/sprint_04/todo/sprint_04_todo|Sprint 04 Todo]]
 - [[ROADMAP|Roadmap]]
 - [[DELIVERY_PLAN|Delivery Plan]]

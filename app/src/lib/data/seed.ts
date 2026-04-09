@@ -78,6 +78,36 @@ export type SeedContact = {
   phones: SeedContactPhone[];
 };
 
+export type SeedInteraction = {
+  id: string;
+  interactionDate: string;
+  companyId: string | null;
+  contactId: string | null;
+  interactionTypeValueId: string;
+  subject: string;
+  summary: string;
+  outcomeStatusValueId: string | null;
+  createdById: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type SeedTask = {
+  id: string;
+  companyId: string | null;
+  contactId: string | null;
+  relatedInteractionId: string | null;
+  taskTypeValueId: string;
+  dueDate: string;
+  priorityValueId: string;
+  statusValueId: string;
+  notes: string | null;
+  createdById: string;
+  createdAt: string;
+  updatedAt: string;
+  completedAt: string | null;
+};
+
 function hashPassword(password: string) {
   return createHash("sha256").update(`crm-sprint-1:${password}`).digest("hex");
 }
@@ -86,8 +116,12 @@ const now = new Date("2026-04-04T09:00:00.000Z").toISOString();
 
 const leadSourceId = "cat_lead_source";
 const companyStageId = "cat_company_stage";
+const interactionTypeId = "cat_interaction_type";
+const interactionOutcomeStatusId = "cat_interaction_outcome_status";
 const opportunityStageId = "cat_opportunity_stage";
 const taskTypeId = "cat_task_type";
+const taskPriorityId = "cat_task_priority";
+const taskStatusId = "cat_task_status";
 const importStatusId = "cat_import_status";
 
 export const seededUsers: SeedUser[] = [
@@ -193,6 +227,88 @@ export const seededCategories: SeedListCategory[] = [
     ]
   },
   {
+    id: interactionTypeId,
+    key: "interaction_type",
+    name: "Interaction Types",
+    createdAt: now,
+    values: [
+      {
+        id: "value_interaction_call",
+        categoryId: interactionTypeId,
+        key: "call",
+        labelEn: "Call",
+        labelHe: "שיחה",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_interaction_meeting",
+        categoryId: interactionTypeId,
+        key: "meeting",
+        labelEn: "Meeting",
+        labelHe: "פגישה",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_interaction_email",
+        categoryId: interactionTypeId,
+        key: "email",
+        labelEn: "Email",
+        labelHe: "אימייל",
+        sortOrder: 3,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      }
+    ]
+  },
+  {
+    id: interactionOutcomeStatusId,
+    key: "interaction_outcome_status",
+    name: "Interaction Outcomes",
+    createdAt: now,
+    values: [
+      {
+        id: "value_outcome_booked",
+        categoryId: interactionOutcomeStatusId,
+        key: "booked",
+        labelEn: "Booked meeting",
+        labelHe: "פגישה נקבעה",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_outcome_pending",
+        categoryId: interactionOutcomeStatusId,
+        key: "pending",
+        labelEn: "Needs follow-up",
+        labelHe: "דורש מעקב",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_outcome_no_response",
+        categoryId: interactionOutcomeStatusId,
+        key: "no_response",
+        labelEn: "No response",
+        labelHe: "ללא מענה",
+        sortOrder: 3,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      }
+    ]
+  },
+  {
     id: opportunityStageId,
     key: "opportunity_stage",
     name: "Opportunity Stages",
@@ -245,6 +361,77 @@ export const seededCategories: SeedListCategory[] = [
         key: "meeting",
         labelEn: "Meeting",
         labelHe: "פגישה",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      }
+    ]
+  },
+  {
+    id: taskPriorityId,
+    key: "task_priority",
+    name: "Task Priorities",
+    createdAt: now,
+    values: [
+      {
+        id: "value_task_priority_high",
+        categoryId: taskPriorityId,
+        key: "high",
+        labelEn: "High",
+        labelHe: "גבוה",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_task_priority_medium",
+        categoryId: taskPriorityId,
+        key: "medium",
+        labelEn: "Medium",
+        labelHe: "בינוני",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_task_priority_low",
+        categoryId: taskPriorityId,
+        key: "low",
+        labelEn: "Low",
+        labelHe: "נמוך",
+        sortOrder: 3,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      }
+    ]
+  },
+  {
+    id: taskStatusId,
+    key: "task_status",
+    name: "Task Statuses",
+    createdAt: now,
+    values: [
+      {
+        id: "value_task_status_open",
+        categoryId: taskStatusId,
+        key: "open",
+        labelEn: "Open",
+        labelHe: "פתוח",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_task_status_completed",
+        categoryId: taskStatusId,
+        key: "completed",
+        labelEn: "Completed",
+        labelHe: "הושלם",
         sortOrder: 2,
         isActive: true,
         createdAt: now,
@@ -422,5 +609,95 @@ export const seededContacts: SeedContact[] = [
       }
     ],
     phones: []
+  }
+];
+
+export const seededInteractions: SeedInteraction[] = [
+  {
+    id: "interaction_maya_kickoff",
+    interactionDate: "2026-04-06T09:30:00.000Z",
+    companyId: "company_northern",
+    contactId: "contact_maya",
+    interactionTypeValueId: "value_interaction_meeting",
+    subject: "Discovery kickoff",
+    summary: "Reviewed bilingual rollout needs and aligned on the next demo steps.",
+    outcomeStatusValueId: "value_outcome_booked",
+    createdById: "user_admin",
+    createdAt: now,
+    updatedAt: now
+  },
+  {
+    id: "interaction_noam_followup",
+    interactionDate: "2026-04-03T14:00:00.000Z",
+    companyId: "company_harbor",
+    contactId: "contact_noam",
+    interactionTypeValueId: "value_interaction_call",
+    subject: "Follow-up call",
+    summary: "Confirmed interest and asked for pricing notes before booking the next meeting.",
+    outcomeStatusValueId: "value_outcome_pending",
+    createdById: "user_editor",
+    createdAt: now,
+    updatedAt: now
+  },
+  {
+    id: "interaction_talia_intro",
+    interactionDate: "2026-03-25T11:00:00.000Z",
+    companyId: null,
+    contactId: "contact_talia",
+    interactionTypeValueId: "value_interaction_email",
+    subject: "Intro email",
+    summary: "Initial outreach sent to a standalone contact from the cleaned import set.",
+    outcomeStatusValueId: "value_outcome_no_response",
+    createdById: "user_editor",
+    createdAt: now,
+    updatedAt: now
+  }
+];
+
+export const seededTasks: SeedTask[] = [
+  {
+    id: "task_maya_demo",
+    companyId: "company_northern",
+    contactId: "contact_maya",
+    relatedInteractionId: "interaction_maya_kickoff",
+    taskTypeValueId: seededCategories.find((category) => category.key === "task_type")?.values[1]?.id ?? "",
+    dueDate: "2026-04-08T10:00:00.000Z",
+    priorityValueId: "value_task_priority_high",
+    statusValueId: "value_task_status_open",
+    notes: "Prepare the tailored demo recap and confirm attendees.",
+    createdById: "user_admin",
+    createdAt: now,
+    updatedAt: now,
+    completedAt: null
+  },
+  {
+    id: "task_noam_pricing",
+    companyId: "company_harbor",
+    contactId: "contact_noam",
+    relatedInteractionId: "interaction_noam_followup",
+    taskTypeValueId: seededCategories.find((category) => category.key === "task_type")?.values[0]?.id ?? "",
+    dueDate: "2026-04-05T12:00:00.000Z",
+    priorityValueId: "value_task_priority_medium",
+    statusValueId: "value_task_status_open",
+    notes: "Send pricing context and propose two meeting slots.",
+    createdById: "user_editor",
+    createdAt: now,
+    updatedAt: now,
+    completedAt: null
+  },
+  {
+    id: "task_talia_archive",
+    companyId: null,
+    contactId: "contact_talia",
+    relatedInteractionId: "interaction_talia_intro",
+    taskTypeValueId: seededCategories.find((category) => category.key === "task_type")?.values[0]?.id ?? "",
+    dueDate: "2026-03-28T09:00:00.000Z",
+    priorityValueId: "value_task_priority_low",
+    statusValueId: "value_task_status_completed",
+    notes: "Close the loop after no response and keep the record searchable.",
+    createdById: "user_editor",
+    createdAt: now,
+    updatedAt: now,
+    completedAt: "2026-03-28T13:00:00.000Z"
   }
 ];
