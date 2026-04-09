@@ -95,6 +95,6 @@ aliases:
 - [[PRD|PRD]]
 - [[ARCHITECTURE|Architecture]]
 - [[PERMISSIONS|Permissions]]
-- [[ui/UI_KIT|UI Kit]]
+- [[sprints/sprint_05/ui/UI_KIT|UI Kit]]
 - [[DELIVERY_PLAN|Delivery Plan]]
 - tables should collapse columns into stacked labels on small screens

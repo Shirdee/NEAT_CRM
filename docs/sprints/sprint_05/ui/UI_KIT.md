@@ -4,8 +4,11 @@ tags:
   - ui
   - design
   - planning
+  - sprint-05
 aliases:
   - CRM UI Kit
+created: 2026-04-09
+updated: 2026-04-09
 ---
 
 # CRM UI Kit
@@ -238,5 +241,7 @@ This is especially important for interactions and follow-up tasks.
 ## Related
 
 - [[PRD|PRD]]
+- [[sprints/sprint_05/sprint_05_index|Sprint 05 Index]]
+- [[sprints/sprint_05/ui/Design|Design]]
 - [[SCREENS_AND_FLOWS|Screens And Flows]]
 - [[ARCHITECTURE|Architecture]]

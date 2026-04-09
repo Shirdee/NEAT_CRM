@@ -122,7 +122,30 @@ Make the CRM operational for the daily sales workflow that drives meetings booke
 
 Once the lead data is clean and usable, the team can layer in the activity and follow-up engine that creates business value.
 
-### Sprint 5: Opportunities, Dashboard, Reports, And Launch Readiness
+### Sprint 5: UI Implementation And Frontend Acceptance
+
+#### Purpose
+
+Turn the working CRM into a coherent product UI by implementing the approved frontend direction across the priority screens.
+
+#### Core Features
+
+- shared tokens and theme alignment
+- shared shell refactor
+- shared primitive layer
+- login, dashboard, companies, company detail, contacts, tasks, quick-add interaction, and import review UI implementation
+- bilingual and RTL hardening
+- mobile acceptance on required flows
+
+#### Supporting Services
+
+- no new services planned
+
+#### Why This Sprint Comes Fifth
+
+The CRM already has functional workflows, but the UI implementation pass should land before the final business-visibility and launch-readiness sprint.
+
+### Sprint 6: Opportunities, Dashboard, Reports, And Launch Readiness
 
 #### Purpose
 
@@ -143,9 +166,9 @@ Complete the MVP business layer and prepare the app for internal rollout.
 
 - no new services planned unless production launch proves one is necessary
 
-#### Why This Sprint Comes Fifth
+#### Why This Sprint Comes Sixth
 
-Reporting and launch hardening are most valuable after the operational workflows already exist.
+Reporting and launch hardening are most valuable after the operational workflows and UI implementation pass are both in place.
 
 ## Post-MVP Sprint Candidates
 

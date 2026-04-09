@@ -2,10 +2,12 @@
 tags:
   - crm
   - ui
-  - stitch
   - design-system
+  - sprint-05
 aliases:
   - CRM Design MD
+created: 2026-04-09
+updated: 2026-04-09
 ---
 
 # CRM Design MD
@@ -247,13 +249,18 @@ Design these first:
 - raw value beside cleaned value
 - approve and fix actions should be immediate
 
-## Stitch Usage Notes
+## Implementation Notes
 
-When using this document with Stitch:
+When using this document during implementation:
 
-- keep prompts concrete
-- state the screen type directly
-- specify desktop or mobile explicitly
-- describe the main modules and action hierarchy
-- remind Stitch that the product is bilingual and RTL-safe
-- use one screen prompt at a time for the cleanest results
+- keep the target screen type explicit
+- specify desktop or mobile behavior when layout differs
+- describe the main modules and action hierarchy directly
+- preserve bilingual and RTL-safe behavior on every screen
+- implement one screen at a time when validating parity
+
+## Related
+
+- [[sprints/sprint_05/sprint_05_index|Sprint 05 Index]]
+- [[sprints/sprint_05/ui/UI_KIT|UI Kit]]
+- [[sprints/sprint_05/ui/FRONTEND_IMPLEMENTATION_TASKS|Frontend Implementation Tasks]]

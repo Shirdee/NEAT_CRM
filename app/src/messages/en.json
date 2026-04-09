@@ -49,6 +49,7 @@
       "adminLists": "Admin lists",
       "adminImports": "Imports"
     },
+    "quickLog": "Quick log",
     "searchPlaceholder": "Search companies, contacts, email, phone, or notes",
     "roles": {
       "admin": "Admin",
@@ -311,8 +312,10 @@
   },
   "InteractionForm": {
     "createTitle": "Log interaction",
+    "quickAddTitle": "Quick log interaction",
     "editTitle": "Edit interaction",
     "subtitle": "Keep interaction logging lightweight while preserving the company and contact context that drives follow-up work.",
+    "quickAddSubtitle": "Use the compact flow to log outreach fast, keep the right record context, and continue straight into a follow-up when needed.",
     "error": "An interaction needs a date, type, subject, summary, and at least one linked company or contact.",
     "back": "Back"
   },

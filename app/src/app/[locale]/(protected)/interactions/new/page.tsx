@@ -10,7 +10,7 @@ import {createInteractionAction} from "../actions";
 
 type NewInteractionPageProps = {
   params: Promise<{locale: "en" | "he"}>;
-  searchParams: Promise<{error?: string; companyId?: string; contactId?: string}>;
+  searchParams: Promise<{compact?: string; error?: string; companyId?: string; contactId?: string}>;
 };
 
 function nowLocalInput() {
@@ -21,7 +21,7 @@ function nowLocalInput() {
 
 export default async function NewInteractionPage({params, searchParams}: NewInteractionPageProps) {
   const {locale} = await params;
-  const {error, companyId, contactId} = await searchParams;
+  const {compact, error, companyId, contactId} = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("InteractionForm");
 
@@ -31,23 +31,35 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
 
   const options = await getInteractionFormOptions();
   const action = createInteractionAction.bind(null, locale);
+  const compactMode = compact === "1";
+  const lockedCompany = companyId
+    ? options.companies.find((company) => company.id === companyId) ?? null
+    : null;
+  const lockedContact = contactId
+    ? options.contacts.find((contact) => contact.id === contactId) ?? null
+    : null;
 
   return (
     <div className="space-y-6">
       <div className="space-y-3">
-        <h2 className="text-3xl font-semibold text-ink">{t("createTitle")}</h2>
-        <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <h2 className="text-3xl font-semibold text-ink">{compactMode ? t("quickAddTitle") : t("createTitle")}</h2>
+        <p className="max-w-2xl text-sm leading-7 text-slate-600">
+          {compactMode ? t("quickAddSubtitle") : t("subtitle")}
+        </p>
       </div>
       {error ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
       ) : null}
-      <section className="rounded-[24px] border border-slate-200 bg-white p-6">
+      <section className={`rounded-[24px] border border-slate-200 bg-white ${compactMode ? "p-4 sm:p-5" : "p-6"}`}>
         <InteractionForm
           allowFollowUpAfterCreate
           action={action}
           companies={options.companies}
+          compact={compactMode}
           contacts={options.contacts}
           interactionTypeOptions={options.interactionTypeOptions}
+          lockedCompany={lockedCompany}
+          lockedContact={lockedContact}
           locale={locale}
           mode="create"
           outcomeOptions={options.outcomeOptions}

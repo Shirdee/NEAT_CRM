@@ -2,7 +2,7 @@ import type {AppLocale} from "@/i18n/routing";
 import {getTranslations} from "next-intl/server";
 
 import {Link} from "@/i18n/navigation";
-import {canManageAdminLists, type UserSession} from "@/lib/auth/session";
+import {canEditRecords, canManageAdminLists, type UserSession} from "@/lib/auth/session";
 
 import {LocaleSwitcher} from "../i18n/locale-switcher";
 
@@ -56,6 +56,15 @@ export async function AppShell({children, locale, session}: AppShellProps) {
                 placeholder={t("searchPlaceholder")}
               />
             </form>
+            {canEditRecords(session.role) ? (
+              <Link
+                className="rounded-full bg-coral px-4 py-2 text-sm font-medium text-white transition hover:bg-coral/90"
+                href="/interactions/new?compact=1"
+                locale={locale}
+              >
+                {t("quickLog")}
+              </Link>
+            ) : null}
             <LocaleSwitcher />
             <form action="/api/logout" method="post">
               <button

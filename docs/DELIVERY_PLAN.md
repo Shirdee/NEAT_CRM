@@ -323,7 +323,70 @@ Testing:
 
 - founder approves that the app now supports the daily meetings-booking workflow
 
-### Sprint 5: Opportunities, Dashboard, Reports, And Production Readiness
+### Sprint 5: UI Implementation And Frontend Acceptance
+
+#### Objective
+
+Implement the approved CRM UI direction across the existing app and complete frontend acceptance for the priority screens.
+
+#### Scope
+
+- token and theme alignment
+- shell refactor
+- shared UI primitives
+- login, dashboard, companies, company detail, contacts, tasks, quick-add interaction, and import review screen implementation
+- bilingual, RTL, and mobile hardening
+- frontend acceptance and deviation review
+
+#### Backlog Items
+
+Product:
+
+- confirm `crm/docs/sprints/sprint_05/ui` is the implementation source of truth
+- freeze the in-scope screen list for the frontend pass
+- approve any intentional deviations from the UI docs
+
+Technical:
+
+- align tokens, shell, and primitives to the approved UI direction
+- update the priority routes without changing business behavior
+- preserve RBAC, locale handling, and existing form validation
+- harden RTL and iPhone-width behavior for required screens
+
+Testing:
+
+- regression suite across all modules after UI changes
+- role access verification after screen updates
+- bilingual and RTL checks
+- iPhone-width smoke verification on the required flows
+
+#### Definition Of Done
+
+- shared shell and primitives are in place
+- the priority screens are implemented against the UI docs
+- bilingual, RTL, and mobile behavior are verified
+- approved UI deviations are documented or resolved
+
+#### Dependencies
+
+- prior sprints complete
+- approved UI docs and screen priorities
+
+#### QA Checks
+
+- admin, editor, and viewer permissions still behave correctly after UI changes
+- required screens match the approved hierarchy and layout intent
+- mobile and RTL behavior remain usable
+
+#### Deployment Output
+
+- preview-ready frontend implementation pass with documented deviations and acceptance notes
+
+#### Approval Gate
+
+- founder approves frontend usability and visual direction before the final business-feature and launch sprint
+
+### Sprint 6: Opportunities, Dashboard, Reports, And Production Readiness
 
 #### Objective
 

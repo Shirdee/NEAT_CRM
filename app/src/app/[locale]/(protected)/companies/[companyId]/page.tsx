@@ -94,7 +94,7 @@ export default async function CompanyDetailPage({
             </Link>
           </div>
           {session && canEditRecords(session.role) ? (
-            <Link className="mt-4 inline-flex text-sm font-medium text-slate-700" href={`/interactions/new?companyId=${company.id}`} locale={locale}>
+            <Link className="mt-4 inline-flex text-sm font-medium text-slate-700" href={`/interactions/new?compact=1&companyId=${company.id}`} locale={locale}>
               {t("addInteraction")}
             </Link>
           ) : null}

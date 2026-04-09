@@ -15,9 +15,12 @@ type InteractionFormProps = {
   allowFollowUpAfterCreate?: boolean;
   action: (formData: FormData) => void | Promise<void>;
   companies: Array<{id: string; companyName: string}>;
+  compact?: boolean;
   contacts: Array<{id: string; fullName: string}>;
   hiddenFields?: Record<string, string>;
   interactionTypeOptions: LookupOption[];
+  lockedCompany?: {id: string; companyName: string} | null;
+  lockedContact?: {id: string; fullName: string} | null;
   locale: AppLocale;
   mode: "create" | "edit";
   outcomeOptions: LookupOption[];
@@ -32,9 +35,12 @@ export function InteractionForm({
   allowFollowUpAfterCreate,
   action,
   companies,
+  compact,
   contacts,
   hiddenFields,
   interactionTypeOptions,
+  lockedCompany,
+  lockedContact,
   locale,
   mode,
   outcomeOptions,
@@ -57,7 +63,27 @@ export function InteractionForm({
             <input key={name} name={name} type="hidden" value={value} />
           ))
         : null}
-      <div className="grid gap-5 lg:grid-cols-2">
+      {lockedCompany ? <input name="companyId" type="hidden" value={lockedCompany.id} /> : null}
+      {lockedContact ? <input name="contactId" type="hidden" value={lockedContact.id} /> : null}
+      {(lockedCompany || lockedContact) && mode === "create" ? (
+        <div className="rounded-[20px] border border-slate-200 bg-mist px-4 py-3 text-sm text-slate-700">
+          <div className="flex flex-wrap gap-2">
+            {lockedCompany ? (
+              <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">
+                {locale === "he" ? "חברה: " : "Company: "}
+                {lockedCompany.companyName}
+              </span>
+            ) : null}
+            {lockedContact ? (
+              <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">
+                {locale === "he" ? "איש קשר: " : "Contact: "}
+                {lockedContact.fullName}
+              </span>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+      <div className={`grid gap-5 ${compact ? "" : "lg:grid-cols-2"}`}>
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "תאריך ושעה" : "Date and time"}</span>
           <input
@@ -68,9 +94,9 @@ export function InteractionForm({
             type="datetime-local"
           />
         </label>
-        <div className="space-y-2 text-sm text-slate-700 lg:col-span-2">
+        <div className={`space-y-2 text-sm text-slate-700 ${compact ? "" : "lg:col-span-2"}`}>
           <span className="font-medium">{locale === "he" ? "סוג אינטראקציה" : "Interaction type"}</span>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          <div className={`grid gap-3 sm:grid-cols-2 ${compact ? "" : "lg:grid-cols-3"}`}>
             {interactionTypeOptions.map((option) => (
               <label
                 className="cursor-pointer rounded-[20px] border border-slate-200 bg-white p-4 transition hover:border-coral/50 hover:bg-mist"
@@ -89,36 +115,40 @@ export function InteractionForm({
             ))}
           </div>
         </div>
-        <label className="space-y-2 text-sm text-slate-700">
-          <span className="font-medium">{locale === "he" ? "חברה" : "Company"}</span>
-          <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-            defaultValue={defaults.companyId}
-            name="companyId"
-          >
-            <option value="">{locale === "he" ? "ללא חברה" : "No company"}</option>
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.companyName}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="space-y-2 text-sm text-slate-700">
-          <span className="font-medium">{locale === "he" ? "איש קשר" : "Contact"}</span>
-          <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-            defaultValue={defaults.contactId}
-            name="contactId"
-          >
-            <option value="">{locale === "he" ? "ללא איש קשר" : "No contact"}</option>
-            {contacts.map((contact) => (
-              <option key={contact.id} value={contact.id}>
-                {contact.fullName}
-              </option>
-            ))}
-          </select>
-        </label>
+        {lockedCompany ? null : (
+          <label className="space-y-2 text-sm text-slate-700">
+            <span className="font-medium">{locale === "he" ? "חברה" : "Company"}</span>
+            <select
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+              defaultValue={defaults.companyId}
+              name="companyId"
+            >
+              <option value="">{locale === "he" ? "ללא חברה" : "No company"}</option>
+              {companies.map((company) => (
+                <option key={company.id} value={company.id}>
+                  {company.companyName}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+        {lockedContact ? null : (
+          <label className="space-y-2 text-sm text-slate-700">
+            <span className="font-medium">{locale === "he" ? "איש קשר" : "Contact"}</span>
+            <select
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+              defaultValue={defaults.contactId}
+              name="contactId"
+            >
+              <option value="">{locale === "he" ? "ללא איש קשר" : "No contact"}</option>
+              {contacts.map((contact) => (
+                <option key={contact.id} value={contact.id}>
+                  {contact.fullName}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
       </div>
       <label className="block space-y-2 text-sm text-slate-700">
         <span className="font-medium">{locale === "he" ? "נושא" : "Subject"}</span>
@@ -132,7 +162,7 @@ export function InteractionForm({
       <label className="block space-y-2 text-sm text-slate-700">
         <span className="font-medium">{locale === "he" ? "סיכום" : "Summary"}</span>
         <textarea
-          className="min-h-32 w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className={`w-full rounded-2xl border border-slate-200 px-4 py-3 ${compact ? "min-h-24" : "min-h-32"}`}
           defaultValue={defaults.summary}
           name="summary"
           required

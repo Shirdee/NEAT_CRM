@@ -17,6 +17,8 @@ Sprint 2 implementation is complete and approved for closeout.
 Sprint 3 implementation is complete in the repository and the verification set is green.
 Sprint 4 is now in active implementation.
 The current Sprint 4 repository state includes shared activity data access, interactions and follow-up read/write flows, company and contact activity summaries, and a passing QA verification set for the current slice.
+Sprint 5 planning is now initialized as the frontend UI implementation slice, with `crm/docs/sprints/sprint_05/ui` as the source of truth.
+Sprint 6 planning remains the approved later slice for opportunities, dashboard, reports, and launch readiness after the UI implementation pass.
 
 ## Rules
 
@@ -36,3 +38,5 @@ See [[DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint imp
 - [[sprints/sprint_02/sprint_02_index|Sprint 02 Index]]
 - [[sprints/sprint_03/sprint_03_index|Sprint 03 Index]]
 - [[sprints/sprint_04/sprint_04_index|Sprint 04 Index]]
+- [[sprints/sprint_05/sprint_05_index|Sprint 05 Index]]
+- [[sprints/sprint_06/sprint_06_index|Sprint 06 Index]]
