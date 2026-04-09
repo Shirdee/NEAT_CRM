@@ -1,4 +1,3 @@
-import {getTranslations} from "next-intl/server";
 import {redirect} from "next/navigation";
 
 import {AppShell} from "@/components/shell/app-shell";
@@ -14,7 +13,6 @@ export default async function ProtectedLayout({
   params
 }: ProtectedLayoutProps) {
   const {locale} = await params;
-  const t = await getTranslations("AccessDenied");
   const session = await getCurrentSession();
 
   if (!session) {
@@ -22,11 +20,6 @@ export default async function ProtectedLayout({
   }
 
   return (
-    <AppShell locale={locale === "he" ? "he" : "en"} session={session}>
-      <section className="rounded-[28px] bg-white p-6 shadow-soft">
-        <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
-        {children}
-      </section>
-    </AppShell>
+    <AppShell locale={locale === "he" ? "he" : "en"} session={session}>{children}</AppShell>
   );
 }

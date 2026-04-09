@@ -4,30 +4,30 @@
     "he": "HE"
   },
   "Login": {
-    "eyebrow": "Sprint 1 Foundation",
-    "title": "A secure CRM shell for sales work, structured admin lists, and bilingual delivery.",
-    "subtitle": "This first slice establishes the app router, locale handling, and protected navigation so the rest of Sprint 1 can land on stable ground.",
+    "eyebrow": "Internal CRM",
+    "title": "Stay close to the next conversation, the next follow-up, and the deals already moving.",
+    "subtitle": "A focused bilingual CRM for daily sales work, fast interaction logging, and clear next actions across desktop and mobile.",
     "highlights": {
       "secure": {
-        "title": "Protected routes",
-        "body": "Public and private route groups are already separated to keep auth work contained."
+        "title": "Protected workspace",
+        "body": "The CRM keeps auth, roles, and sensitive record access inside one controlled internal shell."
       },
       "bilingual": {
         "title": "English and Hebrew",
-        "body": "Core shell strings are now framework-level translations instead of hardcoded UI text."
+        "body": "Core screens are built for bilingual teams with RTL-safe layout from the start."
       },
       "mobile": {
-        "title": "Responsive shell",
-        "body": "The foundation is designed for desktop tables and one-thumb mobile access."
+        "title": "Fast mobile flow",
+        "body": "Quick actions and compact forms stay usable on iPhone-width screens during outreach work."
       }
     },
     "form": {
-      "title": "Sign in to the foundation shell",
-      "subtitle": "Sprint 1 now uses trusted server-side credentials and signed sessions instead of a demo role picker.",
+      "title": "Sign in and keep the pipeline moving",
+      "subtitle": "Use your work account to open the CRM shell, review today’s follow-ups, and log new activity without losing context.",
       "email": "Work email",
       "password": "Password",
       "submit": "Enter CRM",
-      "hint": "Sprint 1 review account: admin@crm.local with password shir.",
+      "hint": "Demo review account: admin@crm.local with password shir.",
       "errors": {
         "missingCredentials": "Email and password are required.",
         "invalidCredentials": "Those credentials were not accepted."
@@ -36,8 +36,9 @@
   },
   "Shell": {
     "eyebrow": "Internal CRM",
-    "title": "Foundation Shell",
-    "welcome": "{fullName} is signed in as {role} using {email}.",
+    "title": "Today’s sales cockpit",
+    "welcome": "{fullName} is signed in as {role}. Work stays connected across companies, contacts, follow-ups, and recent outreach.",
+    "workspace": "Workspace",
     "signOut": "Sign out",
     "nav": {
       "dashboard": "Dashboard",
@@ -58,12 +59,50 @@
     }
   },
   "Dashboard": {
-    "title": "Sprint 1 baseline is live",
-    "subtitle": "The current shell proves route protection, responsive layout, and locale plumbing while keeping {role} access visible during implementation.",
+    "eyebrow": "Today’s focus",
+    "title": "What needs action now",
+    "subtitle": "Start with the overdue queue, keep new activity moving, and use the dashboard as the daily operating view for the {role} role.",
+    "actions": {
+      "reviewTasks": "Review follow-ups",
+      "logInteraction": "Log interaction"
+    },
+    "metrics": {
+      "overdue": "Overdue follow-ups",
+      "overdueDetail": "Needs action first",
+      "upcoming": "Upcoming this week",
+      "upcomingDetail": "Already scheduled",
+      "companies": "Active companies",
+      "companiesDetail": "In the current workspace",
+      "interactions": "Recent interactions",
+      "interactionsDetail": "Total logged activity"
+    },
+    "priority": {
+      "eyebrow": "Do now",
+      "title": "Priority queue",
+      "cta": "Open all follow-ups",
+      "noTaskNotes": "Follow-up task",
+      "unassigned": "No related record",
+      "empty": "No overdue tasks right now."
+    },
+    "timeline": {
+      "eyebrow": "Recent activity",
+      "title": "Latest interactions",
+      "cta": "View history",
+      "general": "General activity",
+      "empty": "No interactions have been logged yet."
+    },
+    "insights": {
+      "eyebrow": "Watchlist",
+      "title": "Companies in motion",
+      "noStage": "Needs qualification"
+    },
     "cards": {
-      "auth": "Credentials are validated against trusted server-side user records, and the session cookie is signed before protected routes open.",
-      "rbac": "Role-aware shell navigation is already separated from page content, which keeps permission work focused.",
-      "data": "Prisma, the baseline schema, and admin-managed lookup values are now part of the Sprint 1 foundation."
+      "roleTitle": "Role-aware workspace",
+      "roleBody": "Navigation and quick actions still follow the current permission model while the UI layer becomes more operational.",
+      "localeTitle": "Bilingual baseline",
+      "localeBody": "English and Hebrew rendering stay part of the default screen design rather than a late QA fix.",
+      "mobileTitle": "Mobile-safe actions",
+      "mobileBody": "The dashboard keeps primary actions visible so follow-up work can continue on smaller screens."
     }
   },
   "AdminLists": {

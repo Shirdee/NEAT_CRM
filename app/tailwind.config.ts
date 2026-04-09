@@ -5,17 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#10243f",
-        sand: "#f5f0e7",
-        coral: "#dd6b4d",
-        teal: "#2b7a78",
-        mist: "#dce8e7"
+        ink: "rgb(var(--color-ink) / <alpha-value>)",
+        teal: "rgb(var(--color-teal) / <alpha-value>)",
+        mint: "rgb(var(--color-mint) / <alpha-value>)",
+        coral: "rgb(var(--color-coral) / <alpha-value>)",
+        amber: "rgb(var(--color-amber) / <alpha-value>)",
+        lime: "rgb(var(--color-lime) / <alpha-value>)",
+        sand: "rgb(var(--color-sand) / <alpha-value>)",
+        mist: "rgb(var(--color-mist) / <alpha-value>)",
+        white: "rgb(var(--color-white) / <alpha-value>)"
       },
       boxShadow: {
-        soft: "0 20px 60px rgba(16, 36, 63, 0.08)"
+        soft: "0 24px 80px rgba(16, 36, 63, 0.12)",
+        panel: "0 18px 44px rgba(16, 36, 63, 0.10)"
       },
       fontFamily: {
-        sans: ["Segoe UI", "Arial", "sans-serif"]
+        sans: ["Assistant", "\"IBM Plex Sans\"", "\"Segoe UI\"", "Arial", "sans-serif"],
+        display: ["\"Space Grotesk\"", "Manrope", "\"Segoe UI\"", "sans-serif"]
       }
     }
   },
