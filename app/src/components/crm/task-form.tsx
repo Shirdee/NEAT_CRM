@@ -1,6 +1,8 @@
 import type {AppLocale} from "@/i18n/routing";
 import type {LookupOption} from "@/lib/data/crm";
 
+import {SearchableOptionField} from "./searchable-option-field";
+
 type TaskFormValues = {
   companyId: string;
   contactId: string;
@@ -17,6 +19,7 @@ type TaskFormProps = {
   companies: Array<{id: string; companyName: string}>;
   contacts: Array<{id: string; fullName: string}>;
   hiddenFields?: Record<string, string>;
+  invalidFields?: string[];
   interactions: Array<{id: string; subject: string}>;
   locale: AppLocale;
   mode: "create" | "edit";
@@ -35,6 +38,7 @@ export function TaskForm({
   companies,
   contacts,
   hiddenFields,
+  invalidFields,
   interactions,
   locale,
   mode,
@@ -53,6 +57,7 @@ export function TaskForm({
     statusValueId: values?.statusValueId ?? "",
     notes: values?.notes ?? ""
   };
+  const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
   return (
     <form action={action} className="space-y-5">
@@ -65,7 +70,7 @@ export function TaskForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "תאריך יעד" : "Due date"}</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("dueDate") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.dueDate}
             name="dueDate"
             required
@@ -75,7 +80,7 @@ export function TaskForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "סוג משימה" : "Task type"}</span>
           <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("taskTypeValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.taskTypeValueId}
             name="taskTypeValueId"
             required
@@ -88,40 +93,32 @@ export function TaskForm({
             ))}
           </select>
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
-          <span className="font-medium">{locale === "he" ? "חברה" : "Company"}</span>
-          <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-            defaultValue={defaults.companyId}
-            name="companyId"
-          >
-            <option value="">{locale === "he" ? "ללא חברה" : "No company"}</option>
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.companyName}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label className="space-y-2 text-sm text-slate-700">
-          <span className="font-medium">{locale === "he" ? "איש קשר" : "Contact"}</span>
-          <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-            defaultValue={defaults.contactId}
-            name="contactId"
-          >
-            <option value="">{locale === "he" ? "ללא איש קשר" : "No contact"}</option>
-            {contacts.map((contact) => (
-              <option key={contact.id} value={contact.id}>
-                {contact.fullName}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SearchableOptionField
+          emptyLabel={locale === "he" ? "ללא חברה" : "No company"}
+          invalid={isInvalid("companyId")}
+          label={locale === "he" ? "חברה" : "Company"}
+          name="companyId"
+          noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
+          options={companies.map((company) => ({id: company.id, label: company.companyName}))}
+          placeholder={locale === "he" ? "חיפוש חברה" : "Search company"}
+          searchPlaceholder={locale === "he" ? "חיפוש חברה אחרת" : "Search another company"}
+          value={defaults.companyId}
+        />
+        <SearchableOptionField
+          emptyLabel={locale === "he" ? "ללא איש קשר" : "No contact"}
+          invalid={isInvalid("contactId")}
+          label={locale === "he" ? "איש קשר" : "Contact"}
+          name="contactId"
+          noResultsLabel={locale === "he" ? "לא נמצאו אנשי קשר" : "No contacts found"}
+          options={contacts.map((contact) => ({id: contact.id, label: contact.fullName}))}
+          placeholder={locale === "he" ? "חיפוש איש קשר" : "Search contact"}
+          searchPlaceholder={locale === "he" ? "חיפוש איש קשר אחר" : "Search another contact"}
+          value={defaults.contactId}
+        />
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "עדיפות" : "Priority"}</span>
           <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("priorityValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.priorityValueId}
             name="priorityValueId"
             required
@@ -137,7 +134,7 @@ export function TaskForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "סטטוס" : "Status"}</span>
           <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("statusValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.statusValueId}
             name="statusValueId"
             required

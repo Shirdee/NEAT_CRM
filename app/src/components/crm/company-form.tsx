@@ -12,6 +12,7 @@ type CompanyFormValues = {
 type CompanyFormProps = {
   action: (formData: FormData) => void | Promise<void>;
   hiddenFields?: Record<string, string>;
+  invalidFields?: string[];
   locale: AppLocale;
   mode: "create" | "edit";
   sourceOptions: LookupOption[];
@@ -26,6 +27,7 @@ function lookupLabel(option: LookupOption, locale: AppLocale) {
 export function CompanyForm({
   action,
   hiddenFields,
+  invalidFields,
   locale,
   mode,
   sourceOptions,
@@ -39,6 +41,7 @@ export function CompanyForm({
     stageValueId: values?.stageValueId ?? "",
     notes: values?.notes ?? ""
   };
+  const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
   return (
     <form action={action} className="space-y-5">
@@ -51,7 +54,7 @@ export function CompanyForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "שם חברה" : "Company name"}</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("companyName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.companyName}
             name="companyName"
             required

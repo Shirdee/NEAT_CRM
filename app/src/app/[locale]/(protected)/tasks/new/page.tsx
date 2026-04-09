@@ -12,8 +12,14 @@ type NewTaskPageProps = {
   params: Promise<{locale: "en" | "he"}>;
   searchParams: Promise<{
     error?: string;
+    invalidFields?: string;
     companyId?: string;
     contactId?: string;
+    dueDate?: string;
+    taskTypeValueId?: string;
+    priorityValueId?: string;
+    statusValueId?: string;
+    notes?: string;
     relatedInteractionId?: string;
   }>;
 };
@@ -26,7 +32,7 @@ function defaultDueDate() {
 
 export default async function NewTaskPage({params, searchParams}: NewTaskPageProps) {
   const {locale} = await params;
-  const {error, companyId, contactId, relatedInteractionId} = await searchParams;
+  const {error, invalidFields, companyId, contactId, dueDate, taskTypeValueId, priorityValueId, statusValueId, notes, relatedInteractionId} = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("TaskForm");
 
@@ -54,6 +60,7 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
           action={action}
           companies={options.companies}
           contacts={options.contacts}
+          invalidFields={invalidFields?.split(",").filter(Boolean) ?? []}
           interactions={options.interactions}
           locale={locale}
           mode="create"
@@ -64,10 +71,11 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
             companyId: relatedInteraction?.companyId ?? companyId ?? "",
             contactId: relatedInteraction?.contactId ?? contactId ?? "",
             relatedInteractionId: relatedInteractionId ?? "",
-            dueDate: defaultDueDate(),
-            statusValueId: defaultStatus,
-            priorityValueId: defaultPriority,
-            notes: relatedInteraction ? `${relatedInteraction.subject}: ` : ""
+            dueDate: dueDate ?? defaultDueDate(),
+            taskTypeValueId: taskTypeValueId ?? "",
+            statusValueId: statusValueId ?? defaultStatus,
+            priorityValueId: priorityValueId ?? defaultPriority,
+            notes: notes ?? (relatedInteraction ? `${relatedInteraction.subject}: ` : "")
           }}
         />
       </section>

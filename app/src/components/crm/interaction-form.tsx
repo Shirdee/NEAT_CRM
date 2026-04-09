@@ -21,6 +21,7 @@ type InteractionFormProps = {
   compact?: boolean;
   contacts: Array<{id: string; fullName: string}>;
   hiddenFields?: Record<string, string>;
+  invalidFields?: string[];
   interactionTypeOptions: LookupOption[];
   lockedCompany?: {id: string; companyName: string} | null;
   lockedContact?: {id: string; fullName: string} | null;
@@ -41,6 +42,7 @@ export function InteractionForm({
   compact,
   contacts,
   hiddenFields,
+  invalidFields,
   interactionTypeOptions,
   lockedCompany,
   lockedContact,
@@ -58,6 +60,7 @@ export function InteractionForm({
     summary: values?.summary ?? "",
     outcomeStatusValueId: values?.outcomeStatusValueId ?? ""
   };
+  const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
   return (
     <form action={action} className="space-y-5">
@@ -90,7 +93,7 @@ export function InteractionForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "תאריך ושעה" : "Date and time"}</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("interactionDate") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.interactionDate}
             name="interactionDate"
             required
@@ -100,6 +103,7 @@ export function InteractionForm({
         <div className={`space-y-2 text-sm text-slate-700 ${compact ? "" : "lg:col-span-2"}`}>
           <span className="font-medium">{locale === "he" ? "סוג אינטראקציה" : "Interaction type"}</span>
           <InteractionTypeField
+            invalid={isInvalid("interactionTypeValueId")}
             locale={locale}
             name="interactionTypeValueId"
             options={interactionTypeOptions}
@@ -109,6 +113,7 @@ export function InteractionForm({
         {lockedCompany ? null : (
           <SearchableOptionField
             emptyLabel={locale === "he" ? "ללא חברה" : "No company"}
+            invalid={isInvalid("companyId")}
             label={locale === "he" ? "חברה" : "Company"}
             name="companyId"
             noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
@@ -121,6 +126,7 @@ export function InteractionForm({
         {lockedContact ? null : (
           <SearchableOptionField
             emptyLabel={locale === "he" ? "ללא איש קשר" : "No contact"}
+            invalid={isInvalid("contactId")}
             label={locale === "he" ? "איש קשר" : "Contact"}
             name="contactId"
             noResultsLabel={locale === "he" ? "לא נמצאו אנשי קשר" : "No contacts found"}
@@ -134,7 +140,7 @@ export function InteractionForm({
       <label className="block space-y-2 text-sm text-slate-700">
         <span className="font-medium">{locale === "he" ? "נושא" : "Subject"}</span>
         <input
-          className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("subject") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
           defaultValue={defaults.subject}
           name="subject"
           required
@@ -143,7 +149,7 @@ export function InteractionForm({
       <label className="block space-y-2 text-sm text-slate-700">
         <span className="font-medium">{locale === "he" ? "סיכום" : "Summary"}</span>
         <textarea
-          className={`w-full rounded-2xl border border-slate-200 px-4 py-3 ${compact ? "min-h-24" : "min-h-32"}`}
+          className={`w-full rounded-2xl border px-4 py-3 ${compact ? "min-h-24" : "min-h-32"} ${isInvalid("summary") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
           defaultValue={defaults.summary}
           name="summary"
           required

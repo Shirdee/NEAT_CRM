@@ -17,6 +17,7 @@ type NewInteractionPageProps = {
     error?: string;
     interactionDate?: string;
     interactionTypeValueId?: string;
+    invalidFields?: string;
     outcomeStatusValueId?: string;
     subject?: string;
     summary?: string;
@@ -38,6 +39,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
     contactId,
     interactionDate,
     interactionTypeValueId,
+    invalidFields,
     outcomeStatusValueId,
     subject,
     summary
@@ -78,6 +80,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
           compact={compactMode}
           contacts={options.contacts}
           hiddenFields={compactMode ? {compact: "1"} : undefined}
+          invalidFields={invalidFields?.split(",").filter(Boolean) ?? []}
           interactionTypeOptions={options.interactionTypeOptions}
           lockedCompany={lockedCompany}
           lockedContact={lockedContact}

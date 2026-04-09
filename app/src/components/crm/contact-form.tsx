@@ -16,6 +16,7 @@ type ContactFormProps = {
   action: (formData: FormData) => void | Promise<void>;
   companies: Array<{id: string; companyName: string}>;
   hiddenFields?: Record<string, string>;
+  invalidFields?: string[];
   locale: AppLocale;
   mode: "create" | "edit";
   values?: Partial<ContactFormValues>;
@@ -25,6 +26,7 @@ export function ContactForm({
   action,
   companies,
   hiddenFields,
+  invalidFields,
   locale,
   mode,
   values
@@ -40,6 +42,7 @@ export function ContactForm({
     phonesText: values?.phonesText ?? "",
     primaryPhone: values?.primaryPhone ?? ""
   };
+  const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
   return (
     <form action={action} className="space-y-5">
@@ -52,7 +55,7 @@ export function ContactForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "שם פרטי" : "First name"}</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("firstName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.firstName}
             name="firstName"
             required
@@ -61,7 +64,7 @@ export function ContactForm({
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "שם משפחה" : "Last name"}</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("lastName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.lastName}
             name="lastName"
             required
@@ -97,7 +100,7 @@ export function ContactForm({
             {locale === "he" ? "אימיילים, שורה לכל ערך" : "Emails, one per line"}
           </span>
           <textarea
-            className="min-h-32 w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`min-h-32 w-full rounded-2xl border px-4 py-3 ${isInvalid("emailsText") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.emailsText}
             name="emailsText"
           />
@@ -107,7 +110,7 @@ export function ContactForm({
             {locale === "he" ? "טלפונים, שורה לכל ערך" : "Phones, one per line"}
           </span>
           <textarea
-            className="min-h-32 w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className={`min-h-32 w-full rounded-2xl border px-4 py-3 ${isInvalid("phonesText") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
             defaultValue={defaults.phonesText}
             name="phonesText"
           />

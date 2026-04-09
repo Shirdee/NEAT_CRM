@@ -8,7 +8,9 @@ import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
 import {
   createInteraction,
   normalizeInteractionPayload,
-  updateInteraction
+  updateInteraction,
+  validateCompanyContactMatch,
+  ValidationError
 } from "@/lib/data/crm";
 
 async function requireWritableUser(locale: string) {
@@ -25,9 +27,9 @@ async function requireWritableUser(locale: string) {
   return session;
 }
 
-function buildInteractionRedirectParams(formData: FormData, error: string) {
+function buildInteractionRedirectParams(formData: FormData, error: string, fields: string[] = []) {
   const params = new URLSearchParams({error});
-  const fields = [
+  const valueFields = [
     "interactionDate",
     "companyId",
     "contactId",
@@ -38,12 +40,16 @@ function buildInteractionRedirectParams(formData: FormData, error: string) {
     "compact"
   ];
 
-  for (const field of fields) {
+  for (const field of valueFields) {
     const value = String(formData.get(field) ?? "").trim();
 
     if (value) {
       params.set(field, value);
     }
+  }
+
+  if (fields.length > 0) {
+    params.set("invalidFields", fields.join(","));
   }
 
   return params.toString();
@@ -65,6 +71,7 @@ export async function createInteractionAction(boundLocale: string, formData: For
       outcomeStatusValueId: String(formData.get("outcomeStatusValueId") ?? ""),
       actorUserId: session.id
     });
+    await validateCompanyContactMatch(payload.companyId, payload.contactId);
 
     const interaction = await createInteraction(payload);
 
@@ -94,7 +101,8 @@ export async function createInteractionAction(boundLocale: string, formData: For
       throw error;
     }
 
-    redirect(`/${locale}/interactions/new?${buildInteractionRedirectParams(formData, "validation")}`);
+    const fields = error instanceof ValidationError ? error.fields : [];
+    redirect(`/${locale}/interactions/new?${buildInteractionRedirectParams(formData, "validation", fields)}`);
   }
 }
 
@@ -118,6 +126,7 @@ export async function updateInteractionAction(boundLocale: string, formData: For
       outcomeStatusValueId: String(formData.get("outcomeStatusValueId") ?? ""),
       actorUserId: session.id
     });
+    await validateCompanyContactMatch(payload.companyId, payload.contactId);
 
     await updateInteraction(interactionId, payload);
 

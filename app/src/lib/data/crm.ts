@@ -224,6 +224,16 @@ function cleanOptional(value: string | null | undefined) {
   return normalized ? normalized : null;
 }
 
+export class ValidationError extends Error {
+  fields: string[];
+
+  constructor(message: string, fields: string[]) {
+    super(message);
+    this.name = "ValidationError";
+    this.fields = fields;
+  }
+}
+
 function cleanRequired(value: string | null | undefined, field: string) {
   const normalized = cleanOptional(value);
 
@@ -270,7 +280,7 @@ export function normalizeCompanyPayload(input: {
   const companyName = normalizeText(input.companyName);
 
   if (!companyName) {
-    throw new Error("Company name is required.");
+    throw new ValidationError("Company name is required.", ["companyName"]);
   }
 
   return {
@@ -300,14 +310,14 @@ export function normalizeContactPayload(input: {
   const fullName = [firstName, lastName].filter(Boolean).join(" ").trim();
 
   if (!fullName) {
-    throw new Error("Contact name is required.");
+    throw new ValidationError("Contact name is required.", ["firstName", "lastName"]);
   }
 
   const emails = parseLinesField(input.emailsText);
   const phones = parseLinesField(input.phonesText);
 
   if (emails.length === 0 && phones.length === 0) {
-    throw new Error("At least one email or phone number is required.");
+    throw new ValidationError("At least one email or phone number is required.", ["emailsText", "phonesText"]);
   }
 
   const primaryEmail = cleanOptional(input.primaryEmail);
@@ -349,8 +359,17 @@ export function normalizeInteractionPayload(input: {
   const companyId = cleanOptional(input.companyId);
   const contactId = cleanOptional(input.contactId);
 
+  const missingFields: string[] = [];
+  if (!cleanOptional(input.interactionDate)) missingFields.push("interactionDate");
+  if (!cleanOptional(input.interactionTypeValueId)) missingFields.push("interactionTypeValueId");
+  if (!cleanOptional(input.subject)) missingFields.push("subject");
+  if (!cleanOptional(input.summary)) missingFields.push("summary");
   if (!companyId && !contactId) {
-    throw new Error("Interaction must be linked to a company or contact.");
+    missingFields.push("companyId", "contactId");
+  }
+
+  if (missingFields.length > 0) {
+    throw new ValidationError("Interaction validation failed.", missingFields);
   }
 
   return {
@@ -383,8 +402,17 @@ export function normalizeTaskPayload(input: {
   const companyId = cleanOptional(input.companyId);
   const contactId = cleanOptional(input.contactId);
 
+  const missingFields: string[] = [];
+  if (!cleanOptional(input.taskTypeValueId)) missingFields.push("taskTypeValueId");
+  if (!cleanOptional(input.dueDate)) missingFields.push("dueDate");
+  if (!cleanOptional(input.priorityValueId)) missingFields.push("priorityValueId");
+  if (!cleanOptional(input.statusValueId)) missingFields.push("statusValueId");
   if (!companyId && !contactId) {
-    throw new Error("Task must be linked to a company or contact.");
+    missingFields.push("companyId", "contactId");
+  }
+
+  if (missingFields.length > 0) {
+    throw new ValidationError("Task validation failed.", missingFields);
   }
 
   return {
@@ -806,6 +834,18 @@ export async function getContactById(id: string) {
     ).length,
     inactivityLabel: deriveInactivityLabel(contact.interactions[0]?.interactionDate ?? null)
   };
+}
+
+export async function validateCompanyContactMatch(companyId: string | null, contactId: string | null) {
+  if (!companyId || !contactId) {
+    return;
+  }
+
+  const contact = await getContactById(contactId);
+
+  if (!contact || contact.companyId !== companyId) {
+    throw new ValidationError("Selected company and contact do not match.", ["companyId", "contactId"]);
+  }
 }
 
 export async function createContact(input: ContactInput) {

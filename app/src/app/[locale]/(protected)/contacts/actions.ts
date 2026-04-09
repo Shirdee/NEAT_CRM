@@ -1,10 +1,11 @@
 "use server";
 
 import {revalidatePath} from "next/cache";
+import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
-import {createContact, normalizeContactPayload, updateContact} from "@/lib/data/crm";
+import {createContact, normalizeContactPayload, updateContact, ValidationError} from "@/lib/data/crm";
 
 async function requireWritableUser(locale: string) {
   const session = await getCurrentSession();
@@ -18,6 +19,32 @@ async function requireWritableUser(locale: string) {
   }
 
   return session;
+}
+
+function buildContactRedirectParams(formData: FormData, fields: string[] = []) {
+  const params = new URLSearchParams({error: "validation"});
+  const values = [
+    "firstName",
+    "lastName",
+    "roleTitle",
+    "companyId",
+    "notes",
+    "emailsText",
+    "primaryEmail",
+    "phonesText",
+    "primaryPhone"
+  ];
+
+  for (const field of values) {
+    const value = String(formData.get(field) ?? "");
+    if (value) params.set(field, value);
+  }
+
+  if (fields.length > 0) {
+    params.set("invalidFields", fields.join(","));
+  }
+
+  return params.toString();
 }
 
 export async function createContactAction(boundLocale: string, formData: FormData) {
@@ -42,8 +69,10 @@ export async function createContactAction(boundLocale: string, formData: FormDat
 
     revalidatePath(`/${locale}/contacts`);
     redirect(`/${locale}/contacts/${contact.id}?success=created`);
-  } catch {
-    redirect(`/${locale}/contacts/new?error=validation`);
+  } catch (error) {
+    if (isRedirectError(error)) throw error;
+    const fields = error instanceof ValidationError ? error.fields : [];
+    redirect(`/${locale}/contacts/new?${buildContactRedirectParams(formData, fields)}`);
   }
 }
 
@@ -74,7 +103,8 @@ export async function updateContactAction(boundLocale: string, formData: FormDat
 
     revalidatePath(`/${locale}/contacts`);
     redirect(`/${locale}/contacts/${contactId}?success=updated`);
-  } catch {
+  } catch (error) {
+    if (isRedirectError(error)) throw error;
     redirect(`/${locale}/contacts/${contactId}/edit?error=validation`);
   }
 }

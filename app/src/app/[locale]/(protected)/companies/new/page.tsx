@@ -10,12 +10,12 @@ import {createCompanyAction} from "../actions";
 
 type NewCompanyPageProps = {
   params: Promise<{locale: "en" | "he"}>;
-  searchParams: Promise<{error?: string}>;
+  searchParams: Promise<{error?: string; invalidFields?: string; companyName?: string; website?: string; sourceValueId?: string; stageValueId?: string; notes?: string;}>;
 };
 
 export default async function NewCompanyPage({params, searchParams}: NewCompanyPageProps) {
   const {locale} = await params;
-  const {error} = await searchParams;
+  const {error, invalidFields, companyName, website, sourceValueId, stageValueId, notes} = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("CompanyForm");
 
@@ -38,10 +38,12 @@ export default async function NewCompanyPage({params, searchParams}: NewCompanyP
       <section className="rounded-[24px] border border-slate-200 bg-white p-6">
         <CompanyForm
           action={action}
+          invalidFields={invalidFields?.split(",").filter(Boolean) ?? []}
           locale={locale}
           mode="create"
           sourceOptions={options.sourceOptions}
           stageOptions={options.stageOptions}
+          values={{companyName: companyName ?? "", website: website ?? "", sourceValueId: sourceValueId ?? "", stageValueId: stageValueId ?? "", notes: notes ?? ""}}
         />
       </section>
       <Link className="inline-flex text-sm font-medium text-slate-700" href="/companies" locale={locale}>

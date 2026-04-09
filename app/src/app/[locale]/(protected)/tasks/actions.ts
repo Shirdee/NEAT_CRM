@@ -5,7 +5,13 @@ import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
-import {createTask, normalizeTaskPayload, updateTask} from "@/lib/data/crm";
+import {
+  createTask,
+  normalizeTaskPayload,
+  updateTask,
+  validateCompanyContactMatch,
+  ValidationError
+} from "@/lib/data/crm";
 
 async function requireWritableUser(locale: string) {
   const session = await getCurrentSession();
@@ -19,6 +25,31 @@ async function requireWritableUser(locale: string) {
   }
 
   return session;
+}
+
+function buildTaskRedirectParams(formData: FormData, fields: string[] = []) {
+  const params = new URLSearchParams({error: "validation"});
+  const values = [
+    "companyId",
+    "contactId",
+    "relatedInteractionId",
+    "taskTypeValueId",
+    "dueDate",
+    "priorityValueId",
+    "statusValueId",
+    "notes"
+  ];
+
+  for (const field of values) {
+    const value = String(formData.get(field) ?? "");
+    if (value) params.set(field, value);
+  }
+
+  if (fields.length > 0) {
+    params.set("invalidFields", fields.join(","));
+  }
+
+  return params.toString();
 }
 
 export async function createTaskAction(boundLocale: string, formData: FormData) {
@@ -37,6 +68,7 @@ export async function createTaskAction(boundLocale: string, formData: FormData) 
       notes: String(formData.get("notes") ?? ""),
       actorUserId: session.id
     });
+    await validateCompanyContactMatch(payload.companyId, payload.contactId);
 
     const task = await createTask(payload);
 
@@ -50,7 +82,8 @@ export async function createTaskAction(boundLocale: string, formData: FormData) 
       throw error;
     }
 
-    redirect(`/${locale}/tasks/new?error=validation`);
+    const fields = error instanceof ValidationError ? error.fields : [];
+    redirect(`/${locale}/tasks/new?${buildTaskRedirectParams(formData, fields)}`);
   }
 }
 
@@ -75,6 +108,7 @@ export async function updateTaskAction(boundLocale: string, formData: FormData) 
       notes: String(formData.get("notes") ?? ""),
       actorUserId: session.id
     });
+    await validateCompanyContactMatch(payload.companyId, payload.contactId);
 
     await updateTask(taskId, payload);
 

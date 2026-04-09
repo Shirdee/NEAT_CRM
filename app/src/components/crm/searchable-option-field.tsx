@@ -9,6 +9,7 @@ type SearchableOption = {
 
 type SearchableOptionFieldProps = {
   emptyLabel: string;
+  invalid?: boolean;
   label: string;
   name: string;
   noResultsLabel: string;
@@ -20,6 +21,7 @@ type SearchableOptionFieldProps = {
 
 export function SearchableOptionField({
   emptyLabel,
+  invalid,
   label,
   name,
   noResultsLabel,
@@ -60,7 +62,7 @@ export function SearchableOptionField({
       <div className="relative">
         <input
           autoComplete="off"
-          className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className={`w-full rounded-2xl border px-4 py-3 ${invalid ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
           onBlur={() => {
             window.setTimeout(() => {
               setIsOpen(false);

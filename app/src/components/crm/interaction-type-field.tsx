@@ -6,6 +6,7 @@ import type {AppLocale} from "@/i18n/routing";
 import type {LookupOption} from "@/lib/data/crm";
 
 type InteractionTypeFieldProps = {
+  invalid?: boolean;
   locale: AppLocale;
   name: string;
   options: LookupOption[];
@@ -17,6 +18,7 @@ function lookupLabel(option: LookupOption, locale: AppLocale) {
 }
 
 export function InteractionTypeField({
+  invalid,
   locale,
   name,
   options,
@@ -41,7 +43,9 @@ export function InteractionTypeField({
               className={`rounded-[20px] border p-4 text-left transition ${
                 isSelected
                   ? "border-coral bg-mist text-ink shadow-soft"
-                  : "border-slate-200 bg-white text-slate-700 hover:border-coral/50 hover:bg-mist"
+                  : invalid
+                    ? "border-amber-500 bg-amber-50 text-slate-700 hover:border-coral/50 hover:bg-mist"
+                    : "border-slate-200 bg-white text-slate-700 hover:border-coral/50 hover:bg-mist"
               }`}
               key={option.id}
               onClick={() => setSelectedId(option.id)}

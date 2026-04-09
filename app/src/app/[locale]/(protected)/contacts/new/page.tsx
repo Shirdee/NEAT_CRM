@@ -10,12 +10,12 @@ import {createContactAction} from "../actions";
 
 type NewContactPageProps = {
   params: Promise<{locale: "en" | "he"}>;
-  searchParams: Promise<{error?: string; companyId?: string}>;
+  searchParams: Promise<{error?: string; invalidFields?: string; companyId?: string; firstName?: string; lastName?: string; roleTitle?: string; notes?: string; emailsText?: string; primaryEmail?: string; phonesText?: string; primaryPhone?: string;}>;
 };
 
 export default async function NewContactPage({params, searchParams}: NewContactPageProps) {
   const {locale} = await params;
-  const {error, companyId} = await searchParams;
+  const {error, invalidFields, companyId, firstName, lastName, roleTitle, notes, emailsText, primaryEmail, phonesText, primaryPhone} = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("ContactForm");
 
@@ -39,9 +39,10 @@ export default async function NewContactPage({params, searchParams}: NewContactP
         <ContactForm
           action={action}
           companies={companies}
+          invalidFields={invalidFields?.split(",").filter(Boolean) ?? []}
           locale={locale}
           mode="create"
-          values={{companyId: companyId ?? ""}}
+          values={{companyId: companyId ?? "", firstName: firstName ?? "", lastName: lastName ?? "", roleTitle: roleTitle ?? "", notes: notes ?? "", emailsText: emailsText ?? "", primaryEmail: primaryEmail ?? "", phonesText: phonesText ?? "", primaryPhone: primaryPhone ?? ""}}
         />
       </section>
       <Link className="inline-flex text-sm font-medium text-slate-700" href="/contacts" locale={locale}>
