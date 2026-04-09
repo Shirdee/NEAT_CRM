@@ -1,6 +1,7 @@
 import type {AppLocale} from "@/i18n/routing";
 import type {LookupOption} from "@/lib/data/crm";
 
+import {CompanyContactLinkFields} from "./company-contact-link-fields";
 import {SearchableOptionField} from "./searchable-option-field";
 
 type TaskFormValues = {
@@ -17,7 +18,7 @@ type TaskFormValues = {
 type TaskFormProps = {
   action: (formData: FormData) => void | Promise<void>;
   companies: Array<{id: string; companyName: string}>;
-  contacts: Array<{id: string; fullName: string}>;
+  contacts: Array<{id: string; fullName: string; companyId: string | null}>;
   hiddenFields?: Record<string, string>;
   invalidFields?: string[];
   interactions: Array<{id: string; subject: string}>;
@@ -93,27 +94,15 @@ export function TaskForm({
             ))}
           </select>
         </label>
-        <SearchableOptionField
-          emptyLabel={locale === "he" ? "ללא חברה" : "No company"}
-          invalid={isInvalid("companyId")}
-          label={locale === "he" ? "חברה" : "Company"}
-          name="companyId"
-          noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
-          options={companies.map((company) => ({id: company.id, label: company.companyName}))}
-          placeholder={locale === "he" ? "חיפוש חברה" : "Search company"}
-          searchPlaceholder={locale === "he" ? "חיפוש חברה אחרת" : "Search another company"}
-          value={defaults.companyId}
-        />
-        <SearchableOptionField
-          emptyLabel={locale === "he" ? "ללא איש קשר" : "No contact"}
-          invalid={isInvalid("contactId")}
-          label={locale === "he" ? "איש קשר" : "Contact"}
-          name="contactId"
-          noResultsLabel={locale === "he" ? "לא נמצאו אנשי קשר" : "No contacts found"}
-          options={contacts.map((contact) => ({id: contact.id, label: contact.fullName}))}
-          placeholder={locale === "he" ? "חיפוש איש קשר" : "Search contact"}
-          searchPlaceholder={locale === "he" ? "חיפוש איש קשר אחר" : "Search another contact"}
-          value={defaults.contactId}
+        <CompanyContactLinkFields
+          companies={companies}
+          companyFieldName="companyId"
+          companyInvalid={isInvalid("companyId")}
+          contactFieldName="contactId"
+          contactInvalid={isInvalid("contactId")}
+          contacts={contacts}
+          locale={locale}
+          value={{companyId: defaults.companyId, contactId: defaults.contactId}}
         />
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "עדיפות" : "Priority"}</span>

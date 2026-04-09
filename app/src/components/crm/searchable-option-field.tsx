@@ -13,6 +13,7 @@ type SearchableOptionFieldProps = {
   label: string;
   name: string;
   noResultsLabel: string;
+  onValueChange?: (value: string) => void;
   options: SearchableOption[];
   placeholder: string;
   searchPlaceholder: string;
@@ -25,6 +26,7 @@ export function SearchableOptionField({
   label,
   name,
   noResultsLabel,
+  onValueChange,
   options,
   placeholder,
   searchPlaceholder,
@@ -92,6 +94,7 @@ export function SearchableOptionField({
               setQuery("");
               setSelectedId("");
               setIsOpen(false);
+              onValueChange?.("");
             }}
             type="button"
           >
@@ -104,14 +107,15 @@ export function SearchableOptionField({
               className={`block w-full rounded-2xl px-3 py-2 text-left text-sm ${
                 !selectedId ? "bg-mist text-ink" : "text-slate-700 hover:bg-mist"
               }`}
-              onMouseDown={(event) => {
-                event.preventDefault();
-                setSelectedId("");
-                setQuery("");
-                setIsOpen(false);
-              }}
-              type="button"
-            >
+            onMouseDown={(event) => {
+              event.preventDefault();
+              setSelectedId("");
+              setQuery("");
+              setIsOpen(false);
+              onValueChange?.("");
+            }}
+            type="button"
+          >
               {emptyLabel}
             </button>
             {filteredOptions.length === 0 ? (
@@ -128,6 +132,7 @@ export function SearchableOptionField({
                     setSelectedId(option.id);
                     setQuery(option.label);
                     setIsOpen(false);
+                    onValueChange?.(option.id);
                   }}
                   type="button"
                 >

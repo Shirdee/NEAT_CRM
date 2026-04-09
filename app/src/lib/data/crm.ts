@@ -497,7 +497,8 @@ export async function getInteractionFormOptions() {
     companies,
     contacts: contacts.map((contact) => ({
       id: contact.id,
-      fullName: contact.fullName
+      fullName: contact.fullName,
+      companyId: contact.companyId ?? null
     })),
     interactionTypeOptions,
     outcomeOptions
@@ -518,7 +519,8 @@ export async function getTaskFormOptions() {
     companies,
     contacts: contacts.map((contact) => ({
       id: contact.id,
-      fullName: contact.fullName
+      fullName: contact.fullName,
+      companyId: contact.companyId ?? null
     })),
     interactions: interactions.map((interaction) => ({
       id: interaction.id,

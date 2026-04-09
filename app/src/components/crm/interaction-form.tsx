@@ -1,6 +1,7 @@
 import type {AppLocale} from "@/i18n/routing";
 import type {LookupOption} from "@/lib/data/crm";
 
+import {CompanyContactLinkFields} from "./company-contact-link-fields";
 import {InteractionTypeField} from "./interaction-type-field";
 import {SearchableOptionField} from "./searchable-option-field";
 
@@ -19,12 +20,12 @@ type InteractionFormProps = {
   action: (formData: FormData) => void | Promise<void>;
   companies: Array<{id: string; companyName: string}>;
   compact?: boolean;
-  contacts: Array<{id: string; fullName: string}>;
+  contacts: Array<{id: string; fullName: string; companyId: string | null}>;
   hiddenFields?: Record<string, string>;
   invalidFields?: string[];
   interactionTypeOptions: LookupOption[];
   lockedCompany?: {id: string; companyName: string} | null;
-  lockedContact?: {id: string; fullName: string} | null;
+  lockedContact?: {id: string; fullName: string; companyId: string | null} | null;
   locale: AppLocale;
   mode: "create" | "edit";
   outcomeOptions: LookupOption[];
@@ -110,30 +111,44 @@ export function InteractionForm({
             value={defaults.interactionTypeValueId}
           />
         </div>
-        {lockedCompany ? null : (
-          <SearchableOptionField
-            emptyLabel={locale === "he" ? "ללא חברה" : "No company"}
-            invalid={isInvalid("companyId")}
-            label={locale === "he" ? "חברה" : "Company"}
-            name="companyId"
-            noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
-            options={companies.map((company) => ({id: company.id, label: company.companyName}))}
-            placeholder={locale === "he" ? "חיפוש חברה" : "Search company"}
-            searchPlaceholder={locale === "he" ? "חיפוש חברה אחרת" : "Search another company"}
-            value={defaults.companyId}
-          />
-        )}
-        {lockedContact ? null : (
+        {lockedCompany && lockedContact ? null : lockedCompany ? (
           <SearchableOptionField
             emptyLabel={locale === "he" ? "ללא איש קשר" : "No contact"}
             invalid={isInvalid("contactId")}
             label={locale === "he" ? "איש קשר" : "Contact"}
             name="contactId"
             noResultsLabel={locale === "he" ? "לא נמצאו אנשי קשר" : "No contacts found"}
-            options={contacts.map((contact) => ({id: contact.id, label: contact.fullName}))}
+            options={contacts
+              .filter((contact) => contact.companyId === lockedCompany.id)
+              .map((contact) => ({id: contact.id, label: contact.fullName}))}
             placeholder={locale === "he" ? "חיפוש איש קשר" : "Search contact"}
             searchPlaceholder={locale === "he" ? "חיפוש איש קשר אחר" : "Search another contact"}
             value={defaults.contactId}
+          />
+        ) : lockedContact ? (
+          <SearchableOptionField
+            emptyLabel={locale === "he" ? "ללא חברה" : "No company"}
+            invalid={isInvalid("companyId")}
+            label={locale === "he" ? "חברה" : "Company"}
+            name="companyId"
+            noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
+            options={companies
+              .filter((company) => company.id === lockedContact.companyId)
+              .map((company) => ({id: company.id, label: company.companyName}))}
+            placeholder={locale === "he" ? "חיפוש חברה" : "Search company"}
+            searchPlaceholder={locale === "he" ? "חיפוש חברה אחרת" : "Search another company"}
+            value={defaults.companyId}
+          />
+        ) : (
+          <CompanyContactLinkFields
+            companies={companies}
+            companyFieldName="companyId"
+            companyInvalid={isInvalid("companyId")}
+            contactFieldName="contactId"
+            contactInvalid={isInvalid("contactId")}
+            contacts={contacts}
+            locale={locale}
+            value={{companyId: defaults.companyId, contactId: defaults.contactId}}
           />
         )}
       </div>
