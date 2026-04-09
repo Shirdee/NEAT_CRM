@@ -1,6 +1,7 @@
 import type {AppLocale} from "@/i18n/routing";
 import type {LookupOption} from "@/lib/data/crm";
 
+import {InteractionTypeField} from "./interaction-type-field";
 import {SearchableOptionField} from "./searchable-option-field";
 
 type InteractionFormValues = {
@@ -98,24 +99,12 @@ export function InteractionForm({
         </label>
         <div className={`space-y-2 text-sm text-slate-700 ${compact ? "" : "lg:col-span-2"}`}>
           <span className="font-medium">{locale === "he" ? "סוג אינטראקציה" : "Interaction type"}</span>
-          <div className={`grid gap-3 sm:grid-cols-2 ${compact ? "" : "lg:grid-cols-3"}`}>
-            {interactionTypeOptions.map((option) => (
-              <label
-                className="cursor-pointer rounded-[20px] border border-slate-200 bg-white p-4 transition hover:border-coral/50 hover:bg-mist"
-                key={option.id}
-              >
-                <input
-                  className="sr-only"
-                  defaultChecked={defaults.interactionTypeValueId === option.id}
-                  name="interactionTypeValueId"
-                  required
-                  type="radio"
-                  value={option.id}
-                />
-                <span className="text-sm font-medium text-ink">{lookupLabel(option, locale)}</span>
-              </label>
-            ))}
-          </div>
+          <InteractionTypeField
+            locale={locale}
+            name="interactionTypeValueId"
+            options={interactionTypeOptions}
+            value={defaults.interactionTypeValueId}
+          />
         </div>
         {lockedCompany ? null : (
           <SearchableOptionField
