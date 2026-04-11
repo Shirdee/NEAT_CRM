@@ -30,6 +30,7 @@ async function requireWritableUser(locale: string) {
 function buildTaskRedirectParams(formData: FormData, fields: string[] = []) {
   const params = new URLSearchParams({error: "validation"});
   const values = [
+    "compact",
     "companyId",
     "contactId",
     "relatedInteractionId",
@@ -76,6 +77,7 @@ export async function createTaskAction(boundLocale: string, formData: FormData) 
     revalidatePath(`/${locale}/interactions`);
     revalidatePath(`/${locale}/companies`);
     revalidatePath(`/${locale}/contacts`);
+
     redirect(`/${locale}/tasks/${task.id}?success=created`);
   } catch (error) {
     if (isRedirectError(error)) {

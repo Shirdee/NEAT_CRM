@@ -62,7 +62,7 @@ export default async function CompanyDetailPage({
                 </Link>
                 <Link
                   className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700"
-                  href={`/tasks/new?companyId=${company.id}`}
+                  href={`/tasks/new?compact=1&companyId=${company.id}`}
                   locale={locale}
                 >
                   {t("addTask")}
@@ -141,7 +141,7 @@ export default async function CompanyDetailPage({
             {t("overdueTasksCount", {count: company.overdueTasksCount ?? 0})}
           </p>
           {session && canEditRecords(session.role) ? (
-            <Link className="inline-flex text-sm font-medium text-slate-700" href={`/tasks/new?companyId=${company.id}`} locale={locale}>
+            <Link className="inline-flex text-sm font-medium text-slate-700" href={`/tasks/new?compact=1&companyId=${company.id}`} locale={locale}>
               {t("addTask")}
             </Link>
           ) : null}

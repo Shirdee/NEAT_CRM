@@ -83,6 +83,7 @@ export async function createInteractionAction(boundLocale: string, formData: For
       const params = new URLSearchParams({
         relatedInteractionId: interaction.id
       });
+      const compact = String(formData.get("compact") ?? "");
 
       if (interaction.companyId) {
         params.set("companyId", interaction.companyId);
@@ -90,6 +91,10 @@ export async function createInteractionAction(boundLocale: string, formData: For
 
       if (interaction.contactId) {
         params.set("contactId", interaction.contactId);
+      }
+
+      if (compact) {
+        params.set("compact", compact);
       }
 
       redirect(`/${locale}/tasks/new?${params.toString()}`);

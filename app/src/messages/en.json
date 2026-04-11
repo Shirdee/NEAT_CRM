@@ -398,8 +398,10 @@
   },
   "TaskForm": {
     "createTitle": "Create follow-up",
+    "quickAddTitle": "Quick add follow-up",
     "editTitle": "Edit follow-up",
     "subtitle": "Keep next actions concrete, linked, and easy to complete from the same shared Sprint 4 task flow.",
+    "quickAddSubtitle": "Use the compact flow to capture the next step immediately while keeping the linked record context intact.",
     "error": "A follow-up needs a due date, type, priority, status, and at least one linked company or contact.",
     "back": "Back"
   },

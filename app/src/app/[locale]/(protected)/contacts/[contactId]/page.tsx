@@ -107,7 +107,7 @@ export default async function ContactDetailPage({
             {t("overdueTasksCount", {count: contact.overdueTasksCount ?? 0})}
           </p>
           {session && canEditRecords(session.role) ? (
-            <Link className="mt-4 inline-flex text-sm font-medium text-slate-700" href={`/tasks/new?contactId=${contact.id}`} locale={locale}>
+            <Link className="mt-4 inline-flex text-sm font-medium text-slate-700" href={`/tasks/new?compact=1&contactId=${contact.id}`} locale={locale}>
               {t("addTask")}
             </Link>
           ) : null}

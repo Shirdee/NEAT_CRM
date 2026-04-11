@@ -18,6 +18,7 @@ type TaskFormValues = {
 type TaskFormProps = {
   action: (formData: FormData) => void | Promise<void>;
   companies: Array<{id: string; companyName: string}>;
+  compact?: boolean;
   contacts: Array<{id: string; fullName: string; companyId: string | null}>;
   hiddenFields?: Record<string, string>;
   invalidFields?: string[];
@@ -37,6 +38,7 @@ function lookupLabel(option: LookupOption, locale: AppLocale) {
 export function TaskForm({
   action,
   companies,
+  compact,
   contacts,
   hiddenFields,
   invalidFields,
@@ -61,13 +63,13 @@ export function TaskForm({
   const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
   return (
-    <form action={action} className="space-y-5">
+    <form action={action} className={`space-y-5 ${compact ? "space-y-4" : ""}`}>
       {hiddenFields
         ? Object.entries(hiddenFields).map(([name, value]) => (
             <input key={name} name={name} type="hidden" value={value} />
           ))
         : null}
-      <div className="grid gap-5 lg:grid-cols-2">
+      <div className={`grid gap-5 ${compact ? "" : "lg:grid-cols-2"}`}>
         <label className="space-y-2 text-sm text-slate-700">
           <span className="font-medium">{locale === "he" ? "תאריך יעד" : "Due date"}</span>
           <input
@@ -137,30 +139,64 @@ export function TaskForm({
           </select>
         </label>
       </div>
-      <label className="block space-y-2 text-sm text-slate-700">
-        <span className="font-medium">{locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}</span>
-        <select
-          className="w-full rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={defaults.relatedInteractionId}
-          name="relatedInteractionId"
-        >
-          <option value="">{locale === "he" ? "ללא אינטראקציה" : "No interaction"}</option>
-          {interactions.map((interaction) => (
-            <option key={interaction.id} value={interaction.id}>
-              {interaction.subject}
-            </option>
-          ))}
-        </select>
-      </label>
+      {compact ? (
+        <details className="rounded-[24px] bg-[rgba(255,255,255,0.78)] px-4 py-4">
+          <summary className="cursor-pointer text-sm font-medium text-slate-700">
+            {locale === "he" ? "שדות נוספים" : "More details"}
+          </summary>
+          <div className="mt-4 space-y-5">
+            <label className="block space-y-2 text-sm text-slate-700">
+              <span className="font-medium">
+                {locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
+              </span>
+              <select
+                className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+                defaultValue={defaults.relatedInteractionId}
+                name="relatedInteractionId"
+              >
+                <option value="">{locale === "he" ? "ללא אינטראקציה" : "No interaction"}</option>
+                {interactions.map((interaction) => (
+                  <option key={interaction.id} value={interaction.id}>
+                    {interaction.subject}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+        </details>
+      ) : (
+        <>
+          <label className="block space-y-2 text-sm text-slate-700">
+            <span className="font-medium">
+              {locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
+            </span>
+            <select
+              className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+              defaultValue={defaults.relatedInteractionId}
+              name="relatedInteractionId"
+            >
+              <option value="">{locale === "he" ? "ללא אינטראקציה" : "No interaction"}</option>
+              {interactions.map((interaction) => (
+                <option key={interaction.id} value={interaction.id}>
+                  {interaction.subject}
+                </option>
+              ))}
+            </select>
+          </label>
+        </>
+      )}
       <label className="block space-y-2 text-sm text-slate-700">
         <span className="font-medium">{locale === "he" ? "הערות" : "Notes"}</span>
         <textarea
-          className="min-h-32 w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className={`w-full rounded-2xl border border-slate-200 px-4 py-3 ${compact ? "min-h-24" : "min-h-32"}`}
           defaultValue={defaults.notes}
           name="notes"
         />
       </label>
-      <button className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white" type="submit">
+      <button
+        className={`inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white ${compact ? "w-full items-center justify-center" : ""}`}
+        type="submit"
+      >
         {mode === "create"
           ? locale === "he"
             ? "יצירת מעקב"

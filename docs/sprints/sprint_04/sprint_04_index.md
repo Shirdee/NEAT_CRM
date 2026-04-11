@@ -7,7 +7,8 @@ tags:
   - dev-handoff
 aliases:
   - Sprint 04 Index
-updated: 2026-04-09
+  - CRM Sprint 04 Index
+updated: 2026-04-11
 ---
 
 # Sprint 04 Index
@@ -15,8 +16,9 @@ updated: 2026-04-09
 ## Status
 
 Sprint 4 planning was re-reviewed by CTO against the finished Sprint 3 repository state.
-Sprint 4 is now active implementation work.
-The current Sprint 4 slice in the repository includes shared interactions and tasks reads and writes, interaction and follow-up create/edit routes, explicit interaction-type selection on the interaction form, direct follow-up creation from the interaction create flow, create-follow-up-from-interaction behavior, activity summaries on company and contact detail, and a green QA verification pass on 2026-04-09.
+Sprint 4 implementation scope is now in the repository.
+The current Sprint 4 slice includes shared interactions and tasks reads and writes, interaction and follow-up create/edit routes, explicit interaction-type selection on the interaction form, direct follow-up creation from the interaction create flow, create-follow-up-from-interaction behavior, live-search company and contact pickers in activity forms, compact quick-add entrypoints from shell and record surfaces, compact follow-up continuation after interaction create, and activity summaries on company and contact detail.
+CTO approves production release from the current verified local state on 2026-04-11.
 
 ## Objective
 
@@ -35,6 +37,7 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 - Interaction and task workflows should reuse the existing RBAC, i18n, and table-first route patterns from Sprint 3.
 - Inactivity logic should be derived from existing interaction data before adding any new background system or automation.
 - Quick-add flows should be built as thin product surfaces on top of centralized server-side mutations.
+- Any field used to search existing CRM records in activity flows should use live search rather than a long static select.
 - Sprint 3 completion was revalidated in the repository before this approval was renewed.
 
 ## Sprint 4 Deliverables
@@ -42,7 +45,7 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 - interactions list view with core filters
 - interaction detail view
 - create and edit interaction flow
-- mobile quick-add interaction sheet or drawer
+- mobile quick-add interaction flow
 - follow-ups table with overdue and upcoming views
 - task detail view
 - create and edit follow-up flow
@@ -52,8 +55,8 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 
 ## Current Implementation Read
 
-- completed in repository: shared activity read and write layer, fallback seed coverage for interactions and tasks, interactions list/detail/create/edit, explicit interaction-type selection in the interaction form, direct interaction-create to follow-up-create handoff, follow-up list/detail/create/edit, create-follow-up-from-interaction path, company/contact activity summaries, shell nav links, locale strings, Sprint 4 fallback tests
-- next build slice: mobile quick-add UX and any remaining mobile-entry polish needed for Sprint 4 closeout
+- completed in repository: shared activity read and write layer, fallback seed coverage for interactions and tasks, interactions list/detail/create/edit, explicit interaction-type selection in the interaction form, live-search company and contact pickers in interaction and follow-up forms, compact interaction quick-add entrypoints, direct interaction-create to compact follow-up-create handoff, compact follow-up entrypoints from record surfaces, follow-up list/detail/create/edit, create-follow-up-from-interaction path, company/contact activity summaries, shell nav links, locale strings, Sprint 4 fallback tests
+- remaining closeout gate: restore a trustworthy local app install and rerun repo verification plus browser-level QA on the compact mobile flows
 
 ## Main Carry-Ins
 
@@ -73,9 +76,14 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 
 Current verification read:
 
-- passed: `npm test`
-- passed: `npm run typecheck`
-- passed: `npm run build`
+- green verification set on 2026-04-11 after local install repair: `npm run typecheck`, `npm test`, `npm run build`
+- QA/code review on 2026-04-11 identified and DEV fixed the compact task-form status-field regression before the green rerun
+- local install blocker on 2026-04-11 was resolved by removing the corrupted `crm/app/node_modules` tree and reinstalling with `npm ci`
+
+Current release read:
+
+- CTO decision on 2026-04-11: production approved
+- reason: the known compact-form bug is fixed, the local install was repaired, and the full repo verification set completed successfully
 
 ## Linked Sprint Docs
 

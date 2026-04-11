@@ -7,7 +7,8 @@ tags:
   - dev-handoff
 aliases:
   - Sprint 04 Todo
-updated: 2026-04-09
+  - CRM Sprint 04 Todo
+updated: 2026-04-11
 ---
 
 # Sprint 04 Todo
@@ -53,7 +54,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 - objective: support create, read, and update behavior for interactions
 - scope: interaction detail screen, create and edit form, relation picking, subject, summary, outcome, and date handling
-- must include: company-only, contact-only, and company-plus-contact linkage paths, explicit interaction-type selection, and read-only presentation for viewers
+- must include: company-only, contact-only, and company-plus-contact linkage paths, explicit interaction-type selection, live-search record pickers for company and contact, and read-only presentation for viewers
 - done when: interaction records can be created and edited through the app without violating RBAC
 - current read: completed for detail, create, edit, and explicit interaction-type selection flow
 
@@ -63,7 +64,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 - scope: quick-add drawer or sheet, compact validated form, route entrypoints from company, contact, and top-level shell actions
 - must include: mobile-first layout, relation prefill when launched from a record, and shared mutation logic with the full form
 - done when: users can log an interaction in a low-friction flow on iPhone-width screens and desktop
-- current read: still open
+- current read: completed in repository for compact interaction quick-add, relation-prefilled entrypoints, and compact follow-up continuation
 
 ### DEV-405: Add Follow-Ups Table Flow
 
@@ -77,7 +78,7 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 - objective: support create, read, update, and complete behavior for follow-up tasks
 - scope: task detail screen, create and edit form, due date, priority, status, note fields, and completion controls
-- must include: company-only, contact-only, and interaction-linked task paths plus consistent `completedAt` handling when task state changes to complete
+- must include: company-only, contact-only, and interaction-linked task paths, live-search record pickers for related existing records, plus consistent `completedAt` handling when task state changes to complete
 - done when: follow-up tasks can be created and maintained through the app without violating RBAC
 - current read: completed for detail, create, edit, and completion through status-driven updates
 
@@ -114,9 +115,9 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 ## Recommended Execution Order
 
-1. DEV-404 Add Mobile Quick-Add Interaction Flow
-2. mobile-specific follow-up quick-entry polish if still needed after DEV-404
-3. DEV-410 Verify And Harden after the remaining quick-add/mobile slice
+1. PM close Sprint 4 delivery truth and preserve release trace
+2. QA perform browser-level/manual verification of compact interaction and compact follow-up flows at iPhone width as post-green confidence work
+3. Sprint 5 remains the active implementation focus
 
 ## Non-Scope Guardrails
 
@@ -143,8 +144,9 @@ Make the CRM operational for daily sales follow-up by shipping interaction loggi
 
 Current completion read:
 
-- completed: shared activity read and write layer, interactions list/detail/create/edit, explicit interaction-type selection in the interaction form, direct interaction-create to follow-up-create handoff, follow-ups list/detail/create/edit, task completion flow, create-follow-up-from-interaction, inactivity summaries on company/contact detail, shell nav links, deeper company/contact cross-links, locale strings, tests, typecheck, build
-- still open: quick-add UX and any remaining mobile-entry polish needed for Sprint 4 closeout
+- completed: shared activity read and write layer, interactions list/detail/create/edit, explicit interaction-type selection in the interaction form, live-search company and contact pickers for interaction and follow-up forms, compact interaction quick-add entrypoints, direct interaction-create to compact follow-up-create handoff, compact follow-up entrypoints from company, contact, and interaction surfaces, follow-ups list/detail/create/edit, task completion flow, create-follow-up-from-interaction, inactivity summaries on company/contact detail, shell nav links, deeper company/contact cross-links, locale strings, prior green test/typecheck/build run on 2026-04-09
+- completed on 2026-04-11: local install repair via clean `npm ci`, post-fix `npm run typecheck`, `npm test`, and `npm run build`
+- still open: browser-level/manual QA on compact mobile flows as post-green confidence work
 
 ## QA Execution Plan
 
@@ -163,9 +165,10 @@ Current completion read:
 
 Current QA read:
 
-- verified: `npm test`, `npm run typecheck`, `npm run build`
-- verified in code: interaction mutations, explicit interaction-type form selection, direct interaction-create to follow-up-create handoff, task mutations, task completion, create-follow-up-from-interaction, company/contact activity summaries, route coverage in the build output
-- residual risk: browser-level/manual UX verification and the still-open quick-add/mobile slice
+- verified in code on 2026-04-11: compact interaction quick-add route, compact follow-up continuation after interaction create, compact task entrypoints from company/contact/interaction surfaces, bilingual copy additions, the compact task-form status-field fix, and clean `git diff --check`
+- passed on 2026-04-11 after install repair: `npm run typecheck`, `npm test`, `npm run build`
+- install recovery note: the broken local `crm/app/node_modules` tree was repaired by removing it and running `npm ci`
+- residual risk: browser-level/manual UX verification of compact mobile flows
 
 ## CTO To DEV Handoff
 
@@ -194,7 +197,13 @@ DEV should treat the following as the approved Sprint 4 build direction:
 
 ## PM Closeout Target
 
-If DEV and QA complete the items above without scope drift, Sprint 4 should be ready to close as the roadmap’s daily sales workflow slice and Sprint 5 can focus on opportunities, dashboard, reporting, and launch hardening.
+If QA clears the compact mobile flows and repo verification passes again after install repair, Sprint 4 should be ready to close as the roadmap’s daily sales workflow slice and Sprint 5 can focus on opportunities, dashboard, reporting, and launch hardening.
+
+## Release Read
+
+- CTO decision on 2026-04-11: this slice is approved for production
+- release basis: repaired local install plus green `npm run typecheck`, `npm test`, and `npm run build`
+- follow-up confidence work: complete browser-level QA on compact interaction and follow-up flows
 
 ## Blockers And Approval Dependencies
 

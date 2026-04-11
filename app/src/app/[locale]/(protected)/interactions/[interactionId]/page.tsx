@@ -54,7 +54,7 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
             </Link>
             <Link
               className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white"
-              href={`/tasks/new?relatedInteractionId=${interaction.id}`}
+              href={`/tasks/new?compact=1&relatedInteractionId=${interaction.id}`}
               locale={locale}
             >
               {t("createFollowUp")}
