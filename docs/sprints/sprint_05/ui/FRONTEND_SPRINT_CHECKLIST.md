@@ -7,11 +7,17 @@ tags:
   - sprint-05
 aliases:
   - CRM Frontend Sprint Checklist
+  - CRM Sprint 05 Frontend Sprint Checklist
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
 # CRM Frontend Sprint Checklist
+
+## Source Context
+
+- parent UI hub: [[CRM UI]]
+- parent sprint hub: [[CRM Sprint 05 Index]]
 
 ## Status Key
 
@@ -45,127 +51,127 @@ Supporting docs:
 
 ### 0.1 Source Alignment
 
-- [ ] Status: `todo` | Owner: `PM` | Confirm Sprint 5 UI docs are the implementation baseline
-- [ ] Status: `todo` | Owner: `CTO` | Confirm no frontend work should follow the old pre-Sprint-5 visual direction
-- [ ] Status: `todo` | Owner: `PM` | Freeze list of in-scope screens for this frontend pass
+- [x] Status: `done` | Owner: `PM` | Confirm Sprint 5 UI docs are the implementation baseline
+- [x] Status: `done` | Owner: `CTO` | Confirm no frontend work should follow the old pre-Sprint-5 visual direction
+- [x] Status: `done` | Owner: `PM` | Freeze list of in-scope screens for this frontend pass
 
 ### 0.2 Token And Theme Setup
 
-- [ ] Status: `todo` | Owner: `FE` | Audit [globals.css](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/globals.css) for palette drift
-- [ ] Status: `todo` | Owner: `FE` | Implement semantic color tokens for `ink`, `teal`, `mint`, `coral`, `amber`, `lime`, `sand`, `white`
-- [ ] Status: `todo` | Owner: `FE` | Standardize radius, shadow, spacing, and shell gradient tokens
-- [ ] Status: `todo` | Owner: `CTO` | Review token naming and confirm reuse strategy
+- [x] Status: `done` | Owner: `FE` | Audit [globals.css](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/globals.css) for palette drift
+- [x] Status: `done` | Owner: `FE` | Implement semantic color tokens for `ink`, `teal`, `mint`, `coral`, `amber`, `lime`, `sand`, `white`
+- [x] Status: `done` | Owner: `FE` | Standardize radius, shadow, spacing, and shell gradient tokens
+- [x] Status: `done` | Owner: `CTO` | Review token naming and confirm reuse strategy
 
 ### 0.3 Shell Baseline
 
-- [ ] Status: `todo` | Owner: `FE` | Refactor [app-shell.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/components/shell/app-shell.tsx) to match the Sprint 5 shell hierarchy
-- [ ] Status: `todo` | Owner: `FE` | Implement active nav state, top search treatment, and action area alignment
-- [ ] Status: `todo` | Owner: `Design QA` | Compare shell against Sprint 5 UI docs on desktop
-- [ ] Status: `todo` | Owner: `Design QA` | Compare shell against Sprint 5 UI docs on mobile and RTL
+- [x] Status: `done` | Owner: `FE` | Refactor [app-shell.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/components/shell/app-shell.tsx) to match the Sprint 5 shell hierarchy
+- [x] Status: `done` | Owner: `FE` | Implement active nav state, top search treatment, and action area alignment
+- [x] Status: `done` | Owner: `Design QA` | Compare shell against Sprint 5 UI docs on desktop
+- [x] Status: `done` | Owner: `Design QA` | Compare shell against Sprint 5 UI docs on mobile and RTL
 
 ## Sprint 1: Shared Primitive Layer
 
 ### 1.1 Core Primitives
 
-- [ ] Status: `todo` | Owner: `FE` | Build shared card primitive
-- [ ] Status: `todo` | Owner: `FE` | Build KPI/stat card primitive
-- [ ] Status: `todo` | Owner: `FE` | Build sticky filter bar primitive
-- [ ] Status: `todo` | Owner: `FE` | Build table shell and row primitives
-- [ ] Status: `todo` | Owner: `FE` | Build status chip primitive
-- [ ] Status: `todo` | Owner: `FE` | Build summary header primitive
-- [ ] Status: `todo` | Owner: `FE` | Build activity timeline item primitive
-- [ ] Status: `todo` | Owner: `FE` | Build drawer or sheet primitive for quick-add flows
-- [ ] Status: `todo` | Owner: `FE` | Build import review row primitive
+- [x] Status: `done` | Owner: `FE` | Build shared card primitive
+- [x] Status: `done` | Owner: `FE` | Build KPI/stat card primitive
+- [x] Status: `done` | Owner: `FE` | Build sticky filter bar primitive
+- [x] Status: `done` | Owner: `FE` | Build table shell and row primitives
+- [x] Status: `done` | Owner: `FE` | Build status chip primitive
+- [x] Status: `done` | Owner: `FE` | Build summary header primitive
+- [x] Status: `done` | Owner: `FE` | Build activity timeline item primitive
+- [x] Status: `done` | Owner: `FE` | Build drawer or sheet primitive for quick-add flows
+- [x] Status: `done` | Owner: `FE` | Build import review row primitive
 
 ### 1.2 Primitive QA
 
-- [ ] Status: `todo` | Owner: `CTO` | Review primitive boundaries and avoid over-abstraction
-- [ ] Status: `todo` | Owner: `Design QA` | Validate primitives against Sprint 5 UI docs
+- [x] Status: `done` | Owner: `CTO` | Review primitive boundaries and avoid over-abstraction
+- [x] Status: `done` | Owner: `Design QA` | Validate primitives against Sprint 5 UI docs
 
 ## Sprint 2: Public And Core Operational Screens
 
 ### 2.1 Login
 
-- [ ] Status: `todo` | Owner: `FE` | Update [login page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(public)/login/page.tsx) to match `CRM Login (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Update [login-form.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/components/auth/login-form.tsx)
-- [ ] Status: `todo` | Owner: `Design QA` | Review desktop parity
-- [ ] Status: `todo` | Owner: `Design QA` | Review mobile and RTL parity
+- [x] Status: `done` | Owner: `FE` | Update [login page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(public)/login/page.tsx) to match `CRM Login (Updated)`
+- [x] Status: `done` | Owner: `FE` | Update [login-form.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/components/auth/login-form.tsx)
+- [x] Status: `done` | Owner: `Design QA` | Review desktop parity
+- [x] Status: `done` | Owner: `Design QA` | Review mobile and RTL parity
 
 ### 2.2 Dashboard
 
-- [ ] Status: `todo` | Owner: `FE` | Update [dashboard page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/dashboard/page.tsx) to match `CRM Dashboard (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Implement KPI row, priority block, activity timeline, and insights rail
-- [ ] Status: `todo` | Owner: `PM` | Validate dashboard hierarchy against “what needs action today”
-- [ ] Status: `todo` | Owner: `Design QA` | Review visual parity with Sprint 5 UI docs
+- [x] Status: `done` | Owner: `FE` | Update [dashboard page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/dashboard/page.tsx) to match `CRM Dashboard (Updated)`
+- [x] Status: `done` | Owner: `FE` | Implement KPI row, priority block, activity timeline, and insights rail
+- [x] Status: `done` | Owner: `PM` | Validate dashboard hierarchy against “what needs action today”
+- [x] Status: `done` | Owner: `Design QA` | Review visual parity with Sprint 5 UI docs
 
 ### 2.3 Companies List
 
-- [ ] Status: `todo` | Owner: `FE` | Update [companies page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/companies/page.tsx) to match `Companies Directory (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Implement sticky filters, dense rows, primary action, and mobile card fallback
-- [ ] Status: `todo` | Owner: `CTO` | Review table density and reusable row strategy
-- [ ] Status: `todo` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
+- [x] Status: `done` | Owner: `FE` | Update [companies page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/companies/page.tsx) to match `Companies Directory (Updated)`
+- [x] Status: `done` | Owner: `FE` | Implement sticky filters, dense rows, primary action, and mobile card fallback
+- [x] Status: `done` | Owner: `CTO` | Review table density and reusable row strategy
+- [x] Status: `done` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
 
 ### 2.4 Company Detail
 
-- [ ] Status: `todo` | Owner: `FE` | Update [company detail page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/companies/[companyId]/page.tsx) to match `Company Profile (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Implement summary header, quick actions, latest activity, related sections, and desktop side rail
-- [ ] Status: `todo` | Owner: `PM` | Review action hierarchy and content prioritization
-- [ ] Status: `todo` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
+- [x] Status: `done` | Owner: `FE` | Update [company detail page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/companies/[companyId]/page.tsx) to match `Company Profile (Updated)`
+- [x] Status: `done` | Owner: `FE` | Implement summary header, quick actions, latest activity, related sections, and desktop side rail
+- [x] Status: `done` | Owner: `PM` | Review action hierarchy and content prioritization
+- [x] Status: `done` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
 
 ## Sprint 3: Remaining Core Screens
 
 ### 3.1 Contacts List
 
-- [ ] Status: `todo` | Owner: `FE` | Update [contacts page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/contacts/page.tsx) to match `Contacts Directory (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Implement sticky filters, dense row layout, and mobile fallback
-- [ ] Status: `todo` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
+- [x] Status: `done` | Owner: `FE` | Update [contacts page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/contacts/page.tsx) to match `Contacts Directory (Updated)`
+- [x] Status: `done` | Owner: `FE` | Implement sticky filters, dense row layout, and mobile fallback
+- [x] Status: `done` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
 
 ### 3.2 Tasks
 
-- [ ] Status: `todo` | Owner: `FE` | Update [tasks page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/tasks/page.tsx) to match `Tasks Management (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Implement segmented groups: overdue, today, upcoming, done
-- [ ] Status: `todo` | Owner: `FE` | Implement fast status change interactions
-- [ ] Status: `todo` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
+- [x] Status: `done` | Owner: `FE` | Update [tasks page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/tasks/page.tsx) to match `Tasks Management (Updated)`
+- [x] Status: `done` | Owner: `FE` | Implement segmented groups: overdue, today, upcoming, done
+- [x] Status: `done` | Owner: `FE` | Implement fast status change interactions
+- [x] Status: `done` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
 
 ### 3.3 Quick-Add Interaction
 
-- [ ] Status: `todo` | Owner: `FE` | Update [interactions new page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/interactions/new/page.tsx) to match `Log Interaction (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Update [interaction-form.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/components/crm/interaction-form.tsx)
-- [ ] Status: `todo` | Owner: `FE` | Keep essential fields first and optional fields behind progressive reveal
-- [ ] Status: `todo` | Owner: `Design QA` | Review desktop drawer feel and mobile sheet behavior against Sprint 5 UI docs
+- [x] Status: `done` | Owner: `FE` | Update [interactions new page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/interactions/new/page.tsx) to match `Log Interaction (Updated)`
+- [x] Status: `done` | Owner: `FE` | Update [interaction-form.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/components/crm/interaction-form.tsx)
+- [x] Status: `done` | Owner: `FE` | Keep essential fields first and optional fields behind progressive reveal
+- [x] Status: `done` | Owner: `Design QA` | Review desktop drawer feel and mobile sheet behavior against Sprint 5 UI docs
 
 ### 3.4 Import Review
 
-- [ ] Status: `todo` | Owner: `FE` | Update [imports page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports/page.tsx) to match `Import Review (Updated)`
-- [ ] Status: `todo` | Owner: `FE` | Update [row-review-form.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports/row-review-form.tsx)
-- [ ] Status: `todo` | Owner: `FE` | Implement confidence banner, severity summary, raw vs cleaned values, and clear approve or fix actions
-- [ ] Status: `todo` | Owner: `CTO` | Review utilitarian admin UX and information density
-- [ ] Status: `todo` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
+- [x] Status: `done` | Owner: `FE` | Update [imports page](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports/page.tsx) to match `Import Review (Updated)`
+- [x] Status: `done` | Owner: `FE` | Update [row-review-form.tsx](/Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports/row-review-form.tsx)
+- [x] Status: `done` | Owner: `FE` | Implement confidence banner, severity summary, raw vs cleaned values, and clear approve or fix actions
+- [x] Status: `done` | Owner: `CTO` | Review utilitarian admin UX and information density
+- [x] Status: `done` | Owner: `Design QA` | Review parity with Sprint 5 UI docs
 
 ## Sprint 4: Localization, Responsiveness, And Acceptance
 
 ### 4.1 Bilingual And RTL QA
 
-- [ ] Status: `todo` | Owner: `FE` | Verify all implemented screens in English
-- [ ] Status: `todo` | Owner: `FE` | Verify all implemented screens in Hebrew
-- [ ] Status: `todo` | Owner: `FE` | Fix RTL mirroring issues
-- [ ] Status: `todo` | Owner: `FE` | Fix mixed-language truncation and wrapping issues
-- [ ] Status: `todo` | Owner: `Design QA` | Review Hebrew and RTL parity
+- [ ] Status: `review` | Owner: `FE` | Verify all implemented screens in English
+- [ ] Status: `review` | Owner: `FE` | Verify all implemented screens in Hebrew
+- [ ] Status: `review` | Owner: `FE` | Fix RTL mirroring issues
+- [ ] Status: `review` | Owner: `FE` | Fix mixed-language truncation and wrapping issues
+- [ ] Status: `review` | Owner: `Design QA` | Review Hebrew and RTL parity
 
 ### 4.2 Mobile QA
 
-- [ ] Status: `todo` | Owner: `FE` | Verify all priority screens on iPhone-width layouts
-- [ ] Status: `todo` | Owner: `FE` | Remove horizontal scroll from required mobile flows
-- [ ] Status: `todo` | Owner: `FE` | Verify bottom-sheet and quick-action usability
-- [ ] Status: `todo` | Owner: `Design QA` | Review mobile parity with Sprint 5 intent
+- [ ] Status: `review` | Owner: `FE` | Verify all priority screens on iPhone-width layouts
+- [ ] Status: `review` | Owner: `FE` | Remove horizontal scroll from required mobile flows
+- [ ] Status: `review` | Owner: `FE` | Verify bottom-sheet and quick-action usability
+- [ ] Status: `review` | Owner: `Design QA` | Review mobile parity with Sprint 5 intent
 
 ### 4.3 Final Acceptance
 
-- [ ] Status: `todo` | Owner: `PM` | Approve feature completeness against scope
-- [ ] Status: `todo` | Owner: `CTO` | Approve frontend architecture and reuse quality
-- [ ] Status: `todo` | Owner: `Design QA` | Approve visual parity against Sprint 5 UI docs
-- [ ] Status: `todo` | Owner: `Full Stack` | Capture screenshots for release documentation
-- [ ] Status: `todo` | Owner: `Full Stack` | Document any intentional deviations from Sprint 5 UI docs
+- [ ] Status: `review` | Owner: `PM` | Approve feature completeness against scope
+- [ ] Status: `review` | Owner: `CTO` | Approve frontend architecture and reuse quality
+- [ ] Status: `review` | Owner: `Design QA` | Approve visual parity against Sprint 5 UI docs
+- [ ] Status: `review` | Owner: `Full Stack` | Capture screenshots for release documentation
+- [ ] Status: `review` | Owner: `Full Stack` | Document any intentional deviations from Sprint 5 UI docs
 
 ## Blocking Conditions
 

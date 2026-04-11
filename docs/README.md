@@ -5,38 +5,45 @@ tags:
   - index
 aliases:
   - CRM Home
+updated: 2026-04-11
 ---
 
 # CRM
 
-Starter workspace for a new CRM project.
+Project home for the CRM documentation root.
 
-## Status
+## Current Focus
 
-Project scaffold initialized. The runnable CRM application scaffold lives in `app/`, and the project context, docs, and agent assets live in `docs/`.
+- Sprint 5 is the active implementation slice for UI alignment and frontend acceptance
+- Sprint 4 remains the behavior reference for interactions and follow-up workflow rules
+- use this note as the entrypoint into the CRM doc graph, not as a long-form status archive
 
-## Current Structure
+## Start Here
 
-- `app/` for the Next.js CRM scaffold, source code, config, and app-local environment example
-- `docs/CODEX.md` for shared project context
-- `docs/` for product, architecture, decisions, UI, sprint docs, and agent references
-- `docs/Engineering Docs/` for engineering requirements and design-verification traceability
-- shared operating rules live in the template's `core/` docs
+- [[CRM Context]]
+- [[CRM Sprints]]
+- [[CRM UI]]
+- [[CRM PRD]]
+- [[CRM Architecture]]
+- [[Software Requirements Sheet]]
 
-## Working Commands
+## Agent Launch Routes
 
-- install and run the CRM app from `app/`
-- example: `cd /Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app && npm run dev`
+- PM: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 05 Review]]
+- CTO: [[CRM Context]] -> [[CRM Architecture]] -> [[CRM Sprint 05 Review]]
+- DEV: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 05 Todo]]
+- QA: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 05 Review]]
 
-## Next Step
+## Runtime
 
-Provide the full CRM instructions and PM will convert them into the initial PRD, architecture direction, decisions log, and first sprint slice.
+- runnable app: `crm/app`
+- example local command: `cd /Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app && npm run dev`
 
 ## Related
 
 - [[CODEX|Project Context]]
-- [[PRD|PRD]]
-- [[ARCHITECTURE|Architecture]]
-- [[Engineering Docs/SWRS|Software Requirements Sheet]]
-- [[DELIVERY_PLAN|Delivery Plan]]
-- [[sprints/README|Sprints]]
+- [[CRM Sprints]]
+- [[CRM UI]]
+- [[CRM PRD]]
+- [[CRM Architecture]]
+- [[Software Requirements Sheet]]

@@ -6,11 +6,17 @@ tags:
   - sprint-05
 aliases:
   - CRM Design MD
+  - CRM Sprint 05 UI Design
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
 # CRM Design MD
+
+## Source Context
+
+- parent UI hub: [[CRM UI]]
+- parent sprint hub: [[CRM Sprint 05 Index]]
 
 ## Overview
 

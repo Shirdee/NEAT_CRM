@@ -8,6 +8,7 @@ tags:
   - cto
 aliases:
   - Sprint 06 Review
+  - CRM Sprint 06 Review
 created: 2026-04-09
 updated: 2026-04-09
 ---

@@ -7,6 +7,7 @@ tags:
   - resume
 aliases:
   - Sprint 02 Resume
+  - CRM Sprint 02 Resume
 ---
 
 # Sprint 02 Resume

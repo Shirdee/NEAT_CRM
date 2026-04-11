@@ -5,9 +5,15 @@ tags:
   - planning
 aliases:
   - CRM Roadmap
+updated: 2026-04-11
 ---
 
 # CRM Roadmap
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Roadmap Principle
 
@@ -89,6 +95,7 @@ Make the CRM usable for managing the core lead database day to day.
 - global search
 - core filters
 - mobile-friendly record views
+- live-search record linking in forms where users need to choose existing CRM records
 
 #### Supporting Services
 
@@ -113,6 +120,7 @@ Make the CRM operational for the daily sales workflow that drives meetings booke
 - overdue and upcoming task views
 - create follow-up from interaction
 - inactivity tracking
+- live-search record pickers for company, contact, and related existing records
 
 #### Supporting Services
 
@@ -136,6 +144,7 @@ Turn the working CRM into a coherent product UI by implementing the approved fro
 - login, dashboard, companies, company detail, contacts, tasks, quick-add interaction, and import review UI implementation
 - bilingual and RTL hardening
 - mobile acceptance on required flows
+- UI-level consistency for live-search pickers anywhere users search existing CRM records
 
 #### Supporting Services
 

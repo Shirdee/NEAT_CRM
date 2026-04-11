@@ -6,9 +6,15 @@ tags:
   - flows
 aliases:
   - CRM Screens And Flows
+updated: 2026-04-11
 ---
 
 # CRM Screens And User Flows
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Screen List
 
@@ -68,6 +74,12 @@ aliases:
 3. User adds multiple emails and phone numbers.
 4. User optionally links the contact to a company.
 
+### Shared Record Picker Rule
+
+- any form field used to find an existing company, contact, interaction, or other CRM record must use live search
+- static dropdowns are acceptable only for bounded admin lookup lists such as status, type, priority, source, stage, or similar controlled vocabularies
+- when both company and contact are selected in the same form, the UI and server validation should enforce that they refer to the same relationship context
+
 ### Follow-Up Execution Flow
 
 1. User opens follow-ups table.
@@ -88,6 +100,7 @@ aliases:
 - app shell should keep primary actions reachable with one thumb
 - detail pages should prioritize summary cards over wide grids
 - quick-add forms should open in bottom sheet or full-screen mobile modal
+- record-linking fields should stay searchable on mobile and should not require scrolling through long dropdown lists
 - tables should collapse into stacked patterns on smaller screens
 
 ## Related

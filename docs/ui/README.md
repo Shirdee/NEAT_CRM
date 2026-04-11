@@ -4,25 +4,31 @@ tags:
   - ui
   - redirect
 aliases:
+  - CRM UI
   - CRM UI Docs Redirect
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
-# CRM UI Docs Redirect
+# CRM UI
 
-## Status
+## Current Focus
 
-The UI planning docs were moved into Sprint 5 so the sprint owns its source material directly.
+- Sprint 5 owns the active UI source of truth
+- this note is the stable UI hub that points into the current Sprint 5 UI docs
+- use this note instead of linking directly to several deep UI files from project homes
 
-## Current Location
+## Start Here
 
-- [[sprints/sprint_05/ui/FRONTEND_IMPLEMENTATION_TASKS|Frontend Implementation Tasks]]
-- [[sprints/sprint_05/ui/FRONTEND_SPRINT_CHECKLIST|Frontend Sprint Checklist]]
-- [[sprints/sprint_05/ui/Design|Design]]
-- [[sprints/sprint_05/ui/UI_KIT|UI Kit]]
+- [[CRM Sprint 05 Frontend Implementation Tasks]]
+- [[CRM Sprint 05 Frontend Sprint Checklist]]
+- [[CRM Sprint 05 UI Design]]
+- [[CRM Sprint 05 UI Kit]]
+- [[CRM Sprint 05 Index]]
 
 ## Related
 
-- [[sprints/sprint_05/sprint_05_index|Sprint 05 Index]]
+- [[CRM Home]]
+- [[CRM Sprints]]
+- [[CRM Sprint 05 Index]]
 - [[ROADMAP|Roadmap]]

@@ -8,6 +8,7 @@ tags:
   - cto
 aliases:
   - Sprint 06 Index
+  - CRM Sprint 06 Index
 created: 2026-04-09
 updated: 2026-04-09
 ---

@@ -7,11 +7,17 @@ tags:
   - sprint-05
 aliases:
   - CRM UI Kit
+  - CRM Sprint 05 UI Kit
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
 # CRM UI Kit
+
+## Source Context
+
+- parent UI hub: [[CRM UI]]
+- parent sprint hub: [[CRM Sprint 05 Index]]
 
 ## Status
 

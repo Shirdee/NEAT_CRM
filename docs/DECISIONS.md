@@ -5,9 +5,15 @@ tags:
   - planning
 aliases:
   - CRM Decisions
+updated: 2026-04-11
 ---
 
 # CRM Decisions
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Status
 

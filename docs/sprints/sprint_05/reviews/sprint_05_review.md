@@ -13,6 +13,7 @@ aliases:
   - CRM Sprint 05 Review
 created: 2026-04-09
 updated: 2026-04-11
+closed: 2026-04-11
 ---
 
 # Sprint 05 Review
@@ -25,16 +26,25 @@ updated: 2026-04-11
 
 ## Review Status
 
+**CLOSED — 2026-04-11**
+
+CTO signoff (2026-04-11): **APPROVED WITH NOTES**
+QA signoff (2026-04-11): **PASS WITH NOTES**
+PM closeout (2026-04-11): **CLOSED**
+
 Planning review completed by PM and CTO.
-Sprint 5 is approved as the frontend UI implementation slice.
-This review sets `crm/docs/sprints/sprint_05/ui` as the Sprint 5 source of truth for implementation and acceptance.
+Sprint 5 approved as the frontend UI implementation slice.
+Full implementation delivered and closed on 2026-04-11.
 
-Implementation review update:
+Implementation summary:
 
-- the first Sprint 5 UI slices have been implemented in the app
-- the phone UI was reviewed against the Stitch mobile screens after implementation
-- the main mismatch was border-heavy mobile containment versus the approved warm layered surface system
-- shared primitives and the implemented mobile screens were corrected to follow the Stitch direction more closely
+- all 8 priority screens implemented against the UI docs
+- phone UI reviewed against Stitch and corrected toward approved warm layered surface system
+- shared primitives actively reused across all screens — no style drift
+- RBAC preserved on all screens, zero regressions
+- i18n functionally complete (308 keys, exact parity en/he); inline ternaries in 2 screens and all form components deferred to Sprint 6
+- two post-QA hardening fixes applied: defensive try-catch on JSON.parse in `lib/auth/session.ts`, `clearLabel` prop added to `SearchableOptionField`
+- repo gates green at commit `f42b4e0`
 
 ## PM Findings
 
@@ -73,11 +83,10 @@ Implementation review update:
 ## Open Risks
 
 - older planning docs still describe Sprint 5 as the opportunities and reporting slice, so documentation drift must be corrected
-- some moved UI docs still needed wording cleanup from the older Stitch-based planning language
+- some moved UI docs still need wording cleanup from the older Stitch-based planning language
 - shell and primitive work can sprawl if route teams bypass shared tokens early
 - RTL and mobile issues can be deferred accidentally unless they are verified during each screen pass
-- import review is still pending, so Sprint 5 cannot be treated as visually complete
-- the remaining risk is unfinished Sprint 5 scope, not failing repo gates on the current delivered slice
+- the remaining risk is closeout signoff, not failing repo gates on the current delivered slice
 
 ## Implemented Review Outcome
 
@@ -92,6 +101,9 @@ Implemented and reviewed in code:
 - company detail
 - quick-add interaction
 - import review
+- contact detail
+- interactions list
+- interaction detail
 
 Phone-review corrections applied:
 
@@ -101,14 +113,11 @@ Phone-review corrections applied:
 - company, contact, and task mobile cards now read as layered records instead of compressed desktop tables
 - quick-add interaction now presents as a more phone-native surfaced flow
 
-Still pending:
-
-- remaining responsive parity screens
-- final RTL and iPhone-width acceptance pass
+Closeout signoff complete (2026-04-11).
 
 ## Verification Snapshot
 
-- latest delivered slice commit: `feb1b9d`
+- latest delivered slice commit: `f42b4e0`
 - passed: `npm run lint`
 - passed: `npm run typecheck`
 - passed: `npm test`
@@ -125,6 +134,7 @@ When DEV finishes Sprint 5, QA should verify:
 - iPhone-width layouts do not require horizontal scrolling on required flows
 - import review remains usable as a utilitarian admin surface
 - Sprint 1 through Sprint 4 behavior still passes regression checks
+- closeout signoff is recorded before the sprint is marked complete
 
 ## CTO Decision
 

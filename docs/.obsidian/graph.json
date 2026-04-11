@@ -1,45 +1,31 @@
 {
-  "collapse-filter": true,
+  "collapse-filter": false,
   "search": "",
   "showTags": false,
   "showAttachments": true,
-  "hideUnresolved": false,
+  "hideUnresolved": true,
   "showOrphans": false,
-  "collapse-color-groups": true,
+  "collapse-color-groups": false,
   "colorGroups": [
-    {
-      "query": "path:sprints/sprint_01  ",
-      "color": {
-        "a": 1,
-        "rgb": 14701138
-      }
-    },
     {
       "query": "tag:#planning  ",
       "color": {
         "a": 1,
-        "rgb": 9742847
+        "rgb": 14048348
       }
     },
     {
-      "query": "path:sprints/sprint_02  ",
+      "query": "tag:#sprint  ",
       "color": {
         "a": 1,
-        "rgb": 8147680
-      }
-    },
-    {
-      "query": "path:sprints/sprint_03  ",
-      "color": {
-        "a": 1,
-        "rgb": 16756224
+        "rgb": 16755200
       }
     },
     {
       "query": "path:\"Engineering Docs\"  ",
       "color": {
         "a": 1,
-        "rgb": 5431473
+        "rgb": 65450
       }
     }
   ],
@@ -53,6 +39,6 @@
   "repelStrength": 10,
   "linkStrength": 1,
   "linkDistance": 416,
-  "scale": 1.6125581378006733,
+  "scale": 1.226751772032839,
   "close": false
 }

@@ -8,6 +8,7 @@ type SearchableOption = {
 };
 
 type SearchableOptionFieldProps = {
+  clearLabel?: string;
   emptyLabel: string;
   invalid?: boolean;
   label: string;
@@ -21,6 +22,7 @@ type SearchableOptionFieldProps = {
 };
 
 export function SearchableOptionField({
+  clearLabel = "Clear",
   emptyLabel,
   invalid,
   label,
@@ -93,7 +95,7 @@ export function SearchableOptionField({
             }}
             type="button"
           >
-            Clear
+            {clearLabel}
           </button>
         ) : null}
         {isOpen ? (

@@ -6,9 +6,15 @@ tags:
   - delivery
 aliases:
   - CRM Delivery Plan
+updated: 2026-04-11
 ---
 
 # CRM Delivery Plan
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Status
 
@@ -235,6 +241,7 @@ Testing:
 - search behavior checks
 - bilingual rendering checks
 - mobile layout checks
+- live-search behavior checks for any database-backed record picker
 
 #### Definition Of Done
 
@@ -242,6 +249,7 @@ Testing:
 - company can exist without contact
 - contact can exist without company
 - multiple contact emails and phones work
+- any form that links to an existing CRM record uses live search rather than a long static select
 
 #### Dependencies
 
@@ -253,6 +261,7 @@ Testing:
 - search returns correct companies, contacts, emails, and phones
 - list filters behave consistently
 - mobile detail screens remain readable without horizontal scroll
+- database-backed record pickers use live search and remain usable on mobile
 
 #### Deployment Output
 
@@ -275,6 +284,7 @@ Deliver the daily action engine of the CRM.
 - follow-up task flow
 - overdue and upcoming task views
 - create task from interaction
+- live-search record pickers for company, contact, and related existing records used in activity flows
 
 #### Backlog Items
 
@@ -296,6 +306,7 @@ Testing:
 - task creation from interaction
 - overdue and upcoming filter tests
 - history ordering tests
+- live-search record picker behavior and relation-match validation checks
 
 #### Definition Of Done
 
@@ -303,6 +314,7 @@ Testing:
 - users can create follow-ups from interactions or from scratch
 - history is chronological and filterable
 - overdue and upcoming tasks are reliable
+- activity forms use live search for existing company and contact records
 
 #### Dependencies
 
@@ -314,6 +326,7 @@ Testing:
 - one-tap or low-friction quick-add flow on iPhone
 - chronological order is correct
 - related company and contact links render correctly
+- existing-record pickers use live search and reject mismatched company or contact combinations
 
 #### Deployment Output
 
@@ -323,7 +336,7 @@ Testing:
 
 - founder approves that the app now supports the daily meetings-booking workflow
 
-### Sprint 5: UI Implementation And Frontend Acceptance
+### Sprint 5: UI Implementation And Frontend Acceptance ✓ CLOSED 2026-04-11
 
 #### Objective
 
@@ -385,6 +398,11 @@ Testing:
 #### Approval Gate
 
 - founder approves frontend usability and visual direction before the final business-feature and launch sprint
+
+#### Sprint 5 Closeout Notes (2026-04-11)
+
+Delivered and closed. CTO: APPROVED WITH NOTES. QA: PASS WITH NOTES.
+Sprint 6 carry-ins: inline i18n ternaries in form components and 2 page routes; amber/peach token cleanup.
 
 ### Sprint 6: Opportunities, Dashboard, Reports, And Production Readiness
 

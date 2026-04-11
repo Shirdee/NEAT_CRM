@@ -28,23 +28,25 @@ Reviewed by PM and CTO.
 This doc is the Sprint 5 execution handoff to DEV and QA.
 Sprint 5 is approved as the frontend UI implementation pass for the existing CRM app.
 DEV and QA must treat `crm/docs/sprints/sprint_05/ui` as the source of truth for this sprint.
+Sprint 5 is now closeout-ready.
 
 Progress snapshot:
 
 - DEV-501 completed
 - DEV-502 completed
-- DEV-503 partially completed through the shared surface, metric, filter, chip, and info primitives
+- DEV-503 completed
 - DEV-504 completed
 - DEV-505 completed
-- DEV-506 completed for companies and contacts with responsive mobile card behavior
-- DEV-507 completed for company detail
-- DEV-508 completed for tasks
-- DEV-509 completed for quick-add interaction
-- DEV-510 completed for import review
+- DEV-506 completed
+- DEV-507 completed
+- DEV-508 completed
+- DEV-509 completed
+- DEV-510 completed
+- DEV-511 completed
+- DEV-512 completed
 - Stitch phone review completed for the implemented mobile screens and fixes applied in code
 - current delivered slice passes lint, typecheck, test, and build
-- DEV-511 pending final parity pass
-- DEV-512 in progress with the current delivered slice fully green on repo checks
+- PM, CTO, and Design QA closeout signoff remains
 
 ## Sprint Goal
 
@@ -138,8 +140,8 @@ status: completed
 - must include: no horizontal scrolling on required mobile flows
 - done when: the implemented Sprint 5 screens hold up in bilingual and mobile usage
 
-status: in progress
-note: mobile treatment was reviewed against Stitch and corrected on the implemented list, detail, and quick-add screens, but a final project-wide RTL and iPhone-width pass is still required
+status: completed
+note: mobile treatment was reviewed against Stitch and corrected on the implemented list, detail, and quick-add screens; contact detail and interactions parity are now complete and only closeout signoff remains
 
 ### DEV-512: Verify And Harden
 
@@ -148,8 +150,8 @@ note: mobile treatment was reviewed against Stitch and corrected on the implemen
 - must include: `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
 - done when: Sprint 5 behavior is covered and the prior functional sprints still pass
 
-status: in progress
-note: the current delivered slice now passes `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`; this item remains open because Sprint 5 still has unfinished implementation scope
+status: completed
+note: the current delivered slice passes `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
 
 ## Recommended Execution Order
 
@@ -180,6 +182,7 @@ note: the current delivered slice now passes `npm run lint`, `npm run typecheck`
 - iPhone-width layouts work on required flows
 - approved deviations are documented
 - tests and repo checks pass
+- Sprint 5 is ready for or has completed closeout signoff
 
 ## QA Execution Plan
 

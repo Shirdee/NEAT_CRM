@@ -3,6 +3,8 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getInteractionFormOptions, listInteractions} from "@/lib/data/crm";
+import {StatusChip} from "@/components/ui/status-chip";
+import {SurfaceCard} from "@/components/ui/surface-card";
 
 type InteractionsPageProps = {
   params: Promise<{locale: "en" | "he"}>;
@@ -45,117 +47,139 @@ export default async function InteractionsPage({
       interactionTypeValueId: query.interactionTypeValueId
     })
   ]);
+  const totalInteractions = interactions.length;
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-3">
-          <h2 className="text-3xl font-semibold text-ink">{t("title")}</h2>
-          <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+      <SurfaceCard className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.9))]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="space-y-3">
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
+              {t("title")}
+            </h2>
+            <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+            <div className="flex flex-wrap gap-2">
+              {session ? (
+                <StatusChip tone="teal">{t("readiness")}</StatusChip>
+              ) : null}
+              <StatusChip tone="ink">
+                {locale === "he" ? `${totalInteractions} תוצאות` : `${totalInteractions} results`}
+              </StatusChip>
+            </div>
+          </div>
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:w-auto lg:justify-end">
+            {session && canEditRecords(session.role) ? (
+              <Link
+                className="inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white"
+                href="/interactions/new"
+                locale={locale}
+              >
+                {t("create")}
+              </Link>
+            ) : null}
+          </div>
         </div>
-        <div className="flex flex-wrap gap-3">
-          {session ? (
-            <span className="rounded-full bg-mist px-4 py-2 text-sm text-slate-700">{t("readiness")}</span>
-          ) : null}
-          {session && canEditRecords(session.role) ? (
-            <Link
-              className="inline-flex rounded-full bg-ink px-5 py-3 text-sm font-medium text-white"
-              href="/interactions/new"
-              locale={locale}
-            >
-              {t("create")}
-            </Link>
-          ) : null}
-        </div>
-      </div>
+      </SurfaceCard>
 
-      <form className="grid gap-4 rounded-[24px] border border-slate-200 bg-white p-5 lg:grid-cols-4">
-        <input
-          className="rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={query.q ?? ""}
-          name="q"
-          placeholder={t("filters.query")}
-        />
-        <select
-          className="rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={query.companyId ?? ""}
-          name="companyId"
-        >
-          <option value="">{t("filters.allCompanies")}</option>
-          {companies.map((company) => (
-            <option key={company.id} value={company.id}>
-              {company.companyName}
-            </option>
-          ))}
-        </select>
-        <select
-          className="rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={query.contactId ?? ""}
-          name="contactId"
-        >
-          <option value="">{t("filters.allContacts")}</option>
-          {contacts.map((contact) => (
-            <option key={contact.id} value={contact.id}>
-              {contact.fullName}
-            </option>
-          ))}
-        </select>
-        <select
-          className="rounded-2xl border border-slate-200 px-4 py-3"
-          defaultValue={query.interactionTypeValueId ?? ""}
-          name="interactionTypeValueId"
-        >
-          <option value="">{t("filters.allTypes")}</option>
-          {interactionTypeOptions.map((option) => (
-            <option key={option.id} value={option.id}>
-              {locale === "he" ? option.labelHe : option.labelEn}
-            </option>
-          ))}
-        </select>
-        <button
-          className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white lg:col-span-4 lg:justify-self-start"
-          type="submit"
-        >
-          {t("filters.apply")}
-        </button>
-      </form>
+      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.24em] text-coral">
+            {locale === "he" ? "סינון אינטראקציות" : "Interaction filters"}
+          </p>
+          <h3 className="text-lg font-semibold text-ink">{t("title")}</h3>
+        </div>
+        <form className="grid gap-4 lg:grid-cols-4">
+          <input
+            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-slate-500 focus:ring-coral/30"
+            defaultValue={query.q ?? ""}
+            name="q"
+            placeholder={t("filters.query")}
+          />
+          <select
+            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            defaultValue={query.companyId ?? ""}
+            name="companyId"
+          >
+            <option value="">{t("filters.allCompanies")}</option>
+            {companies.map((company) => (
+              <option key={company.id} value={company.id}>
+                {company.companyName}
+              </option>
+            ))}
+          </select>
+          <select
+            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            defaultValue={query.contactId ?? ""}
+            name="contactId"
+          >
+            <option value="">{t("filters.allContacts")}</option>
+            {contacts.map((contact) => (
+              <option key={contact.id} value={contact.id}>
+                {contact.fullName}
+              </option>
+            ))}
+          </select>
+          <select
+            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            defaultValue={query.interactionTypeValueId ?? ""}
+            name="interactionTypeValueId"
+          >
+            <option value="">{t("filters.allTypes")}</option>
+            {interactionTypeOptions.map((option) => (
+              <option key={option.id} value={option.id}>
+                {locale === "he" ? option.labelHe : option.labelEn}
+              </option>
+            ))}
+          </select>
+          <button
+            className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white lg:col-span-4 lg:justify-self-start"
+            type="submit"
+          >
+            {t("filters.apply")}
+          </button>
+        </form>
+      </SurfaceCard>
 
       {interactions.length === 0 ? (
-        <section className="rounded-[24px] border border-dashed border-slate-300 bg-white p-8 text-sm text-slate-600">
+        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))] text-sm text-slate-600">
           {t("empty")}
-        </section>
+        </SurfaceCard>
       ) : (
         <div className="space-y-4">
           {interactions.map((interaction) => (
             <Link
-              className="block rounded-[24px] border border-slate-200 bg-white p-5 transition hover:border-coral/50 hover:shadow-soft"
+              className="block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(244,229,225,0.72))] p-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] transition hover:translate-y-[-1px] hover:shadow-[0_16px_48px_rgba(58,48,45,0.12)]"
               href={`/interactions/${interaction.id}`}
               key={interaction.id}
               locale={locale}
             >
               <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div className="space-y-2">
-                  <p className="text-lg font-semibold text-ink">{interaction.subject}</p>
-                  <p className="text-sm text-slate-600">{interaction.summary}</p>
-                  <div className="flex flex-wrap gap-2 text-xs uppercase tracking-[0.2em] text-slate-500">
-                    <span>
+                <div className="space-y-3">
+                  <p className="font-display text-xl font-semibold tracking-tight text-ink">
+                    {interaction.subject}
+                  </p>
+                  <p className="max-w-3xl text-sm leading-7 text-slate-600">{interaction.summary}</p>
+                  <div className="flex flex-wrap gap-2">
+                    <StatusChip tone="teal">
                       {labelForLocale(locale, {
                         en: interaction.interactionTypeLabelEn,
                         he: interaction.interactionTypeLabelHe
                       })}
-                    </span>
-                    <span>{interaction.companyName || t("labels.noCompany")}</span>
-                    <span>{interaction.contactName || t("labels.noContact")}</span>
+                    </StatusChip>
+                    <StatusChip>{interaction.companyName || t("labels.noCompany")}</StatusChip>
+                    <StatusChip>{interaction.contactName || t("labels.noContact")}</StatusChip>
                   </div>
                 </div>
-                <div className="space-y-2 text-sm text-slate-600 lg:text-end">
+                <div className="space-y-3 text-sm text-slate-600 lg:text-end">
                   <p>{formatDate(locale, interaction.interactionDate)}</p>
-                  <p>
-                    {labelForLocale(locale, {
-                      en: interaction.outcomeLabelEn,
-                      he: interaction.outcomeLabelHe
-                    })}
-                  </p>
+                  <div className="flex flex-wrap gap-2 lg:justify-end">
+                    <StatusChip tone="ink">
+                      {labelForLocale(locale, {
+                        en: interaction.outcomeLabelEn,
+                        he: interaction.outcomeLabelHe
+                      })}
+                    </StatusChip>
+                  </div>
                 </div>
               </div>
             </Link>

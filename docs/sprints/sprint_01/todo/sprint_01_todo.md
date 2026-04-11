@@ -7,6 +7,7 @@ tags:
   - dev-handoff
 aliases:
   - Sprint 01 Todo
+  - CRM Sprint 01 Todo
 ---
 
 # Sprint 01 Todo

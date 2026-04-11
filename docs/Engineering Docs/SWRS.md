@@ -7,9 +7,15 @@ tags:
 aliases:
   - CRM SWRS
   - Software Requirements Sheet
+updated: 2026-04-11
 ---
 
 # CRM Software Requirements Sheet
+
+## Source Context
+
+- parent area hub: [[CRM Engineering Docs]]
+- project context: [[CRM Context]]
 
 ## Purpose
 

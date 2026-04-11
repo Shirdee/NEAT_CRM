@@ -6,6 +6,7 @@ tags:
   - report
 aliases:
   - Sprint 01 Report
+  - CRM Sprint 01 Report
 ---
 
 # Sprint 01 Report

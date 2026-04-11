@@ -7,11 +7,17 @@ tags:
   - tasks
 aliases:
   - CRM Frontend Implementation Tasks
+  - CRM Sprint 05 Frontend Implementation Tasks
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
 # CRM Frontend Implementation Tasks
+
+## Source Context
+
+- parent UI hub: [[CRM UI]]
+- parent sprint hub: [[CRM Sprint 05 Index]]
 
 ## Status
 

@@ -17,12 +17,11 @@ updated: 2026-04-11
 
 ## Status
 
-Sprint 5 is in active implementation.
-Sprint 5 is the approved frontend UI implementation slice that follows the existing CRM product and data flows already in the repository.
-For Sprint 5, the docs in `crm/docs/sprints/sprint_05/ui` are the source of truth for implementation scope, visual direction, and acceptance criteria.
-Sprint 4 remains the current backend and workflow implementation reference for interactions and follow-up behavior until PM closes or defers any remaining Sprint 4 polish.
+**CLOSED — 2026-04-11**
 
-Implemented so far:
+Sprint 5 is complete. All DEV tasks delivered, all repo gates passed, CTO and QA signoff obtained on 2026-04-11. Sprint is archived.
+
+Delivered:
 
 - shared UI tokens and shell foundation
 - shared card, metric, filter, chip, and info primitives
@@ -34,13 +33,18 @@ Implemented so far:
 - responsive quick-add interaction flow
 - responsive import review UI pass
 - Stitch-aligned phone surface pass across the implemented mobile screens
+- contact detail responsive parity
+- interactions list and interaction detail responsive parity
+- repo gates passing on the current delivered slice (commit `f42b4e0`)
+- defensive try-catch added to `session.ts` JSON.parse (post-QA fix)
+- `SearchableOptionField` clearLabel prop added for i18n extensibility (post-QA fix)
 
-Still open:
+Sprint 6 housekeeping carry-ins (non-blocking, documented by QA and CTO):
 
-- interactions list and interaction detail responsive polish
-- contact detail responsive polish
-- final RTL and iPhone-width hardening across all Sprint 5 screens
-- final sprint-wide closeout after the remaining screens and acceptance pass
+- inline locale ternaries in `tasks/page.tsx` and `admin/imports/page.tsx` — move to translation namespaces
+- inline locale ternaries in form components (`interaction-form`, `task-form`, `contact-form`, `company-form`) — move to translation namespaces
+- `status-chip.tsx` amber tone — document or refactor to token system
+- `info-pair.tsx` and `status-chip.tsx` background color `rgba(244,229,225)` — consolidate to named token
 
 ## Objective
 
@@ -92,7 +96,9 @@ Current completion note:
 
 - login, dashboard, companies, contacts, tasks, company detail, quick-add interaction, and import review are implemented
 - the implemented phone UI has been reviewed against the Stitch mobile work and corrected toward the approved warm layered surface system
-- the remaining work is now the last responsive parity screens plus final hardening
+- contact detail and interactions list/detail parity are implemented
+- repo gates are green on the current delivered slice
+- the remaining work is closeout signoff only
 
 ## Main Carry-Ins
 
@@ -116,15 +122,18 @@ Current completion note:
 - required mobile flows work without horizontal scroll
 - any deviation from the UI docs is documented and approved
 - repo verification commands pass, or blockers are documented explicitly
+- PM, CTO, and Design QA have accepted the sprint closeout
 
 ## Latest Validation Snapshot
 
-- latest delivered slice commit: `feb1b9d`
+- latest delivered slice commit: `f42b4e0`
 - passed: `npm run lint`
 - passed: `npm run typecheck`
 - passed: `npm test`
 - passed: `npm run build`
-- remaining validation work is tied to unfinished Sprint 5 scope, not current repo gate failures
+- CTO review: **APPROVED WITH NOTES** (2026-04-11)
+- QA review: **PASS WITH NOTES** (2026-04-11)
+- PM closeout: **CLOSED** (2026-04-11)
 
 ## Linked Sprint Docs
 

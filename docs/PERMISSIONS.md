@@ -6,9 +6,15 @@ tags:
   - planning
 aliases:
   - CRM Permission Model
+updated: 2026-04-11
 ---
 
 # CRM Permission Model
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Access Principles
 

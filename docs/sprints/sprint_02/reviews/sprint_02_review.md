@@ -8,6 +8,7 @@ tags:
   - cto
 aliases:
   - Sprint 02 Review
+  - CRM Sprint 02 Review
 ---
 
 # Sprint 02 Review

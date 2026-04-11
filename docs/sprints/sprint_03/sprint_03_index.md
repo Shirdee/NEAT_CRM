@@ -7,6 +7,7 @@ tags:
   - delivery
 aliases:
   - Sprint 03 Index
+  - CRM Sprint 03 Index
 ---
 
 # Sprint 03 Index

@@ -6,6 +6,7 @@ tags:
   - planning
 aliases:
   - Sprint 01 Index
+  - CRM Sprint 01 Index
 ---
 
 # Sprint 01 Index

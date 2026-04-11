@@ -6,9 +6,15 @@ tags:
   - prd
 aliases:
   - CRM PRD
+updated: 2026-04-11
 ---
 
 # CRM PRD
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Status
 
@@ -227,7 +233,7 @@ Exact workbook sheet and column mapping is pending workbook access. The plan bel
 
 ## Related
 
-- [[README|Project Home]]
+- [[CRM Home]]
 - [[CODEX|Project Context]]
 - [[ARCHITECTURE|Architecture]]
 - [[DATA_MODEL|Data Model]]

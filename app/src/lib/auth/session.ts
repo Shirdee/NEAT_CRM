@@ -71,7 +71,12 @@ export function readSessionToken(token: string | undefined | null): UserSession 
     return null;
   }
 
-  const payload = JSON.parse(fromBase64Url(encodedPayload)) as SessionPayload;
+  let payload: SessionPayload;
+  try {
+    payload = JSON.parse(fromBase64Url(encodedPayload)) as SessionPayload;
+  } catch {
+    return null;
+  }
 
   if (payload.exp < Date.now() || !roles.includes(payload.role)) {
     return null;

@@ -6,9 +6,15 @@ tags:
   - cto
 aliases:
   - CRM Architecture
+updated: 2026-04-11
 ---
 
 # CRM Architecture
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Status
 
@@ -99,6 +105,7 @@ Admin import flow
 - relational source of truth, not workbook formulas
 - app-level RBAC enforced on server paths
 - table-first responsive UI
+- database-backed record pickers should use live search rather than long static dropdowns
 - preserve imported raw text while normalizing structured values
 - minimize irreversible decisions until workbook profiling is complete
 - stay within free-tier operational limits
@@ -180,6 +187,7 @@ The full schema proposal lives in [[DATA_MODEL|Data Model]].
 - start with database-backed partial search over core fields
 - optimize with indexes first
 - defer dedicated search engine unless performance proves it necessary
+- whenever a user needs to find an existing company, contact, interaction, or similar CRM record inside a form, the UI should use live search backed by the existing data layer instead of rendering an unbounded static select
 
 ### Reporting
 

@@ -6,9 +6,15 @@ tags:
   - planning
 aliases:
   - CRM Data Model
+updated: 2026-04-11
 ---
 
 # CRM Data Model
+
+## Source Context
+
+- parent project hub: [[CRM Home]]
+- project context: [[CRM Context]]
 
 ## Status
 

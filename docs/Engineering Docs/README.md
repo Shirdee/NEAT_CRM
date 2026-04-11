@@ -5,15 +5,24 @@ tags:
   - docs
 aliases:
   - Engineering Docs
+  - CRM Engineering Docs
+updated: 2026-04-11
 ---
 
 # Engineering Docs
 
+## Current Focus
+
+- use this area for engineering-facing requirement and verification traceability notes
+- keep this area compact and route deeper work through the software requirements sheet
+
 Engineering-owned specifications and verification-facing documents.
 
-## Contents
+## Start Here
 
-- [[Engineering Docs/SWRS|Software Requirements Sheet]]
+- [[Software Requirements Sheet]]
+- [[CRM Architecture]]
+- [[CRM PRD]]
 
 ## Purpose
 
@@ -23,9 +32,8 @@ Engineering-owned specifications and verification-facing documents.
 
 ## Related
 
-- [[PRD|PRD]]
-- [[ARCHITECTURE|Architecture]]
-- [[DATA_MODEL|Data Model]]
-- [[PERMISSIONS|Permissions]]
-- [[SCREENS_AND_FLOWS|Screens And Flows]]
-- [[DELIVERY_PLAN|Delivery Plan]]
+- [[CRM Home]]
+- [[CRM Context]]
+- [[CRM Architecture]]
+- [[CRM PRD]]
+- [[Software Requirements Sheet]]
