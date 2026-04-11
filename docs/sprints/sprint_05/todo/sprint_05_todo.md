@@ -9,11 +9,18 @@ tags:
   - ui
 aliases:
   - Sprint 05 Todo
+  - CRM Sprint 05 Todo
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
 # Sprint 05 Todo
+
+## Source Context
+
+- parent sprint hub: [[CRM Sprint 05 Index]]
+- project context: [[CRM Context]]
+- UI source of truth: [[CRM UI]]
 
 ## Status
 
@@ -33,10 +40,11 @@ Progress snapshot:
 - DEV-507 completed for company detail
 - DEV-508 completed for tasks
 - DEV-509 completed for quick-add interaction
+- DEV-510 completed for import review
 - Stitch phone review completed for the implemented mobile screens and fixes applied in code
-- DEV-510 pending
+- current delivered slice passes lint, typecheck, test, and build
 - DEV-511 pending final parity pass
-- DEV-512 partially completed with `typecheck` and `build` passing
+- DEV-512 in progress with the current delivered slice fully green on repo checks
 
 ## Sprint Goal
 
@@ -121,7 +129,7 @@ Ship the priority CRM UI pass across shared shell, tokens, primitives, and the i
 - must include: dense but clear review ergonomics for admin work
 - done when: import review is easier to scan and act on without losing current data-review behavior
 
-status: pending
+status: completed
 
 ### DEV-511: RTL, Mobile, And Acceptance Hardening
 
@@ -141,7 +149,7 @@ note: mobile treatment was reviewed against Stitch and corrected on the implemen
 - done when: Sprint 5 behavior is covered and the prior functional sprints still pass
 
 status: in progress
-note: `npm run typecheck` and `npm run build` passed after the phone review fixes; `npm run lint` and `npm test` still need final resolution or explicit blocker closeout
+note: the current delivered slice now passes `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`; this item remains open because Sprint 5 still has unfinished implementation scope
 
 ## Recommended Execution Order
 
@@ -216,7 +224,9 @@ If DEV and QA complete the items above without scope drift, Sprint 5 should leav
 
 Sprint 5 documentation now reflects the actual implementation state instead of the initial plan only.
 The implemented phone UI was compared against the Stitch mobile screens and corrected to match the approved surface-led direction more closely.
-Remaining work is now clearly constrained to import review, remaining responsive parity screens, final RTL and phone hardening, and unresolved verification gates.
+The verification gates for the current delivered slice are now green.
+Import review is now implemented in the Sprint 5 visual system.
+Remaining work is now clearly constrained to remaining responsive parity screens and final RTL and phone hardening.
 
 ## Blockers And Approval Dependencies
 

@@ -2,6 +2,7 @@
 
 import {useEffect, useState} from "react";
 
+import {StatusChip} from "@/components/ui/status-chip";
 import type {ImportBatchReview} from "@/lib/import/types";
 
 type RowReviewFormProps = {
@@ -29,6 +30,26 @@ type RowReviewFormProps = {
     unsaved: string;
   };
 };
+
+function formatFieldValue(value: unknown) {
+  if (value == null || value === "") {
+    return "—";
+  }
+
+  if (Array.isArray(value)) {
+    return value.length ? value.join(", ") : "—";
+  }
+
+  if (typeof value === "object") {
+    try {
+      return JSON.stringify(value);
+    } catch {
+      return String(value);
+    }
+  }
+
+  return String(value);
+}
 
 export function RowReviewForm({
   action,
@@ -64,24 +85,44 @@ export function RowReviewForm({
       : row.entityType === "contact"
         ? options.contacts
         : [];
+  const rowIssues = issues.filter(
+    (issue) => issue.sheetName === row.sheetName && issue.rowNumber === row.rowNumber
+  );
+  const normalizedEntries = Object.entries(row.normalizedFields).filter(
+    ([key]) => key !== "lookupCandidates"
+  );
 
   return (
     <form
       action={action}
-      className="mt-4 space-y-4"
+      className="mt-5 space-y-5"
       onChange={() => setIsDirty(true)}
       onSubmit={() => setIsDirty(false)}
     >
       <input name="locale" type="hidden" value={locale} />
       <input name="batchId" type="hidden" value={batchId} />
       <input name="rowId" type="hidden" value={row.id} />
+
+      {rowIssues.length ? (
+        <div className="flex flex-wrap gap-2">
+          {rowIssues.map((issue, index) => (
+            <StatusChip
+              key={`${row.id}-issue-${index}`}
+              tone={issue.severity === "error" ? "coral" : issue.severity === "warning" ? "amber" : "teal"}
+            >
+              {issue.message}
+            </StatusChip>
+          ))}
+        </div>
+      ) : null}
+
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <label className="space-y-2">
           <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
             {labels.rowState}
           </span>
           <select
-            className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.reviewState}
             name="reviewState"
           >
@@ -90,12 +131,13 @@ export function RowReviewForm({
             <option value="skipped">{labels.skipped}</option>
           </select>
         </label>
+
         <label className="space-y-2">
           <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
             {labels.entityOverride}
           </span>
           <select
-            className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.entityOverride ?? ""}
             name="entityOverride"
           >
@@ -107,12 +149,13 @@ export function RowReviewForm({
             <option value="opportunity">opportunity</option>
           </select>
         </label>
+
         <label className="space-y-2">
           <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
             {labels.duplicateDecision}
           </span>
           <select
-            className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.duplicateDecision}
             name="duplicateDecision"
           >
@@ -122,12 +165,13 @@ export function RowReviewForm({
             <option value="skip">{labels.skipDecision}</option>
           </select>
         </label>
+
         <label className="space-y-2">
           <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
             {labels.attachExisting}
           </span>
           <select
-            className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.existingTargetId ?? ""}
             name="existingTargetId"
           >
@@ -145,78 +189,118 @@ export function RowReviewForm({
           />
         </label>
       </div>
+
+      <div className="grid gap-4 xl:grid-cols-2">
+        <div className="space-y-3 rounded-[24px] bg-[rgba(244,229,225,0.55)] p-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+              {locale === "he" ? "ערכי מקור" : "Raw values"}
+            </p>
+            <p className="mt-2 text-sm text-slate-600">
+              {locale === "he"
+                ? "עדכנו ערכים גולמיים כשצריך לפני בדיקה חוזרת."
+                : "Edit raw values only when the staged source needs correction."}
+            </p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {Object.entries(row.rawFields).map(([fieldKey, fieldValue]) => (
+              <label className="space-y-2" key={`${row.id}-${fieldKey}`}>
+                <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                  {fieldKey}
+                </span>
+                <input
+                  className="w-full rounded-[20px] bg-white/90 px-3 py-2 text-sm"
+                  defaultValue={String(fieldValue ?? "")}
+                  name={`field:${fieldKey}`}
+                />
+              </label>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-3 rounded-[24px] bg-[rgba(223,247,241,0.45)] p-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+              {locale === "he" ? "פלט מנורמל" : "Normalized output"}
+            </p>
+            <p className="mt-2 text-sm text-slate-600">
+              {locale === "he"
+                ? "כך השורה תתפרש כרגע לפי כללי הנרמול והסקירה."
+                : "This is the current interpretation after normalization and review rules."}
+            </p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {normalizedEntries.length ? (
+              normalizedEntries.map(([fieldKey, fieldValue]) => (
+                <div className="rounded-[20px] bg-white/85 px-3 py-3" key={`${row.id}-${fieldKey}-normalized`}>
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                    {fieldKey}
+                  </p>
+                  <p className="mt-2 break-words text-sm text-slate-700">
+                    {formatFieldValue(fieldValue)}
+                  </p>
+                </div>
+              ))
+            ) : (
+              <p className="text-sm text-slate-500">
+                {locale === "he" ? "אין ערכים מנורמלים זמינים." : "No normalized values available."}
+              </p>
+            )}
+          </div>
+        </div>
+      </div>
+
       {((row.normalizedFields.lookupCandidates as Array<{
         categoryKey: string;
         resolvedValueId: string | null;
       }> | undefined) ?? []).length > 0 ? (
-        <div className="grid gap-3 md:grid-cols-2">
-          {((row.normalizedFields.lookupCandidates as Array<{
-            categoryKey: string;
-            resolvedValueId: string | null;
-          }> | undefined) ?? []).map((candidate) => (
-            <label className="space-y-2" key={`${row.id}-lookup-${candidate.categoryKey}`}>
-              <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
-                {candidate.categoryKey}
-              </span>
-              <select
-                className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
-                defaultValue={
-                  row.reviewDecision.lookupOverrides[candidate.categoryKey] ??
-                  candidate.resolvedValueId ??
-                  ""
-                }
-                name={`lookup:${candidate.categoryKey}`}
-              >
-                <option value="">{labels.auto}</option>
-                {(options.lookups[candidate.categoryKey] ?? []).map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
-          ))}
+        <div className="space-y-3 rounded-[24px] bg-[rgba(244,229,225,0.55)] p-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+              {locale === "he" ? "דריסות רשימות" : "Lookup overrides"}
+            </p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {((row.normalizedFields.lookupCandidates as Array<{
+              categoryKey: string;
+              resolvedValueId: string | null;
+            }> | undefined) ?? []).map((candidate) => (
+              <label className="space-y-2" key={`${row.id}-lookup-${candidate.categoryKey}`}>
+                <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                  {candidate.categoryKey}
+                </span>
+                <select
+                  className="w-full rounded-[20px] bg-white/90 px-3 py-2 text-sm"
+                  defaultValue={
+                    row.reviewDecision.lookupOverrides[candidate.categoryKey] ??
+                    candidate.resolvedValueId ??
+                    ""
+                  }
+                  name={`lookup:${candidate.categoryKey}`}
+                >
+                  <option value="">{labels.auto}</option>
+                  {(options.lookups[candidate.categoryKey] ?? []).map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            ))}
+          </div>
         </div>
       ) : null}
-      <div className="grid gap-3 md:grid-cols-2">
-        {Object.entries(row.rawFields).map(([fieldKey, fieldValue]) => (
-          <label className="space-y-2" key={`${row.id}-${fieldKey}`}>
-            <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
-              {fieldKey}
-            </span>
-            <input
-              className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm"
-              defaultValue={String(fieldValue ?? "")}
-              name={`field:${fieldKey}`}
-            />
-          </label>
-        ))}
-      </div>
+
       {isDirty ? (
         <p className="text-xs font-medium text-amber-800">{labels.unsaved}</p>
       ) : null}
+
       <button
         className="inline-flex rounded-full bg-ink px-4 py-2 text-sm font-medium text-white"
         type="submit"
       >
         {labels.save}
       </button>
-      <div className="space-y-2">
-        {issues
-          .filter((issue) => issue.sheetName === row.sheetName && issue.rowNumber === row.rowNumber)
-          .map((issue, index) => (
-            <p
-              className={`rounded-2xl px-3 py-2 text-xs ${
-                issue.severity === "error"
-                  ? "bg-rose-100 text-rose-800"
-                  : "bg-amber-100 text-amber-900"
-              }`}
-              key={`${row.id}-issue-${index}`}
-            >
-              {issue.message}
-            </p>
-          ))}
-      </div>
     </form>
   );
 }

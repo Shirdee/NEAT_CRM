@@ -8,8 +8,9 @@ tags:
   - ui
 aliases:
   - Sprint 05 Index
+  - CRM Sprint 05 Index
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
 # Sprint 05 Index
@@ -31,15 +32,15 @@ Implemented so far:
 - responsive tasks view
 - responsive company detail
 - responsive quick-add interaction flow
+- responsive import review UI pass
 - Stitch-aligned phone surface pass across the implemented mobile screens
 
 Still open:
 
 - interactions list and interaction detail responsive polish
 - contact detail responsive polish
-- import review UI pass
 - final RTL and iPhone-width hardening across all Sprint 5 screens
-- final lint and test resolution if environment blockers persist
+- final sprint-wide closeout after the remaining screens and acceptance pass
 
 ## Objective
 
@@ -89,9 +90,9 @@ If route code, older sprint planning, and UI docs disagree on presentation, the 
 
 Current completion note:
 
-- login, dashboard, companies, contacts, tasks, company detail, and quick-add interaction are implemented
+- login, dashboard, companies, contacts, tasks, company detail, quick-add interaction, and import review are implemented
 - the implemented phone UI has been reviewed against the Stitch mobile work and corrected toward the approved warm layered surface system
-- import review and the remaining screen parity work are still pending
+- the remaining work is now the last responsive parity screens plus final hardening
 
 ## Main Carry-Ins
 
@@ -118,10 +119,12 @@ Current completion note:
 
 ## Latest Validation Snapshot
 
+- latest delivered slice commit: `feb1b9d`
+- passed: `npm run lint`
 - passed: `npm run typecheck`
+- passed: `npm test`
 - passed: `npm run build`
-- not yet cleared in Sprint 5 closeout: `npm run lint`
-- not yet cleared in Sprint 5 closeout: `npm test`
+- remaining validation work is tied to unfinished Sprint 5 scope, not current repo gate failures
 
 ## Linked Sprint Docs
 

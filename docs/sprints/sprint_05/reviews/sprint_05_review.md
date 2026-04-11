@@ -10,11 +10,18 @@ tags:
   - ui
 aliases:
   - Sprint 05 Review
+  - CRM Sprint 05 Review
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-11
 ---
 
 # Sprint 05 Review
+
+## Source Context
+
+- parent sprint hub: [[CRM Sprint 05 Index]]
+- project context: [[CRM Context]]
+- UI source of truth: [[CRM UI]]
 
 ## Review Status
 
@@ -70,7 +77,7 @@ Implementation review update:
 - shell and primitive work can sprawl if route teams bypass shared tokens early
 - RTL and mobile issues can be deferred accidentally unless they are verified during each screen pass
 - import review is still pending, so Sprint 5 cannot be treated as visually complete
-- final `lint` and `test` closeout remains open even though `typecheck` and `build` currently pass
+- the remaining risk is unfinished Sprint 5 scope, not failing repo gates on the current delivered slice
 
 ## Implemented Review Outcome
 
@@ -84,6 +91,7 @@ Implemented and reviewed in code:
 - tasks
 - company detail
 - quick-add interaction
+- import review
 
 Phone-review corrections applied:
 
@@ -95,17 +103,16 @@ Phone-review corrections applied:
 
 Still pending:
 
-- import review UI pass
 - remaining responsive parity screens
 - final RTL and iPhone-width acceptance pass
-- final `lint` and `test` closeout or blocker documentation
 
 ## Verification Snapshot
 
+- latest delivered slice commit: `feb1b9d`
+- passed: `npm run lint`
 - passed: `npm run typecheck`
+- passed: `npm test`
 - passed: `npm run build`
-- open: `npm run lint`
-- open: `npm test`
 
 ## QA Notes
 
