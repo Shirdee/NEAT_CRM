@@ -2,6 +2,7 @@ import type {AppLocale} from "@/i18n/routing";
 import {getTranslations} from "next-intl/server";
 
 import {canEditRecords, canManageAdminLists, type UserSession} from "@/lib/auth/session";
+import {BottomNav} from "./bottom-nav";
 import {QuickLogButton} from "./quick-log-button";
 
 import {LocaleSwitcher} from "../i18n/locale-switcher";
@@ -82,15 +83,15 @@ export async function AppShell({children, locale, session}: AppShellProps) {
           </div>
         </div>
       </header>
-      <div className="mx-auto grid max-w-7xl gap-5 px-4 pb-10 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8">
-        <aside className="min-w-0 rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:sticky lg:top-6 lg:self-start">
+      <div className="mx-auto grid max-w-7xl gap-5 px-4 pb-24 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:pb-10 lg:px-8">
+        <aside className="hidden min-w-0 rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:block lg:sticky lg:top-6 lg:self-start">
           <div className="mb-3 px-3 pt-2">
             <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
               {t("eyebrow")}
             </p>
             <p className="mt-2 text-lg font-semibold text-ink">{t("workspace")}</p>
           </div>
-          <nav className="flex gap-2 overflow-x-auto px-1 pb-1 lg:block lg:space-y-2 lg:overflow-visible">
+          <nav className="space-y-2">
             {navItems.map((item) => (
               <NavItemLink
                 key={item.href}
@@ -103,6 +104,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
         </aside>
         <main className="min-w-0 space-y-6">{children}</main>
       </div>
+      <BottomNav locale={locale} />
     </div>
   );
 }
