@@ -58,6 +58,25 @@ const categories = [
     ]
   },
   {
+    id: "cat_opportunity_type",
+    key: "opportunity_type",
+    name: "Opportunity Types",
+    values: [
+      {key: "new_business", labelEn: "New Business", labelHe: "עסקה חדשה", sortOrder: 1},
+      {key: "expansion", labelEn: "Expansion", labelHe: "הרחבה", sortOrder: 2}
+    ]
+  },
+  {
+    id: "cat_opportunity_status",
+    key: "opportunity_status",
+    name: "Opportunity Statuses",
+    values: [
+      {key: "open", labelEn: "Open", labelHe: "פתוחה", sortOrder: 1},
+      {key: "won", labelEn: "Won", labelHe: "נסגרה בהצלחה", sortOrder: 2},
+      {key: "lost", labelEn: "Lost", labelHe: "נסגרה בהפסד", sortOrder: 3}
+    ]
+  },
+  {
     id: "cat_task_type",
     key: "task_type",
     name: "Task Types",
@@ -135,7 +154,7 @@ async function main() {
     }
   }
 
-  console.log("Sprint 1 seed complete.");
+  console.log("CRM seed complete.");
 }
 
 main()

@@ -5,6 +5,7 @@ import type {
   ContactPhone,
   Interaction,
   ListValue,
+  Opportunity,
   Task
 } from "@prisma/client";
 
@@ -12,8 +13,10 @@ import {
   createFallbackCompany,
   createFallbackContact,
   createFallbackInteraction,
+  createFallbackOpportunity,
   createFallbackTask,
   getFallbackInteractionById,
+  getFallbackOpportunityById,
   getFallbackTaskById,
   getFallbackCompanyById,
   getFallbackContactById,
@@ -22,11 +25,13 @@ import {
   listFallbackContacts,
   listFallbackInteractions,
   listFallbackLookupValues,
+  listFallbackOpportunities,
   listFallbackTasks,
   searchFallbackCrm,
   updateFallbackCompany,
   updateFallbackContact,
   updateFallbackInteraction,
+  updateFallbackOpportunity,
   updateFallbackTask
 } from "./fallback-store";
 
@@ -89,6 +94,19 @@ export type TaskInput = {
   dueDate: string;
   priorityValueId: string;
   statusValueId: string;
+  notes: string | null;
+  actorUserId: string;
+};
+
+export type OpportunityInput = {
+  companyId: string;
+  contactId: string | null;
+  opportunityName: string;
+  opportunityStageValueId: string;
+  opportunityTypeValueId: string;
+  estimatedValue: string | null;
+  statusValueId: string;
+  targetCloseDate: string | null;
   notes: string | null;
   actorUserId: string;
 };
@@ -182,6 +200,33 @@ export type TaskDetail = Task & {
   priorityLabelHe?: string | null;
   statusLabelEn?: string | null;
   statusLabelHe?: string | null;
+};
+
+export type OpportunityListItem = Opportunity & {
+  companyName: string | null;
+  contactName: string | null;
+  stageLabelEn?: string | null;
+  stageLabelHe?: string | null;
+  typeLabelEn?: string | null;
+  typeLabelHe?: string | null;
+  statusLabelEn?: string | null;
+  statusLabelHe?: string | null;
+};
+
+export type OpportunityDetail = Opportunity & {
+  companyName: string | null;
+  contactName: string | null;
+  stageLabelEn?: string | null;
+  stageLabelHe?: string | null;
+  typeLabelEn?: string | null;
+  typeLabelHe?: string | null;
+  statusLabelEn?: string | null;
+  statusLabelHe?: string | null;
+};
+
+export type LeadSourceCount = {
+  sourceValueId: string | null;
+  count: number;
 };
 
 function normalizeLookupOptions(values: ListValue[]): LookupOption[] {
@@ -428,6 +473,54 @@ export function normalizeTaskPayload(input: {
   };
 }
 
+export function normalizeOpportunityPayload(input: {
+  companyId: string;
+  contactId: string;
+  opportunityName: string;
+  opportunityStageValueId: string;
+  opportunityTypeValueId: string;
+  estimatedValue: string;
+  statusValueId: string;
+  targetCloseDate: string;
+  notes: string;
+  actorUserId: string;
+}): OpportunityInput {
+  const companyId = cleanRequired(input.companyId, "Company");
+  const opportunityName = cleanRequired(input.opportunityName, "Opportunity name");
+  const opportunityStageValueId = cleanRequired(input.opportunityStageValueId, "Opportunity stage");
+  const opportunityTypeValueId = cleanRequired(input.opportunityTypeValueId, "Opportunity type");
+  const statusValueId = cleanRequired(input.statusValueId, "Status");
+
+  const estimatedValue = cleanOptional(input.estimatedValue);
+  if (estimatedValue && Number.isNaN(Number(estimatedValue))) {
+    throw new ValidationError("Estimated value must be numeric.", ["estimatedValue"]);
+  }
+
+  const missingFields: string[] = [];
+  if (!cleanOptional(input.companyId)) missingFields.push("companyId");
+  if (!cleanOptional(input.opportunityName)) missingFields.push("opportunityName");
+  if (!cleanOptional(input.opportunityStageValueId)) missingFields.push("opportunityStageValueId");
+  if (!cleanOptional(input.opportunityTypeValueId)) missingFields.push("opportunityTypeValueId");
+  if (!cleanOptional(input.statusValueId)) missingFields.push("statusValueId");
+
+  if (missingFields.length > 0) {
+    throw new ValidationError("Opportunity validation failed.", missingFields);
+  }
+
+  return {
+    companyId,
+    contactId: cleanOptional(input.contactId),
+    opportunityName,
+    opportunityStageValueId,
+    opportunityTypeValueId,
+    estimatedValue,
+    statusValueId,
+    targetCloseDate: cleanOptional(input.targetCloseDate),
+    notes: cleanOptional(input.notes),
+    actorUserId: input.actorUserId
+  };
+}
+
 export async function listLookupOptions(categoryKey: string) {
   if (!hasDatabaseUrl()) {
     return listFallbackLookupValues(categoryKey);
@@ -528,6 +621,28 @@ export async function getTaskFormOptions() {
     })),
     taskTypeOptions,
     priorityOptions,
+    statusOptions
+  };
+}
+
+export async function getOpportunityFormOptions() {
+  const [{companies}, stageOptions, typeOptions, statusOptions] = await Promise.all([
+    getContactFormOptions(),
+    listLookupOptions("opportunity_stage"),
+    listLookupOptions("opportunity_type"),
+    listLookupOptions("opportunity_status")
+  ]);
+  const contacts = await listContacts();
+
+  return {
+    companies,
+    contacts: contacts.map((contact) => ({
+      id: contact.id,
+      fullName: contact.fullName,
+      companyId: contact.companyId ?? null
+    })),
+    stageOptions,
+    typeOptions,
     statusOptions
   };
 }
@@ -1341,4 +1456,222 @@ export async function getTaskById(id: string) {
     statusLabelEn: statusMap.get(task.statusValueId)?.labelEn ?? null,
     statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null
   };
+}
+
+export async function createOpportunity(input: OpportunityInput) {
+  if (!hasDatabaseUrl()) {
+    return createFallbackOpportunity(input);
+  }
+
+  const prisma = await getPrisma();
+
+  return prisma.opportunity.create({
+    data: {
+      companyId: input.companyId,
+      contactId: input.contactId,
+      opportunityName: input.opportunityName,
+      opportunityStageValueId: input.opportunityStageValueId,
+      opportunityTypeValueId: input.opportunityTypeValueId,
+      estimatedValue: input.estimatedValue,
+      statusValueId: input.statusValueId,
+      targetCloseDate: input.targetCloseDate ? new Date(input.targetCloseDate) : null,
+      notes: input.notes,
+      createdById: input.actorUserId,
+      updatedById: input.actorUserId
+    }
+  });
+}
+
+export async function updateOpportunity(id: string, input: OpportunityInput) {
+  if (!hasDatabaseUrl()) {
+    return updateFallbackOpportunity({
+      id,
+      ...input
+    });
+  }
+
+  const prisma = await getPrisma();
+
+  return prisma.opportunity.update({
+    where: {id},
+    data: {
+      companyId: input.companyId,
+      contactId: input.contactId,
+      opportunityName: input.opportunityName,
+      opportunityStageValueId: input.opportunityStageValueId,
+      opportunityTypeValueId: input.opportunityTypeValueId,
+      estimatedValue: input.estimatedValue,
+      statusValueId: input.statusValueId,
+      targetCloseDate: input.targetCloseDate ? new Date(input.targetCloseDate) : null,
+      notes: input.notes,
+      updatedById: input.actorUserId
+    }
+  });
+}
+
+export async function listOpportunities(filters?: {
+  query?: string;
+  companyId?: string;
+  contactId?: string;
+  opportunityStageValueId?: string;
+  opportunityTypeValueId?: string;
+  statusValueId?: string;
+}) {
+  const [stageOptions, typeOptions, statusOptions] = await Promise.all([
+    listLookupOptions("opportunity_stage"),
+    listLookupOptions("opportunity_type"),
+    listLookupOptions("opportunity_status")
+  ]);
+  const stageMap = buildLookupMap(stageOptions);
+  const typeMap = buildLookupMap(typeOptions);
+  const statusMap = buildLookupMap(statusOptions);
+
+  if (!hasDatabaseUrl()) {
+    const items = await listFallbackOpportunities(filters);
+
+    return items.map((opportunity) => ({
+      ...opportunity,
+      stageLabelEn: stageMap.get(opportunity.opportunityStageValueId)?.labelEn ?? null,
+      stageLabelHe: stageMap.get(opportunity.opportunityStageValueId)?.labelHe ?? null,
+      typeLabelEn: typeMap.get(opportunity.opportunityTypeValueId)?.labelEn ?? null,
+      typeLabelHe: typeMap.get(opportunity.opportunityTypeValueId)?.labelHe ?? null,
+      statusLabelEn: statusMap.get(opportunity.statusValueId)?.labelEn ?? null,
+      statusLabelHe: statusMap.get(opportunity.statusValueId)?.labelHe ?? null
+    }));
+  }
+
+  const prisma = await getPrisma();
+  const opportunities = await prisma.opportunity.findMany({
+    where: {
+      companyId: filters?.companyId || undefined,
+      contactId: filters?.contactId || undefined,
+      opportunityStageValueId: filters?.opportunityStageValueId || undefined,
+      opportunityTypeValueId: filters?.opportunityTypeValueId || undefined,
+      statusValueId: filters?.statusValueId || undefined,
+      OR: filters?.query
+        ? [
+            {opportunityName: {contains: filters.query, mode: "insensitive"}},
+            {notes: {contains: filters.query, mode: "insensitive"}},
+            {company: {companyName: {contains: filters.query, mode: "insensitive"}}},
+            {contact: {fullName: {contains: filters.query, mode: "insensitive"}}}
+          ]
+        : undefined
+    },
+    include: {
+      company: {
+        select: {
+          companyName: true
+        }
+      },
+      contact: {
+        select: {
+          fullName: true
+        }
+      }
+    },
+    orderBy: [{targetCloseDate: "asc"}, {createdAt: "desc"}]
+  });
+
+  return opportunities.map((opportunity) => ({
+    ...opportunity,
+    companyName: opportunity.company.companyName,
+    contactName: opportunity.contact?.fullName ?? null,
+    stageLabelEn: stageMap.get(opportunity.opportunityStageValueId)?.labelEn ?? null,
+    stageLabelHe: stageMap.get(opportunity.opportunityStageValueId)?.labelHe ?? null,
+    typeLabelEn: typeMap.get(opportunity.opportunityTypeValueId)?.labelEn ?? null,
+    typeLabelHe: typeMap.get(opportunity.opportunityTypeValueId)?.labelHe ?? null,
+    statusLabelEn: statusMap.get(opportunity.statusValueId)?.labelEn ?? null,
+    statusLabelHe: statusMap.get(opportunity.statusValueId)?.labelHe ?? null
+  }));
+}
+
+export async function getOpportunityById(id: string) {
+  const [stageOptions, typeOptions, statusOptions] = await Promise.all([
+    listLookupOptions("opportunity_stage"),
+    listLookupOptions("opportunity_type"),
+    listLookupOptions("opportunity_status")
+  ]);
+  const stageMap = buildLookupMap(stageOptions);
+  const typeMap = buildLookupMap(typeOptions);
+  const statusMap = buildLookupMap(statusOptions);
+
+  if (!hasDatabaseUrl()) {
+    const opportunity = await getFallbackOpportunityById(id);
+
+    if (!opportunity) {
+      return null;
+    }
+
+    return {
+      ...opportunity,
+      stageLabelEn: stageMap.get(opportunity.opportunityStageValueId)?.labelEn ?? null,
+      stageLabelHe: stageMap.get(opportunity.opportunityStageValueId)?.labelHe ?? null,
+      typeLabelEn: typeMap.get(opportunity.opportunityTypeValueId)?.labelEn ?? null,
+      typeLabelHe: typeMap.get(opportunity.opportunityTypeValueId)?.labelHe ?? null,
+      statusLabelEn: statusMap.get(opportunity.statusValueId)?.labelEn ?? null,
+      statusLabelHe: statusMap.get(opportunity.statusValueId)?.labelHe ?? null
+    };
+  }
+
+  const prisma = await getPrisma();
+  const opportunity = await prisma.opportunity.findUnique({
+    where: {id},
+    include: {
+      company: {
+        select: {
+          companyName: true
+        }
+      },
+      contact: {
+        select: {
+          fullName: true
+        }
+      }
+    }
+  });
+
+  if (!opportunity) {
+    return null;
+  }
+
+  return {
+    ...opportunity,
+    companyName: opportunity.company.companyName,
+    contactName: opportunity.contact?.fullName ?? null,
+    stageLabelEn: stageMap.get(opportunity.opportunityStageValueId)?.labelEn ?? null,
+    stageLabelHe: stageMap.get(opportunity.opportunityStageValueId)?.labelHe ?? null,
+    typeLabelEn: typeMap.get(opportunity.opportunityTypeValueId)?.labelEn ?? null,
+    typeLabelHe: typeMap.get(opportunity.opportunityTypeValueId)?.labelHe ?? null,
+    statusLabelEn: statusMap.get(opportunity.statusValueId)?.labelEn ?? null,
+    statusLabelHe: statusMap.get(opportunity.statusValueId)?.labelHe ?? null
+  };
+}
+
+export async function listLeadSourceCounts() {
+  if (!hasDatabaseUrl()) {
+    const companies = await listFallbackCompanies();
+    const counts = new Map<string | null, number>();
+
+    for (const company of companies) {
+      counts.set(company.sourceValueId ?? null, (counts.get(company.sourceValueId ?? null) ?? 0) + 1);
+    }
+
+    return Array.from(counts.entries()).map(([sourceValueId, count]) => ({
+      sourceValueId,
+      count
+    }));
+  }
+
+  const prisma = await getPrisma();
+  const grouped = await prisma.company.groupBy({
+    by: ["sourceValueId"],
+    _count: {
+      _all: true
+    }
+  });
+
+  return grouped.map((row) => ({
+    sourceValueId: row.sourceValueId,
+    count: row._count._all
+  }));
 }

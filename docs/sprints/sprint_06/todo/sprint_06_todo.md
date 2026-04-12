@@ -9,7 +9,7 @@ aliases:
   - Sprint 06 Todo
   - CRM Sprint 06 Todo
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-12
 ---
 
 # Sprint 06 Todo
@@ -17,8 +17,51 @@ updated: 2026-04-09
 ## Status
 
 Reviewed by PM and CTO.
-This doc is the Sprint 6 planning handoff to DEV and QA.
-Sprint 6 is approved as the next implementation slice after Sprint 4 closeout or explicit PM deferral of the remaining Sprint 4 quick-add/mobile work.
+This doc now reflects the implemented Sprint 6 slice and the follow-up QA remediation pass completed on 2026-04-12.
+Sprint 6 moved from planning into active delivery and verification on 2026-04-12.
+The current state is implementation complete, QA-reviewed, and remediated for the issues raised in the Sprint 6 QA pass.
+
+## PM Model Strategy (2026-04-12)
+
+- default implementation model: `gpt-5.3-codex` with `medium` reasoning for normal DEV tickets
+- high-risk technical model: `gpt-5.4` with `high` reasoning for data-model, query-performance, or irreversible boundary decisions
+- cost-efficient coordination model: `gpt-5.4-mini` with `low` to `medium` reasoning for PM documentation, progress updates, and checklist maintenance
+- QA verification model: start with `gpt-5.4-mini` for broad regression pass setup; escalate to `gpt-5.4` when failures require deeper triage
+- escalation rule: promote model strength only when blocked by ambiguity, failing tests, or architecture risk; otherwise keep cheaper defaults
+- continuity rule: keep one model per task thread unless a concrete blocker justifies a switch
+
+## PM Execution Tracker (2026-04-12)
+
+- DEV-601: completed
+- DEV-602: completed
+- DEV-603: completed
+- DEV-604: completed
+- DEV-605: completed
+- DEV-606: completed
+- DEV-607: completed with QA remediation follow-up
+- DEV-608: completed
+- DEV-609: completed
+
+## CTO Execution Handoff (2026-04-12)
+
+- handoff owner: CTO
+- handoff target: DEV
+- sprint: Sprint 6
+- build scope: opportunities module, dashboard KPI views, reporting views, permission hardening, production-readiness checks
+- execution start condition: PM and CTO explicitly open Sprint 6 execution and founder approvals for KPI formulas and periods are confirmed or explicitly deferred with documented fallback behavior
+- first concrete implementation action: start `DEV-601` by creating or tightening the shared opportunity data-access surface used by list, detail, create, edit, dashboard, and report consumers
+- immediate sequencing after first action: `DEV-602` then `DEV-603`, before dashboard and reporting surfaces
+- hard technical guardrails: keep server-side business logic centralized, keep dashboard formulas explicit and auditable, keep role enforcement server-side, do not add BI, queues, cron, or paid services
+- unresolved blockers to keep explicit during build: dashboard formula approvals, inactive-threshold wording, viewer note-visibility policy
+- PM routing note: after DEV completes `DEV-601` through `DEV-603`, PM should publish a short progress update and confirm whether Sprint 6 dashboard and reports can proceed with final formulas or with documented interim defaults
+
+## QA Remediation Closeout (2026-04-12)
+
+- dashboard KPI loading was tightened to fetch opportunity status lookups directly instead of resolving full opportunity form options
+- leads-by-source reporting now uses aggregated source counts rather than loading the full company list into the report page
+- mobile bottom navigation now includes direct opportunities and reports access on small screens
+- Prisma seed data now includes `opportunity_type` and `opportunity_status` lookup categories to match the fallback and form assumptions
+- Sprint 6 docs were updated to reflect implementation completion and QA remediation status
 
 ## Sprint Goal
 
@@ -152,6 +195,7 @@ Complete the MVP business layer and launch-preparation work by shipping opportun
 - run regression on Sprint 2 import compatibility
 - run regression on Sprint 3 company, contact, and search behavior
 - run regression on Sprint 4 interaction, follow-up, and inactivity workflows
+- run regression on the Sprint 5 delivered UI baseline and mobile hardening surfaces
 - run production build and deployment smoke checks
 
 ## CTO To DEV Handoff

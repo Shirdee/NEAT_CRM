@@ -10,7 +10,7 @@ aliases:
   - Sprint 06 Review
   - CRM Sprint 06 Review
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-12
 ---
 
 # Sprint 06 Review
@@ -18,8 +18,8 @@ updated: 2026-04-09
 ## Review Status
 
 Planning review completed by PM and CTO.
-Sprint 6 is approved as the next implementation slice after Sprint 4 closeout.
-This review is planning approval only and does not change the repository truth that Sprint 4 still owns the active implementation state.
+Sprint 6 is approved as the next implementation slice after Sprint 5 closeout.
+This review is planning approval only and does not change the repository truth that Sprint 5 is the latest closed implementation baseline.
 
 ## PM Findings
 
@@ -42,6 +42,7 @@ This review is planning approval only and does not change the repository truth t
 - Sprint 2 established import and normalization
 - Sprint 3 delivered companies, contacts, and search
 - Sprint 4 delivered interactions, follow-ups, and inactivity-aware operations
+- Sprint 5 delivered the current UI baseline and mobile hardening closeout
 - Sprint 6 now owns opportunities, dashboard, reports, and launch hardening
 
 ## Approved Technical Boundaries
@@ -63,7 +64,7 @@ This review is planning approval only and does not change the repository truth t
 - opportunity stage taxonomy can create churn if UI and data rules start before product definitions are frozen
 - aggregate queries may become slow on imported data if indexes are not tuned with real usage patterns
 - viewer note visibility remains unresolved and may affect report and detail-page presentation rules
-- Sprint 4 residual quick-add/mobile work can create delivery overlap if PM does not explicitly close or defer it
+- Sprint 5 UI baseline drift can occur if Sprint 6 screens are built outside the delivered patterns
 
 ## QA Notes
 
@@ -75,7 +76,7 @@ When DEV finishes Sprint 6, QA should verify:
 - dashboard KPI values reconcile with seeded or imported source data
 - leads-by-source and meetings-by-period reports match approved definitions
 - inactive-threshold behavior matches the approved rule across company, contact, and dashboard surfaces
-- Sprint 1 through Sprint 4 flows still pass regression checks
+- Sprint 1 through Sprint 5 flows still pass regression checks
 - production build, migrations, and deployment smoke checks succeed
 
 ## CTO Decision

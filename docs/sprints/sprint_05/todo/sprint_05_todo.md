@@ -11,7 +11,7 @@ aliases:
   - Sprint 05 Todo
   - CRM Sprint 05 Todo
 created: 2026-04-09
-updated: 2026-04-11
+updated: 2026-04-12
 ---
 
 # Sprint 05 Todo
@@ -25,10 +25,10 @@ updated: 2026-04-11
 ## Status
 
 Reviewed by PM and CTO.
-This doc is the Sprint 5 execution handoff to DEV and QA.
-Sprint 5 is approved as the frontend UI implementation pass for the existing CRM app.
-DEV and QA must treat `crm/docs/sprints/sprint_05/ui` as the source of truth for this sprint.
-Sprint 5 is now closeout-ready.
+This doc remains the Sprint 5 execution handoff record for DEV and QA.
+Sprint 5 was approved as the frontend UI implementation pass for the existing CRM app.
+DEV and QA treated `crm/docs/sprints/sprint_05/ui` as the source of truth for this sprint.
+Sprint 5 is closed; this note is retained as the delivered task record.
 
 Progress snapshot:
 
@@ -45,8 +45,9 @@ Progress snapshot:
 - DEV-511 completed
 - DEV-512 completed
 - Stitch phone review completed for the implemented mobile screens and fixes applied in code
-- current delivered slice passes lint, typecheck, test, and build
-- PM, CTO, and Design QA closeout signoff remains
+- sprint closeout slice passed lint, typecheck, test, and build at commit `f42b4e0`
+- PM, CTO, and Design QA closeout signoff completed on 2026-04-11
+- post-close mobile hardening landed on 2026-04-12 in commits `041f043` and `bb09c4a`
 
 ## Sprint Goal
 
@@ -141,7 +142,7 @@ status: completed
 - done when: the implemented Sprint 5 screens hold up in bilingual and mobile usage
 
 status: completed
-note: mobile treatment was reviewed against Stitch and corrected on the implemented list, detail, and quick-add screens; contact detail and interactions parity are now complete and only closeout signoff remains
+note: mobile treatment was reviewed against Stitch and corrected on the implemented list, detail, and quick-add screens; contact detail and interactions parity are complete; closeout completed on 2026-04-11
 
 ### DEV-512: Verify And Harden
 
@@ -151,7 +152,7 @@ note: mobile treatment was reviewed against Stitch and corrected on the implemen
 - done when: Sprint 5 behavior is covered and the prior functional sprints still pass
 
 status: completed
-note: the current delivered slice passes `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
+note: the sprint closeout slice passed `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`; post-close hardening later reconfirmed `npm run typecheck` on 2026-04-12
 
 ## Recommended Execution Order
 
@@ -182,7 +183,7 @@ note: the current delivered slice passes `npm run lint`, `npm run typecheck`, `n
 - iPhone-width layouts work on required flows
 - approved deviations are documented
 - tests and repo checks pass
-- Sprint 5 is ready for or has completed closeout signoff
+- Sprint 5 has completed closeout signoff and is archived as delivered
 
 ## QA Execution Plan
 
@@ -225,11 +226,11 @@ If DEV and QA complete the items above without scope drift, Sprint 5 should leav
 
 ## PM Update
 
-Sprint 5 documentation now reflects the actual implementation state instead of the initial plan only.
+Sprint 5 documentation now reflects the delivered implementation state rather than the initial plan only.
 The implemented phone UI was compared against the Stitch mobile screens and corrected to match the approved surface-led direction more closely.
-The verification gates for the current delivered slice are now green.
-Import review is now implemented in the Sprint 5 visual system.
-Remaining work is now clearly constrained to remaining responsive parity screens and final RTL and phone hardening.
+The sprint closeout verification gates were green at `f42b4e0`.
+Import review shipped in the Sprint 5 visual system.
+Sprint closeout completed on 2026-04-11, with extra mobile hardening added on 2026-04-12 without changing sprint scope.
 
 ## Blockers And Approval Dependencies
 

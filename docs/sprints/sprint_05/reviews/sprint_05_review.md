@@ -12,7 +12,7 @@ aliases:
   - Sprint 05 Review
   - CRM Sprint 05 Review
 created: 2026-04-09
-updated: 2026-04-11
+updated: 2026-04-12
 closed: 2026-04-11
 ---
 
@@ -44,7 +44,8 @@ Implementation summary:
 - RBAC preserved on all screens, zero regressions
 - i18n functionally complete (308 keys, exact parity en/he); inline ternaries in 2 screens and all form components deferred to Sprint 6
 - two post-QA hardening fixes applied: defensive try-catch on JSON.parse in `lib/auth/session.ts`, `clearLabel` prop added to `SearchableOptionField`
-- repo gates green at commit `f42b4e0`
+- repo gates green at sprint closeout commit `f42b4e0`
+- post-close mobile hardening delivered in commits `041f043` and `bb09c4a`
 
 ## PM Findings
 
@@ -82,11 +83,10 @@ Implementation summary:
 
 ## Open Risks
 
-- older planning docs still describe Sprint 5 as the opportunities and reporting slice, so documentation drift must be corrected
+- older planning docs can still drift if they are not aligned to the closed Sprint 5 record
 - some moved UI docs still need wording cleanup from the older Stitch-based planning language
-- shell and primitive work can sprawl if route teams bypass shared tokens early
-- RTL and mobile issues can be deferred accidentally unless they are verified during each screen pass
-- the remaining risk is closeout signoff, not failing repo gates on the current delivered slice
+- shell and primitive work can sprawl if future route work bypasses shared tokens
+- Sprint 6 should treat the delivered mobile fixes as the baseline and avoid reintroducing horizontal overflow
 
 ## Implemented Review Outcome
 
@@ -117,11 +117,13 @@ Closeout signoff complete (2026-04-11).
 
 ## Verification Snapshot
 
-- latest delivered slice commit: `f42b4e0`
-- passed: `npm run lint`
-- passed: `npm run typecheck`
-- passed: `npm test`
-- passed: `npm run build`
+- latest sprint closeout commit: `f42b4e0`
+- latest post-close hardening commit: `bb09c4a`
+- passed at closeout: `npm run lint`
+- passed at closeout: `npm run typecheck`
+- passed at closeout: `npm test`
+- passed at closeout: `npm run build`
+- passed after hardening: `npm run typecheck` (2026-04-12)
 
 ## QA Notes
 
@@ -140,9 +142,9 @@ When DEV finishes Sprint 5, QA should verify:
 
 CTO approves Sprint 5 planning as the frontend implementation slice and recommends treating the UI docs as binding until PM explicitly changes them.
 
-## Post-Close Hardening (2026-04-11)
+## Post-Close Hardening (2026-04-12)
 
-Following QA audit after sprint close, 4 iPhone/mobile gaps were identified and resolved:
+Following QA audit after sprint close, additional iPhone/mobile gaps were identified and resolved:
 
 | Gap | Fix |
 |-----|-----|
@@ -150,6 +152,10 @@ Following QA audit after sprint close, 4 iPhone/mobile gaps were identified and 
 | No safe-area-inset CSS | Added `env(safe-area-inset-*)` custom properties and `.pb-safe` / `.pt-safe` utilities to `globals.css` |
 | No bottom-sheet for quick-add | Created `BottomSheet` component (`components/ui/bottom-sheet.tsx`) + `QuickLogButton` (`components/shell/quick-log-button.tsx`); mobile opens sheet, desktop navigates |
 | Contact column data visible on mobile | Added `hidden lg:block` to column-slot divs in `contacts/page.tsx` |
+| Protected shell overflowed on iPhone widths | Added `min-w-0` to `aside` and `main`, replaced the horizontal-scroll mobile sidebar with `BottomNav` |
+| Mobile shell height clipped under browser chrome | Replaced `min-h-screen` with `min-h-[100dvh]` on shell and public wrappers |
+| Header content sat under the notch after `viewportFit: cover` | Added `pt-safe` to the protected header |
+| Tasks page stayed stacked and noisy on phone | Added `TaskFilterTabs` and `TaskListClient` with tone-coded active states and accent card treatment |
 
 QA verified all 8 checks: APPROVED.
 

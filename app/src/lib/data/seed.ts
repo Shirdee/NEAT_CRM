@@ -108,6 +108,23 @@ export type SeedTask = {
   completedAt: string | null;
 };
 
+export type SeedOpportunity = {
+  id: string;
+  companyId: string;
+  contactId: string | null;
+  opportunityName: string;
+  opportunityStageValueId: string;
+  opportunityTypeValueId: string;
+  estimatedValue: string | null;
+  statusValueId: string;
+  targetCloseDate: string | null;
+  notes: string | null;
+  createdById: string;
+  updatedById: string | null;
+  createdAt: string;
+  updatedAt: string;
+};
+
 function hashPassword(password: string) {
   return createHash("sha256").update(`crm-sprint-1:${password}`).digest("hex");
 }
@@ -119,6 +136,8 @@ const companyStageId = "cat_company_stage";
 const interactionTypeId = "cat_interaction_type";
 const interactionOutcomeStatusId = "cat_interaction_outcome_status";
 const opportunityStageId = "cat_opportunity_stage";
+const opportunityTypeId = "cat_opportunity_type";
+const opportunityStatusId = "cat_opportunity_status";
 const taskTypeId = "cat_task_type";
 const taskPriorityId = "cat_task_priority";
 const taskStatusId = "cat_task_status";
@@ -332,6 +351,77 @@ export const seededCategories: SeedListCategory[] = [
         labelEn: "Proposal",
         labelHe: "הצעה",
         sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      }
+    ]
+  },
+  {
+    id: opportunityTypeId,
+    key: "opportunity_type",
+    name: "Opportunity Types",
+    createdAt: now,
+    values: [
+      {
+        id: "value_opportunity_type_new_business",
+        categoryId: opportunityTypeId,
+        key: "new_business",
+        labelEn: "New business",
+        labelHe: "עסקה חדשה",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_opportunity_type_expansion",
+        categoryId: opportunityTypeId,
+        key: "expansion",
+        labelEn: "Expansion",
+        labelHe: "הרחבה",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      }
+    ]
+  },
+  {
+    id: opportunityStatusId,
+    key: "opportunity_status",
+    name: "Opportunity Statuses",
+    createdAt: now,
+    values: [
+      {
+        id: "value_opportunity_status_open",
+        categoryId: opportunityStatusId,
+        key: "open",
+        labelEn: "Open",
+        labelHe: "פתוח",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_opportunity_status_won",
+        categoryId: opportunityStatusId,
+        key: "won",
+        labelEn: "Won",
+        labelHe: "נסגר בהצלחה",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_opportunity_status_lost",
+        categoryId: opportunityStatusId,
+        key: "lost",
+        labelEn: "Lost",
+        labelHe: "נסגר ללא זכיה",
+        sortOrder: 3,
         isActive: true,
         createdAt: now,
         updatedAt: now
@@ -699,5 +789,42 @@ export const seededTasks: SeedTask[] = [
     createdAt: now,
     updatedAt: now,
     completedAt: "2026-03-28T13:00:00.000Z"
+  }
+];
+
+export const seededOpportunities: SeedOpportunity[] = [
+  {
+    id: "opportunity_northern_discovery",
+    companyId: "company_northern",
+    contactId: "contact_maya",
+    opportunityName: "CRM rollout pilot",
+    opportunityStageValueId:
+      seededCategories.find((category) => category.key === "opportunity_stage")?.values[0]?.id ?? "",
+    opportunityTypeValueId: "value_opportunity_type_new_business",
+    estimatedValue: "45000",
+    statusValueId: "value_opportunity_status_open",
+    targetCloseDate: "2026-05-15T00:00:00.000Z",
+    notes: "Strong early fit. Waiting on procurement timeline.",
+    createdById: "user_admin",
+    updatedById: "user_admin",
+    createdAt: now,
+    updatedAt: now
+  },
+  {
+    id: "opportunity_harbor_followup",
+    companyId: "company_harbor",
+    contactId: "contact_noam",
+    opportunityName: "Founder onboarding package",
+    opportunityStageValueId:
+      seededCategories.find((category) => category.key === "opportunity_stage")?.values[1]?.id ?? "",
+    opportunityTypeValueId: "value_opportunity_type_expansion",
+    estimatedValue: "18000",
+    statusValueId: "value_opportunity_status_open",
+    targetCloseDate: "2026-06-01T00:00:00.000Z",
+    notes: "Depends on final scope and timing confirmation.",
+    createdById: "user_editor",
+    updatedById: "user_editor",
+    createdAt: now,
+    updatedAt: now
   }
 ];

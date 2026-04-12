@@ -46,6 +46,8 @@
       "contacts": "Contacts",
       "interactions": "Interactions",
       "tasks": "Follow-ups",
+      "opportunities": "Opportunities",
+      "reports": "Reports",
       "search": "Search",
       "adminLists": "Admin lists",
       "adminImports": "Imports"
@@ -64,13 +66,18 @@
     "subtitle": "Start with the overdue queue, keep new activity moving, and use the dashboard as the daily operating view for the {role} role.",
     "actions": {
       "reviewTasks": "Review follow-ups",
-      "logInteraction": "Log interaction"
+      "logInteraction": "Log interaction",
+      "reviewOpportunities": "Review opportunities"
     },
     "metrics": {
       "overdue": "Overdue follow-ups",
       "overdueDetail": "Needs action first",
       "upcoming": "Upcoming this week",
       "upcomingDetail": "Already scheduled",
+      "meetings": "Meetings this week",
+      "meetingsDetail": "Logged meeting interactions",
+      "opportunities": "Open opportunities",
+      "opportunitiesDetail": "Still in motion",
       "companies": "Active companies",
       "companiesDetail": "In the current workspace",
       "interactions": "Recent interactions",
@@ -375,6 +382,99 @@
       "noCompany": "No company",
       "noContact": "No contact"
     }
+  },
+  "Opportunities": {
+    "eyebrow": "Business layer",
+    "title": "Opportunities",
+    "subtitle": "Track deal movement with stage, status, and next-close intent without leaving the core CRM workflow.",
+    "create": "Create opportunity",
+    "empty": "No opportunities match the current filters.",
+    "errors": {
+      "generic": "Review the form inputs and try again."
+    },
+    "columns": {
+      "opportunity": "Opportunity",
+      "company": "Company",
+      "stage": "Stage",
+      "status": "Status",
+      "value": "Value"
+    },
+    "filters": {
+      "query": "Search opportunities, notes, company, contact",
+      "allCompanies": "All companies",
+      "allContacts": "All contacts",
+      "allStages": "All stages",
+      "allTypes": "All types",
+      "allStatuses": "All statuses",
+      "apply": "Apply filters"
+    },
+    "labels": {
+      "noNotes": "No notes yet"
+    }
+  },
+  "OpportunityDetail": {
+    "eyebrow": "Opportunity",
+    "subtitle": "Review the current deal state and keep the next close step visible for the team.",
+    "edit": "Edit opportunity",
+    "created": "Opportunity created.",
+    "updated": "Opportunity updated.",
+    "company": "Company",
+    "contact": "Contact",
+    "noContact": "No contact linked",
+    "stage": "Stage",
+    "status": "Status",
+    "value": "Estimated value",
+    "closeDate": "Target close",
+    "notes": "Notes",
+    "noNotes": "No notes added yet.",
+    "back": "Back to opportunities"
+  },
+  "OpportunityForm": {
+    "createTitle": "Create opportunity",
+    "editTitle": "Edit opportunity",
+    "subtitle": "Keep the company link required and use stage and status values from admin lists.",
+    "error": "Opportunity validation failed. Review required fields and try again.",
+    "back": "Back to opportunities",
+    "backToDetail": "Back to opportunity"
+  },
+  "Reports": {
+    "eyebrow": "Reporting",
+    "title": "Reports",
+    "subtitle": "Focused MVP reporting views built on the same database truth as the operational CRM screens.",
+    "cards": {
+      "leadsBySource": {
+        "title": "Leads by source",
+        "body": "Count current companies by their lead source lookup value."
+      },
+      "meetings": {
+        "title": "Meetings by period",
+        "body": "Review logged meeting interactions over time."
+      }
+    }
+  },
+  "LeadsBySourceReport": {
+    "eyebrow": "Report",
+    "title": "Leads by source",
+    "subtitle": "Grouped counts of companies by their lead source value.",
+    "unknown": "Unknown / not set",
+    "columns": {
+      "source": "Source",
+      "count": "Count"
+    },
+    "back": "Back to reports"
+  },
+  "MeetingsReport": {
+    "eyebrow": "Report",
+    "title": "Meetings by period",
+    "subtitle": "Meeting interactions grouped by month, with quick access to the most recent meeting logs.",
+    "columns": {
+      "period": "Period",
+      "count": "Count"
+    },
+    "recentTitle": "Recent meetings",
+    "general": "General activity",
+    "empty": "No meeting interactions are available yet.",
+    "back": "Back to reports"
   },
   "TaskDetail": {
     "eyebrow": "Follow-up task",

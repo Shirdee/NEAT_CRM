@@ -22,6 +22,8 @@ export async function AppShell({children, locale, session}: AppShellProps) {
     {href: "/contacts", label: t("nav.contacts")},
     {href: "/interactions", label: t("nav.interactions")},
     {href: "/tasks", label: t("nav.tasks")},
+    {href: "/opportunities", label: t("nav.opportunities")},
+    {href: "/reports", label: t("nav.reports")},
     {href: "/search", label: t("nav.search")}
   ];
 

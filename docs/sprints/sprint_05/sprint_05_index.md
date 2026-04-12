@@ -10,7 +10,7 @@ aliases:
   - Sprint 05 Index
   - CRM Sprint 05 Index
 created: 2026-04-09
-updated: 2026-04-11
+updated: 2026-04-12
 ---
 
 # Sprint 05 Index
@@ -35,12 +35,21 @@ Delivered:
 - Stitch-aligned phone surface pass across the implemented mobile screens
 - contact detail responsive parity
 - interactions list and interaction detail responsive parity
-- repo gates passing on the current delivered slice (commit `f42b4e0`)
+- repo gates passed on the sprint closeout slice (commit `f42b4e0`)
 - defensive try-catch added to `session.ts` JSON.parse (post-QA fix)
 - `SearchableOptionField` clearLabel prop added for i18n extensibility (post-QA fix)
 - Viewport meta tag + safe-area-inset CSS for iPhone support
 - BottomSheet component for quick-add on mobile
 - Contact list column visibility fix for mobile
+
+Post-close hardening delivered 2026-04-12 (commits `041f043`, `bb09c4a`):
+
+- `min-w-0` on `aside` and `main` grid items — CSS grid column was forced to 841px by the flex nav, breaking every screen on mobile
+- `min-h-[100dvh]` replaces `min-h-screen` on shell, login, access-denied — iOS Safari 100vh clips at browser chrome
+- `pt-safe` on `<header>` — `viewportFit: cover` extended content under iPhone notch/Dynamic Island
+- **BottomNav** component — fixed 5-tab mobile nav (Home/Pipeline/People/Tasks/Log) replaces horizontal-scroll sidebar; aside is `lg:block hidden` so desktop sidebar is unchanged
+- **TaskFilterTabs** — Overdue/Today/Upcoming/Done pill tabs with tone-coded active states (coral/amber/teal/ink), replaces stacked section layout; tab state is client-side
+- **TaskListClient** — client wrapper holding tab state; task cards gain a colored left accent border matching the active tab tone and strikethrough on Done
 
 Sprint 6 housekeeping carry-ins (non-blocking, documented by QA and CTO):
 
@@ -101,7 +110,7 @@ Current completion note:
 - the implemented phone UI has been reviewed against the Stitch mobile work and corrected toward the approved warm layered surface system
 - contact detail and interactions list/detail parity are implemented
 - repo gates are green on the current delivered slice
-- the remaining work is closeout signoff only
+- Sprint 5 closeout is complete; later mobile hardening landed on 2026-04-12 without reopening sprint scope
 
 ## Main Carry-Ins
 
@@ -129,14 +138,12 @@ Current completion note:
 
 ## Latest Validation Snapshot
 
-- latest delivered slice commit: `f42b4e0`
-- passed: `npm run lint`
-- passed: `npm run typecheck`
-- passed: `npm test`
-- passed: `npm run build`
+- latest delivered slice commit: `bb09c4a` (post-close hardening 2026-04-12)
+- previous sprint closeout commit: `f42b4e0`
+- passed: `npm run typecheck` (2026-04-12)
 - CTO review: **APPROVED WITH NOTES** (2026-04-11)
 - QA review: **PASS WITH NOTES** (2026-04-11)
-- PM closeout: **CLOSED** (2026-04-11)
+- PM closeout: **CLOSED** (2026-04-11, hardening added 2026-04-12)
 
 ## Linked Sprint Docs
 

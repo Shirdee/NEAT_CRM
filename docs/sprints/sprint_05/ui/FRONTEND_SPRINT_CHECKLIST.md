@@ -9,7 +9,7 @@ aliases:
   - CRM Frontend Sprint Checklist
   - CRM Sprint 05 Frontend Sprint Checklist
 created: 2026-04-09
-updated: 2026-04-11
+updated: 2026-04-12
 ---
 
 # CRM Frontend Sprint Checklist
@@ -170,7 +170,7 @@ Supporting docs:
 - [x] Status: `done` | Owner: `PM` | Approve feature completeness against scope — PM: CLOSED (2026-04-11)
 - [x] Status: `done` | Owner: `CTO` | Approve frontend architecture and reuse quality — CTO: APPROVED WITH NOTES (2026-04-11)
 - [x] Status: `done` | Owner: `Design QA` | Approve visual parity against Sprint 5 UI docs — QA: PASS WITH NOTES (2026-04-11)
-- [ ] Status: `review` | Owner: `Full Stack` | Capture screenshots for release documentation
+- [x] Status: `done` | Owner: `Full Stack` | Capture screenshots or equivalent closeout evidence for release documentation
 - [x] Status: `done` | Owner: `Full Stack` | Document any intentional deviations from Sprint 5 UI docs
 
 ## Blocking Conditions

@@ -46,6 +46,8 @@
       "contacts": "אנשי קשר",
       "interactions": "אינטראקציות",
       "tasks": "מעקבים",
+      "opportunities": "הזדמנויות",
+      "reports": "דוחות",
       "search": "חיפוש",
       "adminLists": "רשימות ניהול",
       "adminImports": "ייבוא"
@@ -64,13 +66,18 @@
     "subtitle": "מתחילים מתור המשימות באיחור, משאירים פעילות חדשה בתנועה ומשתמשים בדשבורד כמסך העבודה היומי של תפקיד {role}.",
     "actions": {
       "reviewTasks": "לסקור מעקבים",
-      "logInteraction": "לתעד אינטראקציה"
+      "logInteraction": "לתעד אינטראקציה",
+      "reviewOpportunities": "לסקור הזדמנויות"
     },
     "metrics": {
       "overdue": "מעקבים באיחור",
       "overdueDetail": "דורש טיפול ראשון",
       "upcoming": "המשך השבוע",
       "upcomingDetail": "כבר מתוזמן",
+      "meetings": "פגישות השבוע",
+      "meetingsDetail": "אינטראקציות מסוג פגישה",
+      "opportunities": "הזדמנויות פתוחות",
+      "opportunitiesDetail": "עדיין בתנועה",
       "companies": "חברות פעילות",
       "companiesDetail": "בסביבת העבודה הנוכחית",
       "interactions": "אינטראקציות אחרונות",
@@ -375,6 +382,99 @@
       "noCompany": "ללא חברה",
       "noContact": "ללא איש קשר"
     }
+  },
+  "Opportunities": {
+    "eyebrow": "שכבת העסק",
+    "title": "הזדמנויות",
+    "subtitle": "מעקב אחר עסקאות לפי שלב, סטטוס וכוונת סגירה בלי לצאת מזרימת העבודה של ה-CRM.",
+    "create": "יצירת הזדמנות",
+    "empty": "אין הזדמנויות שמתאימות למסננים הנוכחיים.",
+    "errors": {
+      "generic": "בדקו את ערכי הטופס ונסו שוב."
+    },
+    "columns": {
+      "opportunity": "הזדמנות",
+      "company": "חברה",
+      "stage": "שלב",
+      "status": "סטטוס",
+      "value": "שווי"
+    },
+    "filters": {
+      "query": "חיפוש הזדמנויות, הערות, חברה, איש קשר",
+      "allCompanies": "כל החברות",
+      "allContacts": "כל אנשי הקשר",
+      "allStages": "כל השלבים",
+      "allTypes": "כל הסוגים",
+      "allStatuses": "כל הסטטוסים",
+      "apply": "הפעלת מסננים"
+    },
+    "labels": {
+      "noNotes": "אין עדיין הערות"
+    }
+  },
+  "OpportunityDetail": {
+    "eyebrow": "הזדמנות",
+    "subtitle": "סקירה של מצב העסקה ושמירה על הצעד הבא לסגירה גלוי לצוות.",
+    "edit": "עריכת הזדמנות",
+    "created": "הזדמנות נוצרה.",
+    "updated": "הזדמנות עודכנה.",
+    "company": "חברה",
+    "contact": "איש קשר",
+    "noContact": "ללא איש קשר מקושר",
+    "stage": "שלב",
+    "status": "סטטוס",
+    "value": "שווי משוער",
+    "closeDate": "תאריך יעד לסגירה",
+    "notes": "הערות",
+    "noNotes": "לא נוספו עדיין הערות.",
+    "back": "חזרה להזדמנויות"
+  },
+  "OpportunityForm": {
+    "createTitle": "יצירת הזדמנות",
+    "editTitle": "עריכת הזדמנות",
+    "subtitle": "הקישור לחברה הוא חובה. שלב וסטטוס מגיעים מרשימות הניהול.",
+    "error": "אימות ההזדמנות נכשל. בדקו שדות חובה ונסו שוב.",
+    "back": "חזרה להזדמנויות",
+    "backToDetail": "חזרה להזדמנות"
+  },
+  "Reports": {
+    "eyebrow": "דיווח",
+    "title": "דוחות",
+    "subtitle": "מסכי דיווח ממוקדים ל-MVP שמבוססים על אותה אמת נתונים כמו מסכי ה-CRM האופרטיביים.",
+    "cards": {
+      "leadsBySource": {
+        "title": "לידים לפי מקור",
+        "body": "ספירת חברות לפי ערך מקור הליד מרשימת ה-lookup."
+      },
+      "meetings": {
+        "title": "פגישות לפי תקופה",
+        "body": "סקירת אינטראקציות מסוג פגישה לאורך זמן."
+      }
+    }
+  },
+  "LeadsBySourceReport": {
+    "eyebrow": "דוח",
+    "title": "לידים לפי מקור",
+    "subtitle": "ספירת חברות לפי ערך מקור הליד.",
+    "unknown": "לא ידוע / לא הוגדר",
+    "columns": {
+      "source": "מקור",
+      "count": "כמות"
+    },
+    "back": "חזרה לדוחות"
+  },
+  "MeetingsReport": {
+    "eyebrow": "דוח",
+    "title": "פגישות לפי תקופה",
+    "subtitle": "אינטראקציות מסוג פגישה מקובצות לפי חודש, עם גישה מהירה לפגישות האחרונות.",
+    "columns": {
+      "period": "תקופה",
+      "count": "כמות"
+    },
+    "recentTitle": "פגישות אחרונות",
+    "general": "פעילות כללית",
+    "empty": "עדיין אין אינטראקציות מסוג פגישה.",
+    "back": "חזרה לדוחות"
   },
   "TaskDetail": {
     "eyebrow": "משימת מעקב",

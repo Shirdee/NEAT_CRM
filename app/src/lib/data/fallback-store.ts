@@ -5,6 +5,7 @@ import {
   seededCompanies,
   seededContacts,
   seededInteractions,
+  seededOpportunities,
   seededTasks,
   seededUsers,
   type SeedListCategory,
@@ -14,6 +15,7 @@ import {
   type SeedContactPhone,
   type SeedInteraction,
   type SeedListValue,
+  type SeedOpportunity,
   type SeedTask,
   type SeedUser
 } from "./seed";
@@ -24,6 +26,7 @@ type MutableState = {
   contacts: SeedContact[];
   interactions: SeedInteraction[];
   tasks: SeedTask[];
+  opportunities: SeedOpportunity[];
   users: SeedUser[];
 };
 
@@ -41,6 +44,7 @@ function cloneState(): MutableState {
     })),
     interactions: seededInteractions.map((interaction) => ({...interaction})),
     tasks: seededTasks.map((task) => ({...task})),
+    opportunities: seededOpportunities.map((opportunity) => ({...opportunity})),
     users: seededUsers.map((user) => ({...user}))
   };
 }
@@ -743,4 +747,151 @@ export async function updateFallbackTask(input: {
   task.updatedAt = new Date().toISOString();
 
   return task;
+}
+
+export async function listFallbackOpportunities(filters?: {
+  query?: string;
+  companyId?: string;
+  contactId?: string;
+  opportunityStageValueId?: string;
+  opportunityTypeValueId?: string;
+  statusValueId?: string;
+}) {
+  const needle = normalizeText(filters?.query ?? "");
+
+  return getState()
+    .opportunities
+    .filter((opportunity) => {
+      if (filters?.companyId && opportunity.companyId !== filters.companyId) {
+        return false;
+      }
+
+      if (filters?.contactId && opportunity.contactId !== filters.contactId) {
+        return false;
+      }
+
+      if (
+        filters?.opportunityStageValueId &&
+        opportunity.opportunityStageValueId !== filters.opportunityStageValueId
+      ) {
+        return false;
+      }
+
+      if (
+        filters?.opportunityTypeValueId &&
+        opportunity.opportunityTypeValueId !== filters.opportunityTypeValueId
+      ) {
+        return false;
+      }
+
+      if (filters?.statusValueId && opportunity.statusValueId !== filters.statusValueId) {
+        return false;
+      }
+
+      if (!needle) {
+        return true;
+      }
+
+      const companyName =
+        getState().companies.find((company) => company.id === opportunity.companyId)?.companyName ?? "";
+      const contactName =
+        getState().contacts.find((contact) => contact.id === opportunity.contactId)?.fullName ?? "";
+
+      return [opportunity.opportunityName, opportunity.notes ?? "", companyName, contactName]
+        .join(" ")
+        .toLowerCase()
+        .includes(needle);
+    })
+    .sort((left, right) => left.opportunityName.localeCompare(right.opportunityName))
+    .map((opportunity) => ({
+      ...opportunity,
+      companyName:
+        getState().companies.find((company) => company.id === opportunity.companyId)?.companyName ?? null,
+      contactName:
+        getState().contacts.find((contact) => contact.id === opportunity.contactId)?.fullName ?? null
+    }));
+}
+
+export async function getFallbackOpportunityById(id: string) {
+  const opportunity = getState().opportunities.find((item) => item.id === id);
+
+  if (!opportunity) {
+    return null;
+  }
+
+  return {
+    ...opportunity,
+    companyName:
+      getState().companies.find((company) => company.id === opportunity.companyId)?.companyName ?? null,
+    contactName:
+      getState().contacts.find((contact) => contact.id === opportunity.contactId)?.fullName ?? null
+  };
+}
+
+export async function createFallbackOpportunity(input: {
+  companyId: string;
+  contactId: string | null;
+  opportunityName: string;
+  opportunityStageValueId: string;
+  opportunityTypeValueId: string;
+  estimatedValue: string | null;
+  statusValueId: string;
+  targetCloseDate: string | null;
+  notes: string | null;
+  actorUserId: string;
+}) {
+  const timestamp = new Date().toISOString();
+  const opportunity: SeedOpportunity = {
+    id: randomUUID(),
+    companyId: input.companyId,
+    contactId: input.contactId,
+    opportunityName: input.opportunityName,
+    opportunityStageValueId: input.opportunityStageValueId,
+    opportunityTypeValueId: input.opportunityTypeValueId,
+    estimatedValue: input.estimatedValue,
+    statusValueId: input.statusValueId,
+    targetCloseDate: input.targetCloseDate ? new Date(input.targetCloseDate).toISOString() : null,
+    notes: input.notes,
+    createdById: input.actorUserId,
+    updatedById: input.actorUserId,
+    createdAt: timestamp,
+    updatedAt: timestamp
+  };
+
+  getState().opportunities.push(opportunity);
+  return opportunity;
+}
+
+export async function updateFallbackOpportunity(input: {
+  id: string;
+  companyId: string;
+  contactId: string | null;
+  opportunityName: string;
+  opportunityStageValueId: string;
+  opportunityTypeValueId: string;
+  estimatedValue: string | null;
+  statusValueId: string;
+  targetCloseDate: string | null;
+  notes: string | null;
+  actorUserId: string;
+}) {
+  const opportunity = getState().opportunities.find((item) => item.id === input.id);
+
+  if (!opportunity) {
+    throw new Error("Opportunity not found");
+  }
+
+  opportunity.companyId = input.companyId;
+  opportunity.contactId = input.contactId;
+  opportunity.opportunityName = input.opportunityName;
+  opportunity.opportunityStageValueId = input.opportunityStageValueId;
+  opportunity.opportunityTypeValueId = input.opportunityTypeValueId;
+  opportunity.estimatedValue = input.estimatedValue;
+  opportunity.statusValueId = input.statusValueId;
+  opportunity.targetCloseDate = input.targetCloseDate ? new Date(input.targetCloseDate).toISOString() : null;
+  opportunity.notes = input.notes;
+  opportunity.updatedById = input.actorUserId;
+  opportunity.updatedAt = new Date().toISOString();
+
+  return opportunity;
 }

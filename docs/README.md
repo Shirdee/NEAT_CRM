@@ -5,7 +5,7 @@ tags:
   - index
 aliases:
   - CRM Home
-updated: 2026-04-11
+updated: 2026-04-12
 ---
 
 # CRM
@@ -14,8 +14,9 @@ Project home for the CRM documentation root.
 
 ## Current Focus
 
-- Sprint 5 is the active implementation slice for UI alignment and frontend acceptance
+- Sprint 5 is closed and remains the current delivered UI baseline
 - Sprint 4 remains the behavior reference for interactions and follow-up workflow rules
+- Sprint 6 is the next planned slice, not yet opened for implementation
 - use this note as the entrypoint into the CRM doc graph, not as a long-form status archive
 
 ## Start Here

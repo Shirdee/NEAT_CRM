@@ -10,17 +10,23 @@ aliases:
   - Sprint 06 Index
   - CRM Sprint 06 Index
 created: 2026-04-09
-updated: 2026-04-09
+updated: 2026-04-12
 ---
 
 # Sprint 06 Index
 
 ## Status
 
-Sprint 6 planning has been coordinated by PM and CTO.
-Sprint 6 is the approved next slice after Sprint 4 closeout.
-Sprint 4 remains the active implementation sprint until the remaining quick-add and mobile-entry work is either completed or explicitly cut from scope.
-Sprint 6 should not begin implementation until PM confirms the Sprint 4 handoff is closed or intentionally deferred.
+Sprint 6 planning was coordinated by PM and CTO and execution opened on 2026-04-12.
+Sprint 6 implementation is complete in the repository and has gone through a QA review plus a same-day remediation pass.
+Sprint 6 is the current active release-candidate baseline, replacing Sprint 5 as the latest implementation reference for CRM business-layer work.
+
+## Execution Start
+
+- execution opened: 2026-04-12
+- implementation sequence used: DEV-601 -> DEV-602 -> DEV-603 before dashboard and reporting work
+- current execution state: implementation delivered, QA-reviewed, remediation applied
+- remaining product-definition dependencies to track: dashboard formula approvals, inactive-threshold wording, viewer note-visibility decision
 
 ## Objective
 
@@ -59,10 +65,11 @@ Complete the MVP business layer and prepare the CRM for internal launch by shipp
 - Sprint 2 provides imported business data shape and import compatibility
 - Sprint 3 provides companies, contacts, search, and reusable list-detail form patterns
 - Sprint 4 provides interactions, follow-ups, and inactivity-aware operational context that Sprint 6 dashboard metrics must reuse
+- Sprint 5 provides the current delivered UI baseline and post-close mobile hardening
 
 ## Dependencies
 
-- Sprint 4 closeout or explicit PM decision to defer the remaining quick-add/mobile work
+- Sprint 5 closeout record remains accepted as the current baseline
 - founder confirmation for dashboard periods, conversion formulas, and inactive-threshold wording
 - opportunity stage and status definitions finalized before DEV starts implementation
 

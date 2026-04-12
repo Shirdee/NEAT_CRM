@@ -59,12 +59,38 @@ function InteractionsIcon() {
   );
 }
 
+function OpportunitiesIcon() {
+  return (
+    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+      <path d="M4 19h16" />
+      <path d="M7 16l3-4 3 2 4-6 3 4" />
+      <circle cx="7" cy="16" r="1.25" fill="currentColor" stroke="none" />
+      <circle cx="10" cy="12" r="1.25" fill="currentColor" stroke="none" />
+      <circle cx="13" cy="14" r="1.25" fill="currentColor" stroke="none" />
+      <circle cx="17" cy="8" r="1.25" fill="currentColor" stroke="none" />
+      <circle cx="20" cy="12" r="1.25" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function ReportsIcon() {
+  return (
+    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+      <path d="M5 20V9" />
+      <path d="M12 20V4" />
+      <path d="M19 20v-7" />
+    </svg>
+  );
+}
+
 const NAV_ITEMS = [
   {href: "/dashboard", label: "Home", Icon: DashboardIcon},
   {href: "/companies", label: "Pipeline", Icon: CompaniesIcon},
   {href: "/contacts", label: "People", Icon: ContactsIcon},
   {href: "/tasks", label: "Tasks", Icon: TasksIcon},
-  {href: "/interactions", label: "Log", Icon: InteractionsIcon}
+  {href: "/interactions", label: "Log", Icon: InteractionsIcon},
+  {href: "/opportunities", label: "Deals", Icon: OpportunitiesIcon},
+  {href: "/reports", label: "Reports", Icon: ReportsIcon}
 ] as const;
 
 export function BottomNav({locale}: BottomNavProps) {
@@ -75,13 +101,13 @@ export function BottomNav({locale}: BottomNavProps) {
       aria-label="Main navigation"
       className="fixed inset-x-0 bottom-0 z-40 border-t border-white/50 bg-white/90 backdrop-blur lg:hidden"
     >
-      <div className="flex items-stretch pb-safe">
+      <div className="flex items-stretch overflow-x-auto pb-safe">
         {NAV_ITEMS.map(({href, label, Icon}) => {
           const active = pathname === href || pathname.startsWith(`${href}/`);
           return (
             <Link
               className={clsx(
-                "flex flex-1 flex-col items-center gap-1 px-1 pb-1 pt-2.5 text-[9px] font-semibold uppercase tracking-[0.16em] transition-colors",
+                "flex min-w-[72px] flex-1 flex-col items-center gap-1 px-1 pb-1 pt-2.5 text-[9px] font-semibold uppercase tracking-[0.16em] transition-colors",
                 active ? "text-coral" : "text-slate-400 hover:text-slate-600"
               )}
               href={href}

@@ -4,7 +4,7 @@ import {Link} from "@/i18n/navigation";
 import {MetricCard} from "@/components/ui/metric-card";
 import {SurfaceCard} from "@/components/ui/surface-card";
 import {getCurrentSession} from "@/lib/auth/session";
-import {listCompanies, listInteractions, listTasks} from "@/lib/data/crm";
+import {listCompanies, listInteractions, listOpportunities, listTasks, listLookupOptions} from "@/lib/data/crm";
 
 function getCurrentTimestamp() {
   return Date.now();
@@ -13,20 +13,34 @@ function getCurrentTimestamp() {
 export default async function DashboardPage() {
   const t = await getTranslations("Dashboard");
   const session = await getCurrentSession();
-  const [tasks, interactions, companies] = await Promise.all([
+  const [tasks, interactions, companies, interactionTypeOptions, statusOptions] = await Promise.all([
     listTasks(),
     listInteractions(),
-    listCompanies()
+    listCompanies(),
+    listLookupOptions("interaction_type"),
+    listLookupOptions("opportunity_status")
   ]);
 
   const now = getCurrentTimestamp();
   const weekFromNow = now + 7 * 24 * 60 * 60 * 1000;
+  const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
   const openTasks = tasks.filter((task) => !task.completedAt);
   const overdueTasks = openTasks.filter((task) => new Date(task.dueDate).getTime() < now);
   const upcomingTasks = openTasks.filter((task) => {
     const dueAt = new Date(task.dueDate).getTime();
     return dueAt >= now && dueAt <= weekFromNow;
   });
+  const meetingTypeId = interactionTypeOptions.find((option) => option.key === "meeting")?.id ?? null;
+  const meetingsThisWeek = meetingTypeId
+    ? interactions.filter((interaction) => {
+        if (interaction.interactionTypeValueId !== meetingTypeId) return false;
+        const at = new Date(interaction.interactionDate).getTime();
+        return at >= weekAgo && at <= now;
+      }).length
+    : 0;
+
+  const openStatusId = statusOptions.find((option) => option.key === "open")?.id ?? null;
+  const openOpportunities = openStatusId ? await listOpportunities({statusValueId: openStatusId}) : [];
   const recentInteractions = interactions.slice(0, 4);
   const activeCompanies = companies.slice(0, 4);
 
@@ -59,6 +73,12 @@ export default async function DashboardPage() {
             >
               {t("actions.logInteraction")}
             </Link>
+            <Link
+              className="inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/15"
+              href="/opportunities"
+            >
+              {t("actions.reviewOpportunities")}
+            </Link>
           </div>
         </div>
       </SurfaceCard>
@@ -76,16 +96,16 @@ export default async function DashboardPage() {
           value={String(upcomingTasks.length)}
         />
         <MetricCard
-          detail={t("metrics.companiesDetail")}
-          label={t("metrics.companies")}
+          detail={t("metrics.meetingsDetail")}
+          label={t("metrics.meetings")}
           tone="teal"
-          value={String(companies.length)}
+          value={String(meetingsThisWeek)}
         />
         <MetricCard
-          detail={t("metrics.interactionsDetail")}
-          label={t("metrics.interactions")}
+          detail={t("metrics.opportunitiesDetail")}
+          label={t("metrics.opportunities")}
           tone="ink"
-          value={String(interactions.length)}
+          value={String(openOpportunities.length)}
         />
       </div>
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)]">
