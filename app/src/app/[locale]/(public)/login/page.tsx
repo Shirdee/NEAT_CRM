@@ -21,7 +21,7 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
         : null;
 
   return (
-    <main className="min-h-screen bg-[linear-gradient(160deg,rgba(245,240,231,0.98)_0%,rgba(223,247,241,0.92)_46%,rgba(236,246,243,0.94)_100%)] px-4 py-8 sm:py-10">
+    <main className="min-h-[100dvh] bg-[linear-gradient(160deg,rgba(245,240,231,0.98)_0%,rgba(223,247,241,0.92)_46%,rgba(236,246,243,0.94)_100%)] px-4 py-8 sm:py-10">
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-stretch">
         <section className="relative overflow-hidden rounded-[34px] bg-ink px-6 py-8 text-white shadow-soft sm:px-8 sm:py-10">
           <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.32),transparent_60%)]" />

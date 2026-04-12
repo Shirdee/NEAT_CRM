@@ -11,7 +11,7 @@ export default async function AccessDeniedPage({params}: AccessDeniedPageProps) 
   const t = await getTranslations("AccessDenied");
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-sand px-4">
+    <main className="flex min-h-[100dvh] items-center justify-center bg-sand px-4">
       <section className="max-w-lg rounded-[32px] bg-white p-8 text-center shadow-soft">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
         <h1 className="mt-4 text-3xl font-semibold text-ink">{t("title")}</h1>

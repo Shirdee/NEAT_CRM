@@ -30,9 +30,9 @@ export async function AppShell({children, locale, session}: AppShellProps) {
   }
 
   return (
-    <div className="min-h-screen bg-sand text-slate-900">
+    <div className="min-h-[100dvh] bg-sand text-slate-900">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.34),transparent_54%),linear-gradient(145deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_45%,rgba(15,118,110,0.78)_100%)]" />
-      <header className="px-4 pb-5 pt-5 sm:px-6 lg:px-8">
+      <header className="px-4 pb-5 pt-safe sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl rounded-[32px] border border-white/10 bg-ink/85 px-5 py-5 text-white shadow-soft backdrop-blur sm:px-6">
           <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
             <div className="space-y-3">
@@ -83,7 +83,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
         </div>
       </header>
       <div className="mx-auto grid max-w-7xl gap-5 px-4 pb-10 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8">
-        <aside className="rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:sticky lg:top-6 lg:self-start">
+        <aside className="min-w-0 rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:sticky lg:top-6 lg:self-start">
           <div className="mb-3 px-3 pt-2">
             <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
               {t("eyebrow")}
@@ -101,7 +101,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
             ))}
           </nav>
         </aside>
-        <main className="space-y-6">{children}</main>
+        <main className="min-w-0 space-y-6">{children}</main>
       </div>
     </div>
   );
