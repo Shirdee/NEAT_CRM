@@ -10,8 +10,24 @@ function getCurrentTimestamp() {
   return Date.now();
 }
 
-export default async function DashboardPage() {
+type DashboardPageProps = {
+  searchParams: Promise<{period?: string}>;
+};
+
+function parsePeriodDays(raw: string | undefined) {
+  switch ((raw ?? "").trim()) {
+    case "30d":
+      return 30;
+    case "90d":
+      return 90;
+    default:
+      return 7;
+  }
+}
+
+export default async function DashboardPage({searchParams}: DashboardPageProps) {
   const t = await getTranslations("Dashboard");
+  const {period} = await searchParams;
   const session = await getCurrentSession();
   const [tasks, interactions, companies, interactionTypeOptions, statusOptions] = await Promise.all([
     listTasks(),
@@ -22,8 +38,9 @@ export default async function DashboardPage() {
   ]);
 
   const now = getCurrentTimestamp();
+  const periodDays = parsePeriodDays(period);
+  const windowStart = now - periodDays * 24 * 60 * 60 * 1000;
   const weekFromNow = now + 7 * 24 * 60 * 60 * 1000;
-  const weekAgo = now - 7 * 24 * 60 * 60 * 1000;
   const openTasks = tasks.filter((task) => !task.completedAt);
   const overdueTasks = openTasks.filter((task) => new Date(task.dueDate).getTime() < now);
   const upcomingTasks = openTasks.filter((task) => {
@@ -31,11 +48,11 @@ export default async function DashboardPage() {
     return dueAt >= now && dueAt <= weekFromNow;
   });
   const meetingTypeId = interactionTypeOptions.find((option) => option.key === "meeting")?.id ?? null;
-  const meetingsThisWeek = meetingTypeId
+  const meetingsInPeriod = meetingTypeId
     ? interactions.filter((interaction) => {
         if (interaction.interactionTypeValueId !== meetingTypeId) return false;
         const at = new Date(interaction.interactionDate).getTime();
-        return at >= weekAgo && at <= now;
+        return at >= windowStart && at <= now;
       }).length
     : 0;
 
@@ -60,6 +77,24 @@ export default async function DashboardPage() {
           <p className="max-w-2xl text-sm leading-7 text-white/70">
             {t("subtitle", {role: session?.role ?? "viewer"})}
           </p>
+          <div className="flex flex-wrap gap-2 pt-1">
+            {[
+              {key: "7d", days: 7},
+              {key: "30d", days: 30},
+              {key: "90d", days: 90}
+            ].map((preset) => (
+              <Link
+                className={[
+                  "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition",
+                  periodDays === preset.days ? "bg-white/20 text-white" : "bg-white/10 text-white/80 hover:bg-white/15"
+                ].join(" ")}
+                href={`/dashboard?period=${preset.key}`}
+                key={preset.key}
+              >
+                {preset.key}
+              </Link>
+            ))}
+          </div>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
               className="inline-flex rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
@@ -99,7 +134,7 @@ export default async function DashboardPage() {
           detail={t("metrics.meetingsDetail")}
           label={t("metrics.meetings")}
           tone="teal"
-          value={String(meetingsThisWeek)}
+          value={String(meetingsInPeriod)}
         />
         <MetricCard
           detail={t("metrics.opportunitiesDetail")}

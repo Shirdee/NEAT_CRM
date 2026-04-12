@@ -53,6 +53,8 @@
       "adminImports": "Imports"
     },
     "quickLog": "Quick log",
+    "quickTask": "Quick follow-up",
+    "quickOpportunity": "Quick deal",
     "searchPlaceholder": "Search companies, contacts, email, phone, or notes",
     "roles": {
       "admin": "Admin",
@@ -74,7 +76,7 @@
       "overdueDetail": "Needs action first",
       "upcoming": "Upcoming this week",
       "upcomingDetail": "Already scheduled",
-      "meetings": "Meetings this week",
+      "meetings": "Meetings",
       "meetingsDetail": "Logged meeting interactions",
       "opportunities": "Open opportunities",
       "opportunitiesDetail": "Still in motion",

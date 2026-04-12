@@ -71,6 +71,20 @@ export async function AppShell({children, locale, session}: AppShellProps) {
                     sheetLabel={t("quickLog")}
                   />
                 ) : null}
+                {canEditRecords(session.role) ? (
+                  <QuickLogButton
+                    href={`/${locale}/tasks/new?compact=1`}
+                    label={t("quickTask")}
+                    sheetLabel={t("quickTask")}
+                  />
+                ) : null}
+                {canEditRecords(session.role) ? (
+                  <QuickLogButton
+                    href={`/${locale}/opportunities/new?compact=1`}
+                    label={t("quickOpportunity")}
+                    sheetLabel={t("quickOpportunity")}
+                  />
+                ) : null}
                 <LocaleSwitcher />
                 <form action="/api/logout" method="post">
                   <button

@@ -12,10 +12,10 @@ updated: 2026-04-12
 
 ## Current Focus
 
-- Sprint 5 is closed and archived as the delivered UI implementation slice
-- Sprint 5 UI docs own the current visual baseline and closeout record
-- Sprint 4 remains the workflow behavior reference underneath the delivered UI
-- Sprint 6 is now active for implementation, starting with DEV-601 from the Sprint 6 todo
+- Sprint 6 is closed as the latest MVP business-layer baseline
+- Sprint 5 UI docs still own the current visual baseline and closeout record
+- Sprint 4 remains the workflow behavior reference underneath the delivered UI and later business features
+- Sprint 7 is now the active implementation slice, opened on the narrowed saved-view first wave with `DEV-701` in progress
 
 ## Rules
 
@@ -24,8 +24,9 @@ updated: 2026-04-12
 
 ## Start Here
 
-- [[CRM Sprint 06 Index]]
-- [[CRM Sprint 06 Todo]]
+- [[CRM Sprint 07 Index]]
+- [[CRM Sprint 07 Todo]]
+- [[CRM Sprint 07 Review]]
 - [[CRM Sprint 06 Review]]
 - [[CRM Sprint 05 Review]]
 - [[CRM UI]]
@@ -46,3 +47,4 @@ See [[DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint imp
 - [[CRM Sprint 04 Index]]
 - [[CRM Sprint 05 Index]]
 - [[CRM Sprint 06 Index]]
+- [[CRM Sprint 07 Index]]

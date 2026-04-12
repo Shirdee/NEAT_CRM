@@ -30,6 +30,7 @@ async function requireWritableUser(locale: string) {
 function buildOpportunityRedirectParams(formData: FormData, fields: string[] = []) {
   const params = new URLSearchParams({error: "validation"});
   const values = [
+    "compact",
     "companyId",
     "contactId",
     "opportunityName",

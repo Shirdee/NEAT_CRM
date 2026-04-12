@@ -18,6 +18,7 @@ type OpportunityFormValues = {
 type OpportunityFormProps = {
   action: (formData: FormData) => void | Promise<void>;
   companies: Array<{id: string; companyName: string}>;
+  compact?: boolean;
   contacts: Array<{id: string; fullName: string; companyId: string | null}>;
   hiddenFields?: Record<string, string>;
   invalidFields?: string[];
@@ -36,6 +37,7 @@ function lookupLabel(option: LookupOption, locale: AppLocale) {
 export function OpportunityForm({
   action,
   companies,
+  compact,
   contacts,
   hiddenFields,
   invalidFields,
@@ -60,15 +62,15 @@ export function OpportunityForm({
   const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
   return (
-    <form action={action} className="space-y-5">
+    <form action={action} className={`space-y-5 ${compact ? "space-y-4" : ""}`}>
       {hiddenFields
         ? Object.entries(hiddenFields).map(([name, value]) => (
             <input key={name} name={name} type="hidden" value={value} />
           ))
         : null}
 
-      <div className="grid gap-5 lg:grid-cols-2">
-        <label className="space-y-2 text-sm text-slate-700 lg:col-span-2">
+      <div className={`grid gap-5 ${compact ? "" : "lg:grid-cols-2"}`}>
+        <label className={`space-y-2 text-sm text-slate-700 ${compact ? "" : "lg:col-span-2"}`}>
           <span className="font-medium">{locale === "he" ? "שם הזדמנות" : "Opportunity name"}</span>
           <input
             className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("opportunityName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
@@ -183,4 +185,3 @@ export function OpportunityForm({
     </form>
   );
 }
-

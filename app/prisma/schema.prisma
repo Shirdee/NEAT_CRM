@@ -19,6 +19,12 @@ enum LocalePreference {
   he
 }
 
+enum SavedViewModule {
+  companies
+  tasks
+  opportunities
+}
+
 model User {
   id                 String           @id @default(uuid())
   email              String           @unique
@@ -38,6 +44,7 @@ model User {
   opportunitiesMade  Opportunity[]    @relation("opportunities_created_by")
   opportunitiesEdit  Opportunity[]    @relation("opportunities_updated_by")
   importBatches      ImportBatch[]
+  savedViews         SavedView[]
 }
 
 model ListCategory {
@@ -232,4 +239,18 @@ model Opportunity {
   contact                 Contact?  @relation(fields: [contactId], references: [id], onDelete: SetNull)
   createdBy               User      @relation("opportunities_created_by", fields: [createdById], references: [id])
   updatedBy               User?     @relation("opportunities_updated_by", fields: [updatedById], references: [id])
+}
+
+model SavedView {
+  id          String          @id @default(uuid())
+  userId      String
+  module      SavedViewModule
+  name        String
+  filtersJson Json
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, module, updatedAt])
+  @@unique([userId, module, name])
 }

@@ -3,6 +3,8 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getCompanyFormOptions, listCompanies} from "@/lib/data/crm";
+import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
+import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {FilterShell} from "@/components/ui/filter-shell";
 import {InfoPair} from "@/components/ui/info-pair";
 import {StatusChip} from "@/components/ui/status-chip";
@@ -10,7 +12,7 @@ import {SurfaceCard} from "@/components/ui/surface-card";
 
 type CompaniesPageProps = {
   params: Promise<{locale: "en" | "he"}>;
-  searchParams: Promise<{q?: string; source?: string; stage?: string; error?: string}>;
+  searchParams: Promise<{q?: string; source?: string; stage?: string; view?: string; error?: string}>;
 };
 
 function displayLabel(
@@ -26,10 +28,19 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
   const t = await getTranslations("Companies");
   const session = await getCurrentSession();
   const {sourceOptions, stageOptions} = await getCompanyFormOptions();
+  const savedViews = session
+    ? await listSavedViews({userId: session.id, module: "companies"})
+    : [];
+  const savedViewState = await resolveSavedViewFilters({
+    module: "companies",
+    userId: session?.id,
+    searchParams: query
+  });
+  const filters = savedViewState.filters;
   const companies = await listCompanies({
-    query: query.q,
-    sourceValueId: query.source,
-    stageValueId: query.stage
+    query: filters.q,
+    sourceValueId: filters.source,
+    stageValueId: filters.stage
   });
 
   return (
@@ -55,17 +66,29 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("errors.generic")}</p>
       ) : null}
 
+      {session ? (
+        <SavedViewBar
+          activeFilters={filters}
+          locale={locale}
+          module="companies"
+          selectedViewId={savedViewState.selectedViewId}
+          selectedViewName={savedViewState.selectedView?.name ?? null}
+          views={savedViews.map((view) => ({id: view.id, name: view.name}))}
+        />
+      ) : null}
+
       <FilterShell>
         <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.3fr)_repeat(2,minmax(0,0.8fr))_auto]">
+          <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={query.q ?? ""}
+            defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={query.source ?? ""}
+            defaultValue={filters.source ?? ""}
             name="source"
           >
             <option value="">{t("filters.allSources")}</option>
@@ -77,7 +100,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
           </select>
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={query.stage ?? ""}
+            defaultValue={filters.stage ?? ""}
             name="stage"
           >
             <option value="">{t("filters.allStages")}</option>

@@ -53,6 +53,8 @@
       "adminImports": "ייבוא"
     },
     "quickLog": "תיעוד מהיר",
+    "quickTask": "מעקב מהיר",
+    "quickOpportunity": "הזדמנות מהירה",
     "searchPlaceholder": "חיפוש חברות, אנשי קשר, אימייל, טלפון או הערות",
     "roles": {
       "admin": "מנהל",
@@ -74,7 +76,7 @@
       "overdueDetail": "דורש טיפול ראשון",
       "upcoming": "המשך השבוע",
       "upcomingDetail": "כבר מתוזמן",
-      "meetings": "פגישות השבוע",
+      "meetings": "פגישות",
       "meetingsDetail": "אינטראקציות מסוג פגישה",
       "opportunities": "הזדמנויות פתוחות",
       "opportunitiesDetail": "עדיין בתנועה",

@@ -3,8 +3,10 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getTaskFormOptions, listTasks} from "@/lib/data/crm";
+import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {TaskListClient} from "@/components/tasks/task-list-client";
 import {FilterShell} from "@/components/ui/filter-shell";
+import {SavedViewBar} from "@/components/ui/saved-view-bar";
 
 type TasksPageProps = {
   params: Promise<{locale: "en" | "he"}>;
@@ -13,6 +15,7 @@ type TasksPageProps = {
     companyId?: string;
     contactId?: string;
     statusValueId?: string;
+    view?: string;
   }>;
 };
 
@@ -33,13 +36,20 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
   const query = await searchParams;
   const t = await getTranslations("Tasks");
   const session = await getCurrentSession();
+  const savedViews = session ? await listSavedViews({userId: session.id, module: "tasks"}) : [];
+  const savedViewState = await resolveSavedViewFilters({
+    module: "tasks",
+    userId: session?.id,
+    searchParams: query
+  });
+  const filters = savedViewState.filters;
   const [{companies, contacts, statusOptions}, tasks] = await Promise.all([
     getTaskFormOptions(),
     listTasks({
-      query: query.q,
-      companyId: query.companyId,
-      contactId: query.contactId,
-      statusValueId: query.statusValueId
+      query: filters.q,
+      companyId: filters.companyId,
+      contactId: filters.contactId,
+      statusValueId: filters.statusValueId
     })
   ]);
   const todayStart = startOfToday();
@@ -78,17 +88,29 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
         ) : null}
       </div>
 
+      {session ? (
+        <SavedViewBar
+          activeFilters={filters}
+          locale={locale}
+          module="tasks"
+          selectedViewId={savedViewState.selectedViewId}
+          selectedViewName={savedViewState.selectedView?.name ?? null}
+          views={savedViews.map((view) => ({id: view.id, name: view.name}))}
+        />
+      ) : null}
+
       <FilterShell>
         <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={query.q ?? ""}
+            defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={query.companyId ?? ""}
+            defaultValue={filters.companyId ?? ""}
             name="companyId"
           >
             <option value="">{t("filters.allCompanies")}</option>
@@ -100,7 +122,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
           </select>
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={query.contactId ?? ""}
+            defaultValue={filters.contactId ?? ""}
             name="contactId"
           >
             <option value="">{t("filters.allContacts")}</option>
@@ -112,7 +134,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
           </select>
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={query.statusValueId ?? ""}
+            defaultValue={filters.statusValueId ?? ""}
             name="statusValueId"
           >
             <option value="">{t("filters.allStatuses")}</option>

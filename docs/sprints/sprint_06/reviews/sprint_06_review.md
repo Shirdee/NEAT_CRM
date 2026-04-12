@@ -17,9 +17,9 @@ updated: 2026-04-12
 
 ## Review Status
 
-Planning review completed by PM and CTO.
-Sprint 6 is approved as the next implementation slice after Sprint 5 closeout.
-This review is planning approval only and does not change the repository truth that Sprint 5 is the latest closed implementation baseline.
+PM and CTO review is complete.
+Sprint 6 implementation, QA review, and remediation are complete as of 2026-04-12.
+CTO approves Sprint 6 as closed and as the latest closed implementation baseline in the repository.
 
 ## PM Findings
 
@@ -60,11 +60,9 @@ This review is planning approval only and does not change the repository truth t
 
 ## Open Risks
 
-- dashboard metric definitions are still partially approval-dependent
-- opportunity stage taxonomy can create churn if UI and data rules start before product definitions are frozen
-- aggregate queries may become slow on imported data if indexes are not tuned with real usage patterns
-- viewer note visibility remains unresolved and may affect report and detail-page presentation rules
-- Sprint 5 UI baseline drift can occur if Sprint 6 screens are built outside the delivered patterns
+- future dashboard metric refinements still depend on founder approval for final KPI wording and periods
+- viewer note visibility remains a product-policy follow-up for later refinement if broader note restrictions are required
+- aggregate-query performance should still be watched on larger imported datasets during rollout
 
 ## QA Notes
 
@@ -81,7 +79,8 @@ When DEV finishes Sprint 6, QA should verify:
 
 ## CTO Decision
 
-CTO approves Sprint 6 planning as the next implementation direction and recommends freezing KPI and opportunity-stage definitions before DEV execution begins.
+CTO approves Sprint 6 as delivered and closed.
+Any remaining founder-definition decisions now move to post-sprint product follow-up rather than blocking Sprint 6 closeout.
 
 ## Related
 

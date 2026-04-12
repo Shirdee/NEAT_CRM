@@ -5,12 +5,14 @@ import {OpportunityForm} from "@/components/crm/opportunity-form";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getOpportunityFormOptions} from "@/lib/data/crm";
+import {SurfaceCard} from "@/components/ui/surface-card";
 
 import {createOpportunityAction} from "../actions";
 
 type NewOpportunityPageProps = {
   params: Promise<{locale: "en" | "he"}>;
   searchParams: Promise<{
+    compact?: string;
     error?: string;
     invalidFields?: string;
     companyId?: string;
@@ -40,22 +42,64 @@ export default async function NewOpportunityPage({params, searchParams}: NewOppo
   const defaultStage = options.stageOptions.find((option) => option.key === "qualified")?.id ?? "";
   const defaultType = options.typeOptions.find((option) => option.key === "new_business")?.id ?? "";
   const defaultStatus = options.statusOptions.find((option) => option.key === "open")?.id ?? "";
+  const compactMode = query.compact === "1";
+  const lockedCompany = query.companyId
+    ? options.companies.find((company) => company.id === query.companyId) ?? null
+    : null;
+  const lockedContact = query.contactId
+    ? options.contacts.find((contact) => contact.id === query.contactId) ?? null
+    : null;
 
   return (
     <div className="space-y-6">
-      <div className="space-y-3">
+      <div
+        className={
+          compactMode
+            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.8),rgba(249,235,231,0.95))] px-5 py-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] backdrop-blur"
+            : "space-y-3"
+        }
+      >
+        <p className="text-xs uppercase tracking-[0.3em] text-coral">
+          {compactMode ? (locale === "he" ? "הזדמנות מהירה" : "Quick deal") : t("createTitle")}
+        </p>
         <h2 className="text-3xl font-semibold text-ink">{t("createTitle")}</h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
       </div>
       {query.error ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
       ) : null}
-      <section className="rounded-[24px] border border-slate-200 bg-white p-6">
+      {(lockedCompany || lockedContact) && compactMode ? (
+        <div className="rounded-[24px] bg-[linear-gradient(180deg,rgba(223,247,241,0.88),rgba(255,255,255,0.92))] px-4 py-3 text-sm text-slate-700">
+          <div className="flex flex-wrap gap-2">
+            {lockedCompany ? (
+              <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">
+                {locale === "he" ? "חברה: " : "Company: "}
+                {lockedCompany.companyName}
+              </span>
+            ) : null}
+            {lockedContact ? (
+              <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">
+                {locale === "he" ? "איש קשר: " : "Contact: "}
+                {lockedContact.fullName}
+              </span>
+            ) : null}
+          </div>
+        </div>
+      ) : null}
+      <SurfaceCard
+        className={
+          compactMode
+            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.92))] p-4 sm:p-5"
+            : "rounded-[24px] border border-slate-200 bg-white p-6"
+        }
+      >
         <OpportunityForm
           action={action}
+          compact={compactMode}
           companies={options.companies}
           contacts={options.contacts}
           invalidFields={query.invalidFields?.split(",").filter(Boolean) ?? []}
+          hiddenFields={compactMode ? {compact: "1"} : undefined}
           locale={locale}
           mode="create"
           stageOptions={options.stageOptions}
@@ -73,11 +117,10 @@ export default async function NewOpportunityPage({params, searchParams}: NewOppo
             notes: query.notes ?? ""
           }}
         />
-      </section>
+      </SurfaceCard>
       <Link className="inline-flex text-sm font-medium text-slate-700" href="/opportunities" locale={locale}>
         {t("back")}
       </Link>
     </div>
   );
 }
-
