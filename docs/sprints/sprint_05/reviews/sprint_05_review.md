@@ -140,6 +140,19 @@ When DEV finishes Sprint 5, QA should verify:
 
 CTO approves Sprint 5 planning as the frontend implementation slice and recommends treating the UI docs as binding until PM explicitly changes them.
 
+## Post-Close Hardening (2026-04-11)
+
+Following QA audit after sprint close, 4 iPhone/mobile gaps were identified and resolved:
+
+| Gap | Fix |
+|-----|-----|
+| Missing viewport meta tag | Added `export const viewport: Viewport` to root `layout.tsx` with `viewportFit: "cover"` |
+| No safe-area-inset CSS | Added `env(safe-area-inset-*)` custom properties and `.pb-safe` / `.pt-safe` utilities to `globals.css` |
+| No bottom-sheet for quick-add | Created `BottomSheet` component (`components/ui/bottom-sheet.tsx`) + `QuickLogButton` (`components/shell/quick-log-button.tsx`); mobile opens sheet, desktop navigates |
+| Contact column data visible on mobile | Added `hidden lg:block` to column-slot divs in `contacts/page.tsx` |
+
+QA verified all 8 checks: APPROVED.
+
 ## Related
 
 - [[sprints/sprint_05/sprint_05_index|Sprint 05 Index]]

@@ -103,9 +103,9 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
                     <InfoPair label={t("columns.phone")} value={contact.primaryPhone || "—"} />
                   </div>
                 </div>
-                <div className="text-sm text-slate-600">{contact.companyName || t("labels.noCompany")}</div>
-                <div className="text-sm text-slate-600">{contact.primaryEmail || "—"}</div>
-                <div className="text-sm text-slate-600">{contact.primaryPhone || "—"}</div>
+                <div className="hidden text-sm text-slate-600 lg:block">{contact.companyName || t("labels.noCompany")}</div>
+                <div className="hidden text-sm text-slate-600 lg:block">{contact.primaryEmail || "—"}</div>
+                <div className="hidden text-sm text-slate-600 lg:block">{contact.primaryPhone || "—"}</div>
               </div>
             </Link>
           ))}

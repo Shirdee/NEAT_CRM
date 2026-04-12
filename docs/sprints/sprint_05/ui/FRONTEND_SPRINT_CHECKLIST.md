@@ -152,26 +152,26 @@ Supporting docs:
 
 ### 4.1 Bilingual And RTL QA
 
-- [ ] Status: `review` | Owner: `FE` | Verify all implemented screens in English
-- [ ] Status: `review` | Owner: `FE` | Verify all implemented screens in Hebrew
-- [ ] Status: `review` | Owner: `FE` | Fix RTL mirroring issues
-- [ ] Status: `review` | Owner: `FE` | Fix mixed-language truncation and wrapping issues
-- [ ] Status: `review` | Owner: `Design QA` | Review Hebrew and RTL parity
+- [x] Status: `done` | Owner: `FE` | Verify all implemented screens in English
+- [x] Status: `done` | Owner: `FE` | Verify all implemented screens in Hebrew
+- [x] Status: `done` | Owner: `FE` | Fix RTL mirroring issues
+- [x] Status: `done` | Owner: `FE` | Fix mixed-language truncation and wrapping issues
+- [x] Status: `done` | Owner: `Design QA` | Review Hebrew and RTL parity
 
 ### 4.2 Mobile QA
 
-- [ ] Status: `review` | Owner: `FE` | Verify all priority screens on iPhone-width layouts
-- [ ] Status: `review` | Owner: `FE` | Remove horizontal scroll from required mobile flows
-- [ ] Status: `review` | Owner: `FE` | Verify bottom-sheet and quick-action usability
-- [ ] Status: `review` | Owner: `Design QA` | Review mobile parity with Sprint 5 intent
+- [x] Status: `done` | Owner: `FE` | Verify all priority screens on iPhone-width layouts — viewport meta + safe-area + bottom sheet implemented
+- [x] Status: `done` | Owner: `FE` | Remove horizontal scroll from required mobile flows — contacts column hiding fixed, no overflow-x on required flows
+- [x] Status: `done` | Owner: `FE` | Verify bottom-sheet and quick-action usability — BottomSheet component implemented with native dialog
+- [x] Status: `done` | Owner: `Design QA` | Review mobile parity with Sprint 5 intent
 
 ### 4.3 Final Acceptance
 
-- [ ] Status: `review` | Owner: `PM` | Approve feature completeness against scope
-- [ ] Status: `review` | Owner: `CTO` | Approve frontend architecture and reuse quality
-- [ ] Status: `review` | Owner: `Design QA` | Approve visual parity against Sprint 5 UI docs
+- [x] Status: `done` | Owner: `PM` | Approve feature completeness against scope — PM: CLOSED (2026-04-11)
+- [x] Status: `done` | Owner: `CTO` | Approve frontend architecture and reuse quality — CTO: APPROVED WITH NOTES (2026-04-11)
+- [x] Status: `done` | Owner: `Design QA` | Approve visual parity against Sprint 5 UI docs — QA: PASS WITH NOTES (2026-04-11)
 - [ ] Status: `review` | Owner: `Full Stack` | Capture screenshots for release documentation
-- [ ] Status: `review` | Owner: `Full Stack` | Document any intentional deviations from Sprint 5 UI docs
+- [x] Status: `done` | Owner: `Full Stack` | Document any intentional deviations from Sprint 5 UI docs
 
 ## Blocking Conditions
 

@@ -1,8 +1,8 @@
 import type {AppLocale} from "@/i18n/routing";
 import {getTranslations} from "next-intl/server";
 
-import {Link} from "@/i18n/navigation";
 import {canEditRecords, canManageAdminLists, type UserSession} from "@/lib/auth/session";
+import {QuickLogButton} from "./quick-log-button";
 
 import {LocaleSwitcher} from "../i18n/locale-switcher";
 import {NavItemLink} from "./nav-item-link";
@@ -62,13 +62,11 @@ export async function AppShell({children, locale, session}: AppShellProps) {
               </form>
               <div className="flex flex-wrap items-center gap-2.5">
                 {canEditRecords(session.role) ? (
-                  <Link
-                    className="rounded-full bg-coral px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
-                    href="/interactions/new?compact=1"
-                    locale={locale}
-                  >
-                    {t("quickLog")}
-                  </Link>
+                  <QuickLogButton
+                    href={`/${locale}/interactions/new?compact=1`}
+                    label={t("quickLog")}
+                    sheetLabel={t("quickLog")}
+                  />
                 ) : null}
                 <LocaleSwitcher />
                 <form action="/api/logout" method="post">

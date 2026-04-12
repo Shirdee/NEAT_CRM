@@ -38,6 +38,9 @@ Delivered:
 - repo gates passing on the current delivered slice (commit `f42b4e0`)
 - defensive try-catch added to `session.ts` JSON.parse (post-QA fix)
 - `SearchableOptionField` clearLabel prop added for i18n extensibility (post-QA fix)
+- Viewport meta tag + safe-area-inset CSS for iPhone support
+- BottomSheet component for quick-add on mobile
+- Contact list column visibility fix for mobile
 
 Sprint 6 housekeeping carry-ins (non-blocking, documented by QA and CTO):
 

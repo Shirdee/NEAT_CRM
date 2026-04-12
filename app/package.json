@@ -16,9 +16,10 @@
   },
   "dependencies": {
     "@prisma/client": "^6.6.0",
-    "caniuse-lite": "^1.0.30001787",
+    "caniuse-lite": "^1.0.30001565",
     "clsx": "^2.1.1",
-    "next": "^16.0.0",
+    "negotiator": "^0.6.3",
+    "next": "^16.2.2",
     "next-intl": "^4.4.0",
     "obug": "^2.1.1",
     "prisma": "^6.6.0",
