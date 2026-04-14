@@ -67,6 +67,39 @@ export default async function AdminListsPage({params, searchParams}: AdminListsP
           </form>
         </article>
         <div className="space-y-5">
+          <article className="rounded-[24px] border border-slate-200 bg-white p-5">
+            <h3 className="text-lg font-semibold text-ink">
+              {locale === "he" ? "פעולות מרובות" : "Bulk actions"}
+            </h3>
+            <p className="mt-2 text-sm leading-6 text-slate-600">
+              {locale === "he"
+                ? "כלי ניהול לעדכונים מרובים על שדות מובנים. השתמשו בזהירות."
+                : "Admin tools for limited batch updates on structured fields. Use carefully."}
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link
+                className="inline-flex rounded-full bg-coral px-4 py-2 text-sm font-medium text-white"
+                href="/admin/batch/companies"
+                locale={locale}
+              >
+                {locale === "he" ? "עריכת חברות בריבוי" : "Batch edit companies"}
+              </Link>
+              <Link
+                className="inline-flex rounded-full bg-ink px-4 py-2 text-sm font-medium text-white"
+                href="/admin/batch/opportunities"
+                locale={locale}
+              >
+                {locale === "he" ? "עריכת הזדמנויות בריבוי" : "Batch edit opportunities"}
+              </Link>
+              <Link
+                className="inline-flex rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700"
+                href="/admin/duplicates"
+                locale={locale}
+              >
+                {locale === "he" ? "סקירת כפילויות" : "Duplicate review"}
+              </Link>
+            </div>
+          </article>
           {categories.map((category) => (
             <article className="rounded-[24px] border border-slate-200 bg-white p-5" key={category.id}>
               <div className="flex flex-wrap items-start justify-between gap-3">

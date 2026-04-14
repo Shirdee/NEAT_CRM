@@ -142,6 +142,26 @@
     "backToDashboard": "Back to dashboard",
     "valueCount": "{count, plural, one {# value} other {# values}}"
   },
+  "AdminBatch": {
+    "companiesTitle": "Batch edit companies",
+    "companiesSubtitle": "Admin-only bulk updates for structured fields. Use carefully and keep changes reversible.",
+    "opportunitiesTitle": "Batch edit opportunities",
+    "opportunitiesSubtitle": "Admin-only bulk updates for stage and status. Use carefully and verify results.",
+    "backToAdmin": "Back to admin",
+    "backToCompanies": "Back to companies",
+    "backToOpportunities": "Back to opportunities"
+  },
+  "AdminDuplicates": {
+    "title": "Duplicate review",
+    "subtitle": "Non-destructive review helpers for spotting potential duplicates in existing records.",
+    "companiesTitle": "Companies with matching names",
+    "contactsTitle": "Contacts with matching primary email",
+    "groupCount": "{count, plural, one {# group} other {# groups}}",
+    "recordCount": "{count, plural, one {# record} other {# records}}",
+    "none": "No duplicates detected by this heuristic.",
+    "backToAdmin": "Back to admin",
+    "backToDashboard": "Back to dashboard"
+  },
   "AdminImports": {
     "title": "Workbook import review",
     "subtitle": "Sprint 2 stages workbook data in controlled chunks, profiles the source structure, surfaces cleanup issues, and keeps the final commit behind admin review.",

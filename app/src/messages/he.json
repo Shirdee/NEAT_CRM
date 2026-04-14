@@ -142,6 +142,26 @@
     "backToDashboard": "חזרה לדשבורד",
     "valueCount": "{count, plural, one {# ערך} other {# ערכים}}"
   },
+  "AdminBatch": {
+    "companiesTitle": "עריכת חברות בריבוי",
+    "companiesSubtitle": "עדכונים מרובים לשדות מובנים, למנהלים בלבד. לעבוד בזהירות ולשמור על אפשרות חזרה.",
+    "opportunitiesTitle": "עריכת הזדמנויות בריבוי",
+    "opportunitiesSubtitle": "עדכונים מרובים לשלב ולסטטוס, למנהלים בלבד. לעבוד בזהירות ולאמת תוצאה.",
+    "backToAdmin": "חזרה לניהול",
+    "backToCompanies": "חזרה לחברות",
+    "backToOpportunities": "חזרה להזדמנויות"
+  },
+  "AdminDuplicates": {
+    "title": "סקירת כפילויות",
+    "subtitle": "כלי סקירה לא הרסניים לזיהוי כפילויות אפשריות ברשומות קיימות.",
+    "companiesTitle": "חברות עם שם זהה",
+    "contactsTitle": "אנשי קשר עם אימייל ראשי זהה",
+    "groupCount": "{count, plural, one {# קבוצה} other {# קבוצות}}",
+    "recordCount": "{count, plural, one {# רשומה} other {# רשומות}}",
+    "none": "לא נמצאו כפילויות לפי ההיוריסטיקה הזו.",
+    "backToAdmin": "חזרה לניהול",
+    "backToDashboard": "חזרה לדשבורד"
+  },
   "AdminImports": {
     "title": "סקירת ייבוא חוברת עבודה",
     "subtitle": "ספרינט 2 מעלה נתוני workbook בצ'אנקים מבוקרים, מפרופל את מבנה המקור, מציף בעיות ניקוי ושומר את ההתחייבות הסופית מאחורי סקירת מנהל.",

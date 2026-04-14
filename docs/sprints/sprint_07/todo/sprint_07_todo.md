@@ -9,7 +9,7 @@ aliases:
   - Sprint 07 Todo
   - CRM Sprint 07 Todo
 created: 2026-04-12
-updated: 2026-04-12
+updated: 2026-04-14
 ---
 
 # Sprint 07 Todo
@@ -18,10 +18,8 @@ updated: 2026-04-12
 
 Planned by PM and opened by CTO on 2026-04-12.
 Prepared for DEV execution with explicit technical boundaries.
-Implementation is open.
-`DEV-701` is complete.
-`DEV-702` is now in progress.
-Sprint 7 remains open until DEV, QA, and PM closeout are finished.
+Implementation is complete as of 2026-04-14.
+Sprint 7 is ready for QA closeout and PM closure.
 
 ## PM Model Strategy (2026-04-12)
 
@@ -35,19 +33,21 @@ Sprint 7 remains open until DEV, QA, and PM closeout are finished.
 ## PM Execution Tracker (2026-04-12)
 
 - DEV-701: completed
-- DEV-702: in progress
-- DEV-703: pending
-- DEV-704: pending
-- DEV-705: pending
-- DEV-706: pending
-- DEV-707: pending
+- DEV-702: completed
+- DEV-703: completed
+- DEV-704: completed
+- DEV-705: completed
+- DEV-706: completed
+- DEV-707: completed
 
-## PM Progress Update (2026-04-12)
+## PM Progress Update (2026-04-14)
 
-- `DEV-701` completed the shared saved-view foundation for private per-user saved views
-- shared saved-view resolution now wraps existing route search params for `companies`, `tasks`, and `opportunities`
-- migration, shared data-layer helpers, first-wave page wiring, and focused tests are in place
-- the next active task is `DEV-702`, which should add the user-facing save, load, rename, and delete flows on the first-wave list screens
+- saved views foundation and UI are delivered on `companies`, `tasks`, and `opportunities`
+- dashboard period presets are delivered and explicit via route state
+- mobile quick entry now covers interactions, follow-ups, and opportunities
+- limited admin-only batch edit is delivered for companies and opportunities
+- non-destructive duplicate review tooling is delivered for existing records
+- verification suite is green: `npm test`, `npm run typecheck`, `npm run lint`, `npm run build`
 
 ## Agent Flow
 
@@ -65,8 +65,8 @@ Sprint 7 remains open until DEV, QA, and PM closeout are finished.
 - the first UI adoption wave for saved views is `companies`, `tasks`, and `opportunities`; `contacts` and `interactions` should use the shared primitives later in the sprint after the first wave is stable
 - saved views are private to the current user in Sprint 7; cross-user sharing is out of scope
 - dashboard preset work in `DEV-703` should use explicit preset keys and route state; persisted named dashboard views are out of scope for this sprint
-- batch edit remains policy-sensitive and should stay blocked on a final allowlist before `DEV-705` starts
-- duplicate cleanup remains admin-only and should prefer non-destructive review states or explicit confirmation for any destructive action
+- batch edit is implemented as admin-only and restricted to a small allowlist of structured fields
+- duplicate cleanup is implemented as non-destructive admin review tooling; merge/destructive cleanup remains out of scope
 
 ## CTO Execution Handoff
 
@@ -225,9 +225,9 @@ If DEV and QA complete the items above without scope drift, Sprint 7 should leav
 
 ## Blockers And Approval Dependencies
 
-- dashboard preset defaults still need confirmation before `DEV-703`
-- batch-edit boundaries still need confirmation before `DEV-705`
-- duplicate-resolution affordances still need confirmation before destructive cleanup behavior is implemented
+- if founder wants different dashboard presets, adjust the preset keys and labels before sprint closeout
+- if non-admin roles should batch edit, expand role scope intentionally after review
+- if destructive merge is desired, add an explicit merge workflow sprint rather than extending Sprint 7 silently
 
 ## Related
 
