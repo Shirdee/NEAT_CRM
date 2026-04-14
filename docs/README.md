@@ -5,7 +5,7 @@ tags:
   - index
 aliases:
   - CRM Home
-updated: 2026-04-12
+updated: 2026-04-14
 ---
 
 # CRM
@@ -14,9 +14,10 @@ Project home for the CRM documentation root.
 
 ## Current Focus
 
-- Sprint 6 is closed and is the latest delivered business-layer and launch-readiness baseline
-- Sprint 5 remains the current delivered UI baseline underneath Sprint 6 business features
-- Sprint 7 is the active implementation slice for workflow optimization and usability hardening, with `DEV-701` in progress
+- Sprint 7 implementation is complete and waiting on QA closeout and PM closure
+- Sprint 8 is now the active planning and CTO handoff slice for controlled intake and re-ingestion
+- Sprint 6 remains the latest closed business-layer and launch-readiness baseline
+- Sprint 5 remains the delivered UI baseline underneath later feature work
 - use this note as the entrypoint into the CRM doc graph, not as a long-form status archive
 
 ## Start Here
@@ -30,9 +31,9 @@ Project home for the CRM documentation root.
 
 ## Agent Launch Routes
 
-- PM: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Review]]
-- CTO: [[CRM Context]] -> [[CRM Architecture]] -> [[CRM Sprint 07 Review]]
-- DEV: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Todo]]
+- PM: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 08 Review]]
+- CTO: [[CRM Context]] -> [[CRM Architecture]] -> [[CRM Sprint 08 Review]]
+- DEV: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 08 Todo]]
 - QA: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Review]]
 
 ## Runtime

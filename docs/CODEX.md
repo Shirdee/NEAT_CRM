@@ -14,7 +14,7 @@ updated: 2026-04-14
 
 - project name: CRM
 - purpose: build an internal bilingual CRM for sales lead management and meeting booking
-- status: Sprint 1 through Sprint 7 are functionally in place in the repository; Sprint 6 closed the MVP business-layer and launch-readiness baseline on 2026-04-12; Sprint 7 completed the first post-MVP workflow optimization slice on 2026-04-14
+- status: Sprint 1 through Sprint 7 are functionally in place in the repository; Sprint 6 closed the MVP business-layer and launch-readiness baseline on 2026-04-12; Sprint 7 completed the first post-MVP workflow optimization slice on 2026-04-14; Sprint 8 planning opened on 2026-04-14 for controlled intake and re-ingestion
 
 ## Working Assumptions
 
@@ -22,6 +22,7 @@ updated: 2026-04-14
 - Sprint 4 behavior should be preserved as the workflow reference, and Sprint 5 delivered the current UI baseline
 - Sprint 5 UI docs remain the source of truth for the delivered frontend baseline and closeout record
 - Sprint 7 implementation is complete and awaiting final QA and PM closeout confirmation
+- Sprint 8 is the active planning slice and should not begin mainline implementation until Sprint 7 closes
 - any field used to find an existing CRM record in the database should use live search instead of a long static select
 - the workbook import is a major delivery dependency
 - docs such as [[PRD]], [[ARCHITECTURE]], and [[DELIVERY_PLAN]] are the current planning source of truth
@@ -38,14 +39,15 @@ updated: 2026-04-14
 - current project home: [[CRM Home]]
 - active sprint hub: [[CRM Sprints]]
 - active UI hub: [[CRM UI]]
-- latest implementation handoff: [[CRM Sprint 07 Todo]]
-- active review gate: [[CRM Sprint 07 Review]]
+- latest implementation handoff: [[CRM Sprint 08 Todo]]
+- active planning review gate: [[CRM Sprint 08 Review]]
+- active closeout gate before new execution: [[CRM Sprint 07 Review]]
 
 ## Agent Launch Routes
 
-- PM: [[CRM Home]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Review]]
-- CTO: [[CRM Home]] -> [[CRM Architecture]] -> [[CRM Sprint 07 Review]]
-- DEV: [[CRM Home]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Todo]]
+- PM: [[CRM Home]] -> [[CRM Sprints]] -> [[CRM Sprint 08 Review]]
+- CTO: [[CRM Home]] -> [[CRM Architecture]] -> [[CRM Sprint 08 Review]]
+- DEV: [[CRM Home]] -> [[CRM Sprints]] -> [[CRM Sprint 08 Todo]]
 - QA: [[CRM Home]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Review]]
 
 ## Definition Of Done
