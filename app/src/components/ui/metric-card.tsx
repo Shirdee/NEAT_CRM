@@ -20,10 +20,10 @@ export function MetricCard({label, value, tone = "ink", detail}: MetricCardProps
   return (
     <SurfaceCard className="relative overflow-hidden p-0">
       <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-white/0 via-white/60 to-white/0" />
-      <div className={clsx("flex h-full flex-col gap-3 rounded-[28px] px-5 py-5", toneClasses[tone])}>
-        <p className="text-xs uppercase tracking-[0.24em] opacity-70">{label}</p>
-        <p className="font-display text-3xl font-semibold tracking-tight">{value}</p>
-        {detail ? <p className="text-sm opacity-80">{detail}</p> : null}
+      <div className={clsx("flex h-full flex-col gap-2 rounded-[28px] px-3 py-4 sm:gap-3 sm:px-5 sm:py-5", toneClasses[tone])}>
+        <p className="text-[10px] uppercase tracking-tight opacity-70 sm:text-xs sm:tracking-[0.24em]">{label}</p>
+        <p className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">{value}</p>
+        {detail ? <p className="hidden text-xs opacity-80 sm:block sm:text-sm">{detail}</p> : null}
       </div>
     </SurfaceCard>
   );

@@ -60,17 +60,17 @@ export async function AppShell({children, locale, session}: AppShellProps) {
         </div>
       </div>
       <header className="shrink-0 px-4 pb-5 pt-4 sm:px-6 lg:pt-safe lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[32px] border border-white/10 bg-ink/85 px-5 py-5 text-white shadow-soft backdrop-blur sm:px-6">
-          <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
-            <div className="space-y-3">
-              <p className="text-xs uppercase tracking-[0.3em] text-white/60">
+        <div className="mx-auto max-w-7xl rounded-[32px] border border-white/10 bg-ink/85 px-4 py-3 text-white shadow-soft backdrop-blur sm:px-6 sm:py-5">
+          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
+            <div className="space-y-2">
+              <p className="hidden text-xs uppercase tracking-[0.3em] text-white/60 sm:block">
                 {t("eyebrow")}
               </p>
               <div className="space-y-1">
-                <h1 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl">
+                <h1 className="font-display text-xl font-semibold tracking-tight sm:text-2xl lg:text-3xl">
                   {t("title")}
                 </h1>
-                <p className="max-w-2xl text-sm leading-6 text-white/70">
+                <p className="hidden max-w-2xl text-sm leading-6 text-white/70 sm:block">
                   {t("welcome", {
                     email: session.email,
                     role: t(`roles.${session.role}`),

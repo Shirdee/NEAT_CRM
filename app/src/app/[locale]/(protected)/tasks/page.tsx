@@ -70,12 +70,12 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("title")}</p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-          <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+          <h2 className="font-display text-2xl font-semibold tracking-tight text-ink sm:text-3xl">{t("title")}</h2>
+          <p className="hidden max-w-3xl text-sm leading-7 text-slate-600 sm:block">{t("subtitle")}</p>
         </div>
         {session && canEditRecords(session.role) ? (
           <Link

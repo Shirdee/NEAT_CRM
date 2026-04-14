@@ -17,7 +17,7 @@ export function QuickLogButton({href, label, sheetLabel}: QuickLogButtonProps) {
     <>
       {/* Mobile: opens bottom sheet */}
       <button
-        className="sm:hidden rounded-full bg-coral px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
+        className="sm:hidden rounded-full bg-coral px-3 py-1.5 text-xs font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
         onClick={() => setOpen(true)}
         type="button"
       >

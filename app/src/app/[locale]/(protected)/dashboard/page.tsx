@@ -67,14 +67,14 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <SurfaceCard className="overflow-hidden bg-[linear-gradient(140deg,rgba(16,36,63,0.98)_0%,rgba(23,53,92,0.96)_48%,rgba(15,118,110,0.88)_100%)] text-white">
-        <div className="space-y-3">
+        <div className="space-y-2">
           <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-3xl sm:text-4xl">
             {t("title")}
           </h2>
-          <p className="max-w-2xl text-sm leading-7 text-white/70">
+          <p className="hidden max-w-2xl text-sm leading-7 text-white/70 sm:block">
             {t("subtitle", {role: session?.role ?? "viewer"})}
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
@@ -97,19 +97,19 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </div>
           <div className="flex flex-wrap gap-3 pt-2">
             <Link
-              className="inline-flex rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
+              className="inline-flex rounded-full bg-coral px-4 py-2 text-xs font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 sm:px-5 sm:py-3 sm:text-sm"
               href="/tasks"
             >
               {t("actions.reviewTasks")}
             </Link>
             <Link
-              className="inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/15"
+              className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-medium text-white transition hover:bg-white/15 sm:px-5 sm:py-3 sm:text-sm"
               href="/interactions/new?compact=1"
             >
               {t("actions.logInteraction")}
             </Link>
             <Link
-              className="inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/15"
+              className="inline-flex rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-medium text-white transition hover:bg-white/15 sm:px-5 sm:py-3 sm:text-sm"
               href="/opportunities"
             >
               {t("actions.reviewOpportunities")}
@@ -117,7 +117,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </div>
         </div>
       </SurfaceCard>
-      <div className="grid gap-4 xl:grid-cols-4 md:grid-cols-2">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard
           detail={t("metrics.overdueDetail")}
           label={t("metrics.overdue")}
@@ -143,7 +143,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           value={String(openOpportunities.length)}
         />
       </div>
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)]">
+      <div className="grid gap-3 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)]">
         <SurfaceCard className="space-y-5">
           <div className="flex items-center justify-between gap-4">
             <div>
@@ -161,7 +161,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           <div className="space-y-3">
             {overdueTasks.slice(0, 5).map((task) => (
               <Link
-                className="block rounded-[24px] border border-slate-200 bg-slate-50/70 p-4 transition hover:border-coral/40 hover:bg-white"
+                className="block rounded-[24px] border border-slate-200 bg-slate-50/70 p-3 transition hover:border-coral/40 hover:bg-white sm:p-4"
                 href={`/tasks/${task.id}`}
                 key={task.id}
               >
@@ -203,7 +203,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
             <div className="space-y-3">
               {recentInteractions.map((interaction) => (
                 <Link
-                  className="block rounded-[22px] bg-mist px-4 py-4 transition hover:bg-mint"
+                  className="block rounded-[22px] bg-mist px-3 py-2.5 transition hover:bg-mint sm:px-4 sm:py-4"
                   href={`/interactions/${interaction.id}`}
                   key={interaction.id}
                 >
@@ -247,7 +247,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </SurfaceCard>
         </div>
       </div>
-      <SurfaceCard className="grid gap-4 md:grid-cols-3">
+      <SurfaceCard className="hidden gap-4 md:grid md:grid-cols-3">
         {[
           {value: t("cards.roleTitle"), label: t("cards.roleBody")},
           {value: t("cards.localeTitle"), label: t("cards.localeBody")},

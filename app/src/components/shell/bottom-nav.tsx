@@ -11,7 +11,7 @@ type BottomNavProps = {
 
 function DashboardIcon() {
   return (
-    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
       <rect height="9" rx="2" width="9" x="3" y="3" />
       <rect height="5" rx="2" width="9" x="3" y="16" />
       <rect height="5" rx="2" width="9" x="16" y="3" />
@@ -22,7 +22,7 @@ function DashboardIcon() {
 
 function CompaniesIcon() {
   return (
-    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
       <path d="M3 21h18" />
       <path d="M5 21V7l7-4 7 4v14" />
       <path d="M9 21v-4h6v4" />
@@ -33,7 +33,7 @@ function CompaniesIcon() {
 
 function ContactsIcon() {
   return (
-    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
       <circle cx="9" cy="7" r="3" />
       <path d="M3 21v-1a6 6 0 016-6h0a6 6 0 016 6v1" />
       <circle cx="18" cy="9" r="2.5" />
@@ -44,7 +44,7 @@ function ContactsIcon() {
 
 function TasksIcon() {
   return (
-    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
       <path d="M9 11l3 3 8-8" />
       <path d="M20 12v7a2 2 0 01-2 2H6a2 2 0 01-2-2V5a2 2 0 012-2h9" />
     </svg>
@@ -53,7 +53,7 @@ function TasksIcon() {
 
 function InteractionsIcon() {
   return (
-    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
       <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
     </svg>
   );
@@ -61,7 +61,7 @@ function InteractionsIcon() {
 
 function OpportunitiesIcon() {
   return (
-    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
       <path d="M4 19h16" />
       <path d="M7 16l3-4 3 2 4-6 3 4" />
       <circle cx="7" cy="16" r="1.25" fill="currentColor" stroke="none" />
@@ -75,7 +75,7 @@ function OpportunitiesIcon() {
 
 function ReportsIcon() {
   return (
-    <svg className="h-[22px] w-[22px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
+    <svg className="h-[18px] w-[18px]" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
       <path d="M5 20V9" />
       <path d="M12 20V4" />
       <path d="M19 20v-7" />
@@ -107,7 +107,7 @@ export function BottomNav({locale}: BottomNavProps) {
           return (
             <Link
               className={clsx(
-                "flex min-w-[72px] flex-1 flex-col items-center gap-1 px-1 pb-1 pt-2.5 text-[9px] font-semibold uppercase tracking-[0.16em] transition-colors",
+                "flex min-w-[60px] flex-1 flex-col items-center gap-0.5 px-1 pb-1 pt-1.5 text-[8px] font-semibold uppercase tracking-[0.14em] transition-colors",
                 active ? "text-coral" : "text-slate-400 hover:text-slate-600"
               )}
               href={href}
