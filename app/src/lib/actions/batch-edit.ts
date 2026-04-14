@@ -3,6 +3,7 @@
 import {revalidatePath} from "next/cache";
 
 import {getCurrentSession, isLocale} from "@/lib/auth/session";
+import {getCompanyFormOptions, getOpportunityFormOptions} from "@/lib/data/crm";
 import {prisma} from "@/lib/prisma/client";
 
 type ActionResult =
@@ -28,6 +29,20 @@ function safeIds(input: unknown) {
     .filter(Boolean);
 }
 
+function ensureAllowedValue(
+  value: string | undefined,
+  allowedIds: Set<string>,
+  message: string
+) {
+  if (!value) {
+    return;
+  }
+
+  if (!allowedIds.has(value)) {
+    throw new Error(message);
+  }
+}
+
 export async function batchUpdateCompaniesAction(input: {
   locale: string;
   ids: string[];
@@ -49,6 +64,18 @@ export async function batchUpdateCompaniesAction(input: {
     if (!sourceValueId && !stageValueId) {
       return {ok: false, message: "Choose at least one field to update."};
     }
+
+    const {sourceOptions, stageOptions} = await getCompanyFormOptions();
+    ensureAllowedValue(
+      sourceValueId,
+      new Set(sourceOptions.map((option) => option.id)),
+      "Invalid company source."
+    );
+    ensureAllowedValue(
+      stageValueId,
+      new Set(stageOptions.map((option) => option.id)),
+      "Invalid company stage."
+    );
 
     await prisma.company.updateMany({
       where: {id: {in: ids}},
@@ -88,6 +115,18 @@ export async function batchUpdateOpportunitiesAction(input: {
       return {ok: false, message: "Choose at least one field to update."};
     }
 
+    const {stageOptions, statusOptions} = await getOpportunityFormOptions();
+    ensureAllowedValue(
+      opportunityStageValueId,
+      new Set(stageOptions.map((option) => option.id)),
+      "Invalid opportunity stage."
+    );
+    ensureAllowedValue(
+      statusValueId,
+      new Set(statusOptions.map((option) => option.id)),
+      "Invalid opportunity status."
+    );
+
     await prisma.opportunity.updateMany({
       where: {id: {in: ids}},
       data: {
@@ -103,4 +142,3 @@ export async function batchUpdateOpportunitiesAction(input: {
     return {ok: false, message: error instanceof Error ? error.message : "Batch update failed."};
   }
 }
-

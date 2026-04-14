@@ -79,9 +79,9 @@ When DEV finishes Sprint 7, QA should verify:
 
 ## CTO Decision
 
-CTO approves Sprint 7 as the active implementation slice.
-Execution is open on the narrowed saved-view first slice.
-Later tasks remain gated where policy-sensitive decisions are still explicitly unresolved.
+CTO approved Sprint 7 as the active implementation slice on 2026-04-12.
+Implementation completed on 2026-04-14.
+Server-side batch edit allowlist validation was tightened after QA review on 2026-04-14.
 
 ## Related
 
