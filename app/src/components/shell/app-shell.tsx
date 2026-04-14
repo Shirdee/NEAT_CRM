@@ -33,10 +33,12 @@ export async function AppShell({children, locale, session}: AppShellProps) {
   }
 
   return (
-    <div className="relative flex flex-col bg-sand text-slate-900 lg:h-[100dvh] lg:overflow-hidden lg:overscroll-none">
+    // Always locked to full viewport — thin bar + content area + bottom nav
+    <div className="relative flex h-[100dvh] flex-col overflow-hidden bg-sand text-slate-900 overscroll-none">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.34),transparent_54%),linear-gradient(145deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_45%,rgba(15,118,110,0.78)_100%)]" />
-      {/* Mobile thin sticky toolbar — hidden on desktop */}
-      <div className="sticky top-0 z-40 border-b border-white/10 bg-ink/80 backdrop-blur lg:hidden">
+
+      {/* ── Mobile thin top bar (shrink-0, never scrolls) ── */}
+      <div className="shrink-0 z-40 border-b border-white/10 bg-ink/80 backdrop-blur lg:hidden">
         <div className="flex h-11 items-center justify-between pt-safe px-4">
           <span className="text-[10px] font-semibold uppercase tracking-[0.25em] text-white/60">
             {t("eyebrow")}
@@ -45,9 +47,9 @@ export async function AppShell({children, locale, session}: AppShellProps) {
             <LocaleSwitcher />
             <form action="/api/logout" method="post">
               <button
+                aria-label={t("signOut")}
                 className="rounded-full p-1.5 text-white/60 transition hover:text-white/90"
                 type="submit"
-                aria-label={t("signOut")}
               >
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} viewBox="0 0 24 24">
                   <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
@@ -59,18 +61,18 @@ export async function AppShell({children, locale, session}: AppShellProps) {
           </div>
         </div>
       </div>
-      <header className="shrink-0 px-4 pb-5 pt-4 sm:px-6 lg:pt-safe lg:px-8">
-        <div className="mx-auto max-w-7xl rounded-[32px] border border-white/10 bg-ink/85 px-4 py-3 text-white shadow-soft backdrop-blur sm:px-6 sm:py-5">
-          <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
-            <div className="space-y-2">
-              <p className="hidden text-xs uppercase tracking-[0.3em] text-white/60 sm:block">
-                {t("eyebrow")}
-              </p>
+
+      {/* ── Desktop full header (shrink-0, never scrolls, hidden on mobile) ── */}
+      <header className="shrink-0 hidden px-4 pb-5 pt-safe sm:px-6 lg:block lg:px-8">
+        <div className="mx-auto max-w-7xl rounded-[32px] border border-white/10 bg-ink/85 px-5 py-5 text-white shadow-soft backdrop-blur sm:px-6">
+          <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
+            <div className="space-y-3">
+              <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>
               <div className="space-y-1">
-                <h1 className="font-display text-xl font-semibold tracking-tight sm:text-2xl lg:text-3xl">
+                <h1 className="font-display text-2xl font-semibold tracking-tight lg:text-3xl">
                   {t("title")}
                 </h1>
-                <p className="hidden max-w-2xl text-sm leading-6 text-white/70 sm:block">
+                <p className="max-w-2xl text-sm leading-6 text-white/70">
                   {t("welcome", {
                     email: session.email,
                     role: t(`roles.${session.role}`),
@@ -123,7 +125,9 @@ export async function AppShell({children, locale, session}: AppShellProps) {
           </div>
         </div>
       </header>
-      <div className="mx-auto grid max-w-7xl gap-5 px-4 pb-28 sm:px-6 lg:min-h-0 lg:flex-1 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8 lg:pb-10">
+
+      {/* ── Content grid (flex-1, min-h-0 — always, not lg-only) ── */}
+      <div className="mx-auto grid min-h-0 flex-1 max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8">
         <aside className="hidden min-w-0 overflow-y-auto rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:block">
           <div className="mb-3 px-3 pt-2">
             <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
@@ -142,10 +146,50 @@ export async function AppShell({children, locale, session}: AppShellProps) {
             ))}
           </nav>
         </aside>
-        <main className="min-w-0 pb-6 lg:overflow-y-auto lg:overscroll-y-contain [scrollbar-gutter:stable]">
-          <div className="space-y-6 pb-28 lg:pb-6">{children}</div>
+
+        {/* main is the ONLY scroll container on mobile */}
+        <main className="min-w-0 overflow-y-auto overscroll-y-contain [scrollbar-gutter:stable]">
+          {/* Mobile header card — lives inside scroll area so it scrolls away */}
+          <div className="pb-4 pt-3 lg:hidden">
+            <div className="rounded-[32px] border border-white/10 bg-ink/85 px-4 py-3 text-white shadow-soft backdrop-blur">
+              <div className="flex flex-col gap-3">
+                <h1 className="font-display text-xl font-semibold tracking-tight">
+                  {t("title")}
+                </h1>
+                <form action={`/${locale}/search`}>
+                  <input
+                    className="w-full rounded-full border border-white/10 bg-white/10 px-4 py-2.5 text-sm text-white placeholder:text-white/60"
+                    name="q"
+                    placeholder={t("searchPlaceholder")}
+                  />
+                </form>
+                {canEditRecords(session.role) ? (
+                  <div className="flex flex-wrap gap-2">
+                    <QuickLogButton
+                      href={`/${locale}/interactions/new?compact=1`}
+                      label={t("quickLog")}
+                      sheetLabel={t("quickLog")}
+                    />
+                    <QuickLogButton
+                      href={`/${locale}/tasks/new?compact=1`}
+                      label={t("quickTask")}
+                      sheetLabel={t("quickTask")}
+                    />
+                    <QuickLogButton
+                      href={`/${locale}/opportunities/new?compact=1`}
+                      label={t("quickOpportunity")}
+                      sheetLabel={t("quickOpportunity")}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-4 pb-24 lg:pb-6">{children}</div>
         </main>
       </div>
+
       <BottomNav locale={locale} />
     </div>
   );
