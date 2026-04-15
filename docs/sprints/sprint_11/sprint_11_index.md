@@ -12,6 +12,7 @@ aliases:
 created: 2026-04-15
 updated: 2026-04-15
 closed: 2026-04-15
+patched: 2026-04-15
 ---
 
 # Sprint 11 Index — Ink & Quartz Full Completion
@@ -100,13 +101,19 @@ Token contract: [[sprints/sprint_10/sprint_10_ink_quartz_cutover_plan#Ink--Quart
 
 - [x] `layout.tsx` loads Manrope + Inter via `next/font/google`
 - [x] Zero `slate-*` classes remain in `crm/app/src/`
-- [x] Zero hardcoded `rgba(244,229,225,*)` color values remain
+- [x] Zero hardcoded `rgba(244,229,225,*)` or `rgba(223,247,241,*)` color values remain
 - [x] Zero `bg-amber-50` / `text-amber-*` error banner classes remain
 - [x] Contacts list uses card-per-contact pattern, no `divide-y` dividers
 - [x] All QA checks pass (`lint` `typecheck` `build` `vitest`)
 - [x] PM sign-off — 2026-04-15
 
-**Note:** All work was pre-completed during Sprint 10 WS7. QA confirmed via grep verification + full build/test gate. Two minor open items (reports `divide-mist`, admin import hardcoded rgba) are non-blocking and not sprint-blocking — deferred to open tasks if ever needed.
+**Note:** All work was pre-completed during Sprint 10 WS7. QA confirmed via grep verification + full build/test gate.
+
+**Post-close patches (2026-04-15):**
+- Fixed `SurfaceCard` bg override — `bg-white/95` was winning over caller's `bg-*` class due to CSS cascade; added `hasCustomBg` guard in `surface-card.tsx`
+- Fixed reports pages (`meetings`, `leads-by-source`) — removed remaining `divide-mist` structural violations
+- Fixed admin imports `row-review-form.tsx` — replaced hardcoded `bg-[rgba(223,247,241,0.45)]` with `bg-mint/20`
+- Converted record-picker `<select>` elements to `SearchableOptionField` — contact-form company picker, task-form related interaction picker (both compact + full variants)
 
 ## Linked Sprint Docs
 
