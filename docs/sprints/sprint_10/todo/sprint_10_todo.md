@@ -22,13 +22,13 @@ Parent: [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]
 
 Planned by PM on 2026-04-15.
 CTO technical handoff completed for Workstream 1 and Workstream 2 on 2026-04-15.
-Execution is opened for DEV on Workstreams 1, 2, and 3.
-Workstreams 4 to 6 remain planned and not opened in this handoff.
+Execution is opened for DEV on Workstreams 1 to 6.
+Workstreams 4 to 6 were opened by CTO on 2026-04-15 with detailed `DEV-400x`, `DEV-500x`, and `DEV-600x` tasks and parallel DEV subagent execution.
 
 ## Scope Slice In This Handoff
 
-- included: Workstream 1 (Record Deletion), Workstream 2 (Stitch Review And UI Plan), Workstream 3 (Runtime Improvement)
-- excluded in this handoff: Workstreams 4 to 6
+- included: Workstream 1 (Record Deletion), Workstream 2 (Stitch Review And UI Plan), Workstream 3 (Runtime Improvement), Workstream 4 (Interaction Summary Formatting), Workstream 5 (Interaction Record View Updates), Workstream 6 (Live Search Standardization)
+- excluded in this handoff: none
 
 ## CTO Technical Decisions (2026-04-15)
 
@@ -44,7 +44,7 @@ Workstreams 4 to 6 remain planned and not opened in this handoff.
 - handoff owner: CTO
 - handoff target: DEV
 - sprint: Sprint 10
-- build scope now: Workstreams 1, 2, and 3
+- build scope now: Workstreams 1 to 6
 - first concrete implementation action: start `DEV-1001` by defining deletion policy matrix and target entity list, then open policy decisions in sprint doc before coding mutations
 - immediate sequencing after first action: complete `DEV-1001`, then `DEV-1002`, then `DEV-1003`, then execute `DEV-1004` as planning gate
 - hard technical guardrails: keep RBAC server-side, preserve auditability, avoid irreversible destructive behavior by default, no schema redesign beyond required deletion flags/fields, no new services, no queue/cron/automation
@@ -135,12 +135,8 @@ Done when:
 
 ## Non-Scope Guardrails (This Handoff)
 
-- no runtime optimization work from Workstream 3
-- no interaction-summary format changes from Workstream 4
-- no interaction-view type/link changes from Workstream 5
-- no global live-search retrofit from Workstream 6
 - no new infrastructure service, queue, cron, automation, or paid add-on
-- no broad UI rebuild before `DEV-1004` plan approval
+- broad UI rebuild remains constrained to approved route-by-route sequencing in the Stitch plan
 
 ## QA Execution Expectations (For Opened Slice)
 
@@ -208,6 +204,30 @@ Done when:
   - line 2: `Subject + Date`
 - [ ] Validate RTL and mobile behavior.
 
+### DEV Task Breakdown (Workstream 4)
+
+#### DEV-4001: Summary Formatter Contract
+
+- objective: define one canonical formatter for interaction summaries used by list surfaces
+- scope: interactions list rendering path
+- must include: first-name extraction fallback rules and company fallback label
+- done when: formatter behavior is deterministic for missing contact/company values
+
+#### DEV-4002: Interactions List Render Update
+
+- objective: enforce two-line summary structure
+- scope: `/[locale]/interactions` item cards
+- must include:
+  - line 1 bold -> `First Name + Company`
+  - line 2 -> `Subject + Date`
+- done when: list item layout matches requested format in EN and HE
+
+#### DEV-4003: RTL + Responsive Verification
+
+- objective: verify summary format does not regress on RTL/mobile
+- scope: touched interactions list surface
+- done when: manual check notes recorded and no clipping/ordering regressions
+
 Done when:
 - Format is consistent across routes where interaction summaries appear.
 
@@ -218,6 +238,28 @@ Done when:
 - [ ] Add `phone call` as interaction type in model/form/list filters as needed.
 - [ ] Make company and contact references clickable in interaction record view.
 - [ ] Add/update tests for new type and links.
+
+### DEV Task Breakdown (Workstream 5)
+
+#### DEV-5001: Interaction Type Catalog Update
+
+- objective: expose explicit `phone call` naming in interaction-type options while preserving compatibility
+- scope: lookup seed sources (Prisma seed + fallback seed path)
+- must include: EN/HE labels and no key/id breakage for existing records
+- done when: interaction type list shows explicit phone-call option in both locales
+
+#### DEV-5002: Interaction Record Linkability
+
+- objective: make related company/contact references clickable in interaction detail route
+- scope: `/[locale]/interactions/[interactionId]`
+- must include: safe fallback when one or both references are absent
+- done when: interaction detail enables navigation to linked company/contact records
+
+#### DEV-5003: Regression Tests
+
+- objective: ensure lookup/type behavior remains stable after phone-call naming update
+- scope: targeted data tests for interaction-type options
+- done when: tests cover expected option labels/keys and pass in fallback mode
 
 Done when:
 - New type can be created, viewed, and filtered.
@@ -230,6 +272,32 @@ Done when:
 - [ ] Inventory all search inputs and open-list selectors.
 - [ ] Convert non-live controls to live search behavior.
 - [ ] Verify debounce/perf behavior on large lists.
+
+### DEV Task Breakdown (Workstream 6)
+
+#### DEV-6001: Live Filter Form Primitive
+
+- objective: introduce reusable client behavior for live filter submission
+- scope: shared UI primitive for GET filter forms
+- must include: debounce for text query and immediate apply for selector changes
+- done when: primitive can wrap existing filter forms with no query-contract break
+
+#### DEV-6002: Core List Route Adoption
+
+- objective: apply live-search behavior to main CRM list filters
+- scope:
+  - `/[locale]/companies`
+  - `/[locale]/contacts`
+  - `/[locale]/tasks`
+  - `/[locale]/opportunities`
+- must include: saved-view hidden fields preserved where used
+- done when: typing or selector changes auto-apply filters without explicit submit
+
+#### DEV-6003: Performance And UX Guardrails
+
+- objective: avoid noisy submits and regressions
+- scope: debounce intervals and form stability checks
+- done when: filter behavior is responsive and does not trigger excessive reload churn
 
 Done when:
 - All targeted search/open-list controls are live and responsive.
@@ -260,4 +328,5 @@ Done when:
   - companies list/detail parity pass
   - tasks list and create-form shell parity pass across company/contact/task/interaction/opportunity new routes
 - CTO opened Workstream 3 on 2026-04-15 with detailed `DEV-300x` runtime tasks and delegated parallel subagents for WS3-A and WS3-B.
+- CTO opened Workstreams 4 to 6 on 2026-04-15 with detailed `DEV-400x`, `DEV-500x`, and `DEV-600x` tasks and delegated parallel subagent implementation.
 - consolidated PM + execution status now tracked in [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]

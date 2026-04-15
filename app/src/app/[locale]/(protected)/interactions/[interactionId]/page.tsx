@@ -101,9 +101,28 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
           <InfoPair
             accent="coral"
             label={t("company")}
-            value={interaction.companyName || t("noCompany")}
+            value={
+              interaction.companyId && interaction.companyName ? (
+                <Link className="font-medium text-coral hover:underline" href={`/companies/${interaction.companyId}`} locale={locale}>
+                  {interaction.companyName}
+                </Link>
+              ) : (
+                t("noCompany")
+              )
+            }
           />
-          <InfoPair label={t("contact")} value={interaction.contactName || t("noContact")} />
+          <InfoPair
+            label={t("contact")}
+            value={
+              interaction.contactId && interaction.contactName ? (
+                <Link className="font-medium text-coral hover:underline" href={`/contacts/${interaction.contactId}`} locale={locale}>
+                  {interaction.contactName}
+                </Link>
+              ) : (
+                t("noContact")
+              )
+            }
+          />
         </div>
       </SurfaceCard>
 

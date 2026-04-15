@@ -49,6 +49,16 @@ const categories = [
     ]
   },
   {
+    id: "cat_interaction_type",
+    key: "interaction_type",
+    name: "Interaction Types",
+    values: [
+      {key: "call", labelEn: "Phone call", labelHe: "שיחת טלפון", sortOrder: 1},
+      {key: "meeting", labelEn: "Meeting", labelHe: "פגישה", sortOrder: 2},
+      {key: "email", labelEn: "Email", labelHe: "אימייל", sortOrder: 3}
+    ]
+  },
+  {
     id: "cat_opportunity_stage",
     key: "opportunity_stage",
     name: "Opportunity Stages",

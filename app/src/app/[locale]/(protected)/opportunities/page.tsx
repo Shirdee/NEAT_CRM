@@ -7,6 +7,7 @@ import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {FilterShell} from "@/components/ui/filter-shell";
 import {InfoPair} from "@/components/ui/info-pair";
+import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
 
@@ -95,7 +96,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
       ) : null}
 
       <FilterShell>
-        <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_repeat(4,minmax(0,0.8fr))_auto]">
+        <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_repeat(4,minmax(0,0.8fr))_auto]">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
@@ -169,7 +170,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
           >
             {t("filters.apply")}
           </button>
-        </form>
+        </LiveFilterForm>
       </FilterShell>
 
       {opportunities.length === 0 ? (

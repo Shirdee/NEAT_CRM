@@ -3,6 +3,7 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getInteractionFormOptions, listInteractions} from "@/lib/data/crm";
+import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
 
@@ -28,6 +29,14 @@ function formatDate(locale: "en" | "he", value: Date | string) {
     dateStyle: "medium",
     timeStyle: "short"
   }).format(new Date(value));
+}
+
+function firstNameFromFullName(fullName: string | null) {
+  if (!fullName) {
+    return null;
+  }
+
+  return fullName.trim().split(/\s+/)[0] || null;
 }
 
 export default async function InteractionsPage({
@@ -88,7 +97,7 @@ export default async function InteractionsPage({
           </p>
           <h3 className="text-lg font-semibold text-ink">{t("title")}</h3>
         </div>
-        <form className="grid gap-4 lg:grid-cols-4">
+        <LiveFilterForm className="grid gap-4 lg:grid-cols-4">
           <input
             className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-slate-500 focus:ring-coral/30"
             defaultValue={query.q ?? ""}
@@ -132,12 +141,13 @@ export default async function InteractionsPage({
             ))}
           </select>
           <button
+            data-live-submit="off"
             className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white lg:col-span-4 lg:justify-self-start"
             type="submit"
           >
             {t("filters.apply")}
           </button>
-        </form>
+        </LiveFilterForm>
       </SurfaceCard>
 
       {interactions.length === 0 ? (
@@ -154,33 +164,28 @@ export default async function InteractionsPage({
                 key={interaction.id}
                 locale={locale}
               >
-                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                  <div className="space-y-3">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="space-y-1">
                     <p className="font-display text-xl font-semibold tracking-tight text-ink">
-                      {interaction.subject}
+                      {`${firstNameFromFullName(interaction.contactName) || t("labels.noContact")} + ${interaction.companyName || t("labels.noCompany")}`}
                     </p>
-                    <p className="max-w-3xl text-sm leading-7 text-slate-600">{interaction.summary}</p>
-                    <div className="flex flex-wrap gap-2">
-                      <StatusChip tone="teal">
-                        {labelForLocale(locale, {
-                          en: interaction.interactionTypeLabelEn,
-                          he: interaction.interactionTypeLabelHe
-                        })}
-                      </StatusChip>
-                      <StatusChip>{interaction.companyName || t("labels.noCompany")}</StatusChip>
-                      <StatusChip>{interaction.contactName || t("labels.noContact")}</StatusChip>
-                    </div>
+                    <p className="text-sm leading-7 text-slate-600">
+                      {`${interaction.subject} + ${formatDate(locale, interaction.interactionDate)}`}
+                    </p>
                   </div>
-                  <div className="space-y-3 text-sm text-slate-600 lg:text-end">
-                    <p>{formatDate(locale, interaction.interactionDate)}</p>
-                    <div className="flex flex-wrap gap-2 lg:justify-end">
-                      <StatusChip tone="ink">
-                        {labelForLocale(locale, {
-                          en: interaction.outcomeLabelEn,
-                          he: interaction.outcomeLabelHe
-                        })}
-                      </StatusChip>
-                    </div>
+                  <div className="flex flex-wrap gap-2 lg:justify-end">
+                    <StatusChip tone="teal">
+                      {labelForLocale(locale, {
+                        en: interaction.interactionTypeLabelEn,
+                        he: interaction.interactionTypeLabelHe
+                      })}
+                    </StatusChip>
+                    <StatusChip tone="ink">
+                      {labelForLocale(locale, {
+                        en: interaction.outcomeLabelEn,
+                        he: interaction.outcomeLabelHe
+                      })}
+                    </StatusChip>
                   </div>
                 </div>
               </Link>

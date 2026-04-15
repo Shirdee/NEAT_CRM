@@ -6,6 +6,7 @@ import {getTaskListFilterOptions, listTasks} from "@/lib/data/crm";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {TaskListClient} from "@/components/tasks/task-list-client";
 import {FilterShell} from "@/components/ui/filter-shell";
+import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {SurfaceCard} from "@/components/ui/surface-card";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
 
@@ -103,7 +104,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
       ) : null}
 
       <FilterShell>
-        <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
@@ -153,7 +154,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
           >
             {t("filters.apply")}
           </button>
-        </form>
+        </LiveFilterForm>
       </FilterShell>
 
       <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.9))]">

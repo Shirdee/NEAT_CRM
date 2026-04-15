@@ -5,6 +5,7 @@ import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getContactFormOptions, listContacts} from "@/lib/data/crm";
 import {FilterShell} from "@/components/ui/filter-shell";
 import {InfoPair} from "@/components/ui/info-pair";
+import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {SurfaceCard} from "@/components/ui/surface-card";
 
 type ContactsPageProps = {
@@ -46,7 +47,7 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
       ) : null}
 
       <FilterShell>
-        <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto]">
+        <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto]">
           <input
             className="rounded bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={query.q ?? ""}
@@ -71,7 +72,7 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
           >
             {t("filters.apply")}
           </button>
-        </form>
+        </LiveFilterForm>
       </FilterShell>
 
       {contacts.length === 0 ? (
