@@ -52,8 +52,11 @@ body {
 }
 
 body[data-app-shell="locked"] {
+  position: fixed;
+  inset: 0;
   height: 100dvh;
   overflow: hidden;
+  width: 100%;
 }
 
 a {

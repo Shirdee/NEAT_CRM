@@ -35,7 +35,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
   }
 
   return (
-    <div className="relative flex h-[100dvh] flex-col overflow-hidden bg-sand text-slate-900 overscroll-none">
+    <div className="relative grid h-[100dvh] min-h-[100dvh] grid-rows-[auto_minmax(0,1fr)_auto] overflow-hidden bg-sand text-slate-900 overscroll-none">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.34),transparent_54%),linear-gradient(145deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_45%,rgba(15,118,110,0.78)_100%)]" />
       <header className="shrink-0 px-4 pb-5 pt-safe sm:px-6 lg:px-8">
         <div className="mx-auto max-w-7xl rounded-[32px] border border-white/10 bg-ink/85 px-5 py-5 text-white shadow-soft backdrop-blur sm:px-6">
@@ -101,7 +101,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
           </div>
         </div>
       </header>
-      <div className="mx-auto grid min-h-0 flex-1 max-w-7xl gap-5 px-4 pb-24 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8 lg:pb-10">
+      <div className="mx-auto grid min-h-0 w-full max-w-7xl gap-5 px-4 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8">
         <aside className="hidden min-w-0 overflow-y-auto rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:block">
           <div className="mb-3 px-3 pt-2">
             <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
@@ -121,7 +121,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
           </nav>
         </aside>
         <main className="min-w-0 overflow-y-auto overscroll-y-contain pb-6 [scrollbar-gutter:stable]">
-          <div className="space-y-6 pb-24 lg:pb-6">{children}</div>
+          <div className="space-y-6 pb-6">{children}</div>
         </main>
       </div>
       <BottomNav locale={locale} />

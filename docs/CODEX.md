@@ -14,14 +14,15 @@ CRM project context and working assumptions.
 
 ## Current Focus
 
-- Sprint 7 is the active implementation slice
+- Sprint 7 is the latest closed UI/usability refinement layer
+- Sprint 5 remains the UI baseline
 - Sprint 6 remains the closed MVP baseline
 
 ## Start Here
 
 - [CRM Home](README.md)
-- [CRM Sprints](sprints/README.md)
 - [CRM UI](ui/README.md)
+- [CRM Sprints](sprints/README.md)
 - [Engineering Docs](Engineering%20Docs/README.md)
 
 ## Project Docs

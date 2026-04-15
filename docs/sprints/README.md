@@ -21,12 +21,14 @@ updated: 2026-04-15
 - [Sprint 07 Todo](sprint_07/todo/sprint_07_todo.md)
 - [Sprint 07 Review](sprint_07/reviews/sprint_07_review.md)
 - [Sprint 07 Close Plan](sprint_07/sprint_07_close_plan.md)
+- [Sprint 05 Index](sprint_05/sprint_05_index.md)
 - [Sprint 06 Review](sprint_06/reviews/sprint_06_review.md)
-- [Sprint 05 Review](sprint_05/reviews/sprint_05_review.md)
 - [CRM UI](../ui/README.md)
 - [Delivery Plan](../DELIVERY_PLAN.md)
 
 ## Planning Reference
+
+Sprint 7 is the latest closed implementation slice. Use the Sprint 7 docs first for current UI and usability context, then fall back to Sprint 5 for the UI baseline.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 
