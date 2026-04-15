@@ -1,6 +1,4 @@
 .DS_Store
-.obsidian/
-docs/.obsidian/
 node_modules
 .next
 tsconfig.tsbuildinfo

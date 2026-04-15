@@ -3,8 +3,6 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getOpportunityFormOptions, listOpportunities} from "@/lib/data/crm";
-import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
-import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {FilterShell} from "@/components/ui/filter-shell";
 import {InfoPair} from "@/components/ui/info-pair";
 import {StatusChip} from "@/components/ui/status-chip";
@@ -19,7 +17,6 @@ type OpportunitiesPageProps = {
     stage?: string;
     type?: string;
     status?: string;
-    view?: string;
     error?: string;
   }>;
 };
@@ -39,24 +36,15 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
   const query = await searchParams;
   const t = await getTranslations("Opportunities");
   const session = await getCurrentSession();
-  const savedViews = session
-    ? await listSavedViews({userId: session.id, module: "opportunities"})
-    : [];
-  const savedViewState = await resolveSavedViewFilters({
-    module: "opportunities",
-    userId: session?.id,
-    searchParams: query
-  });
-  const filters = savedViewState.filters;
   const [{companies, contacts, stageOptions, typeOptions, statusOptions}, opportunities] = await Promise.all([
     getOpportunityFormOptions(),
     listOpportunities({
-      query: filters.q,
-      companyId: filters.companyId,
-      contactId: filters.contactId,
-      opportunityStageValueId: filters.stage,
-      opportunityTypeValueId: filters.type,
-      statusValueId: filters.status
+      query: query.q,
+      companyId: query.companyId,
+      contactId: query.contactId,
+      opportunityStageValueId: query.stage,
+      opportunityTypeValueId: query.type,
+      statusValueId: query.status
     })
   ]);
 
@@ -83,29 +71,17 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("errors.generic")}</p>
       ) : null}
 
-      {session ? (
-        <SavedViewBar
-          activeFilters={filters}
-          locale={locale}
-          module="opportunities"
-          selectedViewId={savedViewState.selectedViewId}
-          selectedViewName={savedViewState.selectedView?.name ?? null}
-          views={savedViews.map((view) => ({id: view.id, name: view.name}))}
-        />
-      ) : null}
-
       <FilterShell>
         <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_repeat(4,minmax(0,0.8fr))_auto]">
-          <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={filters.q ?? ""}
+            defaultValue={query.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={filters.companyId ?? ""}
+            defaultValue={query.companyId ?? ""}
             name="companyId"
           >
             <option value="">{t("filters.allCompanies")}</option>
@@ -117,7 +93,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
           </select>
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={filters.contactId ?? ""}
+            defaultValue={query.contactId ?? ""}
             name="contactId"
           >
             <option value="">{t("filters.allContacts")}</option>
@@ -129,7 +105,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
           </select>
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={filters.stage ?? ""}
+            defaultValue={query.stage ?? ""}
             name="stage"
           >
             <option value="">{t("filters.allStages")}</option>
@@ -141,7 +117,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
           </select>
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={filters.status ?? ""}
+            defaultValue={query.status ?? ""}
             name="status"
           >
             <option value="">{t("filters.allStatuses")}</option>
@@ -153,7 +129,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
           </select>
           <select
             className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
-            defaultValue={filters.type ?? ""}
+            defaultValue={query.type ?? ""}
             name="type"
           >
             <option value="">{t("filters.allTypes")}</option>
@@ -238,3 +214,4 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
     </div>
   );
 }
+

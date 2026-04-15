@@ -17,9 +17,9 @@ updated: 2026-04-12
 ## Status
 
 Reviewed by PM and CTO.
-This doc reflects the implemented Sprint 6 slice and the follow-up QA remediation pass completed on 2026-04-12.
-CTO approves Sprint 6 as closed on 2026-04-12.
-The current state is closed, with carry-forward product decisions documented separately from sprint execution.
+This doc now reflects the implemented Sprint 6 slice and the follow-up QA remediation pass completed on 2026-04-12.
+Sprint 6 moved from planning into active delivery and verification on 2026-04-12.
+The current state is implementation complete, QA-reviewed, and remediated for the issues raised in the Sprint 6 QA pass.
 
 ## PM Model Strategy (2026-04-12)
 
@@ -62,13 +62,6 @@ The current state is closed, with carry-forward product decisions documented sep
 - mobile bottom navigation now includes direct opportunities and reports access on small screens
 - Prisma seed data now includes `opportunity_type` and `opportunity_status` lookup categories to match the fallback and form assumptions
 - Sprint 6 docs were updated to reflect implementation completion and QA remediation status
-
-## CTO Closeout Decision (2026-04-12)
-
-- Sprint 6 is accepted as delivered
-- QA findings raised during closeout were remediated in the same sprint
-- repository verification completed with `npm run lint`, `npm run typecheck`, `npm test`, and `npm run build`
-- unresolved founder-definition items move forward as product follow-up, not as blockers against Sprint 6 closure
 
 ## Sprint Goal
 
@@ -233,7 +226,7 @@ If DEV and QA complete the items above without scope drift, Sprint 6 should leav
 
 ## Blockers And Approval Dependencies
 
-- founder approval is still required for future refinement of dashboard periods, conversion formulas, inactive-threshold wording, and the viewer note-visibility decision
+- founder approval is still required for dashboard periods, conversion formulas, inactive-threshold wording, and the viewer note-visibility decision
 
 ## Related
 

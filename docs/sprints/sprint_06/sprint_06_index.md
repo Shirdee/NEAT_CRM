@@ -17,16 +17,16 @@ updated: 2026-04-12
 
 ## Status
 
-Sprint 6 planning, implementation, QA review, and remediation were completed on 2026-04-12.
-CTO approves Sprint 6 as closed.
-Sprint 6 is now the latest closed implementation baseline for CRM business-layer work.
+Sprint 6 planning was coordinated by PM and CTO and execution opened on 2026-04-12.
+Sprint 6 implementation is complete in the repository and has gone through a QA review plus a same-day remediation pass.
+Sprint 6 is the current active release-candidate baseline, replacing Sprint 5 as the latest implementation reference for CRM business-layer work.
 
 ## Execution Start
 
 - execution opened: 2026-04-12
 - implementation sequence used: DEV-601 -> DEV-602 -> DEV-603 before dashboard and reporting work
-- current execution state: closed
-- carry-forward product decisions: dashboard formula approvals, inactive-threshold wording, viewer note-visibility decision
+- current execution state: implementation delivered, QA-reviewed, remediation applied
+- remaining product-definition dependencies to track: dashboard formula approvals, inactive-threshold wording, viewer note-visibility decision
 
 ## Objective
 
@@ -69,9 +69,9 @@ Complete the MVP business layer and prepare the CRM for internal launch by shipp
 
 ## Dependencies
 
-- Sprint 6 closeout record is now the accepted implementation baseline
+- Sprint 5 closeout record remains accepted as the current baseline
 - founder confirmation for dashboard periods, conversion formulas, and inactive-threshold wording
-- viewer note-visibility policy can be refined in a later sprint if stricter access behavior is required
+- opportunity stage and status definitions finalized before DEV starts implementation
 
 ## Definition Of Done
 
