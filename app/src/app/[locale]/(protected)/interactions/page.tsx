@@ -2,7 +2,7 @@ import {getTranslations} from "next-intl/server";
 
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
-import {getInteractionFormOptions, listInteractions} from "@/lib/data/crm";
+import {getInteractionListFilterOptions, listInteractions} from "@/lib/data/crm";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
@@ -39,6 +39,11 @@ function firstNameFromFullName(fullName: string | null) {
   return fullName.trim().split(/\s+/)[0] || null;
 }
 
+function buildLineOne(firstName: string | null, companyName: string | null) {
+  const parts = [firstName, companyName].filter((value): value is string => Boolean(value));
+  return parts.join(" + ");
+}
+
 export default async function InteractionsPage({
   params,
   searchParams
@@ -48,7 +53,7 @@ export default async function InteractionsPage({
   const t = await getTranslations("Interactions");
   const session = await getCurrentSession();
   const [{companies, contacts, interactionTypeOptions}, interactions] = await Promise.all([
-    getInteractionFormOptions(),
+    getInteractionListFilterOptions(),
     listInteractions({
       query: query.q,
       companyId: query.companyId,
@@ -166,12 +171,20 @@ export default async function InteractionsPage({
               >
                 <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
                   <div className="space-y-1">
-                    <p className="font-display text-xl font-semibold tracking-tight text-ink">
-                      {`${firstNameFromFullName(interaction.contactName) || t("labels.noContact")} + ${interaction.companyName || t("labels.noCompany")}`}
-                    </p>
-                    <p className="text-sm leading-7 text-slate-600">
-                      {`${interaction.subject} + ${formatDate(locale, interaction.interactionDate)}`}
-                    </p>
+                    {(() => {
+                      const firstName = firstNameFromFullName(interaction.contactName);
+                      const lineOne = buildLineOne(firstName, interaction.companyName);
+                      const lineTwo = `${interaction.subject} + ${formatDate(locale, interaction.interactionDate)}`;
+
+                      return (
+                        <>
+                          <p className="font-display text-xl font-semibold tracking-tight text-ink">
+                            {lineOne || interaction.subject}
+                          </p>
+                          <p className="text-sm leading-7 text-slate-600">{lineTwo}</p>
+                        </>
+                      );
+                    })()}
                   </div>
                   <div className="flex flex-wrap gap-2 lg:justify-end">
                     <StatusChip tone="teal">

@@ -58,6 +58,17 @@ export type LookupOption = {
   labelHe: string;
 };
 
+export type CompanyOption = {
+  id: string;
+  companyName: string;
+};
+
+export type ContactOption = {
+  id: string;
+  fullName: string;
+  companyId: string | null;
+};
+
 export type CompanyInput = {
   companyName: string;
   website: string | null;
@@ -770,14 +781,23 @@ export async function getCompanyFormOptions() {
 }
 
 export async function getContactFormOptions() {
+  return {
+    companies: await getCompanyFilterOptions()
+  };
+}
+
+export async function getCompanyFilterOptions(): Promise<CompanyOption[]> {
   if (!hasDatabaseUrl()) {
-    return {
-      companies: await listFallbackCompanyOptions()
-    };
+    return listFallbackCompanyOptions();
   }
 
+  return getCompanyFilterOptionsCached();
+}
+
+const getCompanyFilterOptionsCached = cache(async (): Promise<CompanyOption[]> => {
   const prisma = await getPrisma();
-  const companies = await prisma.company.findMany({
+
+  return prisma.company.findMany({
     select: {
       id: true,
       companyName: true
@@ -786,47 +806,64 @@ export async function getContactFormOptions() {
       companyName: "asc"
     }
   });
+});
 
-  return {companies};
-}
-
-export async function getInteractionFormOptions() {
-  const [{companies}, interactionTypeOptions, outcomeOptions] = await Promise.all([
-    getContactFormOptions(),
-    listLookupOptions("interaction_type"),
-    listLookupOptions("interaction_outcome_status")
-  ]);
-  const contacts = await listContacts();
-
-  return {
-    companies,
-    contacts: contacts.map((contact) => ({
+export async function getContactFilterOptions(): Promise<ContactOption[]> {
+  if (!hasDatabaseUrl()) {
+    const contacts = await listFallbackContacts();
+    return contacts.map((contact) => ({
       id: contact.id,
       fullName: contact.fullName,
       companyId: contact.companyId ?? null
-    })),
+    }));
+  }
+
+  return getContactFilterOptionsCached();
+}
+
+const getContactFilterOptionsCached = cache(async (): Promise<ContactOption[]> => {
+  const prisma = await getPrisma();
+  return prisma.contact.findMany({
+    select: {
+      id: true,
+      fullName: true,
+      companyId: true
+    },
+    orderBy: {
+      fullName: "asc"
+    }
+  });
+});
+
+export async function getInteractionFormOptions() {
+  const [companies, contacts, interactionTypeOptions, outcomeOptions] = await Promise.all([
+    getCompanyFilterOptions(),
+    getContactFilterOptions(),
+    listLookupOptions("interaction_type"),
+    listLookupOptions("interaction_outcome_status")
+  ]);
+
+  return {
+    companies,
+    contacts,
     interactionTypeOptions,
     outcomeOptions
   };
 }
 
 export async function getTaskFormOptions() {
-  const [{companies}, taskTypeOptions, priorityOptions, statusOptions] = await Promise.all([
-    getContactFormOptions(),
+  const [companies, contacts, taskTypeOptions, priorityOptions, statusOptions] = await Promise.all([
+    getCompanyFilterOptions(),
+    getContactFilterOptions(),
     listLookupOptions("task_type"),
     listLookupOptions("task_priority"),
     listLookupOptions("task_status")
   ]);
-  const contacts = await listContacts();
   const interactions = await listInteractions();
 
   return {
     companies,
-    contacts: contacts.map((contact) => ({
-      id: contact.id,
-      fullName: contact.fullName,
-      companyId: contact.companyId ?? null
-    })),
+    contacts,
     interactions: interactions.map((interaction) => ({
       id: interaction.id,
       subject: interaction.subject
@@ -838,39 +875,45 @@ export async function getTaskFormOptions() {
 }
 
 export async function getTaskListFilterOptions() {
-  const [{companies}, statusOptions] = await Promise.all([
-    getContactFormOptions(),
+  const [companies, contacts, statusOptions] = await Promise.all([
+    getCompanyFilterOptions(),
+    getContactFilterOptions(),
     listLookupOptions("task_status")
   ]);
-  const contacts = await listContacts();
 
   return {
     companies,
-    contacts: contacts.map((contact) => ({
-      id: contact.id,
-      fullName: contact.fullName,
-      companyId: contact.companyId ?? null
-    })),
+    contacts,
     statusOptions
   };
 }
 
+export async function getInteractionListFilterOptions() {
+  const [companies, contacts, interactionTypeOptions] = await Promise.all([
+    getCompanyFilterOptions(),
+    getContactFilterOptions(),
+    listLookupOptions("interaction_type")
+  ]);
+
+  return {
+    companies,
+    contacts,
+    interactionTypeOptions
+  };
+}
+
 export async function getOpportunityFormOptions() {
-  const [{companies}, stageOptions, typeOptions, statusOptions] = await Promise.all([
-    getContactFormOptions(),
+  const [companies, contacts, stageOptions, typeOptions, statusOptions] = await Promise.all([
+    getCompanyFilterOptions(),
+    getContactFilterOptions(),
     listLookupOptions("opportunity_stage"),
     listLookupOptions("opportunity_type"),
     listLookupOptions("opportunity_status")
   ]);
-  const contacts = await listContacts();
 
   return {
     companies,
-    contacts: contacts.map((contact) => ({
-      id: contact.id,
-      fullName: contact.fullName,
-      companyId: contact.companyId ?? null
-    })),
+    contacts,
     stageOptions,
     typeOptions,
     statusOptions
@@ -913,10 +956,20 @@ export async function listCompanies(filters?: {
           ]
         : undefined
     },
-    include: {
-      contacts: {
+    select: {
+      id: true,
+      companyName: true,
+      website: true,
+      sourceValueId: true,
+      stageValueId: true,
+      notes: true,
+      createdAt: true,
+      updatedAt: true,
+      createdById: true,
+      updatedById: true,
+      _count: {
         select: {
-          id: true
+          contacts: true
         }
       }
     },
@@ -934,7 +987,7 @@ export async function listCompanies(filters?: {
 
   return companies.map((company) => ({
     ...company,
-    contactsCount: company.contacts.length,
+    contactsCount: company._count.contacts,
     sourceLabelEn: company.sourceValueId ? sourceMap.get(company.sourceValueId)?.labelEn ?? null : null,
     sourceLabelHe: company.sourceValueId ? sourceMap.get(company.sourceValueId)?.labelHe ?? null : null,
     stageLabelEn: company.stageValueId ? stageMap.get(company.stageValueId)?.labelEn ?? null : null,

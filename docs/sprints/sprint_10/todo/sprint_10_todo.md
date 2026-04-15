@@ -152,8 +152,8 @@ Done when:
 ## Workstream 3 — Runtime Improvement
 
 - [ ] Capture baseline runtime metrics for key routes.
-- [ ] Identify bottlenecks (data fetch, rendering, query patterns).
-- [ ] Implement bounded optimizations.
+- [x] Identify bottlenecks (data fetch, rendering, query patterns).
+- [x] Implement bounded optimizations.
 - [ ] Re-measure and document before/after.
 
 ### DEV Task Breakdown (Workstream 3)
@@ -191,6 +191,27 @@ Done when:
 - scope: lint, typecheck, build, targeted data tests
 - done when: `npm run lint`, `npm run typecheck`, `npm run build` pass and sprint doc notes any residual risk
 
+### WS3 Mobile Acceleration Plan (CTO, 2026-04-15)
+
+1. `DEV-3101` Lightweight option queries:
+- add dedicated company/contact option loaders that return only `id`, `companyName`, `fullName`, `companyId`
+- avoid loading emails/phones for list-filter forms
+
+2. `DEV-3102` Filter-loader specialization:
+- create interaction list filter options loader separate from interaction form loader
+- remove unnecessary outcome lookup fetch from interactions list path
+
+3. `DEV-3103` Query-shape reduction:
+- replace company list contacts include with `_count` where available for cheaper counts
+- keep output shape stable for existing pages
+
+4. `DEV-3104` Request-level dedupe extension:
+- cache option loaders in request scope to avoid repeated same-read calls during a single render
+
+5. `DEV-3105` Mobile-first validation:
+- verify list routes on mobile viewport for faster first paint under cold load assumptions
+- run full QA gate and targeted tests; record residual risk
+
 Done when:
 - Runtime improvement is measurable and documented.
 - No functional or permission regressions introduced.
@@ -199,7 +220,7 @@ Done when:
 
 ## Workstream 4 — Interaction Summary Formatting
 
-- [ ] Update interaction list/summary rendering:
+- [x] Update interaction list/summary rendering:
   - line 1 (bold): `First Name + Company`
   - line 2: `Subject + Date`
 - [ ] Validate RTL and mobile behavior.
@@ -235,8 +256,8 @@ Done when:
 
 ## Workstream 5 — Interaction Record View Updates
 
-- [ ] Add `phone call` as interaction type in model/form/list filters as needed.
-- [ ] Make company and contact references clickable in interaction record view.
+- [x] Add `phone call` as interaction type in model/form/list filters as needed.
+- [x] Make company and contact references clickable in interaction record view.
 - [ ] Add/update tests for new type and links.
 
 ### DEV Task Breakdown (Workstream 5)
@@ -269,8 +290,8 @@ Done when:
 
 ## Workstream 6 — Live Search Standardization
 
-- [ ] Inventory all search inputs and open-list selectors.
-- [ ] Convert non-live controls to live search behavior.
+- [x] Inventory all search inputs and open-list selectors.
+- [x] Convert non-live controls to live search behavior.
 - [ ] Verify debounce/perf behavior on large lists.
 
 ### DEV Task Breakdown (Workstream 6)
@@ -306,9 +327,9 @@ Done when:
 
 ## QA Gate
 
-- [ ] `npm run lint`
-- [ ] `npm run typecheck`
-- [ ] Targeted tests for deletion, interaction updates, and live search
+- [x] `npm run lint`
+- [x] `npm run typecheck`
+- [x] Targeted tests for deletion, interaction updates, and live search
 - [ ] Manual smoke on desktop + mobile + RTL
 
 ---
@@ -329,4 +350,9 @@ Done when:
   - tasks list and create-form shell parity pass across company/contact/task/interaction/opportunity new routes
 - CTO opened Workstream 3 on 2026-04-15 with detailed `DEV-300x` runtime tasks and delegated parallel subagents for WS3-A and WS3-B.
 - CTO opened Workstreams 4 to 6 on 2026-04-15 with detailed `DEV-400x`, `DEV-500x`, and `DEV-600x` tasks and delegated parallel subagent implementation.
+- PM status audit update 2026-04-15:
+  - WS3 optimization implementation is in place; baseline/re-measure documentation still open
+  - WS4 rendering update is implemented; manual RTL/mobile validation still open
+  - WS5 type/link behavior is implemented; explicit test additions still open
+  - WS6 live filter behavior is implemented on core list routes; large-list perf verification still open
 - consolidated PM + execution status now tracked in [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]

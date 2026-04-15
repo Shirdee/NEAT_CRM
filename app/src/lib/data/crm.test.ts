@@ -7,8 +7,11 @@ import {
   deleteCompany,
   deleteTask,
   DeleteBlockedError,
+  getCompanyFilterOptions,
+  getContactFilterOptions,
   getDashboardSnapshot,
   getCompanyById,
+  getInteractionListFilterOptions,
   listCompanies,
   listContacts,
   normalizeContactPayload,
@@ -125,5 +128,18 @@ describe("crm fallback repository", () => {
     expect(snapshot.overdueTasks.length).toBeLessThanOrEqual(5);
     expect(snapshot.recentInteractions.length).toBeLessThanOrEqual(4);
     expect(snapshot.activeCompanies.length).toBeLessThanOrEqual(4);
+  });
+
+  it("returns lightweight list filter options", async () => {
+    const [companies, contacts, interactionFilters] = await Promise.all([
+      getCompanyFilterOptions(),
+      getContactFilterOptions(),
+      getInteractionListFilterOptions()
+    ]);
+
+    expect(companies.length).toBeGreaterThan(0);
+    expect(contacts.length).toBeGreaterThan(0);
+    expect(interactionFilters.interactionTypeOptions.length).toBeGreaterThan(0);
+    expect(interactionFilters).not.toHaveProperty("outcomeOptions");
   });
 });

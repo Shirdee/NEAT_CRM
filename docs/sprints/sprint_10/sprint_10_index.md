@@ -28,8 +28,10 @@ Initial Workstream 2 UI implementation slices were executed via parallel DEV sub
 
 - Workstream 1: complete
 - Workstream 2: approved and in progress (initial slices delivered)
-- Workstream 3: opened (runtime implementation in progress)
-- Workstreams 4 to 6: opened (implementation in progress)
+- Workstream 3: partially complete (runtime optimizations shipped; baseline/re-measure docs pending)
+- Workstream 4: partially complete (summary rendering shipped; RTL/mobile validation pending)
+- Workstream 5: mostly complete (phone-call type + interaction links shipped; explicit test additions pending)
+- Workstream 6: mostly complete (live filter behavior shipped on core list routes; large-list perf verification pending)
 
 ### Workstream 2 Initial Slices Delivered
 
@@ -44,7 +46,7 @@ Initial Workstream 2 UI implementation slices were executed via parallel DEV sub
 
 - `npm run lint`: pass
 - `npm run typecheck`: pass
-- `npx vitest run src/lib/data/crm.test.ts src/lib/data/crm-sprint4.test.ts`: pass (`11/11`)
+- `npx vitest run src/lib/data/crm.test.ts src/lib/data/crm-sprint4.test.ts`: pass (`12/12`)
 - `npm run build`: pass
 
 ### Remaining Before Workstream 2 Closeout
