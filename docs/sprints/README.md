@@ -17,6 +17,8 @@ updated: 2026-04-15
 
 ## Start Here
 
+- [Sprint 10 Index](sprint_10/sprint_10_index.md)
+- [Sprint 10 Todo](sprint_10/todo/sprint_10_todo.md)
 - [Sprint 09 Index](sprint_09/sprint_09_index.md)
 - [Sprint 09 Todo](sprint_09/todo/sprint_09_todo.md)
 - [Sprint 08 Index](sprint_08/sprint_08_index.md)
@@ -34,6 +36,7 @@ updated: 2026-04-15
 
 Sprint 7 is the latest closed implementation slice. Sprint 9 is currently active for dense UI refresh, with mobile phase implemented and desktop phase pending.
 Use Sprint 7 docs for current closed UI/usability baseline, then Sprint 9 docs for active in-flight changes.
+Sprint 10 is now proposed from `crm/docs/Notes.md` and remains pending approval.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 
@@ -51,3 +54,4 @@ See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprin
 - [Sprint 07 Index](sprint_07/sprint_07_index.md)
 - [Sprint 08 Index](sprint_08/sprint_08_index.md)
 - [Sprint 09 Index](sprint_09/sprint_09_index.md)
+- [Sprint 10 Index](sprint_10/sprint_10_index.md)

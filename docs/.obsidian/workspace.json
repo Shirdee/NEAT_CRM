@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Notes.md",
+                "file": "sprints/sprint_10/todo/sprint_10_todo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Notes"
+              "title": "sprint_10_todo"
             }
           }
         ]
@@ -198,7 +198,11 @@
   },
   "active": "bcc15ae234c8f836",
   "lastOpenFiles": [
+    "sprints/sprint_10/sprint_10_index.md",
+    "sprints/sprint_10/todo/sprint_10_todo.md",
+    "sprints/sprint_10/todo",
     "sprints/sprint_09/todo/sprint_09_todo.md",
+    "sprints/sprint_10",
     "Notes.md",
     "sprints/sprint_09/sprint_09_index.md",
     "ROADMAP.md",
@@ -224,15 +228,11 @@
     "DOCUMENTATION_STANDARD.md",
     "CODEX.md",
     "ui/README.md",
-    "DECISIONS.md",
-    "CRM Sprint 05 Index.md",
     "sprints/sprint_08/reviews",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]",
-    "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app",
-    "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src",
-    "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app"
+    "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app"
   ]
 }

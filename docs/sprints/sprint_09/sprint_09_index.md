@@ -84,7 +84,9 @@ The Stitch mobile screens use a flat-row list pattern:
 - 2026-04-15: Validation gate run in `crm/app`: `npm run lint` pass, `npm run typecheck` pass.
 - 2026-04-15: Phase 2 implementation completed in code (desktop aside/nav density, desktop row rounding + tonal hover, dashboard desktop spacing trim).
 - 2026-04-15: Validation gate re-run in `crm/app`: `npm run lint` pass, `npm run typecheck` pass.
-- Remaining: manual smoke pass (mobile + desktop) and commit closeout.
+- 2026-04-15: Automated smoke run executed against local server with authenticated session: `/en/dashboard`, `/en/companies`, `/en/tasks` returned 200 for mobile and desktop user-agents; `/he/dashboard` returned 200 with `dir="rtl"`.
+- 2026-04-15: UI marker checks passed for mobile header/nav density, desktop aside/nav density, dashboard desktop spacing, and companies tonal hover. Tasks desktop tonal-hover marker could not be asserted from SSR output because default tasks tab rendered without rows in the fetched state.
+- Remaining: manual interactive smoke pass (especially tasks tab row rendering at 1280px) and commit closeout.
 
 ## Linked Sprint Docs
 

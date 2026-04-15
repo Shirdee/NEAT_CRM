@@ -1,7 +1,8 @@
 
 - delete option for records
 - UI
-	- rebuild from stitch - full plan by Claude, Codex execution
+	- rebuild from stitch - full detailed plan before implementation
+	- must review all screens from the mcp
 - improve run-time
 - interaction summary
 	- in bold - first name + Company
