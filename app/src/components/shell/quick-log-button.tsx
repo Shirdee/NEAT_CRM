@@ -34,7 +34,7 @@ export function QuickLogButton({href, label, sheetLabel}: QuickLogButtonProps) {
 
       <BottomSheet isOpen={open} label={sheetLabel} onClose={() => setOpen(false)}>
         <iframe
-          className="h-[80dvh] w-full border-0 bg-transparent"
+          className="h-[80svh] w-full border-0 bg-transparent"
           src={href}
           title={sheetLabel}
         />

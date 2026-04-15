@@ -34,7 +34,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
 
   return (
     // Always locked to full viewport — thin bar + content area + bottom nav
-    <div className="relative flex h-[100dvh] flex-col overflow-hidden bg-sand text-slate-900 overscroll-none">
+    <div className="relative flex h-[100svh] flex-col overflow-hidden bg-sand text-slate-900">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.34),transparent_54%),linear-gradient(145deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_45%,rgba(15,118,110,0.78)_100%)]" />
 
       {/* ── Mobile thin top bar (shrink-0, never scrolls) ── */}
@@ -148,7 +148,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
         </aside>
 
         {/* main is the ONLY scroll container on mobile */}
-        <main className="min-w-0 overflow-y-auto overscroll-y-contain [scrollbar-gutter:stable]">
+        <main className="min-w-0 overflow-y-auto overscroll-y-contain lg:[scrollbar-gutter:stable]">
           {/* Mobile header card — lives inside scroll area so it scrolls away */}
           <div className="pb-4 pt-3 lg:hidden">
             <div className="rounded-[32px] border border-white/10 bg-ink px-4 py-3 text-white shadow-soft">

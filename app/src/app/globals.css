@@ -32,7 +32,6 @@ html,
 body {
   margin: 0;
   min-height: 100%;
-  padding-bottom: env(safe-area-inset-bottom, 0px);
   overscroll-behavior-y: none;
 }
 
@@ -51,10 +50,6 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-body[data-app-shell="locked"] {
-  height: 100dvh;
-  overflow: hidden;
-}
 
 a {
   color: inherit;
@@ -79,8 +74,7 @@ button {
     border-color 160ms ease,
     background-color 160ms ease,
     color 160ms ease,
-    box-shadow 160ms ease,
-    transform 160ms ease;
+    box-shadow 160ms ease;
 }
 
 input:focus,

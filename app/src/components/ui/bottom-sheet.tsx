@@ -58,7 +58,7 @@ export function BottomSheet({children, isOpen, onClose, label}: BottomSheetProps
           "rounded-t-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,235,231,0.96))]",
           "shadow-[0_-12px_48px_rgba(58,48,45,0.18)]",
           "pb-safe",
-          "max-h-[92dvh] overflow-y-auto",
+          "max-h-[92svh] overflow-y-auto",
           "animate-[sheet-up_280ms_cubic-bezier(0.32,0.72,0,1)_both]",
         ].join(" ")}
         onClick={(e) => e.stopPropagation()}
