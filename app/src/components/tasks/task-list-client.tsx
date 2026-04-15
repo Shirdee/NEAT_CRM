@@ -95,62 +95,62 @@ export function TaskListClient({
             <Link
               className={[
                 "block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))]",
-                "border-l-4 pl-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition",
+                "border-l-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition",
                 "hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)]",
-                "pr-4 pt-4 pb-4 sm:pr-5 sm:pt-5 sm:pb-5",
+                "pl-4 pr-4 pt-4 pb-4 sm:pl-5 sm:pr-5 sm:pt-5 sm:pb-5",
                 toneBorder[activeTab]
               ].join(" ")}
               href={`/tasks/${task.id}`}
               key={task.id}
               locale={locale}
             >
-              <div className="space-y-4">
-                <div className="flex flex-wrap items-start justify-between gap-3">
-                  <div className="space-y-2">
-                    <p
-                      className={[
-                        "text-lg font-semibold",
-                        activeTab === "done" ? "text-slate-400 line-through" : "text-ink"
-                      ].join(" ")}
-                    >
-                      {task.notes || noNotesLabel}
-                    </p>
-                    <div className="flex flex-wrap gap-2">
-                      <StatusChip tone={toneChip[activeTab]}>
-                        {labelForLocale(locale, {
-                          en: task.priorityLabelEn,
-                          he: task.priorityLabelHe
-                        })}
-                      </StatusChip>
-                      <StatusChip>
-                        {labelForLocale(locale, {
-                          en: task.statusLabelEn,
-                          he: task.statusLabelHe
-                        })}
-                      </StatusChip>
-                    </div>
-                  </div>
-                  <div className="text-sm font-medium text-slate-500">
-                    {formatDate(locale, task.dueDate)}
-                  </div>
-                </div>
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <InfoPair
-                    label={locale === "he" ? "סוג" : "Type"}
-                    value={labelForLocale(locale, {
-                      en: task.taskTypeLabelEn,
-                      he: task.taskTypeLabelHe
-                    })}
-                  />
-                  <InfoPair
-                    label={locale === "he" ? "חברה" : "Company"}
-                    value={task.companyName || noCompanyLabel}
-                  />
-                  <InfoPair
-                    label={locale === "he" ? "איש קשר" : "Contact"}
-                    value={task.contactName || noContactLabel}
-                  />
-                </div>
+              {/* Priority chip + date row — always visible */}
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <StatusChip tone={toneChip[activeTab]}>
+                  {labelForLocale(locale, {
+                    en: task.priorityLabelEn,
+                    he: task.priorityLabelHe
+                  })}
+                </StatusChip>
+                <span className="text-xs font-medium tabular-nums text-slate-500">
+                  {new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
+                    month: "short",
+                    day: "numeric"
+                  }).format(new Date(task.dueDate))}
+                </span>
+              </div>
+
+              {/* Title */}
+              <p className={[
+                "text-base font-semibold leading-snug sm:text-lg",
+                activeTab === "done" ? "text-slate-400 line-through" : "text-ink"
+              ].join(" ")}>
+                {task.notes || noNotesLabel}
+              </p>
+
+              {/* Company / contact — compact row */}
+              <p className="mt-1.5 text-sm text-slate-500">
+                {task.companyName || task.contactName || noCompanyLabel}
+                {task.companyName && task.contactName ? (
+                  <span className="mx-1.5 opacity-40">·</span>
+                ) : null}
+                {task.companyName && task.contactName ? task.contactName : null}
+              </p>
+
+              {/* Type chip + status — only on larger screens */}
+              <div className="mt-3 hidden gap-2 sm:flex">
+                <StatusChip>
+                  {labelForLocale(locale, {
+                    en: task.taskTypeLabelEn,
+                    he: task.taskTypeLabelHe
+                  })}
+                </StatusChip>
+                <StatusChip>
+                  {labelForLocale(locale, {
+                    en: task.statusLabelEn,
+                    he: task.statusLabelHe
+                  })}
+                </StatusChip>
               </div>
             </Link>
           ))}

@@ -71,10 +71,10 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
       <SurfaceCard className="overflow-hidden bg-[linear-gradient(140deg,rgba(16,36,63,0.98)_0%,rgba(23,53,92,0.96)_48%,rgba(15,118,110,0.88)_100%)] text-white">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+          <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-4xl">
             {t("title")}
           </h2>
-          <p className="max-w-2xl text-sm leading-7 text-white/70">
+          <p className="hidden max-w-2xl text-sm leading-7 text-white/70 sm:block">
             {t("subtitle", {role: session?.role ?? "viewer"})}
           </p>
           <div className="flex flex-wrap gap-2 pt-1">
@@ -95,21 +95,21 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
               </Link>
             ))}
           </div>
-          <div className="flex flex-wrap gap-3 pt-2">
+          <div className="grid grid-cols-2 gap-2 pt-1 sm:flex sm:flex-wrap sm:gap-3">
             <Link
-              className="inline-flex rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
+              className="inline-flex items-center justify-center rounded-full bg-coral px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 sm:px-5 sm:py-3"
               href="/tasks"
             >
               {t("actions.reviewTasks")}
             </Link>
             <Link
-              className="inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/15"
+              className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/15 sm:px-5 sm:py-3"
               href="/interactions/new?compact=1"
             >
               {t("actions.logInteraction")}
             </Link>
             <Link
-              className="inline-flex rounded-full border border-white/15 bg-white/10 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/15"
+              className="col-span-2 inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/15 sm:col-span-1 sm:px-5 sm:py-3"
               href="/opportunities"
             >
               {t("actions.reviewOpportunities")}
@@ -117,7 +117,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </div>
         </div>
       </SurfaceCard>
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <MetricCard
           detail={t("metrics.overdueDetail")}
           label={t("metrics.overdue")}
@@ -143,7 +143,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           value={String(openOpportunities.length)}
         />
       </div>
-      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)] xl:items-start">
         <SurfaceCard className="min-w-0 space-y-5">
           <div className="flex items-center justify-between gap-4">
             <div>
@@ -247,18 +247,6 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </SurfaceCard>
         </div>
       </div>
-      <SurfaceCard className="min-w-0 grid gap-4 md:grid-cols-3">
-        {[
-          {value: t("cards.roleTitle"), label: t("cards.roleBody")},
-          {value: t("cards.localeTitle"), label: t("cards.localeBody")},
-          {value: t("cards.mobileTitle"), label: t("cards.mobileBody")}
-        ].map((card) => (
-          <article className="rounded-[24px] bg-slate-50/80 p-5" key={card.value}>
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">{card.value}</p>
-            <p className="mt-4 text-sm leading-6 text-slate-700">{card.label}</p>
-          </article>
-        ))}
-      </SurfaceCard>
     </div>
   );
 }

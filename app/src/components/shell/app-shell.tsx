@@ -36,9 +36,43 @@ export async function AppShell({children, locale, session}: AppShellProps) {
 
   return (
     <div className="relative grid h-[100dvh] min-h-[100dvh] w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden bg-sand text-slate-900 overscroll-none">
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.34),transparent_54%),linear-gradient(145deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_45%,rgba(15,118,110,0.78)_100%)]" />
+      {/* Atmospheric background */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[320px] bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.28),transparent_50%),linear-gradient(160deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_45%,rgba(15,118,110,0.72)_100%)]" />
+
       <div className="min-h-0 overflow-x-hidden overflow-y-auto overscroll-y-contain">
-        <header className="px-4 pb-5 pt-safe sm:px-6 lg:px-8">
+
+        {/* ── Mobile header ───────────────────────────── */}
+        <header className="pt-safe lg:hidden">
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            {/* Wordmark */}
+            <div className="flex items-center gap-2">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-coral text-white">
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.25} viewBox="0 0 24 24">
+                  <path d="M3 12L12 3l9 9" />
+                  <path d="M9 21V12h6v9" />
+                </svg>
+              </div>
+              <span className="font-display text-base font-semibold text-white">
+                {t("title")}
+              </span>
+            </div>
+            {/* Right actions */}
+            <div className="flex items-center gap-2">
+              <LocaleSwitcher />
+              <form action="/api/logout" method="post">
+                <button
+                  className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/80 transition hover:bg-white/10"
+                  type="submit"
+                >
+                  {t("signOut")}
+                </button>
+              </form>
+            </div>
+          </div>
+        </header>
+
+        {/* ── Desktop header ──────────────────────────── */}
+        <header className="hidden px-6 pb-5 pt-safe lg:block lg:px-8">
           <div className="mx-auto max-w-7xl rounded-[32px] border border-white/10 bg-ink/85 px-5 py-5 text-white shadow-soft backdrop-blur sm:px-6">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-center xl:justify-between">
               <div className="space-y-3">
@@ -102,22 +136,24 @@ export async function AppShell({children, locale, session}: AppShellProps) {
             </div>
           </div>
         </header>
+
+        {/* ── Body grid ───────────────────────────────── */}
         <div className="mx-auto grid w-full max-w-7xl gap-5 px-4 pb-6 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8">
           <aside className="hidden min-w-0 overflow-y-auto rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:block">
             <div className="mb-3 px-3 pt-2">
               <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
-              {t("eyebrow")}
-            </p>
-            <p className="mt-2 text-lg font-semibold text-ink">{t("workspace")}</p>
-          </div>
-          <nav className="space-y-2">
-            {navItems.map((item) => (
-              <NavItemLink
-                key={item.href}
-                href={item.href}
-                label={item.label}
-                locale={locale}
-              />
+                {t("eyebrow")}
+              </p>
+              <p className="mt-2 text-lg font-semibold text-ink">{t("workspace")}</p>
+            </div>
+            <nav className="space-y-2">
+              {navItems.map((item) => (
+                <NavItemLink
+                  key={item.href}
+                  href={item.href}
+                  label={item.label}
+                  locale={locale}
+                />
               ))}
             </nav>
           </aside>
@@ -126,6 +162,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
           </main>
         </div>
       </div>
+
       <BottomNav locale={locale} />
     </div>
   );

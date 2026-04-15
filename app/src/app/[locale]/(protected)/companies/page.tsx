@@ -139,55 +139,40 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
               key={company.id}
               locale={locale}
             >
-              <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] lg:items-center lg:gap-4 lg:space-y-0">
-                <div className="space-y-3">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <p className="text-lg font-semibold text-ink">{company.companyName}</p>
-                      <p className="mt-2 line-clamp-2 text-sm text-slate-600">
-                        {company.notes || t("labels.noNotes")}
-                      </p>
-                    </div>
-                    <div className="flex flex-wrap gap-2">
-                      <StatusChip tone="teal">
-                        {displayLabel(locale, {
-                          en: company.stageLabelEn,
-                          he: company.stageLabelHe
-                        })}
-                      </StatusChip>
-                      <StatusChip>{`${t("columns.contacts")}: ${company.contactsCount}`}</StatusChip>
-                    </div>
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-3 lg:hidden">
-                    <InfoPair
-                      label={t("columns.website")}
-                      value={company.website || "—"}
-                    />
-                    <InfoPair
-                      label={t("columns.source")}
-                      value={displayLabel(locale, {
-                        en: company.sourceLabelEn,
-                        he: company.sourceLabelHe
+              <div className="space-y-3 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] lg:items-center lg:gap-4 lg:space-y-0">
+                {/* Mobile + desktop first column */}
+                <div>
+                  <div className="flex items-start justify-between gap-3">
+                    <p className="text-base font-semibold leading-snug text-ink sm:text-lg">
+                      {company.companyName}
+                    </p>
+                    <StatusChip tone="teal">
+                      {displayLabel(locale, {
+                        en: company.stageLabelEn,
+                        he: company.stageLabelHe
                       })}
-                    />
-                    <InfoPair
-                      label={t("columns.contacts")}
-                      value={<span className="font-semibold text-ink">{company.contactsCount}</span>}
-                    />
+                    </StatusChip>
+                  </div>
+                  {/* Mobile-only compact meta row */}
+                  <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500 lg:hidden">
+                    {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe}) !== "—" && (
+                      <span>{displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}</span>
+                    )}
+                    {company.website ? (
+                      <span className="truncate max-w-[160px] text-teal">{company.website}</span>
+                    ) : null}
+                    <span className="rounded-full bg-ink/8 px-2 py-0.5 text-xs font-semibold text-ink">
+                      {company.contactsCount} {t("columns.contacts").toLowerCase()}
+                    </span>
                   </div>
                 </div>
-                <div className="text-sm text-slate-600">{company.website || "—"}</div>
+                {/* Desktop-only columns */}
+                <div className="hidden text-sm text-slate-600 lg:block">{company.website || "—"}</div>
                 <div className="hidden text-sm text-slate-600 lg:block">
-                  {displayLabel(locale, {
-                    en: company.stageLabelEn,
-                    he: company.stageLabelHe
-                  })}
+                  {displayLabel(locale, {en: company.stageLabelEn, he: company.stageLabelHe})}
                 </div>
                 <div className="hidden text-sm text-slate-600 lg:block">
-                  {displayLabel(locale, {
-                    en: company.sourceLabelEn,
-                    he: company.sourceLabelHe
-                  })}
+                  {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}
                 </div>
                 <div className="hidden text-sm font-medium text-ink lg:block">{company.contactsCount}</div>
               </div>
