@@ -5,7 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Roadmap
-updated: 2026-04-11
+updated: 2026-04-15
 ---
 
 # CRM Roadmap
@@ -27,6 +27,14 @@ The product should begin as a lean internal CRM with the fewest possible moving 
 - avoid adding supporting services until product usage clearly justifies them
 - expand from operations, to reporting, to integrations, then to automation
 - keep the roadmap aligned with [[DELIVERY_PLAN|Delivery Plan]]
+- treat [[PRD|PRD]] as the MVP scope source of truth
+
+## PRD Alignment Guardrails
+
+- MVP scope is limited to the modules and views listed in [[PRD|PRD]]
+- required global search coverage for MVP: company name, contact name, email, phone, website, notes, and opportunity name
+- required filter coverage for MVP: source, stage, interaction type, date range, task status, task priority, company, contact, and language where relevant
+- out-of-scope items in PRD stay out of MVP release scope, even if listed as post-MVP candidates here
 
 ## MVP Sprint Roadmap
 
@@ -41,6 +49,7 @@ Create the secure and bilingual foundation for the CRM while keeping the stack s
 - app shell and navigation
 - credentials-based login
 - admin, editor, and viewer roles
+- basic user and role management screen for admins
 - bilingual infrastructure
 - admin list framework
 - Vercel and database setup
@@ -92,8 +101,8 @@ Make the CRM usable for managing the core lead database day to day.
 - contacts table and detail
 - create and edit flows
 - multiple emails and phone numbers
-- global search
-- core filters
+- global search for company name, contact name, email, phone, website, and notes
+- filters for source, company, contact, and language where relevant
 - mobile-friendly record views
 - live-search record linking in forms where users need to choose existing CRM records
 
@@ -119,6 +128,7 @@ Make the CRM operational for the daily sales workflow that drives meetings booke
 - follow-up tasks table
 - overdue and upcoming task views
 - create follow-up from interaction
+- filters for interaction type, date range, task status, and task priority
 - inactivity tracking
 - live-search record pickers for company, contact, and related existing records
 
@@ -163,6 +173,7 @@ Complete the MVP business layer and prepare the app for internal rollout.
 #### Core Features
 
 - opportunities module
+- opportunity name search and stage filter
 - dashboard widgets
 - leads by source reporting
 - meetings by period

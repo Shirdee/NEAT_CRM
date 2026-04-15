@@ -6,7 +6,7 @@ tags:
   - delivery
 aliases:
   - CRM Delivery Plan
-updated: 2026-04-11
+updated: 2026-04-15
 ---
 
 # CRM Delivery Plan
@@ -20,6 +20,12 @@ updated: 2026-04-11
 
 Planning-only document for founder approval.
 No implementation work should start until this plan is approved.
+
+## PRD Source Of Truth
+
+- [[PRD|PRD]] is the controlling scope for MVP
+- if this plan conflicts with PRD, PRD wins and this plan must be updated
+- post-MVP ideas cannot be pulled into MVP unless PRD is revised explicitly
 
 ## PM Summary
 
@@ -218,8 +224,8 @@ Deliver the foundational CRM records and usable table-first workflows.
 - contacts table and detail
 - create and edit flows
 - multiple emails and phones
-- global search foundation
-- filters for company and contact workflows
+- global search for company name, contact name, email, phone, website, and notes
+- filters for source, company, contact, and language where relevant
 
 #### Backlog Items
 
@@ -232,13 +238,14 @@ Technical:
 
 - CRUD for companies and contacts
 - relational linking between company and contact
-- global search across core fields
+- global search across company name, contact name, email, phone, website, and notes
 - mobile-friendly list and detail views
 
 Testing:
 
 - CRUD coverage for company and contact flows
-- search behavior checks
+- search behavior checks for company name, contact name, email, phone, website, and notes
+- filter checks for source, company, contact, and language where relevant
 - bilingual rendering checks
 - mobile layout checks
 - live-search behavior checks for any database-backed record picker
@@ -249,6 +256,7 @@ Testing:
 - company can exist without contact
 - contact can exist without company
 - multiple contact emails and phones work
+- required Sprint 3 PRD search and filter coverage is complete
 - any form that links to an existing CRM record uses live search rather than a long static select
 
 #### Dependencies
@@ -284,6 +292,7 @@ Deliver the daily action engine of the CRM.
 - follow-up task flow
 - overdue and upcoming task views
 - create task from interaction
+- filters for interaction type, date range, task status, and task priority
 - live-search record pickers for company, contact, and related existing records used in activity flows
 
 #### Backlog Items
@@ -305,6 +314,7 @@ Testing:
 - interaction logging from mobile and desktop
 - task creation from interaction
 - overdue and upcoming filter tests
+- interaction type, date range, task status, and task priority filter tests
 - history ordering tests
 - live-search record picker behavior and relation-match validation checks
 
@@ -314,6 +324,7 @@ Testing:
 - users can create follow-ups from interactions or from scratch
 - history is chronological and filterable
 - overdue and upcoming tasks are reliable
+- required Sprint 4 PRD filter coverage is complete
 - activity forms use live search for existing company and contact records
 
 #### Dependencies
@@ -336,7 +347,7 @@ Testing:
 
 - founder approves that the app now supports the daily meetings-booking workflow
 
-### Sprint 5: UI Implementation And Frontend Acceptance ✓ CLOSED 2026-04-11
+### Sprint 5: UI Implementation And Frontend Acceptance
 
 #### Objective
 
@@ -399,11 +410,6 @@ Testing:
 
 - founder approves frontend usability and visual direction before the final business-feature and launch sprint
 
-#### Sprint 5 Closeout Notes (2026-04-11)
-
-Delivered and closed. CTO: APPROVED WITH NOTES. QA: PASS WITH NOTES.
-Sprint 6 carry-ins: inline i18n ternaries in form components and 2 page routes; amber/peach token cleanup.
-
 ### Sprint 6: Opportunities, Dashboard, Reports, And Production Readiness
 
 #### Objective
@@ -413,8 +419,9 @@ Complete the MVP business layer and prepare for production launch.
 #### Scope
 
 - opportunities module
+- opportunity name search and stage filter
 - dashboard metrics
-- reports
+- reports for leads by source, meetings by period, and approved conversion views
 - permissions hardening
 - production deployment checklist
 - UAT and launch prep
@@ -439,6 +446,7 @@ Testing:
 
 - regression suite across all modules
 - role access verification
+- search and filter checks for opportunity name and stage
 - dashboard metric validation against source data
 - smoke test production deployment
 
@@ -447,6 +455,7 @@ Testing:
 - opportunities are operational
 - dashboard shows approved KPI views
 - reports support the MVP business questions
+- required Sprint 6 PRD search and filter coverage is complete
 - production deployment is ready
 - UAT feedback is resolved or triaged
 
@@ -477,6 +486,7 @@ Testing:
 - mobile viewport verification every sprint
 - import regression tests after schema changes
 - pre-release UAT before production launch
+- explicit PRD out-of-scope regression check each sprint to prevent scope creep in MVP
 
 ## Cross-Sprint Deployment Strategy
 

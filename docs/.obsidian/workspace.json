@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_08/todo/sprint_08_todo.md",
-                "mode": "source",
+                "file": "sprints/sprint_09/todo/sprint_09_todo.md",
+                "mode": "preview",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sprint_08_todo"
+              "title": "sprint_09_todo"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "sprints/sprint_03/reports/sprint_03_report.md",
+                "file": "ROADMAP.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for sprint_03_report"
+              "title": "Backlinks for ROADMAP"
             }
           },
           {
@@ -164,13 +164,25 @@
               "icon": "lucide-list",
               "title": "Outline of sprint_03_report"
             }
+          },
+          {
+            "id": "6c4e53a892fd3ef8",
+            "type": "leaf",
+            "state": {
+              "type": "file-properties",
+              "state": {
+                "file": "ROADMAP.md"
+              },
+              "icon": "lucide-info",
+              "title": "File properties for ROADMAP"
+            }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -185,8 +197,14 @@
   },
   "active": "bcc15ae234c8f836",
   "lastOpenFiles": [
-    "sprints/sprint_08/sprint_08_index.md",
+    "sprints/sprint_09/sprint_09_index.md",
+    "ROADMAP.md",
+    "sprints/sprint_09/todo/sprint_09_todo.md",
+    "DELIVERY_PLAN.md",
+    "PRD.md",
+    "sprints/README.md",
     "sprints/sprint_08/todo/sprint_08_todo.md",
+    "sprints/sprint_08/sprint_08_index.md",
     "sprints/sprint_08/sprint_08_resume.md",
     "sprints/sprint_05/todo/sprint_05_todo.md",
     "sprints/sprint_08/todo",
@@ -199,21 +217,15 @@
     "sprints/sprint_07/sprint_07_close_plan.md",
     "sprints/sprint_07/sprint_07_index.md",
     "README.md",
-    "PRD.md",
     "PERMISSIONS.md",
     "IMPORT_MAPPING.md",
     "DOCUMENTATION_STANDARD.md",
-    "DELIVERY_PLAN.md",
     "CODEX.md",
     "ui/README.md",
     "DECISIONS.md",
     "CRM Sprint 05 Index.md",
     "sprints/sprint_08/todo/sprint_08_dev_subagents.md",
-    "sprints/sprint_08/reviews/sprint_08_review.md",
     "sprints/sprint_08/reviews",
-    "sprints/sprint_08/dev_subagents.md",
-    "DATA_MODEL.md",
-    "CRM Home.md",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)",
