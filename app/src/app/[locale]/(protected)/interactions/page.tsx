@@ -65,7 +65,7 @@ export default async function InteractionsPage({
 
   return (
     <div className="space-y-6">
-      <SurfaceCard className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.9))]">
+      <SurfaceCard className="space-y-5 bg-white/95">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
@@ -95,7 +95,7 @@ export default async function InteractionsPage({
         </div>
       </SurfaceCard>
 
-      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+      <SurfaceCard className="space-y-4 bg-white/95">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.24em] text-coral">
             {locale === "he" ? "סינון אינטראקציות" : "Interaction filters"}
@@ -156,7 +156,7 @@ export default async function InteractionsPage({
       </SurfaceCard>
 
       {interactions.length === 0 ? (
-        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))] text-sm text-slate-600">
+        <SurfaceCard className="bg-white/95 text-sm text-slate-600">
           {t("empty")}
         </SurfaceCard>
       ) : (
@@ -164,7 +164,7 @@ export default async function InteractionsPage({
           <div className="divide-y divide-slate-100 overflow-hidden rounded bg-white">
             {interactions.map((interaction) => (
               <Link
-                className="block rounded-none bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(244,229,225,0.72))] px-3 py-2.5 transition hover:bg-slate-50/70 lg:rounded lg:hover:bg-sand/60"
+                className="block rounded-none bg-white/95 px-3 py-2.5 transition hover:bg-slate-50/70 lg:rounded lg:hover:bg-sand/60"
                 href={`/interactions/${interaction.id}`}
                 key={interaction.id}
                 locale={locale}

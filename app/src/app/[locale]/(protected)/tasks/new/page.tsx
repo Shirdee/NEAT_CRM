@@ -63,7 +63,7 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
 
   return (
     <div className="space-y-6">
-      <SurfaceCard className="space-y-3 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.92))]">
+      <SurfaceCard className="space-y-3 bg-white/95">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">
           {compactMode ? t("quickAddTitle") : t("createTitle")}
         </p>
@@ -80,8 +80,8 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
       <section
         className={
           compactMode
-            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.92))] p-4 shadow-[0_12px_40px_rgba(58,48,45,0.08)] sm:p-5"
-            : "rounded-[30px] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,235,231,0.88))] p-5 sm:p-6"
+            ? "rounded-[32px] bg-white/95 p-4 shadow-[0_12px_40px_rgba(58,48,45,0.08)] sm:p-5"
+            : "rounded-[30px] bg-white/95 p-5 sm:p-6"
         }
       >
         <TaskForm

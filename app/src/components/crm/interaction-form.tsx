@@ -73,7 +73,7 @@ export function InteractionForm({
       {lockedCompany ? <input name="companyId" type="hidden" value={lockedCompany.id} /> : null}
       {lockedContact ? <input name="contactId" type="hidden" value={lockedContact.id} /> : null}
       {(lockedCompany || lockedContact) && mode === "create" ? (
-        <div className="rounded-[24px] bg-[linear-gradient(180deg,rgba(223,247,241,0.88),rgba(255,255,255,0.92))] px-4 py-3 text-sm text-slate-700">
+        <div className="rounded-[24px] bg-white/95 px-4 py-3 text-sm text-slate-700">
           <div className="flex flex-wrap gap-2">
             {lockedCompany ? (
               <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">

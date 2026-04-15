@@ -73,7 +73,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
 
   return (
     <div className="space-y-6">
-      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.92))]">
+      <SurfaceCard className="space-y-4 bg-white/95">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("title")}</p>
@@ -157,7 +157,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
         </LiveFilterForm>
       </FilterShell>
 
-      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.9))]">
+      <SurfaceCard className="space-y-4 bg-white/95">
         <TaskListClient
           groups={groups}
           locale={locale}

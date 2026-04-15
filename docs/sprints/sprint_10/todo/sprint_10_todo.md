@@ -24,10 +24,12 @@ Planned by PM on 2026-04-15.
 CTO technical handoff completed for Workstream 1 and Workstream 2 on 2026-04-15.
 Execution is opened for DEV on Workstreams 1 to 6.
 Workstreams 4 to 6 were opened by CTO on 2026-04-15 with detailed `DEV-400x`, `DEV-500x`, and `DEV-600x` tasks and parallel DEV subagent execution.
+Workstream 7 was opened by CTO on 2026-04-15 for full `Ink & Quartz` cutover with no-gradient enforcement and deployment handoff tasks (`DEV-700x`, `DEV-710x`, `DEV-720x`).
 
 ## Scope Slice In This Handoff
 
 - included: Workstream 1 (Record Deletion), Workstream 2 (Stitch Review And UI Plan), Workstream 3 (Runtime Improvement), Workstream 4 (Interaction Summary Formatting), Workstream 5 (Interaction Record View Updates), Workstream 6 (Live Search Standardization)
+- included: Workstream 1 (Record Deletion), Workstream 2 (Stitch Review And UI Plan), Workstream 3 (Runtime Improvement), Workstream 4 (Interaction Summary Formatting), Workstream 5 (Interaction Record View Updates), Workstream 6 (Live Search Standardization), Workstream 7 (Ink & Quartz Cutover)
 - excluded in this handoff: none
 
 ## CTO Technical Decisions (2026-04-15)
@@ -325,6 +327,36 @@ Done when:
 
 ---
 
+## Workstream 7 — Ink & Quartz Cutover (No Gradient)
+
+- [x] Remove gradient usage from app UI (`crm/app/src`).
+- [x] Align base tokens + typography toward Stitch `Ink & Quartz`.
+- [ ] Complete route-level visual parity pass for all Sprint 10 mapped routes.
+- [ ] Complete QA gate (desktop + mobile + RTL + build/test).
+- [ ] Execute staging-to-production deployment checklist.
+
+### DEV Task Breakdown (Workstream 7)
+
+#### DEV-7001: Token Parity Pass
+
+- objective: align app-level token contract to Stitch `Ink & Quartz` definitions
+- scope: `globals.css`, `tailwind.config.ts`, shared UI primitives
+- done when: token/typography baseline matches agreed Stitch contract
+
+#### DEV-7101 to DEV-7105: Route Parity Pass
+
+- objective: complete screen-level visual parity without gradients
+- scope: login, dashboard, companies, company detail, tasks, interactions, create/edit shells
+- done when: each route has before/after evidence and resolved drift notes
+
+#### DEV-7201 to DEV-7204: QA + Deploy Gate
+
+- objective: verify cutover stability and release safely
+- scope: visual sweep, RTL sweep, perf sanity, lint/typecheck/build/tests, staging smoke, production deploy
+- done when: CTO + QA signoff and deployment checklist closure
+
+---
+
 ## QA Gate
 
 - [x] `npm run lint`
@@ -355,4 +387,7 @@ Done when:
   - WS4 rendering update is implemented; manual RTL/mobile validation still open
   - WS5 type/link behavior is implemented; explicit test additions still open
   - WS6 live filter behavior is implemented on core list routes; large-list perf verification still open
+- CTO cutover update 2026-04-15:
+  - Ink & Quartz cutover plan documented in [[sprints/sprint_10/sprint_10_ink_quartz_cutover_plan|Sprint 10 Ink & Quartz Cutover Plan]]
+  - no-gradient UI enforcement was applied across `crm/app/src`
 - consolidated PM + execution status now tracked in [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]

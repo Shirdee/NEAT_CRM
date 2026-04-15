@@ -6,12 +6,12 @@
   color-scheme: light;
   --color-ink: 16 36 63;
   --color-teal: 15 118 110;
-  --color-mint: 223 247 241;
+  --color-mint: 153 239 229;
   --color-coral: 221 107 77;
   --color-amber: 244 183 64;
   --color-lime: 139 207 91;
   --color-sand: 245 240 231;
-  --color-mist: 236 246 243;
+  --color-mist: 248 243 234;
   --color-white: 255 255 255;
   --shadow-ring: 16 36 63;
 }
@@ -39,15 +39,13 @@ body {
 }
 
 html {
-  background:
-    radial-gradient(circle at top, rgba(15, 118, 110, 0.12), transparent 32%),
-    linear-gradient(180deg, rgba(245, 240, 231, 0.96), rgba(236, 246, 243, 0.95));
+  background: rgb(var(--color-sand));
 }
 
 body {
   background: transparent;
   color: rgb(var(--color-ink));
-  font-family: Assistant, "IBM Plex Sans", "Segoe UI", Arial, sans-serif;
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
   line-height: 1.5;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

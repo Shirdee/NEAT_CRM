@@ -129,7 +129,7 @@ export default async function AdminImportsPage({
             title={t("upload.title")}
           />
 
-          <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.88))]">
+          <SurfaceCard className="space-y-4 bg-white/95">
             <div className="space-y-2">
               <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("history.title")}</p>
               <h3 className="text-lg font-semibold text-ink">{t("history.count", {count: batches.length})}</h3>
@@ -172,7 +172,7 @@ export default async function AdminImportsPage({
         <div className="space-y-6">
           {selectedBatch ? (
             <>
-              <SurfaceCard className="space-y-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.9))]">
+              <SurfaceCard className="space-y-6 bg-white/95">
                 <div className="flex flex-wrap items-start justify-between gap-4">
                   <div>
                     <p className="text-xs uppercase tracking-[0.24em] text-coral">
@@ -220,7 +220,7 @@ export default async function AdminImportsPage({
                 </div>
               </SurfaceCard>
 
-              <SurfaceCard className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+              <SurfaceCard className="space-y-5 bg-white/95">
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
                     <h3 className="text-lg font-semibold text-ink">{t("review.commitTitle")}</h3>
@@ -315,7 +315,7 @@ export default async function AdminImportsPage({
                 <div className="space-y-4">
                   {selectedBatch.rows.slice(0, 25).map((row) => (
                     <div
-                      className="rounded-[26px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.82))] p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] sm:p-5"
+                      className="rounded-[26px] bg-white/95 p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] sm:p-5"
                       key={row.id}
                     >
                       <div className="flex flex-wrap items-start justify-between gap-3">

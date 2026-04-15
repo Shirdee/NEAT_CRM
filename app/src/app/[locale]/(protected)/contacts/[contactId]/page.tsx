@@ -49,7 +49,7 @@ export default async function ContactDetailPage({
   const overdueTasksLabel = t("overdueTasksCount", {count: 0}).replace(/^0\s*/, "");
   return (
     <div className="space-y-6">
-      <SurfaceCard className="space-y-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.92))]">
+      <SurfaceCard className="space-y-6 bg-white/95">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-4">
             <div className="space-y-3">
@@ -141,7 +141,7 @@ export default async function ContactDetailPage({
       ) : null}
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+        <SurfaceCard className="space-y-4 bg-white/95">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-lg font-semibold text-ink">{t("interactionsTitle")}</h3>
             <Link className="text-sm font-medium text-coral" href={`/interactions?contactId=${contact.id}`} locale={locale}>
@@ -162,7 +162,7 @@ export default async function ContactDetailPage({
             </Link>
           ) : null}
         </SurfaceCard>
-        <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+        <SurfaceCard className="space-y-4 bg-white/95">
           <div className="flex items-center justify-between gap-3">
             <h3 className="text-lg font-semibold text-ink">{t("tasksTitle")}</h3>
             <Link className="text-sm font-medium text-coral" href={`/tasks?contactId=${contact.id}`} locale={locale}>
@@ -194,7 +194,7 @@ export default async function ContactDetailPage({
       </section>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+        <SurfaceCard className="space-y-4 bg-white/95">
           <h3 className="text-lg font-semibold text-ink">{t("emails")}</h3>
           <div className="space-y-3">
             {contact.emails.length === 0 ? (
@@ -215,7 +215,7 @@ export default async function ContactDetailPage({
             )}
           </div>
         </SurfaceCard>
-        <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+        <SurfaceCard className="space-y-4 bg-white/95">
           <h3 className="text-lg font-semibold text-ink">{t("phones")}</h3>
           <div className="space-y-3">
             {contact.phones.length === 0 ? (

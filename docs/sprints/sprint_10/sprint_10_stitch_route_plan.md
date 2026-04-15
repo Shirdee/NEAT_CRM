@@ -17,6 +17,8 @@ updated: 2026-04-15
 
 Parent: [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]
 
+> 2026-04-15 CTO update: this route plan remains valid for screen mapping, but visual policy is now re-baselined by [[sprints/sprint_10/sprint_10_ink_quartz_cutover_plan|Sprint 10 Ink & Quartz Cutover Plan]].
+
 ## Scope In This Doc
 
 - Workstream 2 only: Stitch review + route-level implementation plan.

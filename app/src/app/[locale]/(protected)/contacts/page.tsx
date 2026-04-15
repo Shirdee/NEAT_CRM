@@ -76,7 +76,7 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
       </FilterShell>
 
       {contacts.length === 0 ? (
-        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-5 text-sm text-slate-600">
+        <SurfaceCard className="bg-white/95 p-5 text-sm text-slate-600">
           {t("empty")}
         </SurfaceCard>
       ) : (
@@ -90,7 +90,7 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
           <div className="divide-y divide-slate-100 overflow-hidden rounded bg-white">
             {contacts.map((contact) => (
               <Link
-                className="block rounded-none bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))] px-3 py-2.5 transition hover:bg-slate-50/70 lg:rounded lg:hover:bg-sand/60"
+                className="block rounded-none bg-white/95 px-3 py-2.5 transition hover:bg-slate-50/70 lg:rounded lg:hover:bg-sand/60"
                 href={`/contacts/${contact.id}`}
                 key={contact.id}
                 locale={locale}

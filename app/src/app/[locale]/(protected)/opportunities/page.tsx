@@ -174,7 +174,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
       </FilterShell>
 
       {opportunities.length === 0 ? (
-        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-8 text-sm text-slate-600">
+        <SurfaceCard className="bg-white/95 p-8 text-sm text-slate-600">
           {t("empty")}
         </SurfaceCard>
       ) : (
@@ -188,7 +188,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
           </div>
           {opportunities.map((opportunity) => (
             <Link
-              className="block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))] p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)] sm:p-5"
+              className="block rounded-[28px] bg-white/95 p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)] sm:p-5"
               href={`/opportunities/${opportunity.id}`}
               key={opportunity.id}
               locale={locale}

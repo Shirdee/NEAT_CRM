@@ -77,7 +77,7 @@ export function TaskListClient({
       <TaskFilterTabs active={activeTab} counts={counts} onChange={setActiveTab} />
 
       {tasks.length === 0 ? (
-        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-5 text-sm text-slate-600">
+        <SurfaceCard className="bg-white/95 p-5 text-sm text-slate-600">
           {noTasksLabel}
         </SurfaceCard>
       ) : (

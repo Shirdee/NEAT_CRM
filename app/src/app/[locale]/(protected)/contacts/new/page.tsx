@@ -29,7 +29,7 @@ export default async function NewContactPage({params, searchParams}: NewContactP
 
   return (
     <div className="space-y-6">
-      <SurfaceCard className="space-y-3 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.92))]">
+      <SurfaceCard className="space-y-3 bg-white/95">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("createTitle")}</p>
         <h2 className="text-3xl font-semibold tracking-tight text-ink">{t("createTitle")}</h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
@@ -37,7 +37,7 @@ export default async function NewContactPage({params, searchParams}: NewContactP
       {error ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
       ) : null}
-      <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,235,231,0.88))] p-5 sm:p-6">
+      <SurfaceCard className="bg-white/95 p-5 sm:p-6">
         <ContactForm
           action={action}
           companies={companies}

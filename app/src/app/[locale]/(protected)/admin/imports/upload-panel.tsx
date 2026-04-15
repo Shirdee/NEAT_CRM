@@ -137,7 +137,7 @@ export function ImportUploadPanel({
   }
 
   return (
-    <article className="rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.88))] p-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)]">
+    <article className="rounded-[28px] bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)]">
       <h3 className="text-lg font-semibold text-ink">{title}</h3>
       <p className="mt-2 text-sm leading-6 text-slate-600">{body}</p>
       <div className="mt-5 space-y-3">

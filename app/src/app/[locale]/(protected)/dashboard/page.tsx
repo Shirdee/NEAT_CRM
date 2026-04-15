@@ -35,8 +35,8 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
 
   return (
     <div className="space-y-4 lg:space-y-3">
-      <SurfaceCard className="relative overflow-hidden bg-[linear-gradient(140deg,rgba(16,36,63,0.98)_0%,rgba(23,53,92,0.96)_48%,rgba(15,118,110,0.88)_100%)] text-white">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_28%)]" />
+      <SurfaceCard className="relative overflow-hidden bg-ink text-white">
+        <div className="pointer-events-none absolute inset-0 bg-transparent" />
         <div className="relative space-y-4">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>

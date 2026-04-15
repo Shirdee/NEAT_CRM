@@ -55,7 +55,7 @@ export function BottomSheet({children, isOpen, onClose, label}: BottomSheetProps
       <div
         className={[
           "absolute inset-x-0 bottom-0",
-          "rounded-t-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,235,231,0.96))]",
+          "rounded-t-[32px] bg-white/95",
           "shadow-[0_-12px_48px_rgba(58,48,45,0.14)] backdrop-blur",
           "pb-safe",
           "max-h-[92dvh] overflow-y-auto",

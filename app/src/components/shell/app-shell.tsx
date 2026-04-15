@@ -37,7 +37,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
   return (
     <div className="relative grid h-[100dvh] min-h-[100dvh] w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden bg-sand text-slate-900 overscroll-none">
       {/* Atmospheric background */}
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[320px] bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.28),transparent_50%),linear-gradient(160deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_45%,rgba(15,118,110,0.72)_100%)]" />
+      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[320px] bg-ink" />
 
       <div className="min-h-0 overflow-x-hidden overflow-y-auto overscroll-y-contain">
 

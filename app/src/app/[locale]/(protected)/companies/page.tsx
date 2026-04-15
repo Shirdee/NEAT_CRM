@@ -45,7 +45,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
 
   return (
     <div className="space-y-4 lg:space-y-5">
-      <SurfaceCard className="overflow-hidden bg-[linear-gradient(140deg,rgba(255,255,255,0.98)_0%,rgba(249,235,231,0.96)_52%,rgba(244,229,225,0.9)_100%)]">
+      <SurfaceCard className="overflow-hidden bg-white/95">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("columns.company")}</p>
@@ -121,7 +121,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
         </LiveFilterForm>
       </FilterShell>
 
-      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(249,235,231,0.92))]">
+      <SurfaceCard className="space-y-4 bg-white/95">
         {companies.length === 0 ? (
           <div className="rounded-[24px] border border-dashed border-slate-200 bg-white/70 px-4 py-5 text-sm text-slate-600">
             {t("empty")}

@@ -20,6 +20,7 @@ Partially opened for implementation.
 On 2026-04-15, CTO opened Workstream 1 and Workstream 2 for DEV execution via Sprint 10 todo handoff.
 On 2026-04-15, CTO opened Workstream 3 for DEV execution with detailed runtime tasks (`DEV-3001` to `DEV-3005`) and parallel subagent kickoff.
 On 2026-04-15, CTO opened Workstreams 4 to 6 with detailed task packs (`DEV-400x`, `DEV-500x`, `DEV-600x`) and parallel DEV subagent execution.
+On 2026-04-15, CTO opened Workstream 7 (`Ink & Quartz` cutover) with no-gradient enforcement, deployment sequence, and DEV handoff task packs (`DEV-700x`, `DEV-710x`, `DEV-720x`).
 DEV completed Workstream 1 implementation and Workstream 2 planning artifact on 2026-04-15.
 PM/founder approval checkpoint for Workstream 2 execution recorded on 2026-04-15.
 Initial Workstream 2 UI implementation slices were executed via parallel DEV subagents on 2026-04-15.
@@ -32,6 +33,7 @@ Initial Workstream 2 UI implementation slices were executed via parallel DEV sub
 - Workstream 4: partially complete (summary rendering shipped; RTL/mobile validation pending)
 - Workstream 5: mostly complete (phone-call type + interaction links shipped; explicit test additions pending)
 - Workstream 6: mostly complete (live filter behavior shipped on core list routes; large-list perf verification pending)
+- Workstream 7: in progress (no-gradient code pass shipped; full visual parity + QA gate pending)
 
 ### Workstream 2 Initial Slices Delivered
 
@@ -107,6 +109,7 @@ Convert `crm/docs/Notes.md` into one execution-ready sprint that tightens UX beh
 
 - [[sprints/sprint_10/todo/sprint_10_todo|Sprint 10 Todo]]
 - [[sprints/sprint_10/sprint_10_stitch_route_plan|Sprint 10 Stitch Route Plan]]
+- [[sprints/sprint_10/sprint_10_ink_quartz_cutover_plan|Sprint 10 Ink & Quartz Cutover Plan]]
 - [[sprints/sprint_09/sprint_09_index|Sprint 09 Index]]
 
 ## Related

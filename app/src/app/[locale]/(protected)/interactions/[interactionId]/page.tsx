@@ -46,7 +46,7 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
         </p>
       ) : null}
 
-      <SurfaceCard className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.9))]">
+      <SurfaceCard className="space-y-5 bg-white/95">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
@@ -126,7 +126,7 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
         </div>
       </SurfaceCard>
 
-      <SurfaceCard className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.95),rgba(254,241,237,0.92))]">
+      <SurfaceCard className="space-y-5 bg-white/95">
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-lg font-semibold text-ink">{t("tasksTitle")}</h3>
           <Link className="text-sm font-medium text-coral" href="/tasks" locale={locale}>

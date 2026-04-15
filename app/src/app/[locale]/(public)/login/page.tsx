@@ -21,10 +21,10 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
         : null;
 
   return (
-    <main className="flex min-h-[100dvh] flex-col bg-[linear-gradient(160deg,rgba(16,36,63,1)_0%,rgba(23,53,92,0.96)_40%,rgba(15,118,110,0.72)_100%)]">
+    <main className="flex min-h-[100dvh] flex-col bg-ink">
       {/* Mobile brand header */}
       <div className="relative overflow-hidden px-6 pb-8 pt-safe pt-10 lg:hidden">
-        <div className="absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.35),transparent_60%)]" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-transparent" />
         <div className="relative space-y-2">
           <p className="text-xs uppercase tracking-[0.35em] text-white/50">{t("eyebrow")}</p>
           <h1 className="font-display text-3xl font-semibold tracking-tight text-white">
@@ -39,8 +39,8 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
         <div className="mx-auto w-full max-w-6xl lg:grid lg:grid-cols-[1.08fr_0.92fr] lg:items-stretch lg:gap-6">
 
           {/* Desktop brand panel — hidden on mobile */}
-          <section className="relative hidden overflow-hidden rounded-[34px] bg-white/5 px-8 py-10 text-white backdrop-blur lg:block">
-            <div className="absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_top,rgba(15,118,110,0.32),transparent_60%)]" />
+          <section className="relative hidden overflow-hidden rounded-[34px] bg-ink/85 px-8 py-10 text-white backdrop-blur lg:block">
+            <div className="absolute inset-x-0 top-0 h-40 bg-transparent" />
             <div className="relative space-y-7">
               <p className="text-xs uppercase tracking-[0.35em] text-white/60">{t("eyebrow")}</p>
               <div className="space-y-4">

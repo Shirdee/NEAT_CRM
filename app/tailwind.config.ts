@@ -20,8 +20,8 @@ const config: Config = {
         panel: "0 18px 44px rgba(16, 36, 63, 0.10)"
       },
       fontFamily: {
-        sans: ["Assistant", "\"IBM Plex Sans\"", "\"Segoe UI\"", "Arial", "sans-serif"],
-        display: ["\"Space Grotesk\"", "Manrope", "\"Segoe UI\"", "sans-serif"]
+        sans: ["Inter", "\"Segoe UI\"", "Arial", "sans-serif"],
+        display: ["Manrope", "\"Segoe UI\"", "sans-serif"]
       }
     }
   },
