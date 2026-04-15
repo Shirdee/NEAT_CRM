@@ -90,13 +90,13 @@ export default async function InteractionsPage({
         </div>
         <form className="grid gap-4 lg:grid-cols-4">
           <input
-            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-slate-500 focus:ring-coral/30"
+            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-slate-500 focus:ring-coral/30"
             defaultValue={query.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.companyId ?? ""}
             name="companyId"
           >
@@ -108,7 +108,7 @@ export default async function InteractionsPage({
             ))}
           </select>
           <select
-            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.contactId ?? ""}
             name="contactId"
           >
@@ -120,7 +120,7 @@ export default async function InteractionsPage({
             ))}
           </select>
           <select
-            className="rounded-2xl bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.interactionTypeValueId ?? ""}
             name="interactionTypeValueId"
           >
@@ -146,44 +146,46 @@ export default async function InteractionsPage({
         </SurfaceCard>
       ) : (
         <div className="space-y-4">
-          {interactions.map((interaction) => (
-            <Link
-              className="block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(244,229,225,0.72))] p-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] transition hover:translate-y-[-1px] hover:shadow-[0_16px_48px_rgba(58,48,45,0.12)]"
-              href={`/interactions/${interaction.id}`}
-              key={interaction.id}
-              locale={locale}
-            >
-              <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
-                <div className="space-y-3">
-                  <p className="font-display text-xl font-semibold tracking-tight text-ink">
-                    {interaction.subject}
-                  </p>
-                  <p className="max-w-3xl text-sm leading-7 text-slate-600">{interaction.summary}</p>
-                  <div className="flex flex-wrap gap-2">
-                    <StatusChip tone="teal">
-                      {labelForLocale(locale, {
-                        en: interaction.interactionTypeLabelEn,
-                        he: interaction.interactionTypeLabelHe
-                      })}
-                    </StatusChip>
-                    <StatusChip>{interaction.companyName || t("labels.noCompany")}</StatusChip>
-                    <StatusChip>{interaction.contactName || t("labels.noContact")}</StatusChip>
+          <div className="divide-y divide-slate-100 overflow-hidden rounded bg-white">
+            {interactions.map((interaction) => (
+              <Link
+                className="block rounded-none bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(244,229,225,0.72))] px-3 py-2.5 transition"
+                href={`/interactions/${interaction.id}`}
+                key={interaction.id}
+                locale={locale}
+              >
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+                  <div className="space-y-3">
+                    <p className="font-display text-xl font-semibold tracking-tight text-ink">
+                      {interaction.subject}
+                    </p>
+                    <p className="max-w-3xl text-sm leading-7 text-slate-600">{interaction.summary}</p>
+                    <div className="flex flex-wrap gap-2">
+                      <StatusChip tone="teal">
+                        {labelForLocale(locale, {
+                          en: interaction.interactionTypeLabelEn,
+                          he: interaction.interactionTypeLabelHe
+                        })}
+                      </StatusChip>
+                      <StatusChip>{interaction.companyName || t("labels.noCompany")}</StatusChip>
+                      <StatusChip>{interaction.contactName || t("labels.noContact")}</StatusChip>
+                    </div>
+                  </div>
+                  <div className="space-y-3 text-sm text-slate-600 lg:text-end">
+                    <p>{formatDate(locale, interaction.interactionDate)}</p>
+                    <div className="flex flex-wrap gap-2 lg:justify-end">
+                      <StatusChip tone="ink">
+                        {labelForLocale(locale, {
+                          en: interaction.outcomeLabelEn,
+                          he: interaction.outcomeLabelHe
+                        })}
+                      </StatusChip>
+                    </div>
                   </div>
                 </div>
-                <div className="space-y-3 text-sm text-slate-600 lg:text-end">
-                  <p>{formatDate(locale, interaction.interactionDate)}</p>
-                  <div className="flex flex-wrap gap-2 lg:justify-end">
-                    <StatusChip tone="ink">
-                      {labelForLocale(locale, {
-                        en: interaction.outcomeLabelEn,
-                        he: interaction.outcomeLabelHe
-                      })}
-                    </StatusChip>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>

@@ -67,7 +67,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       <SurfaceCard className="overflow-hidden bg-[linear-gradient(140deg,rgba(16,36,63,0.98)_0%,rgba(23,53,92,0.96)_48%,rgba(15,118,110,0.88)_100%)] text-white">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>
@@ -117,7 +117,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </div>
         </div>
       </SurfaceCard>
-      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-2 sm:gap-4 xl:grid-cols-4">
         <MetricCard
           detail={t("metrics.overdueDetail")}
           label={t("metrics.overdue")}
@@ -203,7 +203,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
             <div className="space-y-3">
               {recentInteractions.map((interaction) => (
                 <Link
-                  className="block rounded-[22px] bg-mist px-4 py-4 transition hover:bg-mint"
+                  className="block rounded-[18px] border border-slate-200/70 bg-white/50 px-3 py-3 transition hover:bg-mint/70 sm:rounded-[22px] sm:border-transparent sm:bg-mist sm:px-4 sm:py-4 sm:hover:bg-mint"
                   href={`/interactions/${interaction.id}`}
                   key={interaction.id}
                 >

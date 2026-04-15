@@ -18,7 +18,7 @@ Parent: [[sprints/sprint_09/sprint_09_index|Sprint 09 Index]]
 
 ## Phase 1 — Mobile
 
-- [ ] **task-list-client.tsx** — flat rows
+- [x] **task-list-client.tsx** — flat rows
   - `rounded-[28px]` → `rounded-none`
   - `pl-4 pr-4 pt-4 pb-4 sm:pl-5 sm:pr-5 sm:pt-5 sm:pb-5` → `py-2.5 px-3`
   - remove `shadow-[0_12px_32px_...]` and `hover:-translate-y-0.5 hover:shadow-[...]`
@@ -28,7 +28,7 @@ Parent: [[sprints/sprint_09/sprint_09_index|Sprint 09 Index]]
   - `mt-1.5` company row → `mt-0.5`
   - `mt-3 hidden gap-2 sm:flex` chip row → `mt-1.5 hidden gap-1.5 sm:flex`
 
-- [ ] **companies/page.tsx** — flat rows
+- [x] **companies/page.tsx** — flat rows
   - `rounded-[28px]` → `rounded-none`
   - `p-4 sm:p-5` → `py-2.5 px-3`
   - remove card shadow + hover lift
@@ -37,21 +37,21 @@ Parent: [[sprints/sprint_09/sprint_09_index|Sprint 09 Index]]
   - table header: `rounded-[24px] py-4 px-5` → `rounded py-2 px-3`
   - empty state card padding: `p-8` → `p-5`
 
-- [ ] **contacts/page.tsx** — same flat-row treatment (find file first)
+- [x] **contacts/page.tsx** — same flat-row treatment
 
-- [ ] **interactions/page.tsx** — same flat-row treatment (find file first)
+- [x] **interactions/page.tsx** — same flat-row treatment
 
-- [ ] **app-shell.tsx** mobile header
+- [x] **app-shell.tsx** mobile header
   - `px-4 py-3` → `px-3 py-2`
   - logo icon `h-8 w-8 rounded-xl` → `h-7 w-7 rounded`
   - title font-size `text-base` → `text-sm`
 
-- [ ] **bottom-nav.tsx**
+- [x] **bottom-nav.tsx**
   - link: `pb-2 pt-3` → `pb-1 pt-2`
   - icon size: keep `h-[22px] w-[22px]`
   - label: `text-[10px]` → keep (already tiny)
 
-- [ ] **dashboard/page.tsx** mobile
+- [x] **dashboard/page.tsx** mobile
   - outer `space-y-6` → `space-y-4`
   - KPI `grid-cols-2 gap-3 sm:gap-4` → `gap-2`
   - metric card inner padding: check MetricCard component
@@ -95,8 +95,8 @@ Parent: [[sprints/sprint_09/sprint_09_index|Sprint 09 Index]]
 
 ## Gate
 
-- `npm run lint` clean
-- `npm run typecheck` clean
+- `npm run lint` clean - pass (2026-04-15)
+- `npm run typecheck` clean - pass (2026-04-15)
 - RTL (Hebrew) layout check on mobile
 
 ---

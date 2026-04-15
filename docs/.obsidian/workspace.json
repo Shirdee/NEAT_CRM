@@ -78,7 +78,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 230.5
   },
   "right": {
     "id": "2ed4b24ff9650b2b",
@@ -182,7 +182,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 300,
+    "collapsed": true
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -198,8 +199,8 @@
   "active": "bcc15ae234c8f836",
   "lastOpenFiles": [
     "sprints/sprint_09/sprint_09_index.md",
-    "ROADMAP.md",
     "sprints/sprint_09/todo/sprint_09_todo.md",
+    "ROADMAP.md",
     "DELIVERY_PLAN.md",
     "PRD.md",
     "sprints/README.md",

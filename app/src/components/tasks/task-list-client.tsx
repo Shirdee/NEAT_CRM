@@ -3,7 +3,6 @@
 import {useState} from "react";
 
 import {Link} from "@/i18n/navigation";
-import {InfoPair} from "@/components/ui/info-pair";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
 import {TaskFilterTabs} from "./task-filter-tabs";
@@ -43,13 +42,6 @@ function labelForLocale(
   return locale === "he" ? values.he || values.en || "—" : values.en || values.he || "—";
 }
 
-function formatDate(locale: "en" | "he", value: Date | string) {
-  return new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
-    dateStyle: "medium",
-    timeStyle: "short"
-  }).format(new Date(value));
-}
-
 const toneBorder: Record<Tab, string> = {
   overdue: "border-l-coral",
   today: "border-l-amber",
@@ -69,8 +61,7 @@ export function TaskListClient({
   locale,
   noTasksLabel,
   noNotesLabel,
-  noCompanyLabel,
-  noContactLabel
+  noCompanyLabel
 }: TaskListClientProps) {
   const [activeTab, setActiveTab] = useState<Tab>("overdue");
   const counts = {
@@ -86,18 +77,17 @@ export function TaskListClient({
       <TaskFilterTabs active={activeTab} counts={counts} onChange={setActiveTab} />
 
       {tasks.length === 0 ? (
-        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-8 text-sm text-slate-600">
+        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-5 text-sm text-slate-600">
           {noTasksLabel}
         </SurfaceCard>
       ) : (
-        <div className="space-y-3">
+        <div className="divide-y divide-slate-100 overflow-hidden rounded bg-white">
           {tasks.map((task) => (
             <Link
               className={[
-                "block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))]",
-                "border-l-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition",
-                "hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)]",
-                "pl-4 pr-4 pt-4 pb-4 sm:pl-5 sm:pr-5 sm:pt-5 sm:pb-5",
+                "block border-l-4 bg-white transition",
+                "hover:bg-slate-50/70",
+                "py-2.5 px-3",
                 toneBorder[activeTab]
               ].join(" ")}
               href={`/tasks/${task.id}`}
@@ -105,7 +95,7 @@ export function TaskListClient({
               locale={locale}
             >
               {/* Priority chip + date row — always visible */}
-              <div className="mb-2 flex items-center justify-between gap-2">
+              <div className="mb-1 flex items-center justify-between gap-2">
                 <StatusChip tone={toneChip[activeTab]}>
                   {labelForLocale(locale, {
                     en: task.priorityLabelEn,
@@ -122,14 +112,14 @@ export function TaskListClient({
 
               {/* Title */}
               <p className={[
-                "text-base font-semibold leading-snug sm:text-lg",
+                "text-sm font-semibold leading-snug",
                 activeTab === "done" ? "text-slate-400 line-through" : "text-ink"
               ].join(" ")}>
                 {task.notes || noNotesLabel}
               </p>
 
               {/* Company / contact — compact row */}
-              <p className="mt-1.5 text-sm text-slate-500">
+              <p className="mt-0.5 text-xs text-slate-500">
                 {task.companyName || task.contactName || noCompanyLabel}
                 {task.companyName && task.contactName ? (
                   <span className="mx-1.5 opacity-40">·</span>
@@ -138,7 +128,7 @@ export function TaskListClient({
               </p>
 
               {/* Type chip + status — only on larger screens */}
-              <div className="mt-3 hidden gap-2 sm:flex">
+              <div className="mt-1.5 hidden gap-1.5 sm:flex">
                 <StatusChip>
                   {labelForLocale(locale, {
                     en: task.taskTypeLabelEn,

@@ -43,16 +43,16 @@ export async function AppShell({children, locale, session}: AppShellProps) {
 
         {/* ── Mobile header ───────────────────────────── */}
         <header className="pt-safe lg:hidden">
-          <div className="flex items-center justify-between gap-3 px-4 py-3">
+          <div className="flex items-center justify-between gap-3 px-3 py-2">
             {/* Wordmark */}
             <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-coral text-white">
+              <div className="flex h-7 w-7 items-center justify-center rounded bg-coral text-white">
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.25} viewBox="0 0 24 24">
                   <path d="M3 12L12 3l9 9" />
                   <path d="M9 21V12h6v9" />
                 </svg>
               </div>
-              <span className="font-display text-base font-semibold text-white">
+              <span className="font-display text-sm font-semibold text-white">
                 {t("title")}
               </span>
             </div>

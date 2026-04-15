@@ -15,6 +15,7 @@ CRM project context and working assumptions.
 ## Current Focus
 
 - Sprint 7 is the latest closed UI/usability refinement layer
+- Sprint 9 is active: Phase 1 mobile dense UI refresh implemented, Phase 2 desktop dense refresh pending
 - Sprint 5 remains the UI baseline
 - Sprint 6 remains the closed MVP baseline
 

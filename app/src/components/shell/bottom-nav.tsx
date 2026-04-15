@@ -102,7 +102,7 @@ export function BottomNav({locale}: BottomNavProps) {
           return (
             <Link
               className={clsx(
-                "relative flex flex-1 flex-col items-center gap-1 px-1 pb-2 pt-3 transition-colors",
+                "relative flex flex-1 flex-col items-center gap-0.5 px-1 pb-1 pt-2 transition-colors",
                 active ? "text-teal" : "text-slate-400 hover:text-slate-600"
               )}
               href={href}

@@ -81,13 +81,13 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
         <form className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.3fr)_repeat(2,minmax(0,0.8fr))_auto]">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={filters.source ?? ""}
             name="source"
           >
@@ -99,7 +99,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
             defaultValue={filters.stage ?? ""}
             name="stage"
           >
@@ -120,64 +120,71 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
       </FilterShell>
 
       {companies.length === 0 ? (
-        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-8 text-sm text-slate-600">
+        <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(249,235,231,0.92))] p-5 text-sm text-slate-600">
           {t("empty")}
         </SurfaceCard>
       ) : (
         <div className="space-y-4">
-          <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] gap-4 rounded-[24px] bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 lg:grid">
+          <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] gap-4 rounded bg-mist px-3 py-2 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 lg:grid">
             <span>{t("columns.company")}</span>
             <span>{t("columns.website")}</span>
             <span>{t("columns.stage")}</span>
             <span>{t("columns.source")}</span>
             <span>{t("columns.contacts")}</span>
           </div>
-          {companies.map((company) => (
-            <Link
-              className="block rounded-[28px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))] p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)] sm:p-5"
-              href={`/companies/${company.id}`}
-              key={company.id}
-              locale={locale}
-            >
-              <div className="space-y-3 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] lg:items-center lg:gap-4 lg:space-y-0">
-                {/* Mobile + desktop first column */}
-                <div>
-                  <div className="flex items-start justify-between gap-3">
-                    <p className="text-base font-semibold leading-snug text-ink sm:text-lg">
-                      {company.companyName}
-                    </p>
-                    <StatusChip tone="teal">
+          <div className="divide-y divide-slate-100 overflow-hidden rounded bg-white">
+            {companies.map((company) => (
+              <Link
+                className="block rounded-none bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.84))] px-3 py-2.5 transition"
+                href={`/companies/${company.id}`}
+                key={company.id}
+                locale={locale}
+              >
+                <div className="space-y-3 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] lg:items-center lg:gap-4 lg:space-y-0">
+                  {/* Mobile + desktop first column */}
+                  <div>
+                    <div className="flex items-start justify-between gap-3">
+                      <p className="text-base font-semibold leading-snug text-ink sm:text-lg">
+                        {company.companyName}
+                      </p>
+                      <StatusChip tone="teal">
+                        {displayLabel(locale, {
+                          en: company.stageLabelEn,
+                          he: company.stageLabelHe
+                        })}
+                      </StatusChip>
+                    </div>
+                    {/* Mobile-only compact meta row */}
+                    <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500 lg:hidden">
                       {displayLabel(locale, {
-                        en: company.stageLabelEn,
-                        he: company.stageLabelHe
-                      })}
-                    </StatusChip>
+                        en: company.sourceLabelEn,
+                        he: company.sourceLabelHe
+                      }) !== "—" && (
+                        <span>
+                          {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}
+                        </span>
+                      )}
+                      {company.website ? (
+                        <span className="max-w-[160px] truncate text-teal">{company.website}</span>
+                      ) : null}
+                      <span className="rounded-full bg-ink/8 px-2 py-0.5 text-xs font-semibold text-ink">
+                        {company.contactsCount} {t("columns.contacts").toLowerCase()}
+                      </span>
+                    </div>
                   </div>
-                  {/* Mobile-only compact meta row */}
-                  <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500 lg:hidden">
-                    {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe}) !== "—" && (
-                      <span>{displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}</span>
-                    )}
-                    {company.website ? (
-                      <span className="truncate max-w-[160px] text-teal">{company.website}</span>
-                    ) : null}
-                    <span className="rounded-full bg-ink/8 px-2 py-0.5 text-xs font-semibold text-ink">
-                      {company.contactsCount} {t("columns.contacts").toLowerCase()}
-                    </span>
+                  {/* Desktop-only columns */}
+                  <div className="hidden text-sm text-slate-600 lg:block">{company.website || "—"}</div>
+                  <div className="hidden text-sm text-slate-600 lg:block">
+                    {displayLabel(locale, {en: company.stageLabelEn, he: company.stageLabelHe})}
                   </div>
+                  <div className="hidden text-sm text-slate-600 lg:block">
+                    {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}
+                  </div>
+                  <div className="hidden text-sm font-medium text-ink lg:block">{company.contactsCount}</div>
                 </div>
-                {/* Desktop-only columns */}
-                <div className="hidden text-sm text-slate-600 lg:block">{company.website || "—"}</div>
-                <div className="hidden text-sm text-slate-600 lg:block">
-                  {displayLabel(locale, {en: company.stageLabelEn, he: company.stageLabelHe})}
-                </div>
-                <div className="hidden text-sm text-slate-600 lg:block">
-                  {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}
-                </div>
-                <div className="hidden text-sm font-medium text-ink lg:block">{company.contactsCount}</div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
       )}
     </div>

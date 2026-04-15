@@ -18,7 +18,7 @@ export function NavItemLink({href, label, locale}: NavItemLinkProps) {
   return (
     <Link
       className={clsx(
-        "group flex items-center justify-between rounded-[22px] px-4 py-3 text-sm font-medium transition",
+        "group flex items-center justify-between rounded-[22px] px-3 py-2 text-sm font-medium transition sm:px-4 sm:py-3",
         active
           ? "bg-ink text-white shadow-panel"
           : "bg-white/70 text-slate-600 hover:bg-mint hover:text-ink"

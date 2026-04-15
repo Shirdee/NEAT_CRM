@@ -17,6 +17,8 @@ updated: 2026-04-15
 
 ## Start Here
 
+- [Sprint 09 Index](sprint_09/sprint_09_index.md)
+- [Sprint 09 Todo](sprint_09/todo/sprint_09_todo.md)
 - [Sprint 08 Index](sprint_08/sprint_08_index.md)
 - [Sprint 08 Todo](sprint_08/todo/sprint_08_todo.md)
 - [Sprint 07 Index](sprint_07/sprint_07_index.md)
@@ -30,8 +32,8 @@ updated: 2026-04-15
 
 ## Planning Reference
 
-Sprint 7 is the latest closed implementation slice. Use the Sprint 7 docs first for current UI and usability context, then fall back to Sprint 5 for the UI baseline.
-Sprint 8 is the next proposed post-MVP slice and is still in planning.
+Sprint 7 is the latest closed implementation slice. Sprint 9 is currently active for dense UI refresh, with mobile phase implemented and desktop phase pending.
+Use Sprint 7 docs for current closed UI/usability baseline, then Sprint 9 docs for active in-flight changes.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 
@@ -47,3 +49,5 @@ See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprin
 - [Sprint 05 Index](sprint_05/sprint_05_index.md)
 - [Sprint 06 Index](sprint_06/sprint_06_index.md)
 - [Sprint 07 Index](sprint_07/sprint_07_index.md)
+- [Sprint 08 Index](sprint_08/sprint_08_index.md)
+- [Sprint 09 Index](sprint_09/sprint_09_index.md)
