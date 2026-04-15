@@ -2,7 +2,7 @@ import {getTranslations} from "next-intl/server";
 
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
-import {getTaskFormOptions, listTasks} from "@/lib/data/crm";
+import {getTaskListFilterOptions, listTasks} from "@/lib/data/crm";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {TaskListClient} from "@/components/tasks/task-list-client";
 import {FilterShell} from "@/components/ui/filter-shell";
@@ -45,7 +45,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
   });
   const filters = savedViewState.filters;
   const [{companies, contacts, statusOptions}, tasks] = await Promise.all([
-    getTaskFormOptions(),
+    getTaskListFilterOptions(),
     listTasks({
       query: filters.q,
       companyId: filters.companyId,

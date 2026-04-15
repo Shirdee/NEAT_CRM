@@ -8,6 +8,7 @@ import type {
   Opportunity,
   Task
 } from "@prisma/client";
+import {cache} from "react";
 
 import {
   createFallbackCompany,
@@ -234,6 +235,34 @@ export type LeadSourceCount = {
   count: number;
 };
 
+export type DashboardSnapshot = {
+  overdueTasks: Array<{
+    id: string;
+    dueDate: Date | string;
+    notes: string | null;
+    companyName: string | null;
+    contactName: string | null;
+  }>;
+  overdueTasksCount: number;
+  upcomingTasksCount: number;
+  meetingsInPeriodCount: number;
+  openOpportunitiesCount: number;
+  recentInteractions: Array<{
+    id: string;
+    subject: string;
+    interactionDate: Date | string;
+    companyName: string | null;
+    contactName: string | null;
+  }>;
+  activeCompanies: Array<{
+    id: string;
+    companyName: string;
+    contactsCount: number;
+    stageLabelEn: string | null;
+    sourceLabelEn: string | null;
+  }>;
+};
+
 function normalizeLookupOptions(values: ListValue[]): LookupOption[] {
   return values.map((value) => ({
     id: value.id,
@@ -263,6 +292,170 @@ function deriveInactivityLabel(lastInteractionDate: Date | string | null | undef
 async function getTaskStatusKey(statusValueId: string) {
   const options = await listLookupOptions("task_status");
   return options.find((option) => option.id === statusValueId)?.key ?? null;
+}
+
+export async function getDashboardSnapshot(periodDays: number): Promise<DashboardSnapshot> {
+  const now = Date.now();
+  const windowStart = now - periodDays * 24 * 60 * 60 * 1000;
+  const weekFromNow = now + 7 * 24 * 60 * 60 * 1000;
+
+  const [interactionTypeOptions, opportunityStatusOptions] = await Promise.all([
+    listLookupOptions("interaction_type"),
+    listLookupOptions("opportunity_status")
+  ]);
+  const meetingTypeId = interactionTypeOptions.find((option) => option.key === "meeting")?.id ?? null;
+  const openStatusId = opportunityStatusOptions.find((option) => option.key === "open")?.id ?? null;
+
+  if (!hasDatabaseUrl()) {
+    const [tasks, interactions, companies, opportunities, sourceOptions, stageOptions] = await Promise.all([
+      listFallbackTasks(),
+      listFallbackInteractions(),
+      listFallbackCompanies(),
+      listFallbackOpportunities(openStatusId ? {statusValueId: openStatusId} : undefined),
+      listLookupOptions("lead_source"),
+      listLookupOptions("company_stage")
+    ]);
+    const sourceMap = buildLookupMap(sourceOptions);
+    const stageMap = buildLookupMap(stageOptions);
+    const openTasks = tasks.filter((task) => !task.completedAt);
+    const overdueTasks = openTasks
+      .filter((task) => new Date(task.dueDate).getTime() < now)
+      .sort((a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime());
+    const upcomingTasksCount = openTasks.filter((task) => {
+      const dueAt = new Date(task.dueDate).getTime();
+      return dueAt >= now && dueAt <= weekFromNow;
+    }).length;
+    const meetingsInPeriodCount = meetingTypeId
+      ? interactions.filter((interaction) => {
+          if (interaction.interactionTypeValueId !== meetingTypeId) return false;
+          const at = new Date(interaction.interactionDate).getTime();
+          return at >= windowStart && at <= now;
+        }).length
+      : 0;
+
+    return {
+      overdueTasks: overdueTasks.slice(0, 5).map((task) => ({
+        id: task.id,
+        dueDate: task.dueDate,
+        notes: task.notes,
+        companyName: task.companyName,
+        contactName: task.contactName
+      })),
+      overdueTasksCount: overdueTasks.length,
+      upcomingTasksCount,
+      meetingsInPeriodCount,
+      openOpportunitiesCount: opportunities.length,
+      recentInteractions: interactions.slice(0, 4).map((interaction) => ({
+        id: interaction.id,
+        subject: interaction.subject,
+        interactionDate: interaction.interactionDate,
+        companyName: interaction.companyName,
+        contactName: interaction.contactName
+      })),
+      activeCompanies: companies.slice(0, 4).map((company) => ({
+        id: company.id,
+        companyName: company.companyName,
+        contactsCount: company.contactsCount,
+        stageLabelEn: company.stageValueId ? stageMap.get(company.stageValueId)?.labelEn ?? null : null,
+        sourceLabelEn: company.sourceValueId ? sourceMap.get(company.sourceValueId)?.labelEn ?? null : null
+      }))
+    };
+  }
+
+  const prisma = await getPrisma();
+  const [overdueTasksCount, upcomingTasksCount, overdueTasks, recentInteractions, meetingsInPeriodCount, openOpportunitiesCount, companies, sourceOptions, stageOptions] =
+    await Promise.all([
+      prisma.task.count({
+        where: {
+          completedAt: null,
+          dueDate: {lt: new Date(now)}
+        }
+      }),
+      prisma.task.count({
+        where: {
+          completedAt: null,
+          dueDate: {gte: new Date(now), lte: new Date(weekFromNow)}
+        }
+      }),
+      prisma.task.findMany({
+        where: {
+          completedAt: null,
+          dueDate: {lt: new Date(now)}
+        },
+        select: {
+          id: true,
+          dueDate: true,
+          notes: true,
+          company: {select: {companyName: true}},
+          contact: {select: {fullName: true}}
+        },
+        orderBy: {dueDate: "asc"},
+        take: 5
+      }),
+      prisma.interaction.findMany({
+        select: {
+          id: true,
+          subject: true,
+          interactionDate: true,
+          company: {select: {companyName: true}},
+          contact: {select: {fullName: true}}
+        },
+        orderBy: {interactionDate: "desc"},
+        take: 4
+      }),
+      meetingTypeId
+        ? prisma.interaction.count({
+            where: {
+              interactionTypeValueId: meetingTypeId,
+              interactionDate: {gte: new Date(windowStart), lte: new Date(now)}
+            }
+          })
+        : Promise.resolve(0),
+      openStatusId ? prisma.opportunity.count({where: {statusValueId: openStatusId}}) : Promise.resolve(0),
+      prisma.company.findMany({
+        select: {
+          id: true,
+          companyName: true,
+          sourceValueId: true,
+          stageValueId: true,
+          _count: {select: {contacts: true}}
+        },
+        orderBy: {companyName: "asc"},
+        take: 4
+      }),
+      listLookupOptions("lead_source"),
+      listLookupOptions("company_stage")
+    ]);
+  const sourceMap = buildLookupMap(sourceOptions);
+  const stageMap = buildLookupMap(stageOptions);
+
+  return {
+    overdueTasks: overdueTasks.map((task) => ({
+      id: task.id,
+      dueDate: task.dueDate,
+      notes: task.notes,
+      companyName: task.company?.companyName ?? null,
+      contactName: task.contact?.fullName ?? null
+    })),
+    overdueTasksCount,
+    upcomingTasksCount,
+    meetingsInPeriodCount,
+    openOpportunitiesCount,
+    recentInteractions: recentInteractions.map((interaction) => ({
+      id: interaction.id,
+      subject: interaction.subject,
+      interactionDate: interaction.interactionDate,
+      companyName: interaction.company?.companyName ?? null,
+      contactName: interaction.contact?.fullName ?? null
+    })),
+    activeCompanies: companies.map((company) => ({
+      id: company.id,
+      companyName: company.companyName,
+      contactsCount: company._count.contacts,
+      stageLabelEn: company.stageValueId ? stageMap.get(company.stageValueId)?.labelEn ?? null : null,
+      sourceLabelEn: company.sourceValueId ? sourceMap.get(company.sourceValueId)?.labelEn ?? null : null
+    }))
+  };
 }
 
 function normalizeText(value: string) {
@@ -537,6 +730,10 @@ export function normalizeOpportunityPayload(input: {
 }
 
 export async function listLookupOptions(categoryKey: string) {
+  return listLookupOptionsCached(categoryKey);
+}
+
+const listLookupOptionsCached = cache(async (categoryKey: string) => {
   if (!hasDatabaseUrl()) {
     return listFallbackLookupValues(categoryKey);
   }
@@ -561,7 +758,7 @@ export async function listLookupOptions(categoryKey: string) {
   } catch {
     return listFallbackLookupValues(categoryKey);
   }
-}
+});
 
 export async function getCompanyFormOptions() {
   const [sourceOptions, stageOptions] = await Promise.all([
@@ -636,6 +833,24 @@ export async function getTaskFormOptions() {
     })),
     taskTypeOptions,
     priorityOptions,
+    statusOptions
+  };
+}
+
+export async function getTaskListFilterOptions() {
+  const [{companies}, statusOptions] = await Promise.all([
+    getContactFormOptions(),
+    listLookupOptions("task_status")
+  ]);
+  const contacts = await listContacts();
+
+  return {
+    companies,
+    contacts: contacts.map((contact) => ({
+      id: contact.id,
+      fullName: contact.fullName,
+      companyId: contact.companyId ?? null
+    })),
     statusOptions
   };
 }

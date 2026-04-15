@@ -4,11 +4,7 @@ import {Link} from "@/i18n/navigation";
 import {MetricCard} from "@/components/ui/metric-card";
 import {SurfaceCard} from "@/components/ui/surface-card";
 import {getCurrentSession} from "@/lib/auth/session";
-import {listCompanies, listInteractions, listOpportunities, listTasks, listLookupOptions} from "@/lib/data/crm";
-
-function getCurrentTimestamp() {
-  return Date.now();
-}
+import {getDashboardSnapshot} from "@/lib/data/crm";
 
 type DashboardPageProps = {
   searchParams: Promise<{period?: string}>;
@@ -29,37 +25,8 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
   const t = await getTranslations("Dashboard");
   const {period} = await searchParams;
   const session = await getCurrentSession();
-  const [tasks, interactions, companies, interactionTypeOptions, statusOptions] = await Promise.all([
-    listTasks(),
-    listInteractions(),
-    listCompanies(),
-    listLookupOptions("interaction_type"),
-    listLookupOptions("opportunity_status")
-  ]);
-
-  const now = getCurrentTimestamp();
   const periodDays = parsePeriodDays(period);
-  const windowStart = now - periodDays * 24 * 60 * 60 * 1000;
-  const weekFromNow = now + 7 * 24 * 60 * 60 * 1000;
-  const openTasks = tasks.filter((task) => !task.completedAt);
-  const overdueTasks = openTasks.filter((task) => new Date(task.dueDate).getTime() < now);
-  const upcomingTasks = openTasks.filter((task) => {
-    const dueAt = new Date(task.dueDate).getTime();
-    return dueAt >= now && dueAt <= weekFromNow;
-  });
-  const meetingTypeId = interactionTypeOptions.find((option) => option.key === "meeting")?.id ?? null;
-  const meetingsInPeriod = meetingTypeId
-    ? interactions.filter((interaction) => {
-        if (interaction.interactionTypeValueId !== meetingTypeId) return false;
-        const at = new Date(interaction.interactionDate).getTime();
-        return at >= windowStart && at <= now;
-      }).length
-    : 0;
-
-  const openStatusId = statusOptions.find((option) => option.key === "open")?.id ?? null;
-  const openOpportunities = openStatusId ? await listOpportunities({statusValueId: openStatusId}) : [];
-  const recentInteractions = interactions.slice(0, 4);
-  const activeCompanies = companies.slice(0, 4);
+  const snapshot = await getDashboardSnapshot(periodDays);
 
   const dateFormatter = new Intl.DateTimeFormat(undefined, {
     month: "short",
@@ -127,25 +94,25 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           detail={t("metrics.overdueDetail")}
           label={t("metrics.overdue")}
           tone="coral"
-          value={String(overdueTasks.length)}
+          value={String(snapshot.overdueTasksCount)}
         />
         <MetricCard
           detail={t("metrics.upcomingDetail")}
           label={t("metrics.upcoming")}
           tone="amber"
-          value={String(upcomingTasks.length)}
+          value={String(snapshot.upcomingTasksCount)}
         />
         <MetricCard
           detail={t("metrics.meetingsDetail")}
           label={t("metrics.meetings")}
           tone="teal"
-          value={String(meetingsInPeriod)}
+          value={String(snapshot.meetingsInPeriodCount)}
         />
         <MetricCard
           detail={t("metrics.opportunitiesDetail")}
           label={t("metrics.opportunities")}
           tone="ink"
-          value={String(openOpportunities.length)}
+          value={String(snapshot.openOpportunitiesCount)}
         />
       </div>
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)] xl:items-start">
@@ -164,7 +131,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
             </Link>
           </div>
           <div className="space-y-3">
-            {overdueTasks.slice(0, 5).map((task) => (
+            {snapshot.overdueTasks.map((task) => (
               <Link
                 className="block rounded-[24px] border border-transparent bg-slate-50/75 p-4 shadow-[0_1px_0_rgba(15,23,42,0.04)] transition hover:bg-white hover:shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
                 href={`/tasks/${task.id}`}
@@ -185,7 +152,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
                 </div>
               </Link>
             ))}
-            {overdueTasks.length === 0 ? (
+            {snapshot.overdueTasksCount === 0 ? (
               <div className="rounded-[24px] bg-mint/70 px-4 py-5 text-sm text-slate-700">
                 {t("priority.empty")}
               </div>
@@ -206,7 +173,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
               </Link>
             </div>
             <div className="space-y-3">
-              {recentInteractions.map((interaction) => (
+              {snapshot.recentInteractions.map((interaction) => (
                 <Link
                   className="block rounded-[22px] border border-transparent bg-mist/70 px-3 py-3 transition hover:bg-mint sm:px-4 sm:py-4"
                   href={`/interactions/${interaction.id}`}
@@ -220,7 +187,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
                   </div>
                 </Link>
               ))}
-              {recentInteractions.length === 0 ? (
+              {snapshot.recentInteractions.length === 0 ? (
                 <p className="rounded-[22px] bg-mist/70 px-4 py-5 text-sm text-slate-700">
                   {t("timeline.empty")}
                 </p>
@@ -231,7 +198,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
             <p className="text-xs uppercase tracking-[0.28em] text-slate-400">{t("insights.eyebrow")}</p>
             <h3 className="text-xl font-semibold text-ink">{t("insights.title")}</h3>
             <div className="space-y-3">
-              {activeCompanies.map((company) => (
+              {snapshot.activeCompanies.map((company) => (
                 <Link
                   className="flex items-center justify-between gap-3 rounded-[22px] border border-transparent bg-slate-50/75 px-4 py-3 transition hover:bg-mint/70"
                   href={`/companies/${company.id}`}

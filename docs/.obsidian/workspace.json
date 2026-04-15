@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_10/sprint_10_stitch_route_plan.md",
+                "file": "sprints/sprint_10/todo/sprint_10_todo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sprint_10_stitch_route_plan"
+              "title": "sprint_10_todo"
             }
           }
         ]
@@ -198,11 +198,11 @@
   },
   "active": "bcc15ae234c8f836",
   "lastOpenFiles": [
-    "sprints/sprint_10/sprint_10_pm_update.md",
     "sprints/sprint_10/sprint_10_index.md",
-    "sprints/sprint_10/sprint_10_stitch_route_plan.md",
-    "sprints/sprint_10/sprint_10_dev_execution_packet.md",
     "sprints/sprint_10/todo/sprint_10_todo.md",
+    "sprints/sprint_10/sprint_10_stitch_route_plan.md",
+    "sprints/sprint_10/sprint_10_pm_update.md",
+    "sprints/sprint_10/sprint_10_dev_execution_packet.md",
     "sprints/sprint_10/todo",
     "sprints/sprint_09/todo/sprint_09_todo.md",
     "sprints/sprint_10",

@@ -7,6 +7,7 @@ import {
   deleteCompany,
   deleteTask,
   DeleteBlockedError,
+  getDashboardSnapshot,
   getCompanyById,
   listCompanies,
   listContacts,
@@ -115,5 +116,14 @@ describe("crm fallback repository", () => {
     expect(payload.fullName).toBe("Dana Shalev");
     expect(payload.emails).toEqual(["dana@example.test"]);
     expect(payload.primaryPhone).toBe("050-999-0000");
+  });
+
+  it("builds dashboard snapshot from fallback data", async () => {
+    const snapshot = await getDashboardSnapshot(7);
+
+    expect(snapshot.overdueTasksCount).toBeGreaterThanOrEqual(snapshot.overdueTasks.length);
+    expect(snapshot.overdueTasks.length).toBeLessThanOrEqual(5);
+    expect(snapshot.recentInteractions.length).toBeLessThanOrEqual(4);
+    expect(snapshot.activeCompanies.length).toBeLessThanOrEqual(4);
   });
 });

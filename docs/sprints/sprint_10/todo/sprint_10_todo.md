@@ -22,13 +22,13 @@ Parent: [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]
 
 Planned by PM on 2026-04-15.
 CTO technical handoff completed for Workstream 1 and Workstream 2 on 2026-04-15.
-Execution is opened for DEV on Workstream 1 and Workstream 2 only.
-Workstreams 3 to 6 remain planned and not opened in this handoff.
+Execution is opened for DEV on Workstreams 1, 2, and 3.
+Workstreams 4 to 6 remain planned and not opened in this handoff.
 
 ## Scope Slice In This Handoff
 
-- included: Workstream 1 (Record Deletion), Workstream 2 (Stitch Review And UI Plan)
-- excluded in this handoff: Workstreams 3 to 6
+- included: Workstream 1 (Record Deletion), Workstream 2 (Stitch Review And UI Plan), Workstream 3 (Runtime Improvement)
+- excluded in this handoff: Workstreams 4 to 6
 
 ## CTO Technical Decisions (2026-04-15)
 
@@ -44,12 +44,21 @@ Workstreams 3 to 6 remain planned and not opened in this handoff.
 - handoff owner: CTO
 - handoff target: DEV
 - sprint: Sprint 10
-- build scope now: Workstream 1 and Workstream 2 only
+- build scope now: Workstreams 1, 2, and 3
 - first concrete implementation action: start `DEV-1001` by defining deletion policy matrix and target entity list, then open policy decisions in sprint doc before coding mutations
 - immediate sequencing after first action: complete `DEV-1001`, then `DEV-1002`, then `DEV-1003`, then execute `DEV-1004` as planning gate
 - hard technical guardrails: keep RBAC server-side, preserve auditability, avoid irreversible destructive behavior by default, no schema redesign beyond required deletion flags/fields, no new services, no queue/cron/automation
 - unresolved blockers: final list of entities allowed for hard delete, retention window policy if any, final Stitch project ID confirmation for all screens in scope
 - PM routing note: PM should record explicit approval checkpoint after `DEV-1004` before any UI rebuild implementation starts
+
+### CTO Runtime Handoff Extension (2026-04-15)
+
+- next opened workstream: Workstream 3 (Runtime Improvement)
+- execution strategy: parallel DEV sub-streams on disjoint route/data slices
+- active delegated sub-streams:
+  - DEV-WS3-A: task-list runtime trim (lookup dedupe + lighter filter options fetch)
+  - DEV-WS3-B: dashboard runtime trim (dedicated snapshot query path)
+- sequencing rule: merge WS3-A and WS3-B only after lint, typecheck, and build pass
 
 ## DEV Task List (Workstream 1+2)
 
@@ -151,6 +160,41 @@ Done when:
 - [ ] Implement bounded optimizations.
 - [ ] Re-measure and document before/after.
 
+### DEV Task Breakdown (Workstream 3)
+
+#### DEV-3001: Baseline Runtime Capture
+
+- objective: capture route-level baseline timing for `/dashboard`, `/companies`, `/tasks` before WS3 optimizations
+- scope: local measurements + short notes in sprint docs
+- done when: baseline table exists with route + method + timestamp
+
+#### DEV-3002: Lookup Query Dedupe
+
+- objective: prevent repeated lookup option DB calls during a single server render path
+- scope: shared lookup layer in `app/src/lib/data/crm.ts`
+- must include: safe fallback behavior parity, no locale behavior change
+- done when: repeated `listLookupOptions(category)` calls in one request reuse resolved result
+
+#### DEV-3003: Task List Data-Fetch Trim
+
+- objective: reduce over-fetch on tasks index by avoiding full task-form option loading
+- scope: `app/src/lib/data/crm.ts`, `app/src/app/[locale]/(protected)/tasks/page.tsx`
+- must include: same visible filter behavior and no loss of required option lists
+- done when: tasks page no longer loads unused interactions/task-type/priority data on initial render
+
+#### DEV-3004: Dashboard Snapshot Query Path
+
+- objective: replace heavy all-record dashboard fetches with bounded summary + top-N queries
+- scope: `app/src/lib/data/crm.ts`, `app/src/app/[locale]/(protected)/dashboard/page.tsx`
+- must include: same visible dashboard metrics/cards/links semantics
+- done when: dashboard route computes metrics from dedicated snapshot reads instead of full dataset scans
+
+#### DEV-3005: Runtime QA Gate
+
+- objective: validate no regressions from runtime optimizations
+- scope: lint, typecheck, build, targeted data tests
+- done when: `npm run lint`, `npm run typecheck`, `npm run build` pass and sprint doc notes any residual risk
+
 Done when:
 - Runtime improvement is measurable and documented.
 - No functional or permission regressions introduced.
@@ -215,4 +259,5 @@ Done when:
   - dashboard parity pass
   - companies list/detail parity pass
   - tasks list and create-form shell parity pass across company/contact/task/interaction/opportunity new routes
+- CTO opened Workstream 3 on 2026-04-15 with detailed `DEV-300x` runtime tasks and delegated parallel subagents for WS3-A and WS3-B.
 - consolidated PM + execution status now tracked in [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]
