@@ -17,7 +17,7 @@ updated: 2026-04-15
 
 ## Status
 
-In progress. Phase 1 (mobile dense refresh) implemented on 2026-04-15. Phase 2 (desktop dense refresh) remains open.
+In progress. Phase 1 and Phase 2 implementation completed on 2026-04-15. Manual smoke pass and commit closeout remain open.
 
 ## Objective
 
@@ -82,7 +82,9 @@ The Stitch mobile screens use a flat-row list pattern:
 
 - 2026-04-15: Phase 1 implementation completed in code (tasks list, companies, contacts, interactions, mobile shell header, bottom nav, dashboard density pass, metric card mobile padding).
 - 2026-04-15: Validation gate run in `crm/app`: `npm run lint` pass, `npm run typecheck` pass.
-- Remaining: Phase 2 desktop density adjustments and desktop smoke pass.
+- 2026-04-15: Phase 2 implementation completed in code (desktop aside/nav density, desktop row rounding + tonal hover, dashboard desktop spacing trim).
+- 2026-04-15: Validation gate re-run in `crm/app`: `npm run lint` pass, `npm run typecheck` pass.
+- Remaining: manual smoke pass (mobile + desktop) and commit closeout.
 
 ## Linked Sprint Docs
 

@@ -69,18 +69,18 @@ Parent: [[sprints/sprint_09/sprint_09_index|Sprint 09 Index]]
 
 ## Phase 2 — Desktop
 
-- [ ] **app-shell.tsx** desktop aside
+- [x] **app-shell.tsx** desktop aside
   - `p-3` → `p-2`
   - `space-y-2` nav → `space-y-0.5`
 
-- [ ] **nav-item-link.tsx** — reduce `py-2.5` → `py-1.5`
+- [x] **nav-item-link.tsx** — reduce `py-2.5` → `py-1.5`
 
-- [ ] Companies/tasks/contacts desktop table header
+- [x] Companies/tasks/contacts desktop table header
   - `py-4 px-5 rounded-[24px]` → `py-2 px-3 rounded`
 
-- [ ] Desktop list cards: `rounded-[28px]` → `rounded` (4px), replace shadow+lift with tonal hover
+- [x] Desktop list cards: `rounded-[28px]` → `rounded` (4px), replace shadow+lift with tonal hover
 
-- [ ] **dashboard/page.tsx** desktop
+- [x] **dashboard/page.tsx** desktop
   - `space-y-6` → `space-y-3` in main sections
 
 - [ ] **Smoke test at 1280px**

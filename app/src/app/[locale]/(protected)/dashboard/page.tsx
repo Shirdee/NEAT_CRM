@@ -67,7 +67,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
   });
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 lg:space-y-3">
       <SurfaceCard className="overflow-hidden bg-[linear-gradient(140deg,rgba(16,36,63,0.98)_0%,rgba(23,53,92,0.96)_48%,rgba(15,118,110,0.88)_100%)] text-white">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>

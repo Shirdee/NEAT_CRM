@@ -139,14 +139,14 @@ export async function AppShell({children, locale, session}: AppShellProps) {
 
         {/* ── Body grid ───────────────────────────────── */}
         <div className="mx-auto grid w-full max-w-7xl gap-5 px-4 pb-6 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8">
-          <aside className="hidden min-w-0 overflow-y-auto rounded-[30px] border border-white/70 bg-white/70 p-3 shadow-panel backdrop-blur lg:block">
+          <aside className="hidden min-w-0 overflow-y-auto rounded-[30px] border border-white/70 bg-white/70 p-2 shadow-panel backdrop-blur lg:block">
             <div className="mb-3 px-3 pt-2">
               <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
                 {t("eyebrow")}
               </p>
               <p className="mt-2 text-lg font-semibold text-ink">{t("workspace")}</p>
             </div>
-            <nav className="space-y-2">
+            <nav className="space-y-0.5">
               {navItems.map((item) => (
                 <NavItemLink
                   key={item.href}

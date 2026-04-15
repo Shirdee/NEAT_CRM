@@ -86,7 +86,7 @@ export function TaskListClient({
             <Link
               className={[
                 "block border-l-4 bg-white transition",
-                "hover:bg-slate-50/70",
+                "hover:bg-slate-50/70 lg:rounded lg:hover:bg-sand/60",
                 "py-2.5 px-3",
                 toneBorder[activeTab]
               ].join(" ")}
