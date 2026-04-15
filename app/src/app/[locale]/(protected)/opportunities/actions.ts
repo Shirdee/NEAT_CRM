@@ -7,6 +7,7 @@ import {redirect} from "next/navigation";
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
 import {
   createOpportunity,
+  deleteOpportunity,
   normalizeOpportunityPayload,
   updateOpportunity,
   validateCompanyContactMatch,
@@ -123,4 +124,30 @@ export async function updateOpportunityAction(boundLocale: string, formData: For
     if (fields.length > 0) params.set("invalidFields", fields.join(","));
     redirect(`/${locale}/opportunities/${opportunityId}/edit?${params.toString()}`);
   }
+}
+
+export async function deleteOpportunityAction(boundLocale: string, formData: FormData) {
+  const locale = isLocale(boundLocale) ? boundLocale : "en";
+  await requireWritableUser(locale);
+  const opportunityId = String(formData.get("opportunityId") ?? "");
+  const confirm = String(formData.get("confirm") ?? "") === "1";
+
+  if (!opportunityId) {
+    redirect(`/${locale}/opportunities?error=missing`);
+  }
+
+  if (!confirm) {
+    redirect(`/${locale}/opportunities/${opportunityId}?error=confirm`);
+  }
+
+  const deleted = await deleteOpportunity(opportunityId);
+
+  if (!deleted) {
+    redirect(`/${locale}/opportunities?error=missing`);
+  }
+
+  revalidatePath(`/${locale}/opportunities`);
+  revalidatePath(`/${locale}/companies`);
+  revalidatePath(`/${locale}/contacts`);
+  redirect(`/${locale}/opportunities?success=deleted`);
 }

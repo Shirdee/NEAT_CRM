@@ -36,7 +36,7 @@ updated: 2026-04-15
 
 Sprint 7 is the latest closed implementation slice. Sprint 9 is currently active for dense UI refresh, with mobile phase implemented and desktop phase pending.
 Use Sprint 7 docs for current closed UI/usability baseline, then Sprint 9 docs for active in-flight changes.
-Sprint 10 is now proposed from `crm/docs/Notes.md` and remains pending approval.
+Sprint 10 was created from `crm/docs/Notes.md`; Workstreams 1 and 2 are opened for DEV via CTO handoff, while Workstreams 3 to 6 remain planned.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 

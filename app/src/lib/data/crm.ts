@@ -15,6 +15,11 @@ import {
   createFallbackInteraction,
   createFallbackOpportunity,
   createFallbackTask,
+  deleteFallbackCompany,
+  deleteFallbackContact,
+  deleteFallbackInteraction,
+  deleteFallbackOpportunity,
+  deleteFallbackTask,
   getFallbackInteractionById,
   getFallbackOpportunityById,
   getFallbackTaskById,
@@ -276,6 +281,16 @@ export class ValidationError extends Error {
     super(message);
     this.name = "ValidationError";
     this.fields = fields;
+  }
+}
+
+export class DeleteBlockedError extends Error {
+  blockedBy: string[];
+
+  constructor(message: string, blockedBy: string[]) {
+    super(message);
+    this.name = "DeleteBlockedError";
+    this.blockedBy = blockedBy;
   }
 }
 
@@ -848,6 +863,39 @@ export async function updateCompany(id: string, input: CompanyInput) {
   });
 }
 
+export async function deleteCompany(id: string) {
+  if (!hasDatabaseUrl()) {
+    const result = await deleteFallbackCompany(id);
+
+    if (!result.deleted && result.blockedBy.length > 0) {
+      throw new DeleteBlockedError("Company has linked records.", result.blockedBy);
+    }
+
+    return result.deleted;
+  }
+
+  const prisma = await getPrisma();
+  const [contactsCount, interactionsCount, tasksCount, opportunitiesCount] = await Promise.all([
+    prisma.contact.count({where: {companyId: id}}),
+    prisma.interaction.count({where: {companyId: id}}),
+    prisma.task.count({where: {companyId: id}}),
+    prisma.opportunity.count({where: {companyId: id}})
+  ]);
+  const blockedBy: string[] = [];
+
+  if (contactsCount > 0) blockedBy.push("contacts");
+  if (interactionsCount > 0) blockedBy.push("interactions");
+  if (tasksCount > 0) blockedBy.push("tasks");
+  if (opportunitiesCount > 0) blockedBy.push("opportunities");
+
+  if (blockedBy.length > 0) {
+    throw new DeleteBlockedError("Company has linked records.", blockedBy);
+  }
+
+  const result = await prisma.company.deleteMany({where: {id}});
+  return result.count > 0;
+}
+
 export async function listContacts(filters?: {query?: string; companyId?: string}) {
   if (!hasDatabaseUrl()) {
     return listFallbackContacts(filters);
@@ -1036,6 +1084,37 @@ export async function updateContact(id: string, input: ContactInput) {
   });
 }
 
+export async function deleteContact(id: string) {
+  if (!hasDatabaseUrl()) {
+    const result = await deleteFallbackContact(id);
+
+    if (!result.deleted && result.blockedBy.length > 0) {
+      throw new DeleteBlockedError("Contact has linked records.", result.blockedBy);
+    }
+
+    return result.deleted;
+  }
+
+  const prisma = await getPrisma();
+  const [interactionsCount, tasksCount, opportunitiesCount] = await Promise.all([
+    prisma.interaction.count({where: {contactId: id}}),
+    prisma.task.count({where: {contactId: id}}),
+    prisma.opportunity.count({where: {contactId: id}})
+  ]);
+  const blockedBy: string[] = [];
+
+  if (interactionsCount > 0) blockedBy.push("interactions");
+  if (tasksCount > 0) blockedBy.push("tasks");
+  if (opportunitiesCount > 0) blockedBy.push("opportunities");
+
+  if (blockedBy.length > 0) {
+    throw new DeleteBlockedError("Contact has linked records.", blockedBy);
+  }
+
+  const result = await prisma.contact.deleteMany({where: {id}});
+  return result.count > 0;
+}
+
 export async function searchCrm(query: string) {
   if (!hasDatabaseUrl()) {
     return searchFallbackCrm(query);
@@ -1104,6 +1183,28 @@ export async function updateInteraction(id: string, input: InteractionInput) {
   });
 }
 
+export async function deleteInteraction(id: string) {
+  if (!hasDatabaseUrl()) {
+    const result = await deleteFallbackInteraction(id);
+
+    if (!result.deleted && result.blockedBy.length > 0) {
+      throw new DeleteBlockedError("Interaction has linked records.", result.blockedBy);
+    }
+
+    return result.deleted;
+  }
+
+  const prisma = await getPrisma();
+  const tasksCount = await prisma.task.count({where: {relatedInteractionId: id}});
+
+  if (tasksCount > 0) {
+    throw new DeleteBlockedError("Interaction has linked records.", ["tasks"]);
+  }
+
+  const result = await prisma.interaction.deleteMany({where: {id}});
+  return result.count > 0;
+}
+
 export async function createTask(input: TaskInput) {
   const statusKey = await getTaskStatusKey(input.statusValueId);
   const completedAt = statusKey === "completed" ? new Date().toISOString() : null;
@@ -1161,6 +1262,17 @@ export async function updateTask(id: string, input: TaskInput) {
       completedAt: completedAt ? new Date(completedAt) : null
     }
   });
+}
+
+export async function deleteTask(id: string) {
+  if (!hasDatabaseUrl()) {
+    const result = await deleteFallbackTask(id);
+    return result.deleted;
+  }
+
+  const prisma = await getPrisma();
+  const result = await prisma.task.deleteMany({where: {id}});
+  return result.count > 0;
 }
 
 export async function listInteractions(filters?: {
@@ -1507,6 +1619,17 @@ export async function updateOpportunity(id: string, input: OpportunityInput) {
       updatedById: input.actorUserId
     }
   });
+}
+
+export async function deleteOpportunity(id: string) {
+  if (!hasDatabaseUrl()) {
+    const result = await deleteFallbackOpportunity(id);
+    return result.deleted;
+  }
+
+  const prisma = await getPrisma();
+  const result = await prisma.opportunity.deleteMany({where: {id}});
+  return result.count > 0;
 }
 
 export async function listOpportunities(filters?: {

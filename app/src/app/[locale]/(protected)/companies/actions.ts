@@ -5,7 +5,14 @@ import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
-import {createCompany, normalizeCompanyPayload, updateCompany, ValidationError} from "@/lib/data/crm";
+import {
+  createCompany,
+  deleteCompany,
+  DeleteBlockedError,
+  normalizeCompanyPayload,
+  updateCompany,
+  ValidationError
+} from "@/lib/data/crm";
 
 async function requireWritableUser(locale: string) {
   const session = await getCurrentSession();
@@ -87,5 +94,51 @@ export async function updateCompanyAction(boundLocale: string, formData: FormDat
   } catch (error) {
     if (isRedirectError(error)) throw error;
     redirect(`/${locale}/companies/${companyId}/edit?error=validation`);
+  }
+}
+
+export async function deleteCompanyAction(boundLocale: string, formData: FormData) {
+  const locale = isLocale(boundLocale) ? boundLocale : "en";
+  const session = await requireWritableUser(locale);
+  const companyId = String(formData.get("companyId") ?? "");
+  const confirm = String(formData.get("confirm") ?? "") === "1";
+
+  if (!companyId) {
+    redirect(`/${locale}/companies?error=missing`);
+  }
+
+  if (!confirm) {
+    redirect(`/${locale}/companies/${companyId}?error=confirm`);
+  }
+
+  if (session.role !== "admin") {
+    redirect(`/${locale}/access-denied`);
+  }
+
+  try {
+    const deleted = await deleteCompany(companyId);
+
+    if (!deleted) {
+      redirect(`/${locale}/companies?error=missing`);
+    }
+
+    revalidatePath(`/${locale}/companies`);
+    revalidatePath(`/${locale}/contacts`);
+    revalidatePath(`/${locale}/interactions`);
+    revalidatePath(`/${locale}/tasks`);
+    revalidatePath(`/${locale}/opportunities`);
+    redirect(`/${locale}/companies?success=deleted`);
+  } catch (error) {
+    if (isRedirectError(error)) throw error;
+
+    if (error instanceof DeleteBlockedError) {
+      const params = new URLSearchParams({
+        error: "blocked",
+        blockedBy: error.blockedBy.join(",")
+      });
+      redirect(`/${locale}/companies/${companyId}?${params.toString()}`);
+    }
+
+    redirect(`/${locale}/companies/${companyId}?error=delete`);
   }
 }

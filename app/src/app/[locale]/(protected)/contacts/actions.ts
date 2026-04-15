@@ -5,7 +5,14 @@ import {isRedirectError} from "next/dist/client/components/redirect-error";
 import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
-import {createContact, normalizeContactPayload, updateContact, ValidationError} from "@/lib/data/crm";
+import {
+  createContact,
+  deleteContact,
+  DeleteBlockedError,
+  normalizeContactPayload,
+  updateContact,
+  ValidationError
+} from "@/lib/data/crm";
 
 async function requireWritableUser(locale: string) {
   const session = await getCurrentSession();
@@ -106,5 +113,50 @@ export async function updateContactAction(boundLocale: string, formData: FormDat
   } catch (error) {
     if (isRedirectError(error)) throw error;
     redirect(`/${locale}/contacts/${contactId}/edit?error=validation`);
+  }
+}
+
+export async function deleteContactAction(boundLocale: string, formData: FormData) {
+  const locale = isLocale(boundLocale) ? boundLocale : "en";
+  const session = await requireWritableUser(locale);
+  const contactId = String(formData.get("contactId") ?? "");
+  const confirm = String(formData.get("confirm") ?? "") === "1";
+
+  if (!contactId) {
+    redirect(`/${locale}/contacts?error=missing`);
+  }
+
+  if (!confirm) {
+    redirect(`/${locale}/contacts/${contactId}?error=confirm`);
+  }
+
+  if (session.role !== "admin") {
+    redirect(`/${locale}/access-denied`);
+  }
+
+  try {
+    const deleted = await deleteContact(contactId);
+
+    if (!deleted) {
+      redirect(`/${locale}/contacts?error=missing`);
+    }
+
+    revalidatePath(`/${locale}/contacts`);
+    revalidatePath(`/${locale}/interactions`);
+    revalidatePath(`/${locale}/tasks`);
+    revalidatePath(`/${locale}/opportunities`);
+    redirect(`/${locale}/contacts?success=deleted`);
+  } catch (error) {
+    if (isRedirectError(error)) throw error;
+
+    if (error instanceof DeleteBlockedError) {
+      const params = new URLSearchParams({
+        error: "blocked",
+        blockedBy: error.blockedBy.join(",")
+      });
+      redirect(`/${locale}/contacts/${contactId}?${params.toString()}`);
+    }
+
+    redirect(`/${locale}/contacts/${contactId}?error=delete`);
   }
 }

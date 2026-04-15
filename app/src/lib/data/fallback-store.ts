@@ -896,6 +896,100 @@ export async function updateFallbackOpportunity(input: {
   return opportunity;
 }
 
+export async function deleteFallbackCompany(id: string) {
+  const state = getState();
+  const company = state.companies.find((item) => item.id === id);
+
+  if (!company) {
+    return {deleted: false, blockedBy: [] as string[]};
+  }
+
+  const contactsCount = state.contacts.filter((contact) => contact.companyId === id).length;
+  const interactionsCount = state.interactions.filter((interaction) => interaction.companyId === id).length;
+  const tasksCount = state.tasks.filter((task) => task.companyId === id).length;
+  const opportunitiesCount = state.opportunities.filter((opportunity) => opportunity.companyId === id).length;
+  const blockedBy: string[] = [];
+
+  if (contactsCount > 0) blockedBy.push("contacts");
+  if (interactionsCount > 0) blockedBy.push("interactions");
+  if (tasksCount > 0) blockedBy.push("tasks");
+  if (opportunitiesCount > 0) blockedBy.push("opportunities");
+
+  if (blockedBy.length > 0) {
+    return {deleted: false, blockedBy};
+  }
+
+  state.companies = state.companies.filter((item) => item.id !== id);
+  return {deleted: true, blockedBy: [] as string[]};
+}
+
+export async function deleteFallbackContact(id: string) {
+  const state = getState();
+  const contact = state.contacts.find((item) => item.id === id);
+
+  if (!contact) {
+    return {deleted: false, blockedBy: [] as string[]};
+  }
+
+  const interactionsCount = state.interactions.filter((interaction) => interaction.contactId === id).length;
+  const tasksCount = state.tasks.filter((task) => task.contactId === id).length;
+  const opportunitiesCount = state.opportunities.filter((opportunity) => opportunity.contactId === id).length;
+  const blockedBy: string[] = [];
+
+  if (interactionsCount > 0) blockedBy.push("interactions");
+  if (tasksCount > 0) blockedBy.push("tasks");
+  if (opportunitiesCount > 0) blockedBy.push("opportunities");
+
+  if (blockedBy.length > 0) {
+    return {deleted: false, blockedBy};
+  }
+
+  state.contacts = state.contacts.filter((item) => item.id !== id);
+  return {deleted: true, blockedBy: [] as string[]};
+}
+
+export async function deleteFallbackInteraction(id: string) {
+  const state = getState();
+  const interaction = state.interactions.find((item) => item.id === id);
+
+  if (!interaction) {
+    return {deleted: false, blockedBy: [] as string[]};
+  }
+
+  const tasksCount = state.tasks.filter((task) => task.relatedInteractionId === id).length;
+
+  if (tasksCount > 0) {
+    return {deleted: false, blockedBy: ["tasks"]};
+  }
+
+  state.interactions = state.interactions.filter((item) => item.id !== id);
+  return {deleted: true, blockedBy: [] as string[]};
+}
+
+export async function deleteFallbackTask(id: string) {
+  const state = getState();
+  const task = state.tasks.find((item) => item.id === id);
+
+  if (!task) {
+    return {deleted: false, blockedBy: [] as string[]};
+  }
+
+  state.tasks = state.tasks.filter((item) => item.id !== id);
+  return {deleted: true, blockedBy: [] as string[]};
+}
+
+export async function deleteFallbackOpportunity(id: string) {
+  const state = getState();
+  const opportunity = state.opportunities.find((item) => item.id === id);
+
+  if (!opportunity) {
+    return {deleted: false, blockedBy: [] as string[]};
+  }
+
+  state.opportunities = state.opportunities.filter((item) => item.id !== id);
+  return {deleted: true, blockedBy: [] as string[]};
+}
+
 function combineFallbackNotes(primary: string | null | undefined, duplicate: string | null | undefined) {
   const primaryText = primary?.trim() ?? "";
   const duplicateText = duplicate?.trim() ?? "";

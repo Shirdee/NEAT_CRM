@@ -4,10 +4,11 @@ import {notFound} from "next/navigation";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getTaskById} from "@/lib/data/crm";
+import {deleteTaskAction} from "../actions";
 
 type TaskDetailPageProps = {
   params: Promise<{locale: "en" | "he"; taskId: string}>;
-  searchParams: Promise<{success?: string}>;
+  searchParams: Promise<{success?: string; error?: string}>;
 };
 
 function labelForLocale(
@@ -30,7 +31,7 @@ function formatDate(locale: "en" | "he", value: Date | string | null) {
 
 export default async function TaskDetailPage({params, searchParams}: TaskDetailPageProps) {
   const {locale, taskId} = await params;
-  const {success} = await searchParams;
+  const {success, error} = await searchParams;
   const t = await getTranslations("TaskDetail");
   const session = await getCurrentSession();
   const task = await getTaskById(taskId);
@@ -41,6 +42,11 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
 
   return (
     <div className="space-y-6">
+      {error ? (
+        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          {error === "confirm" ? t("deleteConfirmError") : t("deleteError")}
+        </p>
+      ) : null}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
@@ -48,13 +54,28 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
           <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
         </div>
         {session && canEditRecords(session.role) ? (
-          <Link
-            className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
-            href={`/tasks/${task.id}/edit`}
-            locale={locale}
-          >
-            {t("edit")}
-          </Link>
+          <div className="space-y-2">
+            <Link
+              className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
+              href={`/tasks/${task.id}/edit`}
+              locale={locale}
+            >
+              {t("edit")}
+            </Link>
+            <form action={deleteTaskAction.bind(null, locale)} className="space-y-2">
+              <input name="taskId" type="hidden" value={task.id} />
+              <label className="flex items-center gap-2 text-xs text-slate-600">
+                <input name="confirm" type="checkbox" value="1" />
+                {t("deleteConfirm")}
+              </label>
+              <button
+                className="inline-flex rounded-full bg-rose-700 px-5 py-3 text-sm font-medium text-white"
+                type="submit"
+              >
+                {t("delete")}
+              </button>
+            </form>
+          </div>
         ) : null}
       </div>
 

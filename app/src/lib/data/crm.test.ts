@@ -4,6 +4,9 @@ import {resetFallbackStore} from "./fallback-store";
 import {
   createCompany,
   createContact,
+  deleteCompany,
+  deleteTask,
+  DeleteBlockedError,
   getCompanyById,
   listCompanies,
   listContacts,
@@ -83,6 +86,16 @@ describe("crm fallback repository", () => {
     const company = await getCompanyById("company_northern");
 
     expect(company?.contacts.some((contact) => contact.fullName === "Maya Levi")).toBe(true);
+  });
+
+  it("blocks deleting a company with linked records", async () => {
+    await expect(deleteCompany("company_northern")).rejects.toBeInstanceOf(DeleteBlockedError);
+  });
+
+  it("deletes a task without dependencies", async () => {
+    const task = await deleteTask("task_talia_archive");
+
+    expect(task).toBe(true);
   });
 
   it("normalizes contact payload from multiline form fields", () => {

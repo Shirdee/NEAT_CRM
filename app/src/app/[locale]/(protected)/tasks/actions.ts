@@ -7,6 +7,7 @@ import {redirect} from "next/navigation";
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
 import {
   createTask,
+  deleteTask,
   normalizeTaskPayload,
   updateTask,
   validateCompanyContactMatch,
@@ -126,4 +127,31 @@ export async function updateTaskAction(boundLocale: string, formData: FormData) 
 
     redirect(`/${locale}/tasks/${taskId}/edit?error=validation`);
   }
+}
+
+export async function deleteTaskAction(boundLocale: string, formData: FormData) {
+  const locale = isLocale(boundLocale) ? boundLocale : "en";
+  await requireWritableUser(locale);
+  const taskId = String(formData.get("taskId") ?? "");
+  const confirm = String(formData.get("confirm") ?? "") === "1";
+
+  if (!taskId) {
+    redirect(`/${locale}/tasks?error=missing`);
+  }
+
+  if (!confirm) {
+    redirect(`/${locale}/tasks/${taskId}?error=confirm`);
+  }
+
+  const deleted = await deleteTask(taskId);
+
+  if (!deleted) {
+    redirect(`/${locale}/tasks?error=missing`);
+  }
+
+  revalidatePath(`/${locale}/tasks`);
+  revalidatePath(`/${locale}/interactions`);
+  revalidatePath(`/${locale}/companies`);
+  revalidatePath(`/${locale}/contacts`);
+  redirect(`/${locale}/tasks?success=deleted`);
 }

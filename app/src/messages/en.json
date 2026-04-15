@@ -363,7 +363,13 @@
     "overdueTasksCount": "{count, plural, one {# overdue follow-up} other {# overdue follow-ups}}",
     "contactsEmpty": "This company does not have related contacts yet.",
     "noNotes": "No company notes yet.",
-    "noRole": "No role set"
+    "noRole": "No role set",
+    "delete": "Delete company",
+    "deleteConfirm": "I understand this permanently deletes this company record.",
+    "deleteConfirmError": "Confirm deletion before submitting.",
+    "deleteError": "Company could not be deleted.",
+    "deleteBlocked": "Company cannot be deleted because linked records exist: {blockedBy}.",
+    "deleteBlockedUnknown": "related records"
   },
   "Contacts": {
     "title": "Contacts",
@@ -422,7 +428,13 @@
     "noEmails": "No emails saved yet.",
     "noPhones": "No phone numbers saved yet.",
     "noCompany": "No linked company",
-    "noNotes": "No contact notes yet."
+    "noNotes": "No contact notes yet.",
+    "delete": "Delete contact",
+    "deleteConfirm": "I understand this permanently deletes this contact record.",
+    "deleteConfirmError": "Confirm deletion before submitting.",
+    "deleteError": "Contact could not be deleted.",
+    "deleteBlocked": "Contact cannot be deleted because linked records exist: {blockedBy}.",
+    "deleteBlockedUnknown": "related records"
   },
   "Interactions": {
     "title": "Interactions",
@@ -457,7 +469,13 @@
     "tasksEmpty": "No follow-up tasks are linked to this interaction yet.",
     "noTaskNotes": "Task without notes",
     "noCompany": "No linked company",
-    "noContact": "No linked contact"
+    "noContact": "No linked contact",
+    "delete": "Delete interaction",
+    "deleteConfirm": "I understand this permanently deletes this interaction record.",
+    "deleteConfirmError": "Confirm deletion before submitting.",
+    "deleteError": "Interaction could not be deleted.",
+    "deleteBlocked": "Interaction cannot be deleted because linked records exist: {blockedBy}.",
+    "deleteBlockedUnknown": "related records"
   },
   "InteractionForm": {
     "createTitle": "Log interaction",
@@ -530,7 +548,11 @@
     "closeDate": "Target close",
     "notes": "Notes",
     "noNotes": "No notes added yet.",
-    "back": "Back to opportunities"
+    "back": "Back to opportunities",
+    "delete": "Delete opportunity",
+    "deleteConfirm": "I understand this permanently deletes this opportunity record.",
+    "deleteConfirmError": "Confirm deletion before submitting.",
+    "deleteError": "Opportunity could not be deleted."
   },
   "OpportunityForm": {
     "createTitle": "Create opportunity",
@@ -597,7 +619,11 @@
     "noInteraction": "No linked interaction",
     "noCompany": "No linked company",
     "noContact": "No linked contact",
-    "noNotes": "Task without notes"
+    "noNotes": "Task without notes",
+    "delete": "Delete follow-up",
+    "deleteConfirm": "I understand this permanently deletes this follow-up task.",
+    "deleteConfirmError": "Confirm deletion before submitting.",
+    "deleteError": "Follow-up could not be deleted."
   },
   "TaskForm": {
     "createTitle": "Create follow-up",

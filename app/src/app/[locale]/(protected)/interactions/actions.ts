@@ -7,6 +7,8 @@ import {redirect} from "next/navigation";
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
 import {
   createInteraction,
+  deleteInteraction,
+  DeleteBlockedError,
   normalizeInteractionPayload,
   updateInteraction,
   validateCompanyContactMatch,
@@ -147,5 +149,46 @@ export async function updateInteractionAction(boundLocale: string, formData: For
     redirect(
       `/${locale}/interactions/${interactionId}/edit?${buildInteractionRedirectParams(formData, "validation")}`
     );
+  }
+}
+
+export async function deleteInteractionAction(boundLocale: string, formData: FormData) {
+  const locale = isLocale(boundLocale) ? boundLocale : "en";
+  await requireWritableUser(locale);
+  const interactionId = String(formData.get("interactionId") ?? "");
+  const confirm = String(formData.get("confirm") ?? "") === "1";
+
+  if (!interactionId) {
+    redirect(`/${locale}/interactions?error=missing`);
+  }
+
+  if (!confirm) {
+    redirect(`/${locale}/interactions/${interactionId}?error=confirm`);
+  }
+
+  try {
+    const deleted = await deleteInteraction(interactionId);
+
+    if (!deleted) {
+      redirect(`/${locale}/interactions?error=missing`);
+    }
+
+    revalidatePath(`/${locale}/interactions`);
+    revalidatePath(`/${locale}/tasks`);
+    revalidatePath(`/${locale}/companies`);
+    revalidatePath(`/${locale}/contacts`);
+    redirect(`/${locale}/interactions?success=deleted`);
+  } catch (error) {
+    if (isRedirectError(error)) throw error;
+
+    if (error instanceof DeleteBlockedError) {
+      const params = new URLSearchParams({
+        error: "blocked",
+        blockedBy: error.blockedBy.join(",")
+      });
+      redirect(`/${locale}/interactions/${interactionId}?${params.toString()}`);
+    }
+
+    redirect(`/${locale}/interactions/${interactionId}?error=delete`);
   }
 }
