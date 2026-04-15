@@ -1,8 +1,9 @@
 import {NextResponse} from "next/server";
 
 import {canManageAdminLists, getCurrentSession} from "@/lib/auth/session";
-import {stageImportRows} from "@/lib/import/repository";
+import {stageStructuredReimportRows} from "@/lib/import/repository";
 import type {StageableImportRow} from "@/lib/import/types";
+import {validateStructuredStageableRows} from "@/lib/import/workbook";
 
 type RouteContext = {
   params: Promise<{batchId: string}>;
@@ -25,7 +26,13 @@ export async function POST(request: Request, {params}: RouteContext) {
       return NextResponse.json({error: "Missing staged rows"}, {status: 400});
     }
 
-    const result = await stageImportRows({
+    const rowValidation = validateStructuredStageableRows(body.rows);
+
+    if (!rowValidation.ok) {
+      return NextResponse.json({error: rowValidation.error}, {status: 400});
+    }
+
+    const result = await stageStructuredReimportRows({
       batchId,
       rows: body.rows
     });

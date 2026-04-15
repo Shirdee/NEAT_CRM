@@ -7,15 +7,20 @@ import {listAdminListCategories} from "@/lib/data/repository";
 import {
   normalizeCompanyName,
   normalizeLookupValue,
-  normalizePersonName
+  normalizePhoneNumber,
+  normalizePersonName,
+  splitMultiValue
 } from "./normalize";
 import type {
+  BatchIntakeSource,
   BatchSummary,
+  InboundLeadPayload,
   ImportEntityType,
   ImportBatchListItem,
   ImportBatchReview,
   ImportIssueRecord,
   ImportRowReviewDecision,
+  StagedIntakeEnvelope,
   StageableImportRow,
   WorkbookProfile
 } from "./types";
@@ -163,6 +168,7 @@ async function getPrisma() {
 function buildEmptySummary(profile: WorkbookProfile): BatchSummary {
   return {
     profile,
+    intakeSource: null,
     counts: {
       totalRows: 0,
       readyRows: 0,
@@ -221,7 +227,126 @@ function mapBatchListItem(batch: PersistedImportBatch): ImportBatchListItem {
     status: batch.status,
     startedAt: batch.startedAt,
     completedAt: batch.completedAt,
+    intakeSource: batch.summaryJson?.intakeSource ?? null,
     summary: batch.summaryJson
+  };
+}
+
+function createBatchIntakeSource(input: {
+  sourceFilename: string;
+  intakeSource?: Partial<BatchIntakeSource>;
+}): BatchIntakeSource {
+  return {
+    channel: input.intakeSource?.channel ?? "structured_reimport",
+    sourceLabel: input.intakeSource?.sourceLabel ?? input.sourceFilename,
+    sourceRef: input.intakeSource?.sourceRef ?? input.sourceFilename,
+    receivedAt: input.intakeSource?.receivedAt ?? new Date().toISOString(),
+    submittedByType: input.intakeSource?.submittedByType ?? "admin",
+    locale: input.intakeSource?.locale ?? null
+  };
+}
+
+function readIntakeEnvelopeFromNormalizedJson(
+  normalizedJson: Record<string, unknown>
+): StagedIntakeEnvelope | null {
+  const candidate = normalizedJson.intakeEnvelope;
+
+  if (!candidate || typeof candidate !== "object") {
+    return null;
+  }
+
+  return candidate as StagedIntakeEnvelope;
+}
+
+function readIntakePayloadFromNormalizedJson(
+  normalizedJson: Record<string, unknown>
+): InboundLeadPayload | null {
+  const candidate = normalizedJson.intakePayload;
+
+  if (!candidate || typeof candidate !== "object") {
+    return null;
+  }
+
+  return candidate as InboundLeadPayload;
+}
+
+function mergeNormalizedRowState(input: {
+  normalizedFields: Record<string, unknown>;
+  intakeEnvelope: StagedIntakeEnvelope | null;
+  intakePayload: InboundLeadPayload | null;
+}) {
+  return {
+    ...input.normalizedFields,
+    intakeEnvelope: input.intakeEnvelope,
+    intakePayload: input.intakePayload
+  };
+}
+
+function getRawFieldValue(rawFields: Record<string, string>, candidates: string[]) {
+  for (const candidate of candidates) {
+    const value = rawFields[candidate];
+
+    if (typeof value === "string" && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return null;
+}
+
+function deriveInboundLeadPayload(
+  rawFields: Record<string, string>,
+  override?: Partial<InboundLeadPayload>
+): InboundLeadPayload {
+  const companyName = override?.companyName ?? getRawFieldValue(rawFields, ["company_name", "company", "account_name"]);
+  const contactFullName =
+    override?.contactFullName ?? getRawFieldValue(rawFields, ["full_name", "contact_full_name", "contact_name"]);
+  const contactFirstName =
+    override?.contactFirstName ?? getRawFieldValue(rawFields, ["first_name", "contact_first_name"]);
+  const contactLastName =
+    override?.contactLastName ?? getRawFieldValue(rawFields, ["last_name", "contact_last_name"]);
+  const emailValue = getRawFieldValue(rawFields, ["email", "emails", "email_address"]);
+  const phoneValue = getRawFieldValue(rawFields, ["phone", "phones", "mobile", "phone_number"]);
+
+  return {
+    companyName: companyName ?? null,
+    contactFullName: contactFullName ?? null,
+    contactFirstName: contactFirstName ?? null,
+    contactLastName: contactLastName ?? null,
+    emails: override?.emails ?? (emailValue ? splitMultiValue(emailValue) : []),
+    phones:
+      override?.phones ??
+      (phoneValue ? splitMultiValue(phoneValue).map((value) => normalizePhoneNumber(value)) : []),
+    website:
+      override?.website ?? getRawFieldValue(rawFields, ["website", "website_url", "company_website"]) ?? null,
+    notes: override?.notes ?? getRawFieldValue(rawFields, ["notes", "message", "summary", "details"]) ?? null,
+    leadSourceRaw:
+      override?.leadSourceRaw ?? getRawFieldValue(rawFields, ["lead_source", "source", "lead_source_raw"]) ?? null
+  };
+}
+
+export type StagedIntakeRecordInput = {
+  row: StageableImportRow;
+  intakeEnvelope?: Partial<StagedIntakeEnvelope>;
+  intakePayload?: Partial<InboundLeadPayload>;
+};
+
+function buildStagedIntakeRecord(
+  record: StagedIntakeRecordInput,
+  batchIntakeSource: BatchIntakeSource
+) {
+  const rawFields = serializeRow(record.row);
+  const intakeEnvelope: StagedIntakeEnvelope = {
+    ...batchIntakeSource,
+    ...record.intakeEnvelope,
+    rawFields: record.intakeEnvelope?.rawFields ?? rawFields
+  };
+
+  return {
+    row: record.row,
+    rawFields,
+    intakeEnvelope,
+    intakePayload: deriveInboundLeadPayload(rawFields, record.intakePayload)
   };
 }
 
@@ -416,6 +541,7 @@ async function writeValidationState(batchId: string, input: {
   }, {});
   const summary: BatchSummary = {
     profile: input.profile,
+    intakeSource: input.currentSummary?.intakeSource ?? null,
     counts: {
       totalRows: input.rows.length,
       readyRows: input.rows.filter((row) => row.status === "ready").length,
@@ -461,7 +587,11 @@ async function writeValidationState(batchId: string, input: {
         ...row,
         entityType: next.entityType,
         status: next.status,
-        normalizedJson: next.normalizedFields,
+        normalizedJson: mergeNormalizedRowState({
+          normalizedFields: next.normalizedFields,
+          intakeEnvelope: readIntakeEnvelopeFromNormalizedJson(row.normalizedJson),
+          intakePayload: readIntakePayloadFromNormalizedJson(row.normalizedJson)
+        }),
         reviewJson: next.reviewDecision,
         fingerprint: next.duplicateFingerprints[0] ?? null,
         updatedAt: now
@@ -564,18 +694,54 @@ function importCommitPriority(entityType: string) {
   }
 }
 
+type ImportCommitOutcome = {
+  status: "committed" | "skipped";
+  action: "created" | "attached_existing" | "skipped";
+  targetEntityType: string | null;
+  targetEntityId: string | null;
+  linkedCompanyId: string | null;
+  linkedContactId: string | null;
+  reason: string | null;
+};
+
+function withCommitAudit(
+  normalizedJson: Record<string, unknown>,
+  input: {
+    batchId: string;
+    sourceFilename: string;
+    sourceRowKey: string;
+    committedAt: string;
+    outcome: ImportCommitOutcome;
+  }
+) {
+  return {
+    ...normalizedJson,
+    importCommit: {
+      batchId: input.batchId,
+      sourceFilename: input.sourceFilename,
+      sourceRowKey: input.sourceRowKey,
+      committedAt: input.committedAt,
+      ...input.outcome
+    }
+  };
+}
+
 export async function createImportBatch(input: {
   uploadedById: string;
   sourceFilename: string;
   profile: WorkbookProfile;
+  intakeSource?: Partial<BatchIntakeSource>;
 }) {
-  const summary = buildEmptySummary(input.profile);
+  const summary = {
+    ...buildEmptySummary(input.profile),
+    intakeSource: createBatchIntakeSource({
+      sourceFilename: input.sourceFilename,
+      intakeSource: input.intakeSource
+    })
+  };
 
   if (!hasDatabaseUrl()) {
     const state = getFallbackState();
-    state.batches = [];
-    state.rows = [];
-    state.issues = [];
 
     const batch: PersistedImportBatch = {
       id: randomUUID(),
@@ -592,17 +758,13 @@ export async function createImportBatch(input: {
   }
 
   const prisma = (await getPrisma()) as any;
-  const batch = await prisma.$transaction(async (transaction: any) => {
-    await transaction.importBatch.deleteMany();
-
-    return transaction.importBatch.create({
-      data: {
-        uploadedById: input.uploadedById,
-        sourceFilename: input.sourceFilename,
-        status: "profiling",
-        summaryJson: toJsonValue(summary)
-      }
-    });
+  const batch = await prisma.importBatch.create({
+    data: {
+      uploadedById: input.uploadedById,
+      sourceFilename: input.sourceFilename,
+      status: "profiling",
+      summaryJson: toJsonValue(summary)
+    }
   });
 
   return mapBatchListItem({
@@ -616,37 +778,46 @@ export async function createImportBatch(input: {
   });
 }
 
-export async function stageImportRows(input: {
+export async function stageInboundRecords(input: {
   batchId: string;
-  rows: StageableImportRow[];
+  records: StagedIntakeRecordInput[];
 }) {
   const now = new Date().toISOString();
+  const persistedBatch = await readPersistedBatch(input.batchId);
+  const batchIntakeSource =
+    persistedBatch.batch.summaryJson?.intakeSource ??
+    createBatchIntakeSource({
+      sourceFilename: persistedBatch.batch.sourceFilename
+    });
+  const records = input.records.map((record) => buildStagedIntakeRecord(record, batchIntakeSource));
 
   if (!hasDatabaseUrl()) {
     const state = getFallbackState();
 
-    for (const row of input.rows) {
-      const sourceRowKey = `${row.sheetName}:${row.rowNumber}`;
+    for (const record of records) {
+      const sourceRowKey = `${record.row.sheetName}:${record.row.rowNumber}`;
       const existingIndex = state.rows.findIndex(
         (candidate) => candidate.batchId === input.batchId && candidate.sourceRowKey === sourceRowKey
       );
+      const previousRow = existingIndex >= 0 ? state.rows[existingIndex] : null;
       const nextRow: PersistedImportRow = {
-        id: existingIndex >= 0 ? state.rows[existingIndex].id : randomUUID(),
+        id: previousRow?.id ?? randomUUID(),
         batchId: input.batchId,
-        entityType: "unknown",
-        sheetName: row.sheetName,
-        rowNumber: row.rowNumber,
+        entityType: previousRow?.entityType ?? "unknown",
+        sheetName: record.row.sheetName,
+        rowNumber: record.row.rowNumber,
         sourceRowKey,
         status: "staged",
-        rawJson: serializeRow(row),
-        normalizedJson: {},
-        reviewJson:
-          existingIndex >= 0
-            ? state.rows[existingIndex].reviewJson ?? getDefaultReviewDecision()
-            : getDefaultReviewDecision(),
-        fingerprint: null,
-        committedAt: null,
-        createdAt: existingIndex >= 0 ? state.rows[existingIndex].createdAt : now,
+        rawJson: record.rawFields,
+        normalizedJson: mergeNormalizedRowState({
+          normalizedFields: previousRow?.normalizedJson ?? {},
+          intakeEnvelope: record.intakeEnvelope,
+          intakePayload: record.intakePayload
+        }),
+        reviewJson: previousRow?.reviewJson ?? getDefaultReviewDecision(),
+        fingerprint: previousRow?.fingerprint ?? null,
+        committedAt: previousRow?.committedAt ?? null,
+        createdAt: previousRow?.createdAt ?? now,
         updatedAt: now
       };
 
@@ -660,29 +831,42 @@ export async function stageImportRows(input: {
     const prisma = (await getPrisma()) as any;
 
     await prisma.$transaction(
-      input.rows.map((row) =>
+      records.map((record) =>
         prisma.importRow.upsert({
           where: {
             batchId_sourceRowKey: {
               batchId: input.batchId,
-              sourceRowKey: `${row.sheetName}:${row.rowNumber}`
+              sourceRowKey: `${record.row.sheetName}:${record.row.rowNumber}`
             }
           },
           update: {
-            rawJson: toJsonValue(serializeRow(row)),
-            sheetName: row.sheetName,
-            rowNumber: row.rowNumber,
+            rawJson: toJsonValue(record.rawFields),
+            normalizedJson: toJsonValue(
+              mergeNormalizedRowState({
+                normalizedFields: {},
+                intakeEnvelope: record.intakeEnvelope,
+                intakePayload: record.intakePayload
+              })
+            ),
+            sheetName: record.row.sheetName,
+            rowNumber: record.row.rowNumber,
             status: "staged"
           },
           create: {
             batchId: input.batchId,
             entityType: "unknown",
-            sheetName: row.sheetName,
-            rowNumber: row.rowNumber,
-            sourceRowKey: `${row.sheetName}:${row.rowNumber}`,
+            sheetName: record.row.sheetName,
+            rowNumber: record.row.rowNumber,
+            sourceRowKey: `${record.row.sheetName}:${record.row.rowNumber}`,
             status: "staged",
-            rawJson: toJsonValue(serializeRow(row)),
-            normalizedJson: toJsonValue({}),
+            rawJson: toJsonValue(record.rawFields),
+            normalizedJson: toJsonValue(
+              mergeNormalizedRowState({
+                normalizedFields: {},
+                intakeEnvelope: record.intakeEnvelope,
+                intakePayload: record.intakePayload
+              })
+            ),
             reviewJson: toJsonValue(getDefaultReviewDecision())
           }
         })
@@ -712,7 +896,20 @@ export async function stageImportRows(input: {
   });
 
   const summary = await writeValidationState(input.batchId, {
-    rows: validation.rows,
+    rows: validation.rows.map((row) => {
+      const persistedRow = persisted.rows.find(
+        (candidate: PersistedImportRow) => candidate.sourceRowKey === row.sourceRowKey
+      );
+
+      return {
+        ...row,
+        normalizedFields: mergeNormalizedRowState({
+          normalizedFields: row.normalizedFields,
+          intakeEnvelope: persistedRow ? readIntakeEnvelopeFromNormalizedJson(persistedRow.normalizedJson) : null,
+          intakePayload: persistedRow ? readIntakePayloadFromNormalizedJson(persistedRow.normalizedJson) : null
+        })
+      };
+    }),
     issues: validation.issues,
     profile: persisted.batch.summaryJson?.profile ?? buildEmptySummary({sheetCount: 0, totalDataRows: 0, sheets: [], risks: []}).profile,
     currentSummary: persisted.batch.summaryJson
@@ -725,12 +922,59 @@ export async function stageImportRows(input: {
   };
 }
 
+function buildStructuredReimportEnvelope(input?: {
+  sourceRef?: string | null;
+  locale?: string | null;
+  receivedAt?: string;
+}): BatchIntakeSource {
+  return {
+    channel: "structured_reimport",
+    sourceLabel: "Structured Re-Import",
+    sourceRef: input?.sourceRef ?? "structured_reimport",
+    receivedAt: input?.receivedAt ?? new Date().toISOString(),
+    submittedByType: "admin",
+    locale: input?.locale ?? null
+  };
+}
+
+export async function stageImportRows(input: {
+  batchId: string;
+  rows: StageableImportRow[];
+}) {
+  return stageInboundRecords({
+    batchId: input.batchId,
+    records: input.rows.map((row) => ({
+      row,
+      intakeEnvelope: {
+        ...buildStructuredReimportEnvelope()
+      }
+    }))
+  });
+}
+
+export async function stageStructuredReimportRows(input: {
+  batchId: string;
+  rows: StageableImportRow[];
+  sourceRef?: string | null;
+  locale?: string | null;
+}) {
+  return stageInboundRecords({
+    batchId: input.batchId,
+    records: input.rows.map((row) => ({
+      row,
+      intakeEnvelope: buildStructuredReimportEnvelope({
+        sourceRef: input.sourceRef,
+        locale: input.locale
+      })
+    }))
+  });
+}
+
 export async function listImportBatches() {
   if (!hasDatabaseUrl()) {
     return getFallbackState().batches
       .slice()
       .sort((left, right) => right.startedAt.localeCompare(left.startedAt))
-      .slice(0, 1)
       .map(mapBatchListItem);
   }
 
@@ -751,7 +995,7 @@ export async function listImportBatches() {
       completedAt: batch.completedAt?.toISOString() ?? null,
       summaryJson: (batch.summaryJson as BatchSummary | null) ?? null
     })
-  ).slice(0, 1);
+  );
 }
 
 export async function getImportBatchReview(batchId: string): Promise<ImportBatchReview | null> {
@@ -787,6 +1031,8 @@ export async function getImportBatchReview(batchId: string): Promise<ImportBatch
             (row.normalizedJson.companyName as string | undefined) ??
             (row.normalizedJson.fullName as string | undefined) ??
             row.sourceRowKey,
+          intakeEnvelope: readIntakeEnvelopeFromNormalizedJson(row.normalizedJson),
+          intakePayload: readIntakePayloadFromNormalizedJson(row.normalizedJson),
           rawFields: row.rawJson,
           normalizedFields: row.normalizedJson,
           reviewDecision: row.reviewJson ?? getDefaultReviewDecision()
@@ -814,6 +1060,22 @@ export async function updateImportRow(input: {
     ...(targetRow.reviewJson ?? getDefaultReviewDecision()),
     ...(input.reviewDecision ?? {})
   };
+  const currentEnvelope = readIntakeEnvelopeFromNormalizedJson(targetRow.normalizedJson);
+  const nextEnvelope = currentEnvelope
+    ? {
+        ...currentEnvelope,
+        rawFields: input.rawFields
+      }
+    : null;
+  const nextIntakePayload = deriveInboundLeadPayload(
+    input.rawFields,
+    readIntakePayloadFromNormalizedJson(targetRow.normalizedJson) ?? undefined
+  );
+  const nextNormalizedJson = mergeNormalizedRowState({
+    normalizedFields: targetRow.normalizedJson,
+    intakeEnvelope: nextEnvelope,
+    intakePayload: nextIntakePayload
+  });
 
   if (!hasDatabaseUrl()) {
     const state = getFallbackState();
@@ -822,6 +1084,7 @@ export async function updateImportRow(input: {
         ? {
             ...row,
             rawJson: input.rawFields,
+            normalizedJson: nextNormalizedJson,
             status: "staged",
             reviewJson: nextReviewDecision,
             updatedAt: new Date().toISOString()
@@ -836,6 +1099,7 @@ export async function updateImportRow(input: {
       },
       data: {
         rawJson: toJsonValue(input.rawFields),
+        normalizedJson: toJsonValue(nextNormalizedJson),
         status: "staged",
         reviewJson: toJsonValue(nextReviewDecision)
       }
@@ -864,7 +1128,20 @@ export async function updateImportRow(input: {
   });
 
   const summary = await writeValidationState(input.batchId, {
-    rows: validation.rows,
+    rows: validation.rows.map((row) => {
+      const persistedRow = refreshed.rows.find(
+        (candidate: PersistedImportRow) => candidate.sourceRowKey === row.sourceRowKey
+      );
+
+      return {
+        ...row,
+        normalizedFields: mergeNormalizedRowState({
+          normalizedFields: row.normalizedFields,
+          intakeEnvelope: persistedRow ? readIntakeEnvelopeFromNormalizedJson(persistedRow.normalizedJson) : null,
+          intakePayload: persistedRow ? readIntakePayloadFromNormalizedJson(persistedRow.normalizedJson) : null
+        })
+      };
+    }),
     issues: validation.issues,
     profile: refreshed.batch.summaryJson?.profile ?? buildEmptySummary({
       sheetCount: 0,
@@ -1002,6 +1279,7 @@ export async function commitImportBatch(input: {
   let updated = 0;
   let skipped = 0;
   const committedAt = new Date().toISOString();
+  const committedNormalizedRows = new Map<string, Record<string, unknown>>();
   const readyRows = persisted.rows
     .filter((candidate: PersistedImportRow) => candidate.status === "ready")
     .slice()
@@ -1017,12 +1295,35 @@ export async function commitImportBatch(input: {
     const reviewDecision = row.reviewJson ?? getDefaultReviewDecision();
     const companyName = typeof normalized.companyName === "string" ? normalized.companyName : "";
     const fullName = typeof normalized.fullName === "string" ? normalized.fullName : "";
+    let outcome: ImportCommitOutcome = {
+      status: "skipped",
+      action: "skipped",
+      targetEntityType: null,
+      targetEntityId: null,
+      linkedCompanyId: null,
+      linkedContactId: null,
+      reason: "unsupported_entity_type"
+    };
 
     if (!hasDatabaseUrl()) {
       const state = getFallbackState();
 
       if (reviewDecision.reviewState === "skipped" || reviewDecision.duplicateDecision === "skip") {
         skipped += 1;
+        outcome = {
+          ...outcome,
+          reason: "review_skipped"
+        };
+        committedNormalizedRows.set(
+          row.id,
+          withCommitAudit(row.normalizedJson, {
+            batchId: input.batchId,
+            sourceFilename: persisted.batch.sourceFilename,
+            sourceRowKey: row.sourceRowKey,
+            committedAt,
+            outcome
+          })
+        );
         continue;
       }
 
@@ -1033,17 +1334,54 @@ export async function commitImportBatch(input: {
           reviewDecision.duplicateDecision === "attach_existing" &&
           reviewDecision.existingTargetId
         ) {
+          companyMap.set(normalizedName, reviewDecision.existingTargetId);
           updated += 1;
+          outcome = {
+            status: "committed",
+            action: "attached_existing",
+            targetEntityType: "company",
+            targetEntityId: reviewDecision.existingTargetId,
+            linkedCompanyId: reviewDecision.existingTargetId,
+            linkedContactId: null,
+            reason: null
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
         if (companyMap.has(normalizedName)) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "company",
+            targetEntityId: companyMap.get(normalizedName) ?? null,
+            reason: "duplicate_company_name"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
+        const companyId = randomUUID();
         const company: FallbackCompany = {
-          id: randomUUID(),
+          id: companyId,
           companyName,
           website: (normalized.website as string | undefined) ?? null,
           notes: (normalized.notes as string | undefined) ?? null
@@ -1051,18 +1389,48 @@ export async function commitImportBatch(input: {
         state.companies.push(company);
         companyMap.set(normalizedName, company.id);
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "company",
+          targetEntityId: companyId,
+          linkedCompanyId: companyId,
+          linkedContactId: null,
+          reason: null
+        };
       } else if (row.entityType === "contact" && fullName) {
         if (
           reviewDecision.duplicateDecision === "attach_existing" &&
           reviewDecision.existingTargetId
         ) {
+          contactMap.set(normalizePersonName(fullName), reviewDecision.existingTargetId);
           updated += 1;
+          outcome = {
+            status: "committed",
+            action: "attached_existing",
+            targetEntityType: "contact",
+            targetEntityId: reviewDecision.existingTargetId,
+            linkedCompanyId: companyName ? companyMap.get(normalizeCompanyName(companyName)) ?? null : null,
+            linkedContactId: reviewDecision.existingTargetId,
+            reason: null
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
         const companyId = companyName ? companyMap.get(normalizeCompanyName(companyName)) ?? null : null;
+        const contactId = randomUUID();
         const contact: FallbackContact = {
-          id: randomUUID(),
+          id: contactId,
           fullName,
           firstName: (normalized.firstName as string | undefined) ?? null,
           lastName: (normalized.lastName as string | undefined) ?? null,
@@ -1075,6 +1443,15 @@ export async function commitImportBatch(input: {
         state.contacts.push(contact);
         contactMap.set(normalizePersonName(fullName), contact.id);
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "contact",
+          targetEntityId: contactId,
+          linkedCompanyId: companyId,
+          linkedContactId: contactId,
+          reason: null
+        };
       } else if (row.entityType === "interaction") {
         const interactionTypeValueId = normalizedLookupId(row, "interaction_type");
         const companyId = companyName ? companyMap.get(normalizeCompanyName(companyName)) ?? null : null;
@@ -1082,11 +1459,29 @@ export async function commitImportBatch(input: {
 
         if (!interactionTypeValueId || (!companyId && !contactId)) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "interaction",
+            linkedCompanyId: companyId,
+            linkedContactId: contactId,
+            reason: "missing_interaction_linkage"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
+        const interactionId = randomUUID();
         state.interactions.push({
-          id: randomUUID(),
+          id: interactionId,
           companyId,
           contactId,
           interactionDate: String(normalized.primaryDate),
@@ -1095,6 +1490,15 @@ export async function commitImportBatch(input: {
           summary: String(normalized.notes ?? "")
         });
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "interaction",
+          targetEntityId: interactionId,
+          linkedCompanyId: companyId,
+          linkedContactId: contactId,
+          reason: null
+        };
       } else if (row.entityType === "task") {
         const taskTypeValueId = normalizedLookupId(row, "task_type");
         const priorityValueId = normalizedLookupId(row, "task_priority");
@@ -1104,11 +1508,29 @@ export async function commitImportBatch(input: {
 
         if (!taskTypeValueId || !priorityValueId || !statusValueId || (!companyId && !contactId)) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "task",
+            linkedCompanyId: companyId,
+            linkedContactId: contactId,
+            reason: "missing_task_linkage"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
+        const taskId = randomUUID();
         state.tasks.push({
-          id: randomUUID(),
+          id: taskId,
           companyId,
           contactId,
           dueDate: String(normalized.primaryDate),
@@ -1118,6 +1540,15 @@ export async function commitImportBatch(input: {
           notes: (normalized.notes as string | undefined) ?? null
         });
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "task",
+          targetEntityId: taskId,
+          linkedCompanyId: companyId,
+          linkedContactId: contactId,
+          reason: null
+        };
       } else if (row.entityType === "opportunity") {
         const opportunityStageValueId = normalizedLookupId(row, "opportunity_stage");
         const opportunityTypeValueId = normalizedLookupId(row, "opportunity_type");
@@ -1126,13 +1557,32 @@ export async function commitImportBatch(input: {
 
         if (!companyId || !opportunityStageValueId || !opportunityTypeValueId || !statusValueId) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "opportunity",
+            linkedCompanyId: companyId,
+            linkedContactId: fullName ? contactMap.get(normalizePersonName(fullName)) ?? null : null,
+            reason: "missing_opportunity_linkage"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
+        const contactId = fullName ? contactMap.get(normalizePersonName(fullName)) ?? null : null;
+        const opportunityId = randomUUID();
         state.opportunities.push({
-          id: randomUUID(),
+          id: opportunityId,
           companyId,
-          contactId: fullName ? contactMap.get(normalizePersonName(fullName)) ?? null : null,
+          contactId,
           opportunityName: String(normalized.taskOrOpportunityName ?? "Imported opportunity"),
           opportunityStageValueId,
           opportunityTypeValueId,
@@ -1141,8 +1591,31 @@ export async function commitImportBatch(input: {
           notes: (normalized.notes as string | undefined) ?? null
         });
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "opportunity",
+          targetEntityId: opportunityId,
+          linkedCompanyId: companyId,
+          linkedContactId: contactId,
+          reason: null
+        };
       } else {
         skipped += 1;
+        outcome = {
+          ...outcome,
+          reason: "unsupported_entity_type"
+        };
+        committedNormalizedRows.set(
+          row.id,
+          withCommitAudit(row.normalizedJson, {
+            batchId: input.batchId,
+            sourceFilename: persisted.batch.sourceFilename,
+            sourceRowKey: row.sourceRowKey,
+            committedAt,
+            outcome
+          })
+        );
         continue;
       }
     } else {
@@ -1150,6 +1623,20 @@ export async function commitImportBatch(input: {
 
       if (reviewDecision.reviewState === "skipped" || reviewDecision.duplicateDecision === "skip") {
         skipped += 1;
+        outcome = {
+          ...outcome,
+          reason: "review_skipped"
+        };
+        committedNormalizedRows.set(
+          row.id,
+          withCommitAudit(row.normalizedJson, {
+            batchId: input.batchId,
+            sourceFilename: persisted.batch.sourceFilename,
+            sourceRowKey: row.sourceRowKey,
+            committedAt,
+            outcome
+          })
+        );
         continue;
       }
 
@@ -1160,12 +1647,48 @@ export async function commitImportBatch(input: {
           reviewDecision.duplicateDecision === "attach_existing" &&
           reviewDecision.existingTargetId
         ) {
+          companyMap.set(normalizedName, reviewDecision.existingTargetId);
           updated += 1;
+          outcome = {
+            status: "committed",
+            action: "attached_existing",
+            targetEntityType: "company",
+            targetEntityId: reviewDecision.existingTargetId,
+            linkedCompanyId: reviewDecision.existingTargetId,
+            linkedContactId: null,
+            reason: null
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
         if (companyMap.has(normalizedName)) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "company",
+            targetEntityId: companyMap.get(normalizedName) ?? null,
+            reason: "duplicate_company_name"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
@@ -1180,12 +1703,41 @@ export async function commitImportBatch(input: {
         });
         companyMap.set(normalizedName, company.id);
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "company",
+          targetEntityId: company.id,
+          linkedCompanyId: company.id,
+          linkedContactId: null,
+          reason: null
+        };
       } else if (row.entityType === "contact" && fullName) {
         if (
           reviewDecision.duplicateDecision === "attach_existing" &&
           reviewDecision.existingTargetId
         ) {
+          contactMap.set(normalizePersonName(fullName), reviewDecision.existingTargetId);
           updated += 1;
+          outcome = {
+            status: "committed",
+            action: "attached_existing",
+            targetEntityType: "contact",
+            targetEntityId: reviewDecision.existingTargetId,
+            linkedCompanyId: companyName ? companyMap.get(normalizeCompanyName(companyName)) ?? null : null,
+            linkedContactId: reviewDecision.existingTargetId,
+            reason: null
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
@@ -1216,6 +1768,15 @@ export async function commitImportBatch(input: {
         });
         contactMap.set(normalizePersonName(fullName), contact.id);
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "contact",
+          targetEntityId: contact.id,
+          linkedCompanyId: companyId,
+          linkedContactId: contact.id,
+          reason: null
+        };
       } else if (row.entityType === "interaction") {
         const interactionTypeValueId = normalizedLookupId(row, "interaction_type");
         const companyId = companyName ? companyMap.get(normalizeCompanyName(companyName)) ?? null : null;
@@ -1223,10 +1784,27 @@ export async function commitImportBatch(input: {
 
         if (!interactionTypeValueId || (!companyId && !contactId)) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "interaction",
+            linkedCompanyId: companyId,
+            linkedContactId: contactId,
+            reason: "missing_interaction_linkage"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
-        await prisma.interaction.create({
+        const interaction = await prisma.interaction.create({
           data: {
             companyId,
             contactId,
@@ -1238,6 +1816,15 @@ export async function commitImportBatch(input: {
           }
         });
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "interaction",
+          targetEntityId: interaction.id,
+          linkedCompanyId: companyId,
+          linkedContactId: contactId,
+          reason: null
+        };
       } else if (row.entityType === "task") {
         const taskTypeValueId = normalizedLookupId(row, "task_type");
         const priorityValueId = normalizedLookupId(row, "task_priority");
@@ -1247,10 +1834,27 @@ export async function commitImportBatch(input: {
 
         if (!taskTypeValueId || !priorityValueId || !statusValueId || (!companyId && !contactId)) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "task",
+            linkedCompanyId: companyId,
+            linkedContactId: contactId,
+            reason: "missing_task_linkage"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
-        await prisma.task.create({
+        const task = await prisma.task.create({
           data: {
             companyId,
             contactId,
@@ -1263,6 +1867,15 @@ export async function commitImportBatch(input: {
           }
         });
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "task",
+          targetEntityId: task.id,
+          linkedCompanyId: companyId,
+          linkedContactId: contactId,
+          reason: null
+        };
       } else if (row.entityType === "opportunity") {
         const opportunityStageValueId = normalizedLookupId(row, "opportunity_stage");
         const opportunityTypeValueId = normalizedLookupId(row, "opportunity_type");
@@ -1271,13 +1884,31 @@ export async function commitImportBatch(input: {
 
         if (!companyId || !opportunityStageValueId || !opportunityTypeValueId || !statusValueId) {
           skipped += 1;
+          outcome = {
+            ...outcome,
+            targetEntityType: "opportunity",
+            linkedCompanyId: companyId,
+            linkedContactId: fullName ? contactMap.get(normalizePersonName(fullName)) ?? null : null,
+            reason: "missing_opportunity_linkage"
+          };
+          committedNormalizedRows.set(
+            row.id,
+            withCommitAudit(row.normalizedJson, {
+              batchId: input.batchId,
+              sourceFilename: persisted.batch.sourceFilename,
+              sourceRowKey: row.sourceRowKey,
+              committedAt,
+              outcome
+            })
+          );
           continue;
         }
 
-        await prisma.opportunity.create({
+        const contactId = fullName ? contactMap.get(normalizePersonName(fullName)) ?? null : null;
+        const opportunity = await prisma.opportunity.create({
           data: {
             companyId,
-            contactId: fullName ? contactMap.get(normalizePersonName(fullName)) ?? null : null,
+            contactId,
             opportunityName: String(normalized.taskOrOpportunityName ?? "Imported opportunity"),
             opportunityStageValueId,
             opportunityTypeValueId,
@@ -1288,11 +1919,45 @@ export async function commitImportBatch(input: {
           }
         });
         created += 1;
+        outcome = {
+          status: "committed",
+          action: "created",
+          targetEntityType: "opportunity",
+          targetEntityId: opportunity.id,
+          linkedCompanyId: companyId,
+          linkedContactId: contactId,
+          reason: null
+        };
       } else {
         skipped += 1;
+        outcome = {
+          ...outcome,
+          reason: "unsupported_entity_type"
+        };
+        committedNormalizedRows.set(
+          row.id,
+          withCommitAudit(row.normalizedJson, {
+            batchId: input.batchId,
+            sourceFilename: persisted.batch.sourceFilename,
+            sourceRowKey: row.sourceRowKey,
+            committedAt,
+            outcome
+          })
+        );
         continue;
       }
     }
+
+    committedNormalizedRows.set(
+      row.id,
+      withCommitAudit(row.normalizedJson, {
+        batchId: input.batchId,
+        sourceFilename: persisted.batch.sourceFilename,
+        sourceRowKey: row.sourceRowKey,
+        committedAt,
+        outcome
+      })
+    );
   }
 
   const nextSummary = persisted.batch.summaryJson
@@ -1316,6 +1981,7 @@ export async function commitImportBatch(input: {
             ...row,
             status: "committed",
             committedAt,
+            normalizedJson: committedNormalizedRows.get(row.id) ?? row.normalizedJson,
             updatedAt: committedAt
           }
         : row
@@ -1333,16 +1999,16 @@ export async function commitImportBatch(input: {
   } else {
     const prisma = (await getPrisma()) as any;
     await prisma.$transaction([
-      prisma.importRow.updateMany({
-        where: {
-          batchId: input.batchId,
-          status: "ready"
-        },
-        data: {
-          status: "committed",
-          committedAt: new Date(committedAt)
-        }
-      }),
+      ...readyRows.map((row: PersistedImportRow) =>
+        prisma.importRow.update({
+          where: {id: row.id},
+          data: {
+            status: "committed",
+            committedAt: new Date(committedAt),
+            normalizedJson: toJsonValue(committedNormalizedRows.get(row.id) ?? row.normalizedJson)
+          }
+        })
+      ),
       prisma.importBatch.update({
         where: {id: input.batchId},
         data: {

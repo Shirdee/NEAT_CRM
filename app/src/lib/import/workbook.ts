@@ -11,11 +11,13 @@ import {
 } from "./normalize";
 import type {
   DuplicateDecision,
+  InboundLeadPayload,
   ImportEntityType,
   ImportIssueRecord,
   ImportRowReviewDecision,
   LookupCandidate,
   NormalizedImportRow,
+  StagedIntakeEnvelope,
   StageableImportRow,
   WorkbookProfile,
   WorkbookSheetPayload
@@ -244,6 +246,70 @@ export function createStageableRows(sheetName: string, headers: string[], rows: 
   }));
 }
 
+const maxStructuredHeaders = 150;
+const maxStructuredColumns = 150;
+const maxStructuredSheetNameLength = 120;
+
+export function validateStructuredWorkbookProfile(profile: WorkbookProfile) {
+  if (!Number.isInteger(profile.sheetCount) || profile.sheetCount < 1) {
+    return {ok: false, error: "Workbook profile must include at least one sheet."};
+  }
+
+  if (!Number.isInteger(profile.totalDataRows) || profile.totalDataRows < 0) {
+    return {ok: false, error: "Workbook profile total rows is invalid."};
+  }
+
+  for (const sheet of profile.sheets) {
+    if (!sheet.name.trim()) {
+      return {ok: false, error: "Workbook profile contains an unnamed sheet."};
+    }
+
+    if (sheet.name.length > maxStructuredSheetNameLength) {
+      return {ok: false, error: "Workbook profile contains an overlong sheet name."};
+    }
+
+    if (!Number.isInteger(sheet.rowCount) || sheet.rowCount < 0) {
+      return {ok: false, error: "Workbook profile has an invalid row count."};
+    }
+
+    if (!Number.isInteger(sheet.columnCount) || sheet.columnCount < 0) {
+      return {ok: false, error: "Workbook profile has an invalid column count."};
+    }
+  }
+
+  return {ok: true} as const;
+}
+
+export function validateStructuredStageableRows(rows: StageableImportRow[]) {
+  for (const row of rows) {
+    if (!row.sheetName.trim()) {
+      return {ok: false, error: "Staged row is missing sheetName."};
+    }
+
+    if (row.sheetName.length > maxStructuredSheetNameLength) {
+      return {ok: false, error: "Staged row sheetName exceeds the supported length."};
+    }
+
+    if (!Number.isInteger(row.rowNumber) || row.rowNumber < 2) {
+      return {ok: false, error: "Staged row rowNumber must be an integer >= 2."};
+    }
+
+    if (row.headers.length < 1 || row.headers.length > maxStructuredHeaders) {
+      return {ok: false, error: "Staged row headers are outside the supported shape."};
+    }
+
+    if (row.cells.length > maxStructuredColumns || row.cells.length > row.headers.length) {
+      return {ok: false, error: "Staged row cells are outside the supported shape."};
+    }
+
+    if (row.headers.some((header) => !String(header ?? "").trim())) {
+      return {ok: false, error: "Staged row headers must be non-empty strings."};
+    }
+  }
+
+  return {ok: true} as const;
+}
+
 function createLookupCandidate(
   categoryKey: string,
   rawValue: string,
@@ -310,6 +376,26 @@ function normalizeRow(
     existingTargetLabel: null,
     lookupOverrides: {}
   };
+  const intakeEnvelope: StagedIntakeEnvelope = {
+    channel: "structured_reimport",
+    sourceLabel: input.sheetName,
+    sourceRef: sourceRowKey,
+    receivedAt: new Date().toISOString(),
+    submittedByType: "admin",
+    locale: null,
+    rawFields
+  };
+  const emptyIntakePayload: InboundLeadPayload = {
+    companyName: null,
+    contactFullName: null,
+    contactFirstName: null,
+    contactLastName: null,
+    emails: [],
+    phones: [],
+    website: null,
+    notes: null,
+    leadSourceRaw: null
+  };
 
   if (Object.values(rawFields).every((value) => !value)) {
     return {
@@ -324,6 +410,8 @@ function normalizeRow(
         primaryDate: null,
         rawFields,
         normalizedFields: {},
+        intakeEnvelope,
+        intakePayload: emptyIntakePayload,
         lookupCandidates: [],
         duplicateFingerprints: [],
         reviewDecision: nextReviewDecision
@@ -603,6 +691,17 @@ function normalizeRow(
     ]),
     lookupCandidates
   };
+  const intakePayload: InboundLeadPayload = {
+    companyName: companyName || null,
+    contactFullName: fullName || null,
+    contactFirstName: resolvedFirstName || null,
+    contactLastName: resolvedLastName || null,
+    emails,
+    phones,
+    website: website || null,
+    notes: notes || null,
+    leadSourceRaw: getFirstValue(rawFields, ["lead_source", "source"]) || null
+  };
 
   const hasBlockingIssue = issues.some((issue) => issue.severity === "error");
 
@@ -619,6 +718,8 @@ function normalizeRow(
       primaryDate,
       rawFields,
       normalizedFields,
+      intakeEnvelope,
+      intakePayload,
       lookupCandidates,
       duplicateFingerprints,
       reviewDecision: nextReviewDecision

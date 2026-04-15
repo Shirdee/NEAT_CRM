@@ -11,10 +11,14 @@
             "id": "bcc15ae234c8f836",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "sprints/sprint_08/todo/sprint_08_todo.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "sprint_08_todo"
             }
           }
         ]
@@ -181,6 +185,9 @@
   },
   "active": "bcc15ae234c8f836",
   "lastOpenFiles": [
+    "sprints/sprint_08/dev_subagents.md",
+    "sprints/sprint_08/todo/sprint_08_dev_subagents.md",
+    "sprints/sprint_08/sprint_08_index.md",
     "sprints/sprint_06/sprint_06_index.md",
     "PRD.md",
     "PERMISSIONS.md",
@@ -213,9 +220,6 @@
     "sprints/sprint_05/reviews/sprint_05_review.md",
     "sprints/sprint_06/todo/sprint_06_todo.md",
     "ui/FRONTEND_SPRINT_CHECKLIST.md",
-    "sprints/sprint_06/reviews/sprint_06_review.md",
-    "ui/FRONTEND_IMPLEMENTATION_TASKS.md",
-    "sprints/sprint_04/reviews/sprint_04_review.md",
-    "ui/Design.md"
+    "sprints/sprint_06/reviews/sprint_06_review.md"
   ]
 }

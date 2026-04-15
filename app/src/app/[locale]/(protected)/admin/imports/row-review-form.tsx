@@ -13,6 +13,12 @@ type RowReviewFormProps = {
   issues: ImportBatchReview["issues"];
   options: ImportBatchReview["options"];
   labels: {
+    stagedSource: string;
+    reviewDecision: string;
+    duplicatePath: string;
+    duplicateTarget: string;
+    createNew: string;
+    rowReference: string;
     rowState: string;
     entityOverride: string;
     duplicateDecision: string;
@@ -91,6 +97,18 @@ export function RowReviewForm({
   const normalizedEntries = Object.entries(row.normalizedFields).filter(
     ([key]) => key !== "lookupCandidates"
   );
+  const duplicateDecisionLabel =
+    row.reviewDecision.duplicateDecision === "keep_new"
+      ? labels.keepNew
+      : row.reviewDecision.duplicateDecision === "attach_existing"
+        ? labels.attachExistingDecision
+        : row.reviewDecision.duplicateDecision === "skip"
+          ? labels.skipDecision
+          : labels.autoDecision;
+  const duplicateTargetLabel =
+    row.reviewDecision.existingTargetLabel ??
+    attachOptions.find((option) => option.id === row.reviewDecision.existingTargetId)?.label ??
+    labels.createNew;
 
   return (
     <form
@@ -115,6 +133,32 @@ export function RowReviewForm({
           ))}
         </div>
       ) : null}
+
+      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+        <div className="rounded-[20px] bg-[rgba(244,229,225,0.45)] px-4 py-3">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{labels.stagedSource}</p>
+          <p className="mt-2 text-sm font-medium text-ink">{row.sheetName}</p>
+        </div>
+        <div className="rounded-[20px] bg-[rgba(244,229,225,0.45)] px-4 py-3">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{labels.reviewDecision}</p>
+          <p className="mt-2 text-sm font-medium text-ink">
+            {row.reviewDecision.reviewState === "ready"
+              ? labels.ready
+              : row.reviewDecision.reviewState === "skipped"
+                ? labels.skipped
+                : labels.review}
+          </p>
+        </div>
+        <div className="rounded-[20px] bg-[rgba(244,229,225,0.45)] px-4 py-3">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{labels.duplicatePath}</p>
+          <p className="mt-2 text-sm font-medium text-ink">{duplicateDecisionLabel}</p>
+        </div>
+        <div className="rounded-[20px] bg-[rgba(244,229,225,0.45)] px-4 py-3">
+          <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{labels.duplicateTarget}</p>
+          <p className="mt-2 text-sm font-medium text-ink">{duplicateTargetLabel}</p>
+          <p className="mt-1 text-xs text-slate-500">{`${labels.rowReference} ${row.rowNumber}`}</p>
+        </div>
+      </div>
 
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <label className="space-y-2">

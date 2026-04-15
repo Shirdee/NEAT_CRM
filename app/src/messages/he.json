@@ -167,7 +167,8 @@
     "subtitle": "ספרינט 2 מעלה נתוני workbook בצ'אנקים מבוקרים, מפרופל את מבנה המקור, מציף בעיות ניקוי ושומר את ההתחייבות הסופית מאחורי סקירת מנהל.",
     "messages": {
       "committed": "האצווה שנבחרה הוטמעה בהצלחה.",
-      "updated": "שורת הסטייג'ינג עודכנה ונבדקה מחדש."
+      "updated": "שורת הסטייג'ינג עודכנה ונבדקה מחדש.",
+      "commitConfirmationRequired": "יש להקליד את ביטוי האישור המדויק לפני commit לפרודקשן."
     },
     "upload": {
       "title": "התחלת ייבוא מדורג",
@@ -191,6 +192,17 @@
       "sheetColumns": "{count, plural, one {# עמודה} other {# עמודות}}",
       "commitTitle": "שער הטמעה",
       "commitBody": "ההטמעה הסופית נשארת חסומה עד שפותרים בעיות חוסמות. אזהרות דורשות אישור מפורש של מנהל לפני ההטמעה.",
+      "sourceLabel": "מקור בסטייג'ינג",
+      "reviewDecisionLabel": "החלטת סקירה",
+      "duplicatePathLabel": "נתיב כפילות",
+      "duplicateTargetLabel": "יעד כפילות",
+      "createNew": "יצירת רשומה חדשה",
+      "rowReference": "שורה",
+      "commitReadyLabel": "מוכנות ל-commit",
+      "commitReady": "מוכן ל-commit",
+      "commitBlocked": "עדיין חסום",
+      "commitConfirmLabel": "אישור commit",
+      "commitConfirmHint": "יש להקליד {token} כדי לאשר commit מנהל לפרודקשן.",
       "allowWarnings": "בדקתי את האזהרות ואני רוצה לאפשר הטמעה.",
       "commit": "הטמעת שורות מוכנות",
       "updateRow": "שמירה ובדיקה מחדש של השורה",
@@ -208,7 +220,8 @@
       "states": {
         "review": "דורש סקירה",
         "ready": "מוכן",
-        "skipped": "דולג"
+        "skipped": "דולג",
+        "committed": "הוטמע"
       },
       "decisions": {
         "auto": "אוטומטי",

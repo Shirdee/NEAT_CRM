@@ -167,7 +167,8 @@
     "subtitle": "Sprint 2 stages workbook data in controlled chunks, profiles the source structure, surfaces cleanup issues, and keeps the final commit behind admin review.",
     "messages": {
       "committed": "The selected batch was committed successfully.",
-      "updated": "The staged row was updated and revalidated."
+      "updated": "The staged row was updated and revalidated.",
+      "commitConfirmationRequired": "Type the exact commit confirmation phrase before production commit."
     },
     "upload": {
       "title": "Start a staged import",
@@ -191,6 +192,17 @@
       "sheetColumns": "{count, plural, one {# column} other {# columns}}",
       "commitTitle": "Commit gate",
       "commitBody": "The final commit stays blocked until blocking issues are resolved. Warnings require an explicit admin acknowledgment before commit.",
+      "sourceLabel": "Staged source",
+      "reviewDecisionLabel": "Review decision",
+      "duplicatePathLabel": "Duplicate path",
+      "duplicateTargetLabel": "Duplicate target",
+      "createNew": "Create new record",
+      "rowReference": "Row",
+      "commitReadyLabel": "Commit readiness",
+      "commitReady": "Ready to commit",
+      "commitBlocked": "Still blocked",
+      "commitConfirmLabel": "Commit confirmation",
+      "commitConfirmHint": "Type {token} to confirm this admin-only production commit.",
       "allowWarnings": "I reviewed the warnings and want to allow commit.",
       "commit": "Commit ready rows",
       "updateRow": "Save and revalidate row",
@@ -208,7 +220,8 @@
       "states": {
         "review": "Needs review",
         "ready": "Ready",
-        "skipped": "Skipped"
+        "skipped": "Skipped",
+        "committed": "Committed"
       },
       "decisions": {
         "auto": "Auto",

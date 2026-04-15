@@ -99,7 +99,7 @@ export function BottomNav({locale}: BottomNavProps) {
   return (
     <nav
       aria-label="Main navigation"
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-white/50 bg-white/90 backdrop-blur lg:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-slate-200 bg-white lg:hidden"
     >
       <div className="flex items-stretch overflow-x-auto pb-safe">
         {NAV_ITEMS.map(({href, label, Icon}) => {

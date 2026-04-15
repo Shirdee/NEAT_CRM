@@ -17,7 +17,7 @@ export function BottomSheet({children, isOpen, onClose, label}: BottomSheetProps
     if (!dialog) return;
     if (isOpen) {
       dialog.showModal();
-    } else {
+    } else if (dialog.open) {
       dialog.close();
     }
   }, [isOpen]);
@@ -47,7 +47,7 @@ export function BottomSheet({children, isOpen, onClose, label}: BottomSheetProps
       className={[
         "fixed inset-0 z-50 m-0 h-full max-h-full w-full max-w-full",
         "bg-transparent p-0",
-        "backdrop:bg-ink/40 backdrop:backdrop-blur-sm",
+        "backdrop:bg-ink/50",
       ].join(" ")}
       onClick={handleBackdropClick}
       ref={dialogRef}
@@ -56,7 +56,7 @@ export function BottomSheet({children, isOpen, onClose, label}: BottomSheetProps
         className={[
           "absolute inset-x-0 bottom-0",
           "rounded-t-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,235,231,0.96))]",
-          "shadow-[0_-12px_48px_rgba(58,48,45,0.14)] backdrop-blur",
+          "shadow-[0_-12px_48px_rgba(58,48,45,0.18)]",
           "pb-safe",
           "max-h-[92dvh] overflow-y-auto",
           "animate-[sheet-up_280ms_cubic-bezier(0.32,0.72,0,1)_both]",

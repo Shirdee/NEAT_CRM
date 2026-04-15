@@ -57,7 +57,40 @@ export const duplicateDecisions = ["auto", "keep_new", "attach_existing", "skip"
 
 export type DuplicateDecision = (typeof duplicateDecisions)[number];
 
-export type ImportRowReviewDecision = {
+export const stagedIntakeChannels = ["structured_reimport", "website_form"] as const;
+
+export type StagedIntakeChannel = (typeof stagedIntakeChannels)[number];
+
+export const intakeSubmittedByTypes = ["admin", "public"] as const;
+
+export type IntakeSubmittedByType = (typeof intakeSubmittedByTypes)[number];
+
+export type BatchIntakeSource = {
+  channel: StagedIntakeChannel;
+  sourceLabel: string;
+  sourceRef: string | null;
+  receivedAt: string;
+  submittedByType: IntakeSubmittedByType;
+  locale: string | null;
+};
+
+export type StagedIntakeEnvelope = BatchIntakeSource & {
+  rawFields: Record<string, string>;
+};
+
+export type InboundLeadPayload = {
+  companyName: string | null;
+  contactFullName: string | null;
+  contactFirstName: string | null;
+  contactLastName: string | null;
+  emails: string[];
+  phones: string[];
+  website: string | null;
+  notes: string | null;
+  leadSourceRaw: string | null;
+};
+
+export type StagedReviewState = {
   reviewState: ImportRowReviewState;
   entityOverride: ImportEntityType | null;
   duplicateDecision: DuplicateDecision;
@@ -65,6 +98,8 @@ export type ImportRowReviewDecision = {
   existingTargetLabel: string | null;
   lookupOverrides: Record<string, string | null>;
 };
+
+export type ImportRowReviewDecision = StagedReviewState;
 
 export type NormalizedImportRow = {
   sourceRowKey: string;
@@ -77,6 +112,8 @@ export type NormalizedImportRow = {
   primaryDate: string | null;
   rawFields: Record<string, string>;
   normalizedFields: Record<string, unknown>;
+  intakeEnvelope: StagedIntakeEnvelope | null;
+  intakePayload: InboundLeadPayload | null;
   lookupCandidates: LookupCandidate[];
   duplicateFingerprints: string[];
   reviewDecision: ImportRowReviewDecision;
@@ -106,6 +143,7 @@ export type BatchCounts = {
 
 export type BatchSummary = {
   profile: WorkbookProfile;
+  intakeSource: BatchIntakeSource | null;
   counts: BatchCounts;
   issueCounts: Record<string, number>;
   entityCounts: Record<string, number>;
@@ -119,6 +157,7 @@ export type ImportBatchListItem = {
   status: string;
   startedAt: string;
   completedAt: string | null;
+  intakeSource: BatchIntakeSource | null;
   summary: BatchSummary | null;
 };
 
@@ -143,6 +182,8 @@ export type ImportBatchReview = ImportBatchListItem & {
     entityType: ImportEntityType;
     status: string;
     displayLabel: string;
+    intakeEnvelope: StagedIntakeEnvelope | null;
+    intakePayload: InboundLeadPayload | null;
     rawFields: Record<string, string>;
     normalizedFields: Record<string, unknown>;
     reviewDecision: ImportRowReviewDecision;

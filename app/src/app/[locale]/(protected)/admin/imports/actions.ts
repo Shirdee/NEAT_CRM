@@ -26,10 +26,16 @@ export async function commitImportBatchAction(formData: FormData) {
   const locale = isLocale(localeValue) ? localeValue : "en";
   const batchId = String(formData.get("batchId") ?? "");
   const allowWarnings = String(formData.get("allowWarnings") ?? "") === "1";
+  const commitConfirmation = String(formData.get("commitConfirmation") ?? "").trim();
+  const confirmToken = String(formData.get("confirmToken") ?? "").trim();
   const session = await requireAdmin(locale);
 
   if (!batchId) {
     redirect(`/${locale}/admin/imports?error=missing-batch`);
+  }
+
+  if (!confirmToken || commitConfirmation !== confirmToken) {
+    redirect(`/${locale}/admin/imports?batch=${batchId}&error=commit-confirmation-required`);
   }
 
   try {

@@ -1,6 +1,11 @@
 import {describe, expect, it} from "vitest";
 
-import {profileWorkbookSource, validateBatchRows} from "./workbook";
+import {
+  profileWorkbookSource,
+  validateBatchRows,
+  validateStructuredStageableRows,
+  validateStructuredWorkbookProfile
+} from "./workbook";
 
 describe("workbook import helpers", () => {
   it("profiles workbook sheets and flags mixed-language or multi-value risks", () => {
@@ -154,5 +159,50 @@ describe("workbook import helpers", () => {
       false
     );
     expect(validation.rows.find((row) => row.sourceRowKey === "Contacts:2")?.status).toBe("ready");
+  });
+
+  it("validates workbook profile shape for structured re-import", () => {
+    const valid = validateStructuredWorkbookProfile(
+      profileWorkbookSource([
+        {
+          name: "Companies",
+          rows: [
+            ["Company Name", "Website"],
+            ["Acme", "acme.test"]
+          ]
+        }
+      ])
+    );
+    const invalid = validateStructuredWorkbookProfile({
+      sheetCount: 0,
+      totalDataRows: 1,
+      sheets: [],
+      risks: []
+    });
+
+    expect(valid.ok).toBe(true);
+    expect(invalid.ok).toBe(false);
+  });
+
+  it("validates structured staged row shape before repository staging", () => {
+    const valid = validateStructuredStageableRows([
+      {
+        sheetName: "Companies",
+        rowNumber: 2,
+        headers: ["Company Name", "Website"],
+        cells: ["Acme", "acme.test"]
+      }
+    ]);
+    const invalid = validateStructuredStageableRows([
+      {
+        sheetName: "Companies",
+        rowNumber: 1,
+        headers: ["Company Name"],
+        cells: ["Acme", "extra-cell"]
+      }
+    ]);
+
+    expect(valid.ok).toBe(true);
+    expect(invalid.ok).toBe(false);
   });
 });

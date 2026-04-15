@@ -19,7 +19,8 @@ updated: 2026-04-14
 
 Sprint 8 planning and CTO technical handoff were opened on 2026-04-14.
 Sprint 8 is approved as the next planning slice after Sprint 7 implementation completion.
-Sprint 8 implementation must not begin until Sprint 7 QA closeout and PM closure are complete.
+Sprint 8 implementation is complete in the repository as of 2026-04-14.
+Sprint 8 is ready for QA and PM closeout.
 
 ## Objective
 
@@ -75,6 +76,7 @@ Extend the CRM into a controlled intake system by adding safe lead ingestion and
 
 - [[sprints/sprint_08/reviews/sprint_08_review|Sprint 08 Review]]
 - [[sprints/sprint_08/todo/sprint_08_todo|Sprint 08 Todo]]
+- [[sprints/sprint_08/dev_subagents|Sprint 08 DEV Subagents]]
 
 ## Related
 

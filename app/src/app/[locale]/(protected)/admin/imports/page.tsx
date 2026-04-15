@@ -30,6 +30,34 @@ function toneForRowStatus(status: string) {
   return "ink" as const;
 }
 
+function toneForReviewDecision(reviewState: string) {
+  if (reviewState === "ready") return "teal" as const;
+  if (reviewState === "skipped") return "default" as const;
+  return "amber" as const;
+}
+
+function toneForDuplicateDecision(duplicateDecision: string) {
+  if (duplicateDecision === "attach_existing") return "ink" as const;
+  if (duplicateDecision === "keep_new") return "teal" as const;
+  if (duplicateDecision === "skip") return "default" as const;
+  return "amber" as const;
+}
+
+function getBatchSourceLabel(sourceFilename: string, locale: string) {
+  const normalized = sourceFilename.toLowerCase();
+
+  if (
+    normalized.includes("website") ||
+    normalized.includes("web-form") ||
+    normalized.includes("webform") ||
+    normalized.includes("lead-form")
+  ) {
+    return locale === "he" ? "טופס אתר" : "Website form";
+  }
+
+  return locale === "he" ? "ייבוא מובנה" : "Structured import";
+}
+
 export default async function AdminImportsPage({
   params,
   searchParams
@@ -58,6 +86,47 @@ export default async function AdminImportsPage({
     selectedBatch?.issues.filter((issue) => issue.severity === "error").length ?? 0;
   const infoCount =
     selectedBatch?.issues.filter((issue) => issue.severity === "info").length ?? 0;
+  const reviewStateCounts = selectedBatch
+    ? selectedBatch.rows.reduce(
+        (accumulator, row) => {
+          if (row.status === "committed") {
+            accumulator.committed += 1;
+          } else if (row.reviewDecision.reviewState === "ready") {
+            accumulator.ready += 1;
+          } else if (row.reviewDecision.reviewState === "skipped") {
+            accumulator.skipped += 1;
+          } else {
+            accumulator.review += 1;
+          }
+
+          return accumulator;
+        },
+        {review: 0, ready: 0, skipped: 0, committed: 0}
+      )
+    : {review: 0, ready: 0, skipped: 0, committed: 0};
+  const duplicateDecisionCounts = selectedBatch
+    ? selectedBatch.rows.reduce(
+        (accumulator, row) => {
+          accumulator[row.reviewDecision.duplicateDecision] += 1;
+          return accumulator;
+        },
+        {
+          auto: 0,
+          keep_new: 0,
+          attach_existing: 0,
+          skip: 0
+        }
+      )
+    : {auto: 0, keep_new: 0, attach_existing: 0, skip: 0};
+  const commitBlocked =
+    errorCount > 0 || selectedBatch?.rows.some((row) => row.status === "needs_review") || false;
+  const commitConfirmToken = selectedBatch ? `COMMIT ${selectedBatch.id.slice(0, 8)}` : "";
+  const errorMessage =
+    error === "commit-confirmation-required"
+      ? t("messages.commitConfirmationRequired")
+      : error
+        ? decodeURIComponent(error)
+        : null;
 
   const issueGroups = selectedBatch
     ? {
@@ -104,9 +173,9 @@ export default async function AdminImportsPage({
         <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
       </div>
 
-      {error ? (
+      {errorMessage ? (
         <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
-          {decodeURIComponent(error)}
+          {errorMessage}
         </p>
       ) : null}
       {success ? (
@@ -182,6 +251,10 @@ export default async function AdminImportsPage({
                     <p className="mt-2 text-sm text-slate-600">
                       {t("review.statusLabel", {status: selectedBatch.status})}
                     </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <StatusChip tone="ink">{getBatchSourceLabel(selectedBatch.sourceFilename, locale)}</StatusChip>
+                      <StatusChip>{locale === "he" ? "סקירה נדרשת לפני commit" : "Review-gated commit"}</StatusChip>
+                    </div>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <StatusChip tone="ink">{selectedBatch.status}</StatusChip>
@@ -200,6 +273,25 @@ export default async function AdminImportsPage({
                       <p className="mt-3 text-2xl font-semibold text-ink">{card.value}</p>
                     </div>
                   ))}
+                </div>
+
+                <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                  <div className="rounded-[24px] bg-[rgba(255,255,255,0.72)] p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.states.review")}</p>
+                    <p className="mt-2 text-2xl font-semibold text-ink">{reviewStateCounts.review}</p>
+                  </div>
+                  <div className="rounded-[24px] bg-[rgba(255,255,255,0.72)] p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.states.ready")}</p>
+                    <p className="mt-2 text-2xl font-semibold text-ink">{reviewStateCounts.ready}</p>
+                  </div>
+                  <div className="rounded-[24px] bg-[rgba(255,255,255,0.72)] p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.states.skipped")}</p>
+                    <p className="mt-2 text-2xl font-semibold text-ink">{reviewStateCounts.skipped}</p>
+                  </div>
+                  <div className="rounded-[24px] bg-[rgba(255,255,255,0.72)] p-4">
+                    <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.states.committed")}</p>
+                    <p className="mt-2 text-2xl font-semibold text-ink">{reviewStateCounts.committed}</p>
+                  </div>
                 </div>
 
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
@@ -225,6 +317,31 @@ export default async function AdminImportsPage({
                   <div>
                     <h3 className="text-lg font-semibold text-ink">{t("review.commitTitle")}</h3>
                     <p className="mt-2 text-sm text-slate-600">{t("review.commitBody")}</p>
+                    <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
+                      <div className="rounded-[20px] bg-white/80 px-4 py-3">
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.sourceLabel")}</p>
+                        <p className="mt-2 text-sm font-medium text-ink">
+                          {getBatchSourceLabel(selectedBatch.sourceFilename, locale)}
+                        </p>
+                      </div>
+                      <div className="rounded-[20px] bg-white/80 px-4 py-3">
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.states.review")}</p>
+                        <p className="mt-2 text-sm font-medium text-ink">{reviewStateCounts.review}</p>
+                      </div>
+                      <div className="rounded-[20px] bg-white/80 px-4 py-3">
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.decisions.attachExisting")}</p>
+                        <p className="mt-2 text-sm font-medium text-ink">{duplicateDecisionCounts.attach_existing}</p>
+                      </div>
+                      <div className="rounded-[20px] bg-white/80 px-4 py-3">
+                        <p className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("review.commitReadyLabel")}</p>
+                        <p className="mt-2 text-sm font-medium text-ink">
+                          {commitBlocked ? t("review.commitBlocked") : t("review.commitReady")}
+                        </p>
+                      </div>
+                    </div>
+                    <p className="mt-4 text-xs text-slate-500">
+                      {t("review.commitConfirmHint", {token: commitConfirmToken})}
+                    </p>
                   </div>
                   <form
                     action={commitImportBatchAction}
@@ -232,9 +349,20 @@ export default async function AdminImportsPage({
                   >
                     <input name="locale" type="hidden" value={locale} />
                     <input name="batchId" type="hidden" value={selectedBatch.id} />
+                    <input name="confirmToken" type="hidden" value={commitConfirmToken} />
                     <label className="flex items-center gap-2 text-sm text-slate-700">
                       <input name="allowWarnings" type="checkbox" value="1" />
                       {t("review.allowWarnings")}
+                    </label>
+                    <label className="space-y-2">
+                      <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                        {t("review.commitConfirmLabel")}
+                      </span>
+                      <input
+                        className="w-full rounded-[20px] bg-white/90 px-3 py-2 text-sm"
+                        name="commitConfirmation"
+                        placeholder={commitConfirmToken}
+                      />
                     </label>
                     <button
                       className="inline-flex rounded-full bg-ink px-4 py-2 text-sm font-medium text-white"
@@ -325,6 +453,12 @@ export default async function AdminImportsPage({
                             <StatusChip tone={toneForRowStatus(row.status)}>{row.status}</StatusChip>
                             <StatusChip>{row.entityType}</StatusChip>
                             <StatusChip>{`${row.sheetName} #${row.rowNumber}`}</StatusChip>
+                            <StatusChip tone={toneForReviewDecision(row.reviewDecision.reviewState)}>
+                              {row.reviewDecision.reviewState}
+                            </StatusChip>
+                            <StatusChip tone={toneForDuplicateDecision(row.reviewDecision.duplicateDecision)}>
+                              {row.reviewDecision.duplicateDecision}
+                            </StatusChip>
                           </div>
                         </div>
                         <div className="flex flex-wrap gap-2">
@@ -346,6 +480,12 @@ export default async function AdminImportsPage({
                         batchId={selectedBatch.id}
                         issues={selectedBatch.issues}
                         labels={{
+                          stagedSource: t("review.sourceLabel"),
+                          reviewDecision: t("review.reviewDecisionLabel"),
+                          duplicatePath: t("review.duplicatePathLabel"),
+                          duplicateTarget: t("review.duplicateTargetLabel"),
+                          createNew: t("review.createNew"),
+                          rowReference: t("review.rowReference"),
                           rowState: t("review.controls.rowState"),
                           entityOverride: t("review.controls.entityOverride"),
                           duplicateDecision: t("review.controls.duplicateDecision"),

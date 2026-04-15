@@ -18,7 +18,9 @@ updated: 2026-04-14
 
 Planned by PM and opened by CTO on 2026-04-14.
 Prepared for DEV execution with explicit technical boundaries.
-Implementation must not begin until Sprint 7 QA closeout and PM closure are complete.
+Implementation is complete in the repository as of 2026-04-14.
+Sprint 8 is ready for QA and PM closeout.
+Repo state: `DEV-801` through `DEV-806` are implemented in the repository.
 
 ## PM Model Strategy (2026-04-14)
 
@@ -31,12 +33,12 @@ Implementation must not begin until Sprint 7 QA closeout and PM closure are comp
 
 ## PM Execution Tracker (2026-04-14)
 
-- DEV-801: planned
-- DEV-802: planned
-- DEV-803: planned
-- DEV-804: planned
-- DEV-805: planned
-- DEV-806: planned
+- DEV-801: implemented
+- DEV-802: implemented
+- DEV-803: implemented
+- DEV-804: implemented
+- DEV-805: implemented
+- DEV-806: implemented; repo checks green on integrated Sprint 8 state
 
 ## Agent Flow
 
@@ -69,6 +71,7 @@ Implementation must not begin until Sprint 7 QA closeout and PM closure are comp
 - unresolved blockers to keep explicit during build: final website lead field set, source attribution rules, inbound duplicate attachment policy, commit summary wording for staged review, and replacement of the current single-batch destructive import creation behavior
 - PM routing note: once Sprint 7 closes, PM should publish a short status update that Sprint 8 execution has formally opened on `DEV-801`
 - PM routing note: after `DEV-801`, PM should confirm whether the website intake first wave includes only lead capture or also immediate follow-up creation in admin review
+- subagent routing note: launch-ready DEV briefs and model choices live in [[sprints/sprint_08/dev_subagents|Sprint 08 DEV Subagents]]
 
 ## Sprint Goal
 
@@ -216,3 +219,4 @@ If DEV and QA complete the items above without scope drift, Sprint 8 should leav
 ## Related
 
 - [[sprints/sprint_08/sprint_08_index|Sprint 08 Index]]
+- [[sprints/sprint_08/dev_subagents|Sprint 08 DEV Subagents]]

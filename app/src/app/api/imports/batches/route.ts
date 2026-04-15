@@ -3,6 +3,7 @@ import {NextResponse} from "next/server";
 import {canManageAdminLists, getCurrentSession} from "@/lib/auth/session";
 import {createImportBatch} from "@/lib/import/repository";
 import type {WorkbookProfile} from "@/lib/import/types";
+import {validateStructuredWorkbookProfile} from "@/lib/import/workbook";
 
 export async function POST(request: Request) {
   try {
@@ -17,13 +18,19 @@ export async function POST(request: Request) {
       profile?: WorkbookProfile;
     };
 
-    if (!body.sourceFilename || !body.profile) {
+    if (!body.sourceFilename?.trim() || !body.profile) {
       return NextResponse.json({error: "Missing batch metadata"}, {status: 400});
+    }
+
+    const profileValidation = validateStructuredWorkbookProfile(body.profile);
+
+    if (!profileValidation.ok) {
+      return NextResponse.json({error: profileValidation.error}, {status: 400});
     }
 
     const batch = await createImportBatch({
       uploadedById: session.id,
-      sourceFilename: body.sourceFilename,
+      sourceFilename: body.sourceFilename.trim(),
       profile: body.profile
     });
 
