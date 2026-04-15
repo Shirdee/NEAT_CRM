@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_09/todo/sprint_09_todo.md",
-                "mode": "preview",
+                "file": "Notes.md",
+                "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sprint_09_todo"
+              "title": "Notes"
             }
           }
         ]
@@ -198,8 +198,9 @@
   },
   "active": "bcc15ae234c8f836",
   "lastOpenFiles": [
-    "sprints/sprint_09/sprint_09_index.md",
     "sprints/sprint_09/todo/sprint_09_todo.md",
+    "Notes.md",
+    "sprints/sprint_09/sprint_09_index.md",
     "ROADMAP.md",
     "DELIVERY_PLAN.md",
     "PRD.md",
@@ -225,7 +226,6 @@
     "ui/README.md",
     "DECISIONS.md",
     "CRM Sprint 05 Index.md",
-    "sprints/sprint_08/todo/sprint_08_dev_subagents.md",
     "sprints/sprint_08/reviews",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin",

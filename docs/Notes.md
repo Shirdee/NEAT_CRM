@@ -1,0 +1,12 @@
+
+- delete option for records
+- UI
+	- rebuild from stitch - full plan by Claude, Codex execution
+- improve run-time
+- interaction summary
+	- in bold - first name + Company
+	- below subject + date
+- in interaction record view
+	- add phone call as type
+	- company, contact clickable
+- all search boxes or open-list are live search
