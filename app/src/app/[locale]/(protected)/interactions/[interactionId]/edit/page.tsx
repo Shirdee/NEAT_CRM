@@ -6,12 +6,13 @@ import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getInteractionById, getInteractionFormOptions} from "@/lib/data/crm";
 
-import {updateInteractionAction} from "../../actions";
+import {deleteInteractionAction, updateInteractionAction} from "../../actions";
 
 type EditInteractionPageProps = {
   params: Promise<{locale: "en" | "he"; interactionId: string}>;
   searchParams: Promise<{
     error?: string;
+    blockedBy?: string;
     interactionDate?: string;
     interactionTypeValueId?: string;
     outcomeStatusValueId?: string;
@@ -30,6 +31,7 @@ export default async function EditInteractionPage({params, searchParams}: EditIn
   const {locale, interactionId} = await params;
   const {
     error,
+    blockedBy,
     interactionDate,
     interactionTypeValueId,
     outcomeStatusValueId,
@@ -40,6 +42,7 @@ export default async function EditInteractionPage({params, searchParams}: EditIn
   } = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("InteractionForm");
+  const tDetail = await getTranslations("InteractionDetail");
 
   if (!session || !canEditRecords(session.role)) {
     redirect(`/${locale}/access-denied`);
@@ -55,6 +58,10 @@ export default async function EditInteractionPage({params, searchParams}: EditIn
   }
 
   const action = updateInteractionAction.bind(null, locale);
+  const blockedItems = String(blockedBy ?? "")
+    .split(",")
+    .filter(Boolean)
+    .join(", ");
 
   return (
     <div className="space-y-6">
@@ -62,8 +69,17 @@ export default async function EditInteractionPage({params, searchParams}: EditIn
         <h2 className="text-3xl font-semibold text-ink">{t("editTitle")}</h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
       </div>
-      {error ? (
+      {error === "validation" ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
+      ) : null}
+      {error && error !== "validation" ? (
+        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          {error === "confirm"
+            ? tDetail("deleteConfirmError")
+            : error === "blocked"
+              ? tDetail("deleteBlocked", {blockedBy: blockedItems || tDetail("deleteBlockedUnknown")})
+              : tDetail("deleteError")}
+        </p>
       ) : null}
       <section className="rounded-[24px] border border-slate-200 bg-white p-6">
         <InteractionForm
@@ -85,6 +101,21 @@ export default async function EditInteractionPage({params, searchParams}: EditIn
             outcomeStatusValueId: outcomeStatusValueId ?? interaction.outcomeStatusValueId ?? ""
           }}
         />
+      </section>
+      <section className="rounded-[24px] border border-rose-200 bg-rose-50/70 p-4">
+        <form action={deleteInteractionAction.bind(null, locale)} className="space-y-3">
+          <input name="interactionId" type="hidden" value={interaction.id} />
+          <label className="flex items-center gap-2 text-xs text-slate-600">
+            <input name="confirm" type="checkbox" value="1" />
+            {tDetail("deleteConfirm")}
+          </label>
+          <button
+            className="inline-flex items-center justify-center rounded-full bg-rose-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-rose-800"
+            type="submit"
+          >
+            {tDetail("delete")}
+          </button>
+        </form>
       </section>
       <Link
         className="inline-flex text-sm font-medium text-slate-700"

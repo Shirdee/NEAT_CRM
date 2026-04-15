@@ -6,7 +6,7 @@ import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getTaskById, getTaskFormOptions} from "@/lib/data/crm";
 
-import {updateTaskAction} from "../../actions";
+import {deleteTaskAction, updateTaskAction} from "../../actions";
 
 type EditTaskPageProps = {
   params: Promise<{locale: "en" | "he"; taskId: string}>;
@@ -22,6 +22,7 @@ export default async function EditTaskPage({params, searchParams}: EditTaskPageP
   const {error} = await searchParams;
   const session = await getCurrentSession();
   const t = await getTranslations("TaskForm");
+  const tDetail = await getTranslations("TaskDetail");
 
   if (!session || !canEditRecords(session.role)) {
     redirect(`/${locale}/access-denied`);
@@ -41,8 +42,13 @@ export default async function EditTaskPage({params, searchParams}: EditTaskPageP
         <h2 className="text-3xl font-semibold text-ink">{t("editTitle")}</h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
       </div>
-      {error ? (
+      {error === "validation" ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
+      ) : null}
+      {error && error !== "validation" ? (
+        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
+          {error === "confirm" ? tDetail("deleteConfirmError") : tDetail("deleteError")}
+        </p>
       ) : null}
       <section className="rounded-[24px] border border-slate-200 bg-white p-6">
         <TaskForm
@@ -67,6 +73,21 @@ export default async function EditTaskPage({params, searchParams}: EditTaskPageP
             notes: task.notes ?? ""
           }}
         />
+      </section>
+      <section className="rounded-[24px] border border-rose-200 bg-rose-50/70 p-4">
+        <form action={deleteTaskAction.bind(null, locale)} className="space-y-3">
+          <input name="taskId" type="hidden" value={task.id} />
+          <label className="flex items-center gap-2 text-xs text-slate-600">
+            <input name="confirm" type="checkbox" value="1" />
+            {tDetail("deleteConfirm")}
+          </label>
+          <button
+            className="inline-flex items-center justify-center rounded-full bg-rose-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-rose-800"
+            type="submit"
+          >
+            {tDetail("delete")}
+          </button>
+        </form>
       </section>
       <Link className="inline-flex text-sm font-medium text-slate-700" href={`/tasks/${task.id}`} locale={locale}>
         {t("back")}

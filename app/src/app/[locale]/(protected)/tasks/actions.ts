@@ -140,7 +140,7 @@ export async function deleteTaskAction(boundLocale: string, formData: FormData) 
   }
 
   if (!confirm) {
-    redirect(`/${locale}/tasks/${taskId}?error=confirm`);
+    redirect(`/${locale}/tasks/${taskId}/edit?error=confirm`);
   }
 
   const deleted = await deleteTask(taskId);

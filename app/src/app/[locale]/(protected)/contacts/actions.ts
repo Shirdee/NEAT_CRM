@@ -127,7 +127,7 @@ export async function deleteContactAction(boundLocale: string, formData: FormDat
   }
 
   if (!confirm) {
-    redirect(`/${locale}/contacts/${contactId}?error=confirm`);
+    redirect(`/${locale}/contacts/${contactId}/edit?error=confirm`);
   }
 
   if (session.role !== "admin") {
@@ -154,9 +154,9 @@ export async function deleteContactAction(boundLocale: string, formData: FormDat
         error: "blocked",
         blockedBy: error.blockedBy.join(",")
       });
-      redirect(`/${locale}/contacts/${contactId}?${params.toString()}`);
+      redirect(`/${locale}/contacts/${contactId}/edit?${params.toString()}`);
     }
 
-    redirect(`/${locale}/contacts/${contactId}?error=delete`);
+    redirect(`/${locale}/contacts/${contactId}/edit?error=delete`);
   }
 }

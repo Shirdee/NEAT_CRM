@@ -137,7 +137,7 @@ export async function deleteOpportunityAction(boundLocale: string, formData: For
   }
 
   if (!confirm) {
-    redirect(`/${locale}/opportunities/${opportunityId}?error=confirm`);
+    redirect(`/${locale}/opportunities/${opportunityId}/edit?error=confirm`);
   }
 
   const deleted = await deleteOpportunity(opportunityId);

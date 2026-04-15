@@ -163,7 +163,7 @@ export async function deleteInteractionAction(boundLocale: string, formData: For
   }
 
   if (!confirm) {
-    redirect(`/${locale}/interactions/${interactionId}?error=confirm`);
+    redirect(`/${locale}/interactions/${interactionId}/edit?error=confirm`);
   }
 
   try {
@@ -186,9 +186,9 @@ export async function deleteInteractionAction(boundLocale: string, formData: For
         error: "blocked",
         blockedBy: error.blockedBy.join(",")
       });
-      redirect(`/${locale}/interactions/${interactionId}?${params.toString()}`);
+      redirect(`/${locale}/interactions/${interactionId}/edit?${params.toString()}`);
     }
 
-    redirect(`/${locale}/interactions/${interactionId}?error=delete`);
+    redirect(`/${locale}/interactions/${interactionId}/edit?error=delete`);
   }
 }

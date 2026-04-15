@@ -7,11 +7,10 @@ import {getContactById} from "@/lib/data/crm";
 import {InfoPair} from "@/components/ui/info-pair";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
-import {deleteContactAction} from "../actions";
 
 type ContactDetailPageProps = {
   params: Promise<{locale: "en" | "he"; contactId: string}>;
-  searchParams: Promise<{success?: string; error?: string; blockedBy?: string}>;
+  searchParams: Promise<{success?: string}>;
 };
 
 function localizedDate(locale: "en" | "he", value?: Date | string | null) {
@@ -33,7 +32,7 @@ export default async function ContactDetailPage({
   searchParams
 }: ContactDetailPageProps) {
   const {locale, contactId} = await params;
-  const {success, error, blockedBy} = await searchParams;
+  const {success} = await searchParams;
   const t = await getTranslations("ContactDetail");
   const session = await getCurrentSession();
   const contact = await getContactById(contactId);
@@ -48,22 +47,8 @@ export default async function ContactDetailPage({
   const lastActivity = localizedDate(locale, contact.lastInteractionDate);
   const openTasksLabel = t("openTasksCount", {count: 0}).replace(/^0\s*/, "");
   const overdueTasksLabel = t("overdueTasksCount", {count: 0}).replace(/^0\s*/, "");
-  const blockedItems = String(blockedBy ?? "")
-    .split(",")
-    .filter(Boolean)
-    .join(", ");
-
   return (
     <div className="space-y-6">
-      {error ? (
-        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
-          {error === "confirm"
-            ? t("deleteConfirmError")
-            : error === "blocked"
-              ? t("deleteBlocked", {blockedBy: blockedItems || t("deleteBlockedUnknown")})
-              : t("deleteError")}
-        </p>
-      ) : null}
       <SurfaceCard className="space-y-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.92))]">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-4">
@@ -89,21 +74,6 @@ export default async function ContactDetailPage({
               >
                 {t("edit")}
               </Link>
-              {session?.role === "admin" ? (
-                <form action={deleteContactAction.bind(null, locale)} className="space-y-2">
-                  <input name="contactId" type="hidden" value={contact.id} />
-                  <label className="flex items-center gap-2 text-xs text-slate-600">
-                    <input name="confirm" type="checkbox" value="1" />
-                    {t("deleteConfirm")}
-                  </label>
-                  <button
-                    className="inline-flex w-full items-center justify-center rounded-full bg-rose-700 px-5 py-3 text-sm font-medium text-white sm:w-auto"
-                    type="submit"
-                  >
-                    {t("delete")}
-                  </button>
-                </form>
-              ) : null}
             </div>
           ) : null}
         </div>

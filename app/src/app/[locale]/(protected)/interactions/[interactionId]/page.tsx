@@ -7,11 +7,10 @@ import {getInteractionById} from "@/lib/data/crm";
 import {InfoPair} from "@/components/ui/info-pair";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
-import {deleteInteractionAction} from "../actions";
 
 type InteractionDetailPageProps = {
   params: Promise<{locale: "en" | "he"; interactionId: string}>;
-  searchParams: Promise<{success?: string; error?: string; blockedBy?: string}>;
+  searchParams: Promise<{success?: string}>;
 };
 
 function labelForLocale(
@@ -30,7 +29,7 @@ function formatDate(locale: "en" | "he", value: Date | string) {
 
 export default async function InteractionDetailPage({params, searchParams}: InteractionDetailPageProps) {
   const {locale, interactionId} = await params;
-  const {success, error, blockedBy} = await searchParams;
+  const {success} = await searchParams;
   const t = await getTranslations("InteractionDetail");
   const session = await getCurrentSession();
   const interaction = await getInteractionById(interactionId);
@@ -39,22 +38,8 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
     notFound();
   }
 
-  const blockedItems = String(blockedBy ?? "")
-    .split(",")
-    .filter(Boolean)
-    .join(", ");
-
   return (
     <div className="space-y-6">
-      {error ? (
-        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
-          {error === "confirm"
-            ? t("deleteConfirmError")
-            : error === "blocked"
-              ? t("deleteBlocked", {blockedBy: blockedItems || t("deleteBlockedUnknown")})
-              : t("deleteError")}
-        </p>
-      ) : null}
       {success ? (
         <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
           {success === "created" ? t("created") : t("updated")}
@@ -100,19 +85,6 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
               >
                 {t("createFollowUp")}
               </Link>
-              <form action={deleteInteractionAction.bind(null, locale)} className="space-y-2">
-                <input name="interactionId" type="hidden" value={interaction.id} />
-                <label className="flex items-center gap-2 text-xs text-slate-600">
-                  <input name="confirm" type="checkbox" value="1" />
-                  {t("deleteConfirm")}
-                </label>
-                <button
-                  className="inline-flex items-center justify-center rounded-full bg-rose-700 px-5 py-3 text-sm font-medium text-white"
-                  type="submit"
-                >
-                  {t("delete")}
-                </button>
-              </form>
             </div>
           ) : null}
         </div>

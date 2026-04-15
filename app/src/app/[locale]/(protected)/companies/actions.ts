@@ -108,7 +108,7 @@ export async function deleteCompanyAction(boundLocale: string, formData: FormDat
   }
 
   if (!confirm) {
-    redirect(`/${locale}/companies/${companyId}?error=confirm`);
+    redirect(`/${locale}/companies/${companyId}/edit?error=confirm`);
   }
 
   if (session.role !== "admin") {
@@ -136,9 +136,9 @@ export async function deleteCompanyAction(boundLocale: string, formData: FormDat
         error: "blocked",
         blockedBy: error.blockedBy.join(",")
       });
-      redirect(`/${locale}/companies/${companyId}?${params.toString()}`);
+      redirect(`/${locale}/companies/${companyId}/edit?${params.toString()}`);
     }
 
-    redirect(`/${locale}/companies/${companyId}?error=delete`);
+    redirect(`/${locale}/companies/${companyId}/edit?error=delete`);
   }
 }

@@ -4,11 +4,10 @@ import {notFound} from "next/navigation";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getOpportunityById} from "@/lib/data/crm";
-import {deleteOpportunityAction} from "../actions";
 
 type OpportunityDetailPageProps = {
   params: Promise<{locale: "en" | "he"; opportunityId: string}>;
-  searchParams: Promise<{success?: string; error?: string}>;
+  searchParams: Promise<{success?: string}>;
 };
 
 function labelForLocale(locale: "en" | "he", values: {en?: string | null; he?: string | null}) {
@@ -28,7 +27,7 @@ function formatMoney(value: unknown) {
 
 export default async function OpportunityDetailPage({params, searchParams}: OpportunityDetailPageProps) {
   const {locale, opportunityId} = await params;
-  const {success, error} = await searchParams;
+  const {success} = await searchParams;
   const t = await getTranslations("OpportunityDetail");
   const session = await getCurrentSession();
   const opportunity = await getOpportunityById(opportunityId);
@@ -39,11 +38,6 @@ export default async function OpportunityDetailPage({params, searchParams}: Oppo
 
   return (
     <div className="space-y-6">
-      {error ? (
-        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
-          {error === "confirm" ? t("deleteConfirmError") : t("deleteError")}
-        </p>
-      ) : null}
       <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
@@ -51,7 +45,7 @@ export default async function OpportunityDetailPage({params, searchParams}: Oppo
           <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
         </div>
         {session && canEditRecords(session.role) ? (
-          <div className="space-y-2">
+          <div>
             <Link
               className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
               href={`/opportunities/${opportunity.id}/edit`}
@@ -59,19 +53,6 @@ export default async function OpportunityDetailPage({params, searchParams}: Oppo
             >
               {t("edit")}
             </Link>
-            <form action={deleteOpportunityAction.bind(null, locale)} className="space-y-2">
-              <input name="opportunityId" type="hidden" value={opportunity.id} />
-              <label className="flex items-center gap-2 text-xs text-slate-600">
-                <input name="confirm" type="checkbox" value="1" />
-                {t("deleteConfirm")}
-              </label>
-              <button
-                className="inline-flex rounded-full bg-rose-700 px-5 py-3 text-sm font-medium text-white"
-                type="submit"
-              >
-                {t("delete")}
-              </button>
-            </form>
           </div>
         ) : null}
       </div>
