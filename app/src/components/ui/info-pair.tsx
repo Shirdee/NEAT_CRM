@@ -5,16 +5,16 @@ type InfoPairProps = {
 };
 
 const accentClasses = {
-  default: "text-slate-400",
+  default: "text-ink/45",
   teal: "text-teal",
   coral: "text-coral"
 } as const;
 
 export function InfoPair({label, value, accent = "default"}: InfoPairProps) {
   return (
-    <div className="space-y-1 rounded-[22px] bg-[rgba(244,229,225,0.75)] px-3 py-3">
+    <div className="space-y-1 rounded-[22px] bg-mist/80 px-3 py-3">
       <p className={`text-[11px] uppercase tracking-[0.24em] ${accentClasses[accent]}`}>{label}</p>
-      <div className="text-sm text-slate-700">{value}</div>
+      <div className="text-sm text-ink/80">{value}</div>
     </div>
   );
 }

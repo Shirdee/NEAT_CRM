@@ -139,9 +139,9 @@ export function ImportUploadPanel({
   return (
     <article className="rounded-[28px] bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)]">
       <h3 className="text-lg font-semibold text-ink">{title}</h3>
-      <p className="mt-2 text-sm leading-6 text-slate-600">{body}</p>
+      <p className="mt-2 text-sm leading-6 text-ink/70">{body}</p>
       <div className="mt-5 space-y-3">
-        <label className="block rounded-[24px] bg-[rgba(244,229,225,0.7)] px-4 py-5 text-sm text-slate-700">
+        <label className="block rounded-[24px] bg-mist px-4 py-5 text-sm text-ink/70">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <span className="block font-medium text-ink">{selectFileLabel}</span>
             <a
@@ -176,7 +176,7 @@ export function ImportUploadPanel({
         >
           {startImportLabel}
         </button>
-        {statusText ? <p className="text-sm text-slate-600">{statusText}</p> : null}
+        {statusText ? <p className="text-sm text-ink/70">{statusText}</p> : null}
         {errorText ? <p className="text-sm text-rose-700">{errorText}</p> : null}
       </div>
     </article>

@@ -49,7 +49,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
       <div className="space-y-3">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
         <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
 
       {error ? (
@@ -66,25 +66,25 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-coral">{t("summary.eyebrow")}</p>
             <h3 className="mt-2 text-lg font-semibold text-ink">{t("summary.title")}</h3>
-            <p className="mt-2 text-sm text-slate-600">{t("summary.body")}</p>
+            <p className="mt-2 text-sm text-ink/70">{t("summary.body")}</p>
           </div>
           <StatusChip tone="ink">{t("summary.count", {count: totalGroups})}</StatusChip>
         </div>
         {totalGroups === 0 ? (
-          <p className="rounded-[24px] bg-[rgba(244,229,225,0.72)] px-4 py-4 text-sm text-slate-600">
+          <p className="rounded-[24px] bg-mist px-4 py-4 text-sm text-ink/70">
             {t("summary.empty")}
           </p>
         ) : (
           <div className="space-y-5">
             {groups.companies.map((group) => (
-              <article className="space-y-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4" key={group.key}>
+              <article className="space-y-4 rounded-[24px] border border-mist bg-mist/70 p-4" key={group.key}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    <p className="text-xs uppercase tracking-[0.24em] text-ink/40">
                       {t("groups.companies")}
                     </p>
                     <h4 className="mt-2 text-lg font-semibold text-ink">{group.title}</h4>
-                    <p className="mt-2 text-sm text-slate-600">{reasonLabel(group.reason, t)}</p>
+                    <p className="mt-2 text-sm text-ink/70">{reasonLabel(group.reason, t)}</p>
                   </div>
                   <StatusChip tone="amber">{t("summary.records", {count: group.records.length})}</StatusChip>
                 </div>
@@ -94,7 +94,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
 
                     return (
                       <div
-                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-slate-200 bg-white"}`}
+                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-mist bg-white"}`}
                         key={record.id}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -103,7 +103,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
                               {isPrimary ? t("records.primary") : t("records.duplicate")}
                             </p>
                             <h5 className="mt-1 text-base font-semibold text-ink">{record.title}</h5>
-                            {record.detail ? <p className="mt-1 text-sm text-slate-600">{record.detail}</p> : null}
+                            {record.detail ? <p className="mt-1 text-sm text-ink/70">{record.detail}</p> : null}
                           </div>
                           {record.meta.length > 0 ? (
                             <div className="flex flex-wrap gap-2">
@@ -123,7 +123,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
                             <input name="entity" type="hidden" value="companies" />
                             <input name="primaryId" type="hidden" value={group.records[0]?.id} />
                             <input name="duplicateId" type="hidden" value={record.id} />
-                            <label className="flex items-center gap-2 text-sm text-slate-700">
+                            <label className="flex items-center gap-2 text-sm text-ink/70">
                               <input name="confirm" type="checkbox" value="1" />
                               {t("actions.confirm")}
                             </label>
@@ -143,14 +143,14 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
             ))}
 
             {groups.contacts.map((group) => (
-              <article className="space-y-4 rounded-[24px] border border-slate-200 bg-slate-50 p-4" key={group.key}>
+              <article className="space-y-4 rounded-[24px] border border-mist bg-mist/70 p-4" key={group.key}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+                    <p className="text-xs uppercase tracking-[0.24em] text-ink/40">
                       {t("groups.contacts")}
                     </p>
                     <h4 className="mt-2 text-lg font-semibold text-ink">{group.title}</h4>
-                    <p className="mt-2 text-sm text-slate-600">{reasonLabel(group.reason, t)}</p>
+                    <p className="mt-2 text-sm text-ink/70">{reasonLabel(group.reason, t)}</p>
                   </div>
                   <StatusChip tone="amber">{t("summary.records", {count: group.records.length})}</StatusChip>
                 </div>
@@ -160,7 +160,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
 
                     return (
                       <div
-                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-slate-200 bg-white"}`}
+                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-mist bg-white"}`}
                         key={record.id}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -169,7 +169,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
                               {isPrimary ? t("records.primary") : t("records.duplicate")}
                             </p>
                             <h5 className="mt-1 text-base font-semibold text-ink">{record.title}</h5>
-                            {record.detail ? <p className="mt-1 text-sm text-slate-600">{record.detail}</p> : null}
+                            {record.detail ? <p className="mt-1 text-sm text-ink/70">{record.detail}</p> : null}
                           </div>
                           {record.meta.length > 0 ? (
                             <div className="flex flex-wrap gap-2">
@@ -189,7 +189,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
                             <input name="entity" type="hidden" value="contacts" />
                             <input name="primaryId" type="hidden" value={group.records[0]?.id} />
                             <input name="duplicateId" type="hidden" value={record.id} />
-                            <label className="flex items-center gap-2 text-sm text-slate-700">
+                            <label className="flex items-center gap-2 text-sm text-ink/70">
                               <input name="confirm" type="checkbox" value="1" />
                               {t("actions.confirm")}
                             </label>
@@ -212,10 +212,10 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
       </SurfaceCard>
 
       <div className="flex flex-wrap gap-3">
-        <Link className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700" href="/admin/lists" locale={locale}>
+        <Link className="rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink/70" href="/admin/lists" locale={locale}>
           {t("backToAdmin")}
         </Link>
-        <Link className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700" href="/dashboard" locale={locale}>
+        <Link className="rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink/70" href="/dashboard" locale={locale}>
           {t("backToDashboard")}
         </Link>
       </div>

@@ -118,11 +118,11 @@ export function RowReviewForm({
 
       <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <label className="space-y-2">
-          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-ink/40">
             {labels.rowState}
           </span>
           <select
-            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-mist px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.reviewState}
             name="reviewState"
           >
@@ -133,11 +133,11 @@ export function RowReviewForm({
         </label>
 
         <label className="space-y-2">
-          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-ink/40">
             {labels.entityOverride}
           </span>
           <select
-            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-mist px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.entityOverride ?? ""}
             name="entityOverride"
           >
@@ -151,11 +151,11 @@ export function RowReviewForm({
         </label>
 
         <label className="space-y-2">
-          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-ink/40">
             {labels.duplicateDecision}
           </span>
           <select
-            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-mist px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.duplicateDecision}
             name="duplicateDecision"
           >
@@ -167,11 +167,11 @@ export function RowReviewForm({
         </label>
 
         <label className="space-y-2">
-          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+          <span className="block text-xs font-medium uppercase tracking-[0.2em] text-ink/40">
             {labels.attachExisting}
           </span>
           <select
-            className="w-full rounded-[20px] bg-[rgba(244,229,225,0.82)] px-3 py-2 text-sm"
+            className="w-full rounded-[20px] bg-mist px-3 py-2 text-sm"
             defaultValue={row.reviewDecision.existingTargetId ?? ""}
             name="existingTargetId"
           >
@@ -191,12 +191,12 @@ export function RowReviewForm({
       </div>
 
       <div className="grid gap-4 xl:grid-cols-2">
-        <div className="space-y-3 rounded-[24px] bg-[rgba(244,229,225,0.55)] p-4">
+        <div className="space-y-3 rounded-[24px] bg-sand/80 p-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+            <p className="text-xs uppercase tracking-[0.24em] text-ink/40">
               {locale === "he" ? "ערכי מקור" : "Raw values"}
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-ink/70">
               {locale === "he"
                 ? "עדכנו ערכים גולמיים כשצריך לפני בדיקה חוזרת."
                 : "Edit raw values only when the staged source needs correction."}
@@ -205,7 +205,7 @@ export function RowReviewForm({
           <div className="grid gap-3 md:grid-cols-2">
             {Object.entries(row.rawFields).map(([fieldKey, fieldValue]) => (
               <label className="space-y-2" key={`${row.id}-${fieldKey}`}>
-                <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                <span className="block text-xs font-medium uppercase tracking-[0.2em] text-ink/40">
                   {fieldKey}
                 </span>
                 <input
@@ -218,12 +218,12 @@ export function RowReviewForm({
           </div>
         </div>
 
-        <div className="space-y-3 rounded-[24px] bg-[rgba(223,247,241,0.45)] p-4">
+        <div className="space-y-3 rounded-[24px] bg-mint/20 p-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+            <p className="text-xs uppercase tracking-[0.24em] text-ink/40">
               {locale === "he" ? "פלט מנורמל" : "Normalized output"}
             </p>
-            <p className="mt-2 text-sm text-slate-600">
+            <p className="mt-2 text-sm text-ink/70">
               {locale === "he"
                 ? "כך השורה תתפרש כרגע לפי כללי הנרמול והסקירה."
                 : "This is the current interpretation after normalization and review rules."}
@@ -233,16 +233,16 @@ export function RowReviewForm({
             {normalizedEntries.length ? (
               normalizedEntries.map(([fieldKey, fieldValue]) => (
                 <div className="rounded-[20px] bg-white/85 px-3 py-3" key={`${row.id}-${fieldKey}-normalized`}>
-                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                  <p className="text-xs font-medium uppercase tracking-[0.2em] text-ink/40">
                     {fieldKey}
                   </p>
-                  <p className="mt-2 break-words text-sm text-slate-700">
+                  <p className="mt-2 break-words text-sm text-ink/70">
                     {formatFieldValue(fieldValue)}
                   </p>
                 </div>
               ))
             ) : (
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-ink/40">
                 {locale === "he" ? "אין ערכים מנורמלים זמינים." : "No normalized values available."}
               </p>
             )}
@@ -254,9 +254,9 @@ export function RowReviewForm({
         categoryKey: string;
         resolvedValueId: string | null;
       }> | undefined) ?? []).length > 0 ? (
-        <div className="space-y-3 rounded-[24px] bg-[rgba(244,229,225,0.55)] p-4">
+        <div className="space-y-3 rounded-[24px] bg-sand/80 p-4">
           <div>
-            <p className="text-xs uppercase tracking-[0.24em] text-slate-500">
+            <p className="text-xs uppercase tracking-[0.24em] text-ink/40">
               {locale === "he" ? "דריסות רשימות" : "Lookup overrides"}
             </p>
           </div>
@@ -266,7 +266,7 @@ export function RowReviewForm({
               resolvedValueId: string | null;
             }> | undefined) ?? []).map((candidate) => (
               <label className="space-y-2" key={`${row.id}-lookup-${candidate.categoryKey}`}>
-                <span className="block text-xs font-medium uppercase tracking-[0.2em] text-slate-500">
+                <span className="block text-xs font-medium uppercase tracking-[0.2em] text-ink/40">
                   {candidate.categoryKey}
                 </span>
                 <select
@@ -292,7 +292,7 @@ export function RowReviewForm({
       ) : null}
 
       {isDirty ? (
-        <p className="text-xs font-medium text-amber-800">{labels.unsaved}</p>
+        <p className="text-xs font-medium text-coral">{labels.unsaved}</p>
       ) : null}
 
       <button

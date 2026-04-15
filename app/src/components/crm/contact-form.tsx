@@ -52,36 +52,36 @@ export function ContactForm({
           ))
         : null}
       <div className="grid gap-5 lg:grid-cols-2">
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "שם פרטי" : "First name"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("firstName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("firstName") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.firstName}
             name="firstName"
             required
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "שם משפחה" : "Last name"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("lastName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("lastName") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.lastName}
             name="lastName"
             required
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "תפקיד" : "Role title"}</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
             defaultValue={defaults.roleTitle}
             name="roleTitle"
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "חברה" : "Company"}</span>
           <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
             defaultValue={defaults.companyId}
             name="companyId"
           >
@@ -95,51 +95,51 @@ export function ContactForm({
         </label>
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">
             {locale === "he" ? "אימיילים, שורה לכל ערך" : "Emails, one per line"}
           </span>
           <textarea
-            className={`min-h-32 w-full rounded-2xl border px-4 py-3 ${isInvalid("emailsText") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`min-h-32 w-full rounded-2xl border px-4 py-3 ${isInvalid("emailsText") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.emailsText}
             name="emailsText"
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">
             {locale === "he" ? "טלפונים, שורה לכל ערך" : "Phones, one per line"}
           </span>
           <textarea
-            className={`min-h-32 w-full rounded-2xl border px-4 py-3 ${isInvalid("phonesText") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`min-h-32 w-full rounded-2xl border px-4 py-3 ${isInvalid("phonesText") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.phonesText}
             name="phonesText"
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">
             {locale === "he" ? "אימייל ראשי" : "Primary email"}
           </span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
             defaultValue={defaults.primaryEmail}
             name="primaryEmail"
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">
             {locale === "he" ? "טלפון ראשי" : "Primary phone"}
           </span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
             defaultValue={defaults.primaryPhone}
             name="primaryPhone"
           />
         </label>
       </div>
-      <label className="block space-y-2 text-sm text-slate-700">
+      <label className="block space-y-2 text-sm text-ink/70">
         <span className="font-medium">{locale === "he" ? "הערות" : "Notes"}</span>
         <textarea
-          className="min-h-32 w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className="min-h-32 w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
           defaultValue={defaults.notes}
           name="notes"
         />

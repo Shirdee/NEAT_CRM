@@ -42,12 +42,12 @@ export default async function OpportunityDetailPage({params, searchParams}: Oppo
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
           <h2 className="text-3xl font-semibold text-ink">{opportunity.opportunityName}</h2>
-          <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+          <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
         </div>
         {session && canEditRecords(session.role) ? (
           <div>
             <Link
-              className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
+              className="inline-flex rounded-full border border-ink/10 px-5 py-3 text-sm font-medium text-ink/70"
               href={`/opportunities/${opportunity.id}/edit`}
               locale={locale}
             >
@@ -64,45 +64,45 @@ export default async function OpportunityDetailPage({params, searchParams}: Oppo
       ) : null}
 
       <div className="grid gap-4 lg:grid-cols-4">
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("value")}</p>
-          <p className="mt-3 text-sm text-slate-700">{formatMoney(opportunity.estimatedValue)}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("value")}</p>
+          <p className="mt-3 text-sm text-ink/70">{formatMoney(opportunity.estimatedValue)}</p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("status")}</p>
-          <p className="mt-3 text-sm text-slate-700">
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("status")}</p>
+          <p className="mt-3 text-sm text-ink/70">
             {labelForLocale(locale, {en: opportunity.statusLabelEn, he: opportunity.statusLabelHe})}
           </p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("stage")}</p>
-          <p className="mt-3 text-sm text-slate-700">
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("stage")}</p>
+          <p className="mt-3 text-sm text-ink/70">
             {labelForLocale(locale, {en: opportunity.stageLabelEn, he: opportunity.stageLabelHe})}
           </p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("closeDate")}</p>
-          <p className="mt-3 text-sm text-slate-700">{formatDate(locale, opportunity.targetCloseDate ?? null)}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("closeDate")}</p>
+          <p className="mt-3 text-sm text-ink/70">{formatDate(locale, opportunity.targetCloseDate ?? null)}</p>
         </article>
       </div>
 
       <section className="grid gap-4 lg:grid-cols-2">
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("company")}</p>
-          <p className="mt-3 text-sm text-slate-700">{opportunity.companyName}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("company")}</p>
+          <p className="mt-3 text-sm text-ink/70">{opportunity.companyName}</p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("contact")}</p>
-          <p className="mt-3 text-sm text-slate-700">{opportunity.contactName || t("noContact")}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("contact")}</p>
+          <p className="mt-3 text-sm text-ink/70">{opportunity.contactName || t("noContact")}</p>
         </article>
       </section>
 
-      <section className="rounded-[24px] border border-slate-200 bg-white p-5">
-        <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("notes")}</p>
-        <p className="mt-4 text-sm leading-7 text-slate-700">{opportunity.notes || t("noNotes")}</p>
+      <section className="rounded-[24px] border border-ink/8 bg-white p-5">
+        <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("notes")}</p>
+        <p className="mt-4 text-sm leading-7 text-ink/70">{opportunity.notes || t("noNotes")}</p>
       </section>
 
-      <Link className="inline-flex text-sm font-medium text-slate-700" href="/opportunities" locale={locale}>
+      <Link className="inline-flex text-sm font-medium text-ink/70" href="/opportunities" locale={locale}>
         {t("back")}
       </Link>
     </div>

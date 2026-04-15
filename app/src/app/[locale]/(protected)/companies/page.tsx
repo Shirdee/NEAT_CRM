@@ -50,7 +50,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("columns.company")}</p>
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-            <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+            <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
           </div>
           {session && canEditRecords(session.role) ? (
             <Link
@@ -65,7 +65,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
       </SurfaceCard>
 
       {query.error ? (
-        <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("errors.generic")}</p>
+        <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("errors.generic")}</p>
       ) : null}
 
       {session ? (
@@ -83,13 +83,13 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
         <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.3fr)_repeat(2,minmax(0,0.8fr))_auto]">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
-            className="rounded bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.source ?? ""}
             name="source"
           >
@@ -101,7 +101,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             ))}
           </select>
           <select
-            className="rounded bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.stage ?? ""}
             name="stage"
           >
@@ -123,12 +123,12 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
 
       <SurfaceCard className="space-y-4 bg-white/95">
         {companies.length === 0 ? (
-          <div className="rounded-[24px] border border-dashed border-slate-200 bg-white/70 px-4 py-5 text-sm text-slate-600">
+          <div className="rounded-[24px] border border-dashed border-ink/10 bg-white/70 px-4 py-5 text-sm text-ink/70">
             {t("empty")}
           </div>
         ) : (
           <div className="space-y-3">
-            <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] gap-4 rounded-[22px] bg-mist px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 lg:grid">
+            <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] gap-4 rounded-[22px] bg-mist px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-ink/50 lg:grid">
               <span>{t("columns.company")}</span>
               <span>{t("columns.website")}</span>
               <span>{t("columns.stage")}</span>
@@ -138,7 +138,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             <div className="space-y-3">
               {companies.map((company) => (
                 <Link
-                  className="block rounded-[24px] border border-slate-200/70 bg-white/80 px-4 py-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)] transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:px-5 sm:py-5"
+                  className="block rounded-[24px] border border-ink/10 bg-white/80 px-4 py-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)] transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:px-5 sm:py-5"
                   href={`/companies/${company.id}`}
                   key={company.id}
                   locale={locale}
@@ -156,7 +156,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
                           })}
                         </StatusChip>
                       </div>
-                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-slate-500 lg:hidden">
+                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink/50 lg:hidden">
                         {displayLabel(locale, {
                           en: company.sourceLabelEn,
                           he: company.sourceLabelHe
@@ -173,11 +173,11 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
                         </span>
                       </div>
                     </div>
-                    <div className="hidden text-sm text-slate-600 lg:block">{company.website || "—"}</div>
-                    <div className="hidden text-sm text-slate-600 lg:block">
+                    <div className="hidden text-sm text-ink/70 lg:block">{company.website || "—"}</div>
+                    <div className="hidden text-sm text-ink/70 lg:block">
                       {displayLabel(locale, {en: company.stageLabelEn, he: company.stageLabelHe})}
                     </div>
-                    <div className="hidden text-sm text-slate-600 lg:block">
+                    <div className="hidden text-sm text-ink/70 lg:block">
                       {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}
                     </div>
                     <div className="hidden text-sm font-medium text-ink lg:block">{company.contactsCount}</div>

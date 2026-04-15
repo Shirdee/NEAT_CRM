@@ -57,13 +57,13 @@ export default async function NewOpportunityPage({params, searchParams}: NewOppo
           {compactMode ? (locale === "he" ? "הזדמנות מהירה" : "Quick deal") : t("createTitle")}
         </p>
         <h2 className="text-3xl font-semibold tracking-tight text-ink">{t("createTitle")}</h2>
-        <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-2xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
       </SurfaceCard>
       {query.error ? (
-        <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
+        <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("error")}</p>
       ) : null}
       {(lockedCompany || lockedContact) && compactMode ? (
-        <div className="rounded-[24px] bg-white/95 px-4 py-3 text-sm text-slate-700">
+        <div className="rounded-[24px] bg-white/95 px-4 py-3 text-sm text-ink/70">
           <div className="flex flex-wrap gap-2">
             {lockedCompany ? (
               <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">
@@ -112,7 +112,7 @@ export default async function NewOpportunityPage({params, searchParams}: NewOppo
           }}
         />
       </SurfaceCard>
-      <Link className="inline-flex text-sm font-medium text-slate-700" href="/opportunities" locale={locale}>
+      <Link className="inline-flex text-sm font-medium text-ink/70" href="/opportunities" locale={locale}>
         {t("back")}
       </Link>
     </div>

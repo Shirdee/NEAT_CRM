@@ -53,7 +53,7 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
               {interaction.subject}
             </h2>
-            <p className="max-w-3xl text-sm leading-7 text-slate-600">{interaction.summary}</p>
+            <p className="max-w-3xl text-sm leading-7 text-ink/60">{interaction.summary}</p>
             <div className="flex flex-wrap gap-2">
               <StatusChip tone="teal">
                 {labelForLocale(locale, {
@@ -72,7 +72,7 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
           {session && canEditRecords(session.role) ? (
             <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:w-auto">
               <Link
-                className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700"
+                className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70"
                 href={`/interactions/${interaction.id}/edit`}
                 locale={locale}
               >
@@ -134,12 +134,12 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
           </Link>
         </div>
         {interaction.relatedTasks.length === 0 ? (
-          <p className="mt-4 text-sm text-slate-600">{t("tasksEmpty")}</p>
+          <p className="mt-4 text-sm text-ink/60">{t("tasksEmpty")}</p>
         ) : (
           <div className="mt-4 space-y-3">
             {interaction.relatedTasks.map((task) => (
               <Link
-                className="block rounded-[24px] bg-[rgba(244,229,225,0.78)] p-4 transition hover:bg-[rgba(244,229,225,0.95)] hover:shadow-soft"
+                className="block rounded-[24px] bg-mist p-4 transition hover:bg-sand hover:shadow-soft"
                 href={`/tasks/${task.id}`}
                 key={task.id}
                 locale={locale}
@@ -147,7 +147,7 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                   <div>
                     <p className="font-medium text-ink">{task.notes || t("noTaskNotes")}</p>
-                    <p className="text-sm text-slate-600">{formatDate(locale, task.dueDate)}</p>
+                    <p className="text-sm text-ink/60">{formatDate(locale, task.dueDate)}</p>
                   </div>
                   <StatusChip tone="ink">
                     {labelForLocale(locale, {

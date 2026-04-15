@@ -15,11 +15,11 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
     <form action={action} className="space-y-5">
       <input name="locale" type="hidden" value={locale} />
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-slate-600" htmlFor="email">
+        <label className="block text-sm font-medium text-ink/70" htmlFor="email">
           {copy.email}
         </label>
         <input
-          className="w-full rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3.5 text-sm text-slate-900 outline-none ring-0 transition placeholder:text-slate-400 focus:border-teal focus:bg-white"
+          className="w-full rounded-[22px] border border-mist bg-white/80 px-4 py-3.5 text-sm text-ink outline-none ring-0 transition placeholder:text-ink/35 focus:border-teal focus:bg-white"
           defaultValue="admin@crm.local"
           id="email"
           name="email"
@@ -27,11 +27,11 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
         />
       </div>
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-slate-600" htmlFor="password">
+        <label className="block text-sm font-medium text-ink/70" htmlFor="password">
           {copy.password}
         </label>
         <input
-          className="w-full rounded-[22px] border border-slate-200 bg-slate-50/70 px-4 py-3.5 text-sm text-slate-900 outline-none ring-0 transition placeholder:text-slate-400 focus:border-teal focus:bg-white"
+          className="w-full rounded-[22px] border border-mist bg-white/80 px-4 py-3.5 text-sm text-ink outline-none ring-0 transition placeholder:text-ink/35 focus:border-teal focus:bg-white"
           defaultValue="shir"
           id="password"
           name="password"
@@ -49,7 +49,7 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
           {error}
         </p>
       ) : null}
-      <p className="text-xs leading-5 text-slate-500">{copy.hint}</p>
+      <p className="text-xs leading-5 text-ink/55">{copy.hint}</p>
     </form>
   );
 }

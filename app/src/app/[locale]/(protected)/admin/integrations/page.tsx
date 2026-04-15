@@ -31,45 +31,45 @@ export default async function AdminIntegrationsPage({params}: AdminIntegrationsP
         <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
           Integration boundary
         </h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">
           Read-only registry. No live sync, no writes, no provider-specific workflow here.
         </p>
       </div>
 
       <section className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Providers</p>
+        <div className="rounded-[24px] border border-mist bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/40">Providers</p>
           <p className="mt-3 text-3xl font-semibold text-ink">{providers.length}</p>
         </div>
-        <div className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Enabled</p>
+        <div className="rounded-[24px] border border-mist bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/40">Enabled</p>
           <p className="mt-3 text-3xl font-semibold text-ink">{enabledProviders.length}</p>
         </div>
-        <div className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Disabled</p>
+        <div className="rounded-[24px] border border-mist bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/40">Disabled</p>
           <p className="mt-3 text-3xl font-semibold text-ink">{disabledProviders.length}</p>
         </div>
       </section>
 
       <section className="space-y-4">
         {providers.map((provider) => (
-          <article className="rounded-[24px] border border-slate-200 bg-white p-5" key={provider.id}>
+          <article className="rounded-[24px] border border-mist bg-white p-5" key={provider.id}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{provider.id}</p>
+                <p className="text-xs uppercase tracking-[0.24em] text-ink/40">{provider.id}</p>
                 <h3 className="mt-1 text-lg font-semibold text-ink">{provider.label}</h3>
               </div>
               <span
                 className={`rounded-full px-3 py-1 text-xs font-medium ${
-                  provider.enabled ? "bg-emerald-100 text-emerald-800" : "bg-slate-200 text-slate-700"
+                  provider.enabled ? "bg-emerald-100 text-emerald-800" : "bg-mist text-ink/70"
                 }`}
               >
                 {provider.enabled ? "enabled" : "disabled"}
               </span>
             </div>
             <div className="mt-4">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-500">Capabilities</p>
-              <p className="mt-2 text-sm text-slate-600">
+              <p className="text-xs uppercase tracking-[0.24em] text-ink/40">Capabilities</p>
+              <p className="mt-2 text-sm text-ink/70">
                 {provider.capabilities.length > 0 ? provider.capabilities.join(", ") : "none"}
               </p>
             </div>
@@ -79,14 +79,14 @@ export default async function AdminIntegrationsPage({params}: AdminIntegrationsP
 
       <div className="flex flex-wrap gap-3">
         <Link
-          className="inline-flex rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+          className="inline-flex rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink/70"
           href="/admin/lists"
           locale={locale}
         >
           Back to admin
         </Link>
         <Link
-          className="inline-flex rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700"
+          className="inline-flex rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink/70"
           href="/dashboard"
           locale={locale}
         >

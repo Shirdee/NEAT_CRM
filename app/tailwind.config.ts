@@ -20,8 +20,8 @@ const config: Config = {
         panel: "0 18px 44px rgba(16, 36, 63, 0.10)"
       },
       fontFamily: {
-        sans: ["Inter", "\"Segoe UI\"", "Arial", "sans-serif"],
-        display: ["Manrope", "\"Segoe UI\"", "sans-serif"]
+        sans: ["var(--font-inter)", "\"Segoe UI\"", "Arial", "sans-serif"],
+        display: ["var(--font-manrope)", "\"Segoe UI\"", "sans-serif"]
       }
     }
   },

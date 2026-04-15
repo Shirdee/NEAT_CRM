@@ -72,7 +72,7 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
               <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
                 {t("form.title")}
               </h2>
-              <p className="max-w-md text-sm leading-6 text-slate-600">{t("form.subtitle")}</p>
+              <p className="max-w-md text-sm leading-6 text-ink/70">{t("form.subtitle")}</p>
             </div>
             <LoginForm
               action={loginAction}

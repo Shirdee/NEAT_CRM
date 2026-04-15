@@ -70,12 +70,12 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
         <h2 className="text-3xl font-semibold tracking-tight text-ink">
           {compactMode ? t("quickAddTitle") : t("createTitle")}
         </h2>
-        <p className="max-w-2xl text-sm leading-7 text-slate-600">
+        <p className="max-w-2xl text-sm leading-7 text-ink/60">
           {compactMode ? t("quickAddSubtitle") : t("subtitle")}
         </p>
       </SurfaceCard>
       {error ? (
-        <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
+        <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("error")}</p>
       ) : null}
       <section
         className={
@@ -109,7 +109,7 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
           }}
         />
       </section>
-      <Link className="inline-flex text-sm font-medium text-slate-700" href="/tasks" locale={locale}>
+      <Link className="inline-flex text-sm font-medium text-ink/70" href="/tasks" locale={locale}>
         {t("back")}
       </Link>
     </div>

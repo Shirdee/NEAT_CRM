@@ -152,13 +152,13 @@ export function SavedViewBar<M extends SavedViewModule>({
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-col gap-3 rounded-[26px] border border-slate-200 bg-white/80 p-4 shadow-[0_10px_30px_rgba(58,48,45,0.06)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-[26px] border border-sand bg-white/80 p-4 shadow-[0_10px_30px_rgba(16,36,63,0.06)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
-          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-400">
+          <p className="text-xs font-semibold uppercase tracking-[0.26em] text-ink/45">
             {label(locale, "Saved views", "תצוגות שמורות")}
           </p>
           <select
-            className="w-full rounded-[22px] border border-slate-200 bg-white px-3 py-2 text-sm text-slate-700 sm:w-[280px]"
+            className="w-full rounded-[22px] border border-sand bg-white px-3 py-2 text-sm text-ink/80 sm:w-[280px]"
             disabled={isPending}
             onChange={(event) => {
               const value = event.target.value;
@@ -189,7 +189,7 @@ export function SavedViewBar<M extends SavedViewModule>({
             {label(locale, "Save", "שמירה")}
           </button>
           <button
-            className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 disabled:opacity-60"
+            className="rounded-full border border-sand bg-white px-4 py-2 text-sm font-medium text-ink/75 disabled:opacity-60"
             disabled={!selectedViewId || isPending}
             onClick={onRename}
             type="button"
@@ -197,7 +197,7 @@ export function SavedViewBar<M extends SavedViewModule>({
             {label(locale, "Rename", "שינוי שם")}
           </button>
           <button
-            className="rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-medium text-slate-700 disabled:opacity-60"
+            className="rounded-full border border-sand bg-white px-4 py-2 text-sm font-medium text-ink/75 disabled:opacity-60"
             disabled={!selectedViewId || isPending}
             onClick={onDelete}
             type="button"
@@ -208,7 +208,7 @@ export function SavedViewBar<M extends SavedViewModule>({
       </div>
 
       {error ? (
-        <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{error}</p>
+        <p className="rounded-2xl bg-mist px-4 py-3 text-sm text-coral">{error}</p>
       ) : null}
     </div>
   );

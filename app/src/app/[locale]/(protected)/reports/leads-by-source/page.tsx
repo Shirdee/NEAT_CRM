@@ -39,15 +39,15 @@ export default async function LeadsBySourceReportPage({params}: LeadsBySourceRep
       <div className="space-y-3">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
         <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
 
       <SurfaceCard className="overflow-hidden p-0">
-        <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-4 bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+        <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-4 bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-ink/40">
           <span>{t("columns.source")}</span>
           <span className="text-right">{t("columns.count")}</span>
         </div>
-        <div className="divide-y divide-slate-100">
+        <div>
           {rows.map((row) => (
             <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-4 px-5 py-4" key={row.sourceValueId ?? "unknown"}>
               <span className="text-sm font-medium text-ink">{row.label}</span>
@@ -57,7 +57,7 @@ export default async function LeadsBySourceReportPage({params}: LeadsBySourceRep
         </div>
       </SurfaceCard>
 
-      <Link className="inline-flex text-sm font-medium text-slate-700" href="/reports" locale={locale}>
+      <Link className="inline-flex text-sm font-medium text-ink/70" href="/reports" locale={locale}>
         {t("back")}
       </Link>
     </div>

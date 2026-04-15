@@ -99,7 +99,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
         <MetricCard
           detail={t("metrics.upcomingDetail")}
           label={t("metrics.upcoming")}
-          tone="amber"
+          tone="ink"
           value={String(snapshot.upcomingTasksCount)}
         />
         <MetricCard
@@ -133,7 +133,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           <div className="space-y-3">
             {snapshot.overdueTasks.map((task) => (
               <Link
-                className="block rounded-[24px] border border-transparent bg-slate-50/75 p-4 shadow-[0_1px_0_rgba(15,23,42,0.04)] transition hover:bg-white hover:shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
+                className="block rounded-[24px] border border-transparent bg-white/75 p-4 shadow-[0_1px_0_rgba(15,23,42,0.04)] transition hover:bg-white hover:shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
                 href={`/tasks/${task.id}`}
                 key={task.id}
               >
@@ -142,7 +142,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
                     <p className="text-base font-semibold text-ink">
                       {task.notes || t("priority.noTaskNotes")}
                     </p>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-sm text-ink/70">
                       {task.companyName || task.contactName || t("priority.unassigned")}
                     </p>
                   </div>
@@ -153,7 +153,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
               </Link>
             ))}
             {snapshot.overdueTasksCount === 0 ? (
-              <div className="rounded-[24px] bg-mint/70 px-4 py-5 text-sm text-slate-700">
+              <div className="rounded-[24px] bg-mint/70 px-4 py-5 text-sm text-ink/75">
                 {t("priority.empty")}
               </div>
             ) : null}
@@ -180,7 +180,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
                   key={interaction.id}
                 >
                   <p className="font-medium text-ink">{interaction.subject}</p>
-                  <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+                  <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-ink/70">
                     <span>{interaction.companyName || interaction.contactName || t("timeline.general")}</span>
                     <span aria-hidden="true">•</span>
                     <span>{dateFormatter.format(new Date(interaction.interactionDate))}</span>
@@ -188,25 +188,25 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
                 </Link>
               ))}
               {snapshot.recentInteractions.length === 0 ? (
-                <p className="rounded-[22px] bg-mist/70 px-4 py-5 text-sm text-slate-700">
+                <p className="rounded-[22px] bg-mist/70 px-4 py-5 text-sm text-ink/75">
                   {t("timeline.empty")}
                 </p>
               ) : null}
             </div>
           </SurfaceCard>
           <SurfaceCard className="min-w-0 space-y-4">
-            <p className="text-xs uppercase tracking-[0.28em] text-slate-400">{t("insights.eyebrow")}</p>
+            <p className="text-xs uppercase tracking-[0.28em] text-ink/40">{t("insights.eyebrow")}</p>
             <h3 className="text-xl font-semibold text-ink">{t("insights.title")}</h3>
             <div className="space-y-3">
               {snapshot.activeCompanies.map((company) => (
                 <Link
-                  className="flex items-center justify-between gap-3 rounded-[22px] border border-transparent bg-slate-50/75 px-4 py-3 transition hover:bg-mint/70"
+                  className="flex items-center justify-between gap-3 rounded-[22px] border border-transparent bg-white/75 px-4 py-3 transition hover:bg-mint/70"
                   href={`/companies/${company.id}`}
                   key={company.id}
                 >
                   <div>
                     <p className="font-medium text-ink">{company.companyName}</p>
-                    <p className="text-sm text-slate-600">
+                    <p className="text-sm text-ink/70">
                       {company.stageLabelEn || company.sourceLabelEn || t("insights.noStage")}
                     </p>
                   </div>

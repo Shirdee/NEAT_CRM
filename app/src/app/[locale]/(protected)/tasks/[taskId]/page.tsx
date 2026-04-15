@@ -45,12 +45,12 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
           <h2 className="text-3xl font-semibold text-ink">{task.notes || t("noNotes")}</h2>
-          <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+          <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
         </div>
         {session && canEditRecords(session.role) ? (
           <div>
             <Link
-              className="inline-flex rounded-full border border-slate-300 px-5 py-3 text-sm font-medium text-slate-700"
+              className="inline-flex rounded-full border border-ink/10 px-5 py-3 text-sm font-medium text-ink/70"
               href={`/tasks/${task.id}/edit`}
               locale={locale}
             >
@@ -67,31 +67,31 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
       ) : null}
 
       <div className="grid gap-4 lg:grid-cols-4">
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("dueDate")}</p>
-          <p className="mt-3 text-sm text-slate-700">{formatDate(locale, task.dueDate)}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("dueDate")}</p>
+          <p className="mt-3 text-sm text-ink/70">{formatDate(locale, task.dueDate)}</p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("status")}</p>
-          <p className="mt-3 text-sm text-slate-700">
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("status")}</p>
+          <p className="mt-3 text-sm text-ink/70">
             {labelForLocale(locale, {
               en: task.statusLabelEn,
               he: task.statusLabelHe
             })}
           </p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("priority")}</p>
-          <p className="mt-3 text-sm text-slate-700">
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("priority")}</p>
+          <p className="mt-3 text-sm text-ink/70">
             {labelForLocale(locale, {
               en: task.priorityLabelEn,
               he: task.priorityLabelHe
             })}
           </p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("type")}</p>
-          <p className="mt-3 text-sm text-slate-700">
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("type")}</p>
+          <p className="mt-3 text-sm text-ink/70">
             {labelForLocale(locale, {
               en: task.taskTypeLabelEn,
               he: task.taskTypeLabelHe
@@ -101,21 +101,21 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
       </div>
 
       <section className="grid gap-4 lg:grid-cols-3">
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("company")}</p>
-          <p className="mt-3 text-sm text-slate-700">{task.companyName || t("noCompany")}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("company")}</p>
+          <p className="mt-3 text-sm text-ink/70">{task.companyName || t("noCompany")}</p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("contact")}</p>
-          <p className="mt-3 text-sm text-slate-700">{task.contactName || t("noContact")}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("contact")}</p>
+          <p className="mt-3 text-sm text-ink/70">{task.contactName || t("noContact")}</p>
         </article>
-        <article className="rounded-[24px] border border-slate-200 bg-white p-5">
-          <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("completedAt")}</p>
-          <p className="mt-3 text-sm text-slate-700">{formatDate(locale, task.completedAt)}</p>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("completedAt")}</p>
+          <p className="mt-3 text-sm text-ink/70">{formatDate(locale, task.completedAt)}</p>
         </article>
       </section>
 
-      <section className="rounded-[24px] border border-slate-200 bg-white p-5">
+      <section className="rounded-[24px] border border-ink/8 bg-white p-5">
         <div className="flex items-center justify-between gap-3">
           <h3 className="text-lg font-semibold text-ink">{t("relatedInteraction")}</h3>
           {task.relatedInteractionId ? (
@@ -128,7 +128,7 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
             </Link>
           ) : null}
         </div>
-        <p className="mt-4 text-sm text-slate-600">{task.interactionSubject || t("noInteraction")}</p>
+        <p className="mt-4 text-sm text-ink/60">{task.interactionSubject || t("noInteraction")}</p>
       </section>
     </div>
   );

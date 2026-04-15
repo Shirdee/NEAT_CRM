@@ -48,18 +48,18 @@ export default async function MeetingsReportPage({params}: MeetingsReportPagePro
       <div className="space-y-3">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
         <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
         <SurfaceCard className="overflow-hidden p-0">
-          <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-4 bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500">
+          <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-4 bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-ink/40">
             <span>{t("columns.period")}</span>
             <span className="text-right">{t("columns.count")}</span>
           </div>
-          <div className="divide-y divide-slate-100">
+          <div>
             {rows.length === 0 ? (
-              <p className="px-5 py-6 text-sm text-slate-600">{t("empty")}</p>
+              <p className="px-5 py-6 text-sm text-ink/70">{t("empty")}</p>
             ) : (
               rows.map((row) => (
                 <div className="grid grid-cols-[minmax(0,1fr)_120px] gap-4 px-5 py-4" key={row.key}>
@@ -82,7 +82,7 @@ export default async function MeetingsReportPage({params}: MeetingsReportPagePro
                 locale={locale}
               >
                 <p className="font-medium text-ink">{interaction.subject}</p>
-                <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-slate-600">
+                <div className="mt-2 flex flex-wrap items-center gap-2 text-sm text-ink/70">
                   <span>{interaction.companyName || interaction.contactName || t("general")}</span>
                   <span aria-hidden="true">•</span>
                   <span>
@@ -93,12 +93,12 @@ export default async function MeetingsReportPage({params}: MeetingsReportPagePro
                 </div>
               </Link>
             ))}
-            {recent.length === 0 ? <p className="text-sm text-slate-600">{t("empty")}</p> : null}
+            {recent.length === 0 ? <p className="text-sm text-ink/70">{t("empty")}</p> : null}
           </div>
         </SurfaceCard>
       </div>
 
-      <Link className="inline-flex text-sm font-medium text-slate-700" href="/reports" locale={locale}>
+      <Link className="inline-flex text-sm font-medium text-ink/70" href="/reports" locale={locale}>
         {t("back")}
       </Link>
     </div>

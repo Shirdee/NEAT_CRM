@@ -16,7 +16,7 @@ export default async function ReportsHomePage({params}: ReportsHomePageProps) {
       <div className="space-y-3">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
         <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -40,7 +40,7 @@ export default async function ReportsHomePage({params}: ReportsHomePageProps) {
           >
             <SurfaceCard className="space-y-3 transition hover:-translate-y-0.5 hover:shadow-panel">
               <h3 className="text-xl font-semibold text-ink">{card.title}</h3>
-              <p className="text-sm leading-7 text-slate-600">{card.body}</p>
+              <p className="text-sm leading-7 text-ink/70">{card.body}</p>
             </SurfaceCard>
           </Link>
         ))}

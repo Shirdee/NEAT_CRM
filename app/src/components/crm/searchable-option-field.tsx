@@ -56,13 +56,13 @@ export function SearchableOptionField({
   }, [options, query]);
 
   return (
-    <div className="space-y-2 text-sm text-slate-700">
+    <div className="space-y-2 text-sm text-ink/70">
       <span className="font-medium">{label}</span>
       <input name={name} type="hidden" value={selectedId} />
       <div className="relative">
         <input
           autoComplete="off"
-          className={`w-full rounded-2xl border px-4 py-3 ${invalid ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+          className={`w-full rounded-2xl border px-4 py-3 ${invalid ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
           onBlur={() => {
             window.setTimeout(() => {
               setIsOpen(false);
@@ -87,7 +87,7 @@ export function SearchableOptionField({
         />
         {query ? (
           <button
-            className="absolute end-3 top-1/2 -translate-y-1/2 text-xs font-medium text-slate-500"
+            className="absolute end-3 top-1/2 -translate-y-1/2 text-xs font-medium text-ink/50"
             onClick={() => {
               setQuery("");
               setIsOpen(false);
@@ -99,10 +99,10 @@ export function SearchableOptionField({
           </button>
         ) : null}
         {isOpen ? (
-          <div className="absolute z-20 mt-2 max-h-64 w-full overflow-auto rounded-[20px] border border-slate-200 bg-white p-2 shadow-soft">
+          <div className="absolute z-20 mt-2 max-h-64 w-full overflow-auto rounded-[20px] border border-sand/70 bg-white p-2 shadow-soft">
             <button
               className={`block w-full rounded-2xl px-3 py-2 text-left text-sm ${
-                !selectedId ? "bg-mist text-ink" : "text-slate-700 hover:bg-mist"
+                !selectedId ? "bg-mist text-ink" : "text-ink/70 hover:bg-mist"
               }`}
               onMouseDown={(event) => {
                 event.preventDefault();
@@ -115,12 +115,12 @@ export function SearchableOptionField({
               {emptyLabel}
             </button>
             {filteredOptions.length === 0 ? (
-              <p className="px-3 py-2 text-sm text-slate-500">{noResultsLabel}</p>
+              <p className="px-3 py-2 text-sm text-ink/50">{noResultsLabel}</p>
             ) : (
               filteredOptions.map((option) => (
                 <button
                   className={`block w-full rounded-2xl px-3 py-2 text-left text-sm ${
-                    selectedId === option.id ? "bg-mist text-ink" : "text-slate-700 hover:bg-mist"
+                    selectedId === option.id ? "bg-mist text-ink" : "text-ink/70 hover:bg-mist"
                   }`}
                   key={option.id}
                   onMouseDown={(event) => {

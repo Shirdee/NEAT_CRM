@@ -35,7 +35,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
   }
 
   return (
-    <div className="relative grid h-[100dvh] min-h-[100dvh] w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden bg-sand text-slate-900 overscroll-none">
+    <div className="relative grid h-[100dvh] min-h-[100dvh] w-full grid-rows-[minmax(0,1fr)_auto] overflow-hidden bg-sand text-ink overscroll-none">
       {/* Atmospheric background */}
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[320px] bg-ink" />
 
@@ -141,7 +141,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
         <div className="mx-auto grid w-full max-w-7xl gap-5 px-4 pb-6 sm:px-6 lg:grid-cols-[270px_minmax(0,1fr)] lg:px-8">
           <aside className="hidden min-w-0 overflow-y-auto rounded-[30px] border border-white/70 bg-white/70 p-2 shadow-panel backdrop-blur lg:block">
             <div className="mb-3 px-3 pt-2">
-              <p className="text-xs uppercase tracking-[0.28em] text-slate-400">
+              <p className="text-xs uppercase tracking-[0.28em] text-ink/40">
                 {t("eyebrow")}
               </p>
               <p className="mt-2 text-lg font-semibold text-ink">{t("workspace")}</p>

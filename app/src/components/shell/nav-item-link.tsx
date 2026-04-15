@@ -21,7 +21,7 @@ export function NavItemLink({href, label, locale}: NavItemLinkProps) {
         "group flex items-center justify-between rounded-[22px] px-3 py-1.5 text-sm font-medium transition",
         active
           ? "bg-ink text-white shadow-panel"
-          : "bg-white/70 text-slate-600 hover:bg-mint hover:text-ink"
+          : "bg-white/70 text-ink/70 hover:bg-mint hover:text-ink"
       )}
       href={href}
       locale={locale}
@@ -31,7 +31,7 @@ export function NavItemLink({href, label, locale}: NavItemLinkProps) {
         aria-hidden="true"
         className={clsx(
           "h-2.5 w-2.5 rounded-full transition",
-          active ? "bg-coral" : "bg-slate-200 group-hover:bg-teal/30"
+          active ? "bg-coral" : "bg-mist group-hover:bg-teal/30"
         )}
       />
     </Link>

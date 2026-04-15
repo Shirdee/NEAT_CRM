@@ -101,7 +101,7 @@ export default async function AdminImportsPage({
           {locale === "he" ? "סקירת ניהול" : "Admin review"}
         </p>
         <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
 
       {error ? (
@@ -131,11 +131,11 @@ export default async function AdminImportsPage({
 
           <SurfaceCard className="space-y-4 bg-white/95">
             <div className="space-y-2">
-              <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{t("history.title")}</p>
+              <p className="text-xs uppercase tracking-[0.24em] text-ink/40">{t("history.title")}</p>
               <h3 className="text-lg font-semibold text-ink">{t("history.count", {count: batches.length})}</h3>
             </div>
             {batches.length === 0 ? (
-              <p className="text-sm text-slate-600">{t("history.empty")}</p>
+              <p className="text-sm text-ink/70">{t("history.empty")}</p>
             ) : (
               <div className="space-y-3">
                 {batches.map((item: ImportBatchListItem) => {
@@ -146,7 +146,7 @@ export default async function AdminImportsPage({
                       className={`block rounded-[24px] px-4 py-4 transition ${
                         isActive
                           ? "bg-ink text-white shadow-[0_12px_32px_rgba(16,36,63,0.18)]"
-                          : "bg-[rgba(244,229,225,0.72)] text-slate-700 hover:bg-[rgba(244,229,225,0.95)]"
+                          : "bg-mist text-ink/70 hover:bg-mist"
                       }`}
                       href={`/admin/imports?batch=${item.id}`}
                       key={item.id}
@@ -157,7 +157,7 @@ export default async function AdminImportsPage({
                           <p className="line-clamp-2 text-sm font-semibold">{item.sourceFilename}</p>
                           <StatusChip tone={isActive ? "default" : "ink"}>{item.status}</StatusChip>
                         </div>
-                        <p className={`text-xs ${isActive ? "text-white/70" : "text-slate-500"}`}>
+                        <p className={`text-xs ${isActive ? "text-white/70" : "text-ink/40"}`}>
                           {dateTimeFormatter.format(new Date(item.startedAt))}
                         </p>
                       </div>
@@ -179,7 +179,7 @@ export default async function AdminImportsPage({
                       {locale === "he" ? "אצווה פעילה" : "Active batch"}
                     </p>
                     <h3 className="mt-2 text-xl font-semibold text-ink">{selectedBatch.sourceFilename}</h3>
-                    <p className="mt-2 text-sm text-slate-600">
+                    <p className="mt-2 text-sm text-ink/70">
                       {t("review.statusLabel", {status: selectedBatch.status})}
                     </p>
                   </div>
@@ -195,8 +195,8 @@ export default async function AdminImportsPage({
 
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                   {summaryCards.map((card) => (
-                    <div className="rounded-[24px] bg-[rgba(244,229,225,0.78)] px-4 py-4" key={card.key}>
-                      <p className="text-xs uppercase tracking-[0.24em] text-slate-500">{card.label}</p>
+                    <div className="rounded-[24px] bg-mist px-4 py-4" key={card.key}>
+                      <p className="text-xs uppercase tracking-[0.24em] text-ink/40">{card.label}</p>
                       <p className="mt-3 text-2xl font-semibold text-ink">{card.value}</p>
                     </div>
                   ))}
@@ -206,13 +206,13 @@ export default async function AdminImportsPage({
                   {selectedBatch.summary?.profile.sheets.map((sheet) => (
                     <div className="rounded-[24px] bg-[rgba(255,255,255,0.72)] p-4" key={sheet.name}>
                       <p className="text-sm font-semibold text-ink">{sheet.name}</p>
-                      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-slate-500">
+                      <p className="mt-2 text-xs uppercase tracking-[0.2em] text-ink/40">
                         {sheet.guessedEntityType}
                       </p>
-                      <p className="mt-2 text-sm text-slate-600">
+                      <p className="mt-2 text-sm text-ink/70">
                         {t("review.sheetRows", {count: sheet.rowCount})}
                       </p>
-                      <p className="text-sm text-slate-600">
+                      <p className="text-sm text-ink/70">
                         {t("review.sheetColumns", {count: sheet.columnCount})}
                       </p>
                     </div>
@@ -224,15 +224,15 @@ export default async function AdminImportsPage({
                 <div className="flex flex-wrap items-center justify-between gap-4">
                   <div>
                     <h3 className="text-lg font-semibold text-ink">{t("review.commitTitle")}</h3>
-                    <p className="mt-2 text-sm text-slate-600">{t("review.commitBody")}</p>
+                    <p className="mt-2 text-sm text-ink/70">{t("review.commitBody")}</p>
                   </div>
                   <form
                     action={commitImportBatchAction}
-                    className="space-y-3 rounded-[24px] bg-[rgba(244,229,225,0.78)] p-4"
+                    className="space-y-3 rounded-[24px] bg-mist p-4"
                   >
                     <input name="locale" type="hidden" value={locale} />
                     <input name="batchId" type="hidden" value={selectedBatch.id} />
-                    <label className="flex items-center gap-2 text-sm text-slate-700">
+                    <label className="flex items-center gap-2 text-sm text-ink/70">
                       <input name="allowWarnings" type="checkbox" value="1" />
                       {t("review.allowWarnings")}
                     </label>
@@ -249,7 +249,7 @@ export default async function AdminImportsPage({
               <SurfaceCard className="space-y-5">
                 <div>
                   <h3 className="text-lg font-semibold text-ink">{t("review.issuesTitle")}</h3>
-                  <p className="mt-2 text-sm text-slate-600">
+                  <p className="mt-2 text-sm text-ink/70">
                     {locale === "he"
                       ? "פתרו קודם שגיאות חוסמות, אחר כך עברו על אזהרות וקלט הקשר."
                       : "Resolve blocking errors first, then work through warnings and context issues."}
@@ -261,7 +261,7 @@ export default async function AdminImportsPage({
                   <div className="grid gap-4 xl:grid-cols-3">
                     {(["error", "warning", "info"] as const).map((severity) => (
                       <div
-                        className="space-y-3 rounded-[24px] bg-[rgba(244,229,225,0.55)] p-4"
+                        className="space-y-3 rounded-[24px] bg-sand/80 p-4"
                         key={severity}
                       >
                         <div className="flex items-center justify-between gap-3">
@@ -276,17 +276,17 @@ export default async function AdminImportsPage({
                               className="rounded-[20px] bg-white/80 px-3 py-3"
                               key={`${severity}-${issue.issueCode}-${index}`}
                             >
-                              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+                              <p className="text-xs uppercase tracking-[0.18em] text-ink/40">
                                 {issue.sheetName} #{issue.rowNumber ?? "-"}
                               </p>
                               <p className="mt-2 text-sm font-medium text-ink">{issue.message}</p>
                               {issue.rawValue ? (
-                                <p className="mt-2 break-all text-xs text-slate-500">{issue.rawValue}</p>
+                                <p className="mt-2 break-all text-xs text-ink/40">{issue.rawValue}</p>
                               ) : null}
                             </div>
                           ))
                         ) : (
-                          <p className="text-sm text-slate-500">
+                          <p className="text-sm text-ink/40">
                             {locale === "he" ? "אין פריטים בקטגוריה זו." : "No items in this severity."}
                           </p>
                         )}
@@ -300,7 +300,7 @@ export default async function AdminImportsPage({
                 <div className="flex flex-wrap items-end justify-between gap-3">
                   <div>
                     <h3 className="text-lg font-semibold text-ink">{t("review.rowsTitle")}</h3>
-                    <p className="mt-2 text-sm text-slate-600">
+                    <p className="mt-2 text-sm text-ink/70">
                       {locale === "he"
                         ? "עברו על שורות עם בעיות, השוו ערכים גולמיים מול ערכים מנורמלים, ועדכנו החלטת סקירה."
                         : "Review staged rows, compare raw values with normalized output, and update the review decision."}
@@ -372,21 +372,21 @@ export default async function AdminImportsPage({
               </SurfaceCard>
             </>
           ) : (
-            <SurfaceCard className="text-sm text-slate-600">{t("review.empty")}</SurfaceCard>
+            <SurfaceCard className="text-sm text-ink/70">{t("review.empty")}</SurfaceCard>
           )}
         </div>
       </section>
 
       <div className="flex flex-wrap gap-3">
         <Link
-          className="inline-flex rounded-full bg-[rgba(244,229,225,0.9)] px-4 py-2 text-sm font-medium text-slate-700"
+          className="inline-flex rounded-full bg-mist px-4 py-2 text-sm font-medium text-ink/70"
           href="/admin/lists"
           locale={locale}
         >
           {t("backToAdminLists")}
         </Link>
         <Link
-          className="inline-flex rounded-full bg-[rgba(244,229,225,0.9)] px-4 py-2 text-sm font-medium text-slate-700"
+          className="inline-flex rounded-full bg-mist px-4 py-2 text-sm font-medium text-ink/70"
           href="/dashboard"
           locale={locale}
         >

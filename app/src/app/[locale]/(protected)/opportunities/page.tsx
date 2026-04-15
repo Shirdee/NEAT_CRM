@@ -67,7 +67,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
         <div className="space-y-3">
           <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
           <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-          <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+          <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
         </div>
         {session && canEditRecords(session.role) ? (
           <Link
@@ -81,7 +81,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
       </div>
 
       {query.error ? (
-        <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("errors.generic")}</p>
+        <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("errors.generic")}</p>
       ) : null}
 
       {session ? (
@@ -99,13 +99,13 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
         <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_repeat(4,minmax(0,0.8fr))_auto]">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.companyId ?? ""}
             name="companyId"
           >
@@ -117,7 +117,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.contactId ?? ""}
             name="contactId"
           >
@@ -129,7 +129,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.stage ?? ""}
             name="stage"
           >
@@ -141,7 +141,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.status ?? ""}
             name="status"
           >
@@ -153,7 +153,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.type ?? ""}
             name="type"
           >
@@ -174,12 +174,12 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
       </FilterShell>
 
       {opportunities.length === 0 ? (
-        <SurfaceCard className="bg-white/95 p-8 text-sm text-slate-600">
+        <SurfaceCard className="bg-white/95 p-8 text-sm text-ink/60">
           {t("empty")}
         </SurfaceCard>
       ) : (
         <div className="space-y-4">
-          <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_140px_140px] gap-4 rounded-[24px] bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-slate-500 lg:grid">
+          <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_140px_140px] gap-4 rounded-[24px] bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-ink/50 lg:grid">
             <span>{t("columns.opportunity")}</span>
             <span>{t("columns.company")}</span>
             <span>{t("columns.stage")}</span>
@@ -198,7 +198,7 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div>
                       <p className="text-lg font-semibold text-ink">{opportunity.opportunityName}</p>
-                      <p className="mt-2 line-clamp-2 text-sm text-slate-600">
+                      <p className="mt-2 line-clamp-2 text-sm text-ink/60">
                         {opportunity.notes || t("labels.noNotes")}
                       </p>
                     </div>
@@ -223,11 +223,11 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
                     />
                   </div>
                 </div>
-                <div className="text-sm text-slate-600">{opportunity.companyName ?? "—"}</div>
-                <div className="hidden text-sm text-slate-600 lg:block">
+                <div className="text-sm text-ink/60">{opportunity.companyName ?? "—"}</div>
+                <div className="hidden text-sm text-ink/60 lg:block">
                   {displayLabel(locale, {en: opportunity.stageLabelEn, he: opportunity.stageLabelHe})}
                 </div>
-                <div className="hidden text-sm text-slate-600 lg:block">
+                <div className="hidden text-sm text-ink/60 lg:block">
                   {displayLabel(locale, {en: opportunity.statusLabelEn, he: opportunity.statusLabelHe})}
                 </div>
                 <div className="hidden text-sm font-medium text-ink lg:block">{formatMoney(opportunity.estimatedValue)}</div>

@@ -71,7 +71,7 @@ export default async function InteractionsPage({
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
               {t("title")}
             </h2>
-            <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+            <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
             <div className="flex flex-wrap gap-2">
               {session ? (
                 <StatusChip tone="teal">{t("readiness")}</StatusChip>
@@ -104,13 +104,13 @@ export default async function InteractionsPage({
         </div>
         <LiveFilterForm className="grid gap-4 lg:grid-cols-4">
           <input
-            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-slate-500 focus:ring-coral/30"
+            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-ink/50 focus:ring-coral/30"
             defaultValue={query.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.companyId ?? ""}
             name="companyId"
           >
@@ -122,7 +122,7 @@ export default async function InteractionsPage({
             ))}
           </select>
           <select
-            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.contactId ?? ""}
             name="contactId"
           >
@@ -134,7 +134,7 @@ export default async function InteractionsPage({
             ))}
           </select>
           <select
-            className="rounded bg-[rgba(244,229,225,0.7)] px-4 py-3 text-slate-700 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.interactionTypeValueId ?? ""}
             name="interactionTypeValueId"
           >
@@ -156,15 +156,15 @@ export default async function InteractionsPage({
       </SurfaceCard>
 
       {interactions.length === 0 ? (
-        <SurfaceCard className="bg-white/95 text-sm text-slate-600">
+        <SurfaceCard className="bg-white/95 text-sm text-ink/60">
           {t("empty")}
         </SurfaceCard>
       ) : (
         <div className="space-y-4">
-          <div className="divide-y divide-slate-100 overflow-hidden rounded bg-white">
+          <div className="space-y-3">
             {interactions.map((interaction) => (
               <Link
-                className="block rounded-none bg-white/95 px-3 py-2.5 transition hover:bg-slate-50/70 lg:rounded lg:hover:bg-sand/60"
+                className="block rounded-[18px] bg-white px-4 py-3.5 shadow-[0_1px_0_rgba(16,36,63,0.04)] transition hover:bg-mist hover:shadow-soft"
                 href={`/interactions/${interaction.id}`}
                 key={interaction.id}
                 locale={locale}
@@ -181,7 +181,7 @@ export default async function InteractionsPage({
                           <p className="font-display text-xl font-semibold tracking-tight text-ink">
                             {lineOne || interaction.subject}
                           </p>
-                          <p className="text-sm leading-7 text-slate-600">{lineTwo}</p>
+                          <p className="text-sm leading-7 text-ink/60">{lineTwo}</p>
                         </>
                       );
                     })()}

@@ -32,10 +32,10 @@ export default async function NewContactPage({params, searchParams}: NewContactP
       <SurfaceCard className="space-y-3 bg-white/95">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("createTitle")}</p>
         <h2 className="text-3xl font-semibold tracking-tight text-ink">{t("createTitle")}</h2>
-        <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-2xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </SurfaceCard>
       {error ? (
-        <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
+        <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("error")}</p>
       ) : null}
       <SurfaceCard className="bg-white/95 p-5 sm:p-6">
         <ContactForm
@@ -47,7 +47,7 @@ export default async function NewContactPage({params, searchParams}: NewContactP
           values={{companyId: companyId ?? "", firstName: firstName ?? "", lastName: lastName ?? "", roleTitle: roleTitle ?? "", notes: notes ?? "", emailsText: emailsText ?? "", primaryEmail: primaryEmail ?? "", phonesText: phonesText ?? "", primaryPhone: primaryPhone ?? ""}}
         />
       </SurfaceCard>
-      <Link className="inline-flex text-sm font-medium text-slate-700" href="/contacts" locale={locale}>
+      <Link className="inline-flex text-sm font-medium text-ink/70" href="/contacts" locale={locale}>
         {t("back")}
       </Link>
     </div>

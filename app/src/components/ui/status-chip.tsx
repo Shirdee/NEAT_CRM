@@ -6,10 +6,10 @@ type StatusChipProps = {
 };
 
 const toneClasses = {
-  default: "bg-[rgba(244,229,225,0.82)] text-slate-700",
+  default: "bg-sand text-ink",
   teal: "bg-mint/90 text-teal",
   coral: "bg-coral/12 text-coral",
-  amber: "bg-amber/20 text-amber-900",
+  amber: "bg-mist text-ink",
   ink: "bg-ink text-white"
 } as const;
 

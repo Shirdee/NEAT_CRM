@@ -56,7 +56,7 @@ export function BottomSheet({children, isOpen, onClose, label}: BottomSheetProps
         className={[
           "absolute inset-x-0 bottom-0",
           "rounded-t-[32px] bg-white/95",
-          "shadow-[0_-12px_48px_rgba(58,48,45,0.14)] backdrop-blur",
+          "shadow-[0_-12px_48px_rgba(16,36,63,0.10)] backdrop-blur",
           "pb-safe",
           "max-h-[92dvh] overflow-y-auto",
           "animate-[sheet-up_280ms_cubic-bezier(0.32,0.72,0,1)_both]",
@@ -64,7 +64,7 @@ export function BottomSheet({children, isOpen, onClose, label}: BottomSheetProps
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-center pb-1 pt-3">
-          <div className="h-1 w-10 rounded-full bg-slate-300" />
+          <div className="h-1 w-10 rounded-full bg-ink/15" />
         </div>
         {children}
       </div>

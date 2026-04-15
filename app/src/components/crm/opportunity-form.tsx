@@ -70,10 +70,10 @@ export function OpportunityForm({
         : null}
 
       <div className={`grid gap-5 ${compact ? "" : "lg:grid-cols-2"}`}>
-        <label className={`space-y-2 text-sm text-slate-700 ${compact ? "" : "lg:col-span-2"}`}>
+        <label className={`space-y-2 text-sm text-ink/70 ${compact ? "" : "lg:col-span-2"}`}>
           <span className="font-medium">{locale === "he" ? "שם הזדמנות" : "Opportunity name"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("opportunityName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("opportunityName") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.opportunityName}
             name="opportunityName"
             required
@@ -91,10 +91,10 @@ export function OpportunityForm({
           value={{companyId: defaults.companyId, contactId: defaults.contactId}}
         />
 
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "שלב" : "Stage"}</span>
           <select
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("opportunityStageValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("opportunityStageValueId") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.opportunityStageValueId}
             name="opportunityStageValueId"
             required
@@ -108,10 +108,10 @@ export function OpportunityForm({
           </select>
         </label>
 
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "סוג" : "Type"}</span>
           <select
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("opportunityTypeValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("opportunityTypeValueId") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.opportunityTypeValueId}
             name="opportunityTypeValueId"
             required
@@ -125,10 +125,10 @@ export function OpportunityForm({
           </select>
         </label>
 
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "סטטוס" : "Status"}</span>
           <select
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("statusValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("statusValueId") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.statusValueId}
             name="statusValueId"
             required
@@ -142,10 +142,10 @@ export function OpportunityForm({
           </select>
         </label>
 
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "שווי משוער" : "Estimated value"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("estimatedValue") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("estimatedValue") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.estimatedValue}
             inputMode="decimal"
             name="estimatedValue"
@@ -153,10 +153,10 @@ export function OpportunityForm({
           />
         </label>
 
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "תאריך יעד לסגירה" : "Target close date"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("targetCloseDate") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("targetCloseDate") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.targetCloseDate}
             name="targetCloseDate"
             type="date"
@@ -164,10 +164,10 @@ export function OpportunityForm({
         </label>
       </div>
 
-      <label className="block space-y-2 text-sm text-slate-700">
+      <label className="block space-y-2 text-sm text-ink/70">
         <span className="font-medium">{locale === "he" ? "הערות" : "Notes"}</span>
         <textarea
-          className="min-h-32 w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className="min-h-32 w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
           defaultValue={defaults.notes}
           name="notes"
         />

@@ -43,10 +43,10 @@ function labelForLocale(
 }
 
 const toneBorder: Record<Tab, string> = {
-  overdue: "border-l-coral",
-  today: "border-l-amber",
-  upcoming: "border-l-teal",
-  done: "border-l-slate-300"
+  overdue: "bg-coral/10",
+  today: "bg-mist",
+  upcoming: "bg-mint/24",
+  done: "bg-sand/70"
 };
 
 const toneChip: Record<Tab, "coral" | "amber" | "teal" | "default"> = {
@@ -77,17 +77,16 @@ export function TaskListClient({
       <TaskFilterTabs active={activeTab} counts={counts} onChange={setActiveTab} />
 
       {tasks.length === 0 ? (
-        <SurfaceCard className="bg-white/95 p-5 text-sm text-slate-600">
+        <SurfaceCard className="bg-white/95 p-5 text-sm text-ink/70">
           {noTasksLabel}
         </SurfaceCard>
       ) : (
-        <div className="divide-y divide-slate-100 overflow-hidden rounded bg-white">
+        <div className="space-y-3">
           {tasks.map((task) => (
             <Link
               className={[
-                "block border-l-4 bg-white transition",
-                "hover:bg-slate-50/70 lg:rounded lg:hover:bg-sand/60",
-                "py-2.5 px-3",
+                "block rounded-[22px] bg-white px-3 py-3 shadow-[0_8px_24px_rgba(16,36,63,0.06)] transition",
+                "hover:bg-sand/60",
                 toneBorder[activeTab]
               ].join(" ")}
               href={`/tasks/${task.id}`}
@@ -102,7 +101,7 @@ export function TaskListClient({
                     he: task.priorityLabelHe
                   })}
                 </StatusChip>
-                <span className="text-xs font-medium tabular-nums text-slate-500">
+                <span className="text-xs font-medium tabular-nums text-ink/55">
                   {new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
                     month: "short",
                     day: "numeric"
@@ -113,13 +112,13 @@ export function TaskListClient({
               {/* Title */}
               <p className={[
                 "text-sm font-semibold leading-snug",
-                activeTab === "done" ? "text-slate-400 line-through" : "text-ink"
+                activeTab === "done" ? "text-ink/45 line-through" : "text-ink"
               ].join(" ")}>
                 {task.notes || noNotesLabel}
               </p>
 
               {/* Company / contact — compact row */}
-              <p className="mt-0.5 text-xs text-slate-500">
+              <p className="mt-0.5 text-xs text-ink/55">
                 {task.companyName || task.contactName || noCompanyLabel}
                 {task.companyName && task.contactName ? (
                   <span className="mx-1.5 opacity-40">·</span>

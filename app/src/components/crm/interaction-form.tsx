@@ -73,7 +73,7 @@ export function InteractionForm({
       {lockedCompany ? <input name="companyId" type="hidden" value={lockedCompany.id} /> : null}
       {lockedContact ? <input name="contactId" type="hidden" value={lockedContact.id} /> : null}
       {(lockedCompany || lockedContact) && mode === "create" ? (
-        <div className="rounded-[24px] bg-white/95 px-4 py-3 text-sm text-slate-700">
+        <div className="rounded-[24px] border border-sand/70 bg-white/95 px-4 py-3 text-sm text-ink/70">
           <div className="flex flex-wrap gap-2">
             {lockedCompany ? (
               <span className="rounded-full bg-white px-3 py-1 font-medium text-ink">
@@ -91,17 +91,17 @@ export function InteractionForm({
         </div>
       ) : null}
       <div className={`grid gap-5 ${compact ? "" : "lg:grid-cols-2"}`}>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "תאריך ושעה" : "Date and time"}</span>
           <input
-            className={`w-full rounded-[22px] px-4 py-3 ${isInvalid("interactionDate") ? "bg-amber-50 ring-1 ring-amber-500" : "bg-[rgba(244,229,225,0.82)]"}`}
+            className={`w-full rounded-[22px] px-4 py-3 ${isInvalid("interactionDate") ? "border border-coral bg-sand/70 ring-1 ring-coral/25" : "border border-sand/70 bg-sand/80"}`}
             defaultValue={defaults.interactionDate}
             name="interactionDate"
             required
             type="datetime-local"
           />
         </label>
-        <div className={`space-y-2 text-sm text-slate-700 ${compact ? "" : "lg:col-span-2"}`}>
+        <div className={`space-y-2 text-sm text-ink/70 ${compact ? "" : "lg:col-span-2"}`}>
           <span className="font-medium">{locale === "he" ? "סוג אינטראקציה" : "Interaction type"}</span>
           <InteractionTypeField
             invalid={isInvalid("interactionTypeValueId")}
@@ -152,33 +152,33 @@ export function InteractionForm({
           />
         )}
       </div>
-      <label className="block space-y-2 text-sm text-slate-700">
+      <label className="block space-y-2 text-sm text-ink/70">
         <span className="font-medium">{locale === "he" ? "נושא" : "Subject"}</span>
         <input
-          className={`w-full rounded-[22px] px-4 py-3 ${isInvalid("subject") ? "bg-amber-50 ring-1 ring-amber-500" : "bg-[rgba(244,229,225,0.82)]"}`}
+          className={`w-full rounded-[22px] px-4 py-3 ${isInvalid("subject") ? "border border-coral bg-sand/70 ring-1 ring-coral/25" : "border border-sand/70 bg-sand/80"}`}
           defaultValue={defaults.subject}
           name="subject"
           required
         />
       </label>
-      <label className="block space-y-2 text-sm text-slate-700">
+      <label className="block space-y-2 text-sm text-ink/70">
         <span className="font-medium">{locale === "he" ? "סיכום" : "Summary"}</span>
         <textarea
-          className={`w-full rounded-[22px] px-4 py-3 ${compact ? "min-h-24" : "min-h-32"} ${isInvalid("summary") ? "bg-amber-50 ring-1 ring-amber-500" : "bg-[rgba(244,229,225,0.82)]"}`}
+          className={`w-full rounded-[22px] px-4 py-3 ${compact ? "min-h-24" : "min-h-32"} ${isInvalid("summary") ? "border border-coral bg-sand/70 ring-1 ring-coral/25" : "border border-sand/70 bg-sand/80"}`}
           defaultValue={defaults.summary}
           name="summary"
           required
         />
       </label>
       {compact ? (
-        <details className="rounded-[24px] bg-[rgba(255,255,255,0.78)] px-4 py-4">
-          <summary className="cursor-pointer text-sm font-medium text-slate-700">
+        <details className="rounded-[24px] bg-white/85 px-4 py-4">
+          <summary className="cursor-pointer text-sm font-medium text-ink/70">
             {locale === "he" ? "שדות נוספים" : "More details"}
           </summary>
-          <label className="mt-4 block space-y-2 text-sm text-slate-700">
+          <label className="mt-4 block space-y-2 text-sm text-ink/70">
             <span className="font-medium">{locale === "he" ? "תוצאה" : "Outcome"}</span>
             <select
-              className="w-full rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3"
+              className="w-full rounded-[22px] border border-sand/70 bg-sand/80 px-4 py-3"
               defaultValue={defaults.outcomeStatusValueId}
               name="outcomeStatusValueId"
             >
@@ -192,10 +192,10 @@ export function InteractionForm({
           </label>
         </details>
       ) : (
-        <label className="block space-y-2 text-sm text-slate-700">
+        <label className="block space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "תוצאה" : "Outcome"}</span>
           <select
-            className="w-full rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3"
+            className="w-full rounded-[22px] border border-sand/70 bg-sand/80 px-4 py-3"
             defaultValue={defaults.outcomeStatusValueId}
             name="outcomeStatusValueId"
           >
@@ -223,7 +223,7 @@ export function InteractionForm({
         </button>
         {mode === "create" && allowFollowUpAfterCreate ? (
           <button
-            className={`inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700 ${compact ? "w-full" : ""}`}
+            className={`inline-flex items-center justify-center rounded-full border border-sand/70 bg-sand/80 px-5 py-3 text-sm font-medium text-ink/70 ${compact ? "w-full" : ""}`}
             name="intent"
             type="submit"
             value="create-and-add-follow-up"

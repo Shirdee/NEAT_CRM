@@ -78,7 +78,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("title")}</p>
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-            <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+            <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
           </div>
           {session && canEditRecords(session.role) ? (
             <Link
@@ -107,13 +107,13 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
         <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.companyId ?? ""}
             name="companyId"
           >
@@ -125,7 +125,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.contactId ?? ""}
             name="contactId"
           >
@@ -137,7 +137,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-[rgba(244,229,225,0.82)] px-4 py-3 text-slate-700"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.statusValueId ?? ""}
             name="statusValueId"
           >

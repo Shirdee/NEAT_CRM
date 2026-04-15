@@ -51,28 +51,28 @@ export function CompanyForm({
           ))
         : null}
       <div className="grid gap-5 lg:grid-cols-2">
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "שם חברה" : "Company name"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("companyName") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("companyName") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.companyName}
             name="companyName"
             required
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "אתר" : "Website"}</span>
           <input
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
             defaultValue={defaults.website}
             name="website"
             placeholder="https://"
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "מקור" : "Source"}</span>
           <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
             defaultValue={defaults.sourceValueId}
             name="sourceValueId"
           >
@@ -84,10 +84,10 @@ export function CompanyForm({
             ))}
           </select>
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "שלב" : "Stage"}</span>
           <select
-            className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
             defaultValue={defaults.stageValueId}
             name="stageValueId"
           >
@@ -100,10 +100,10 @@ export function CompanyForm({
           </select>
         </label>
       </div>
-      <label className="block space-y-2 text-sm text-slate-700">
+      <label className="block space-y-2 text-sm text-ink/70">
         <span className="font-medium">{locale === "he" ? "הערות" : "Notes"}</span>
         <textarea
-          className="min-h-32 w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className="min-h-32 w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
           defaultValue={defaults.notes}
           name="notes"
         />

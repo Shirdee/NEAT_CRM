@@ -49,7 +49,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
       <div className="space-y-3">
         <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
         <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
 
       {error ? (
@@ -73,9 +73,9 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
         <form className="grid gap-4 md:grid-cols-[minmax(0,220px)_minmax(0,1fr)_auto]" method="get">
           <input name="entity" type="hidden" value={entity} />
           <label className="space-y-2">
-            <span className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("filters.entity")}</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-ink/40">{t("filters.entity")}</span>
             <select
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              className="w-full rounded-2xl border border-mist bg-white px-4 py-3 text-sm"
               defaultValue={entity}
               name="entity"
             >
@@ -87,9 +87,9 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
             </select>
           </label>
           <label className="space-y-2">
-            <span className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("filters.query")}</span>
+            <span className="text-xs uppercase tracking-[0.2em] text-ink/40">{t("filters.query")}</span>
             <input
-              className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+              className="w-full rounded-2xl border border-mist bg-white px-4 py-3 text-sm"
               defaultValue={query}
               name="q"
               placeholder={t("filters.queryPlaceholder")}
@@ -113,7 +113,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
             <div>
               <p className="text-xs uppercase tracking-[0.24em] text-coral">{t("records.eyebrow")}</p>
               <h3 className="mt-2 text-lg font-semibold text-ink">{t("records.title")}</h3>
-              <p className="mt-2 text-sm text-slate-600">{t("records.body")}</p>
+              <p className="mt-2 text-sm text-ink/70">{t("records.body")}</p>
             </div>
             <StatusChip
               tone="ink"
@@ -130,14 +130,14 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
           </div>
           {entity === "companies" ? (
             companyRecords.length === 0 ? (
-              <p className="rounded-[24px] bg-[rgba(244,229,225,0.72)] px-4 py-4 text-sm text-slate-600">
+              <p className="rounded-[24px] bg-mist px-4 py-4 text-sm text-ink/70">
                 {t("records.empty")}
               </p>
             ) : (
               <div className="grid gap-4 lg:grid-cols-2">
                 {companyRecords.map((record) => (
                   <label
-                    className="flex cursor-pointer gap-3 rounded-[24px] border border-slate-200 bg-slate-50 p-4"
+                    className="flex cursor-pointer gap-3 rounded-[24px] border border-mist bg-mist/70 p-4"
                     key={record.id}
                   >
                     <input className="mt-1 h-4 w-4" name="ids" type="checkbox" value={record.id} />
@@ -145,7 +145,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <div>
                           <p className="font-semibold text-ink">{record.companyName}</p>
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-ink/40">
                             {record.website ?? t("records.noWebsite")}
                           </p>
                         </div>
@@ -155,7 +155,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
                         {record.sourceLabelEn ? <StatusChip tone="coral">{record.sourceLabelEn}</StatusChip> : null}
                         {record.stageLabelEn ? <StatusChip tone="amber">{record.stageLabelEn}</StatusChip> : null}
                       </div>
-                      <p className="text-sm text-slate-600">{record.notes ?? t("records.noNotes")}</p>
+                      <p className="text-sm text-ink/70">{record.notes ?? t("records.noNotes")}</p>
                     </div>
                   </label>
                 ))}
@@ -163,14 +163,14 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
             )
           ) : entity === "tasks" ? (
             taskRecords.length === 0 ? (
-              <p className="rounded-[24px] bg-[rgba(244,229,225,0.72)] px-4 py-4 text-sm text-slate-600">
+              <p className="rounded-[24px] bg-mist px-4 py-4 text-sm text-ink/70">
                 {t("records.empty")}
               </p>
             ) : (
               <div className="grid gap-4 lg:grid-cols-2">
                 {taskRecords.map((record) => (
                   <label
-                    className="flex cursor-pointer gap-3 rounded-[24px] border border-slate-200 bg-slate-50 p-4"
+                    className="flex cursor-pointer gap-3 rounded-[24px] border border-mist bg-mist/70 p-4"
                     key={record.id}
                   >
                     <input className="mt-1 h-4 w-4" name="ids" type="checkbox" value={record.id} />
@@ -178,7 +178,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
                       <div className="flex flex-wrap items-start justify-between gap-2">
                         <div>
                           <p className="font-semibold text-ink">{record.notes ?? t("records.noNotes")}</p>
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-ink/40">
                             {record.companyName ?? t("records.noCompany")}
                             {record.contactName ? ` · ${record.contactName}` : ""}
                           </p>
@@ -197,14 +197,14 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
               </div>
             )
           ) : opportunityRecords.length === 0 ? (
-            <p className="rounded-[24px] bg-[rgba(244,229,225,0.72)] px-4 py-4 text-sm text-slate-600">
+            <p className="rounded-[24px] bg-mist px-4 py-4 text-sm text-ink/70">
               {t("records.empty")}
             </p>
           ) : (
             <div className="grid gap-4 lg:grid-cols-2">
               {opportunityRecords.map((record) => (
                 <label
-                  className="flex cursor-pointer gap-3 rounded-[24px] border border-slate-200 bg-slate-50 p-4"
+                  className="flex cursor-pointer gap-3 rounded-[24px] border border-mist bg-mist/70 p-4"
                   key={record.id}
                 >
                   <input className="mt-1 h-4 w-4" name="ids" type="checkbox" value={record.id} />
@@ -212,7 +212,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
                     <div className="flex flex-wrap items-start justify-between gap-2">
                       <div>
                         <p className="font-semibold text-ink">{record.opportunityName}</p>
-                        <p className="text-xs text-slate-500">
+                        <p className="text-xs text-ink/40">
                           {record.companyName}
                           {record.contactName ? ` · ${record.contactName}` : ""}
                         </p>
@@ -223,7 +223,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
                       {record.stageLabelEn ? <StatusChip tone="coral">{record.stageLabelEn}</StatusChip> : null}
                       {record.typeLabelEn ? <StatusChip tone="amber">{record.typeLabelEn}</StatusChip> : null}
                     </div>
-                    <p className="text-sm text-slate-600">{record.notes ?? t("records.noNotes")}</p>
+                    <p className="text-sm text-ink/70">{record.notes ?? t("records.noNotes")}</p>
                   </div>
                 </label>
               ))}
@@ -235,14 +235,14 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
           <div>
             <p className="text-xs uppercase tracking-[0.24em] text-coral">{t("action.eyebrow")}</p>
             <h3 className="mt-2 text-lg font-semibold text-ink">{t("action.title")}</h3>
-            <p className="mt-2 text-sm text-slate-600">{t("action.body")}</p>
+            <p className="mt-2 text-sm text-ink/70">{t("action.body")}</p>
           </div>
 
           <div className="grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)]">
             <label className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("action.field")}</span>
+              <span className="text-xs uppercase tracking-[0.2em] text-ink/40">{t("action.field")}</span>
               <select
-                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+                className="w-full rounded-2xl border border-mist bg-white px-4 py-3 text-sm"
                 defaultValue={fieldConfigs[0]?.field}
                 name="field"
               >
@@ -254,9 +254,9 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
               </select>
             </label>
             <label className="space-y-2">
-              <span className="text-xs uppercase tracking-[0.2em] text-slate-500">{t("action.value")}</span>
+              <span className="text-xs uppercase tracking-[0.2em] text-ink/40">{t("action.value")}</span>
               <select
-                className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm"
+                className="w-full rounded-2xl border border-mist bg-white px-4 py-3 text-sm"
                 name="valueId"
                 defaultValue=""
               >
@@ -274,7 +274,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
             </label>
           </div>
 
-          <label className="flex items-center gap-3 rounded-[24px] bg-[rgba(244,229,225,0.72)] px-4 py-4 text-sm text-slate-700">
+          <label className="flex items-center gap-3 rounded-[24px] bg-mist px-4 py-4 text-sm text-ink/70">
             <input name="confirm" type="checkbox" value="1" />
             {t("action.confirm")}
           </label>
@@ -286,10 +286,10 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
       </form>
 
       <div className="flex flex-wrap gap-3">
-        <Link className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700" href="/admin/lists" locale={locale}>
+        <Link className="rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink/70" href="/admin/lists" locale={locale}>
           {t("backToAdmin")}
         </Link>
-        <Link className="rounded-full border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700" href="/dashboard" locale={locale}>
+        <Link className="rounded-full border border-ink/10 px-4 py-2 text-sm font-medium text-ink/70" href="/dashboard" locale={locale}>
           {t("backToDashboard")}
         </Link>
       </div>

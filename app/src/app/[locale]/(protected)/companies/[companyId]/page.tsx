@@ -46,7 +46,7 @@ export default async function CompanyDetailPage({
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
               {company.companyName}
             </h2>
-            <p className="max-w-3xl text-sm leading-7 text-slate-600">
+            <p className="max-w-3xl text-sm leading-7 text-ink/70">
               {company.notes || t("noNotes")}
             </p>
           </div>
@@ -61,14 +61,14 @@ export default async function CompanyDetailPage({
                   {t("addInteraction")}
                 </Link>
                 <Link
-                  className="inline-flex w-full items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-sand sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70 transition hover:bg-sand sm:w-auto"
                   href={`/tasks/new?compact=1&companyId=${company.id}`}
                   locale={locale}
                 >
                   {t("addTask")}
                 </Link>
                 <Link
-                  className="inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-medium text-ink transition hover:border-coral/30 hover:bg-sand sm:w-auto"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-ink/10 bg-white/80 px-5 py-3 text-sm font-medium text-ink transition hover:border-coral/30 hover:bg-sand sm:w-auto"
                   href={`/companies/${company.id}/edit`}
                   locale={locale}
                 >
@@ -120,9 +120,9 @@ export default async function CompanyDetailPage({
               {t("viewInteractions")}
             </Link>
           </div>
-          <p className="text-sm text-slate-600">{t("activity")}</p>
+          <p className="text-sm text-ink/70">{t("activity")}</p>
           {session && canEditRecords(session.role) ? (
-            <Link className="inline-flex text-sm font-medium text-slate-700" href={`/interactions/new?compact=1&companyId=${company.id}`} locale={locale}>
+            <Link className="inline-flex text-sm font-medium text-ink/70" href={`/interactions/new?compact=1&companyId=${company.id}`} locale={locale}>
               {t("addInteraction")}
             </Link>
           ) : null}
@@ -134,14 +134,14 @@ export default async function CompanyDetailPage({
               {t("viewTasks")}
             </Link>
           </div>
-          <p className="mt-4 text-sm text-slate-600">
+          <p className="mt-4 text-sm text-ink/70">
             {t("openTasksCount", {count: company.openTasksCount ?? 0})}
           </p>
-          <p className="mt-2 text-sm text-slate-600">
+          <p className="mt-2 text-sm text-ink/70">
             {t("overdueTasksCount", {count: company.overdueTasksCount ?? 0})}
           </p>
           {session && canEditRecords(session.role) ? (
-            <Link className="inline-flex text-sm font-medium text-slate-700" href={`/tasks/new?compact=1&companyId=${company.id}`} locale={locale}>
+            <Link className="inline-flex text-sm font-medium text-ink/70" href={`/tasks/new?compact=1&companyId=${company.id}`} locale={locale}>
               {t("addTask")}
             </Link>
           ) : null}
@@ -162,12 +162,12 @@ export default async function CompanyDetailPage({
           ) : null}
         </div>
         {company.contacts.length === 0 ? (
-          <p className="text-sm text-slate-600">{t("contactsEmpty")}</p>
+          <p className="text-sm text-ink/70">{t("contactsEmpty")}</p>
         ) : (
           <div className="space-y-3">
             {company.contacts.map((contact) => (
               <Link
-                className="block rounded-[22px] border border-slate-200/70 bg-white/80 p-4 transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:p-5"
+                className="block rounded-[22px] border border-ink/10 bg-white/80 p-4 transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:p-5"
                 href={`/contacts/${contact.id}`}
                 key={contact.id}
                 locale={locale}
@@ -175,9 +175,9 @@ export default async function CompanyDetailPage({
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="min-w-0">
                     <p className="font-medium text-ink">{contact.fullName}</p>
-                    <p className="text-sm text-slate-600">{contact.roleTitle || t("noRole")}</p>
+                    <p className="text-sm text-ink/70">{contact.roleTitle || t("noRole")}</p>
                   </div>
-                  <div className="text-sm text-slate-600">
+                  <div className="text-sm text-ink/70">
                     <p>{contact.primaryEmail || "—"}</p>
                     <p>{contact.primaryPhone || "—"}</p>
                   </div>

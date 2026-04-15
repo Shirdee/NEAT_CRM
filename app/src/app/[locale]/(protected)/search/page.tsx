@@ -18,12 +18,12 @@ export default async function SearchPage({params, searchParams}: SearchPageProps
     <div className="space-y-6">
       <div className="space-y-3">
         <h2 className="text-3xl font-semibold text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
 
-      <form action={`/${locale}/search`} className="rounded-[24px] border border-slate-200 bg-white p-5">
+      <form action={`/${locale}/search`} className="rounded-[24px] border border-mist bg-white p-5">
         <input
-          className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+          className="w-full rounded-2xl border border-mist px-4 py-3"
           defaultValue={q}
           name="q"
           placeholder={t("placeholder")}
@@ -31,16 +31,16 @@ export default async function SearchPage({params, searchParams}: SearchPageProps
       </form>
 
       {!q.trim() ? (
-        <section className="rounded-[24px] border border-dashed border-slate-300 bg-white p-8 text-sm text-slate-600">
+        <section className="rounded-[24px] border border-dashed border-ink/10 bg-white p-8 text-sm text-ink/70">
           {t("empty")}
         </section>
       ) : (
         <div className="grid gap-4 lg:grid-cols-2">
-          <section className="rounded-[24px] border border-slate-200 bg-white p-5">
+          <section className="rounded-[24px] border border-mist bg-white p-5">
             <h3 className="text-lg font-semibold text-ink">{t("companiesTitle")}</h3>
             <div className="mt-4 space-y-3">
               {results.companies.length === 0 ? (
-                <p className="text-sm text-slate-600">{t("noCompanies")}</p>
+                <p className="text-sm text-ink/70">{t("noCompanies")}</p>
               ) : (
                 results.companies.map((company) => (
                   <Link
@@ -50,17 +50,17 @@ export default async function SearchPage({params, searchParams}: SearchPageProps
                     locale={locale}
                   >
                     <p className="font-medium text-ink">{company.companyName}</p>
-                    <p className="mt-2 text-sm text-slate-600">{company.website || company.notes || "—"}</p>
+                    <p className="mt-2 text-sm text-ink/70">{company.website || company.notes || "—"}</p>
                   </Link>
                 ))
               )}
             </div>
           </section>
-          <section className="rounded-[24px] border border-slate-200 bg-white p-5">
+          <section className="rounded-[24px] border border-mist bg-white p-5">
             <h3 className="text-lg font-semibold text-ink">{t("contactsTitle")}</h3>
             <div className="mt-4 space-y-3">
               {results.contacts.length === 0 ? (
-                <p className="text-sm text-slate-600">{t("noContacts")}</p>
+                <p className="text-sm text-ink/70">{t("noContacts")}</p>
               ) : (
                 results.contacts.map((contact) => (
                   <Link
@@ -70,7 +70,7 @@ export default async function SearchPage({params, searchParams}: SearchPageProps
                     locale={locale}
                   >
                     <p className="font-medium text-ink">{contact.fullName}</p>
-                    <p className="mt-2 text-sm text-slate-600">
+                    <p className="mt-2 text-sm text-ink/70">
                       {[contact.companyName, contact.primaryEmail, contact.primaryPhone]
                         .filter(Boolean)
                         .join(" • ") || "—"}

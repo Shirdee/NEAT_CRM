@@ -70,20 +70,20 @@ export function TaskForm({
           ))
         : null}
       <div className={`grid gap-5 ${compact ? "" : "lg:grid-cols-2"}`}>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "תאריך יעד" : "Due date"}</span>
           <input
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("dueDate") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("dueDate") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.dueDate}
             name="dueDate"
             required
             type="datetime-local"
           />
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "סוג משימה" : "Task type"}</span>
           <select
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("taskTypeValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("taskTypeValueId") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.taskTypeValueId}
             name="taskTypeValueId"
             required
@@ -106,10 +106,10 @@ export function TaskForm({
           locale={locale}
           value={{companyId: defaults.companyId, contactId: defaults.contactId}}
         />
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "עדיפות" : "Priority"}</span>
           <select
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("priorityValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("priorityValueId") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.priorityValueId}
             name="priorityValueId"
             required
@@ -122,10 +122,10 @@ export function TaskForm({
             ))}
           </select>
         </label>
-        <label className="space-y-2 text-sm text-slate-700">
+        <label className="space-y-2 text-sm text-ink/70">
           <span className="font-medium">{locale === "he" ? "סטטוס" : "Status"}</span>
           <select
-            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("statusValueId") ? "border-amber-500 bg-amber-50" : "border-slate-200"}`}
+            className={`w-full rounded-2xl border px-4 py-3 ${isInvalid("statusValueId") ? "border-coral bg-sand/70 ring-1 ring-coral/25" : "border-sand/70 bg-white"}`}
             defaultValue={defaults.statusValueId}
             name="statusValueId"
             required
@@ -140,17 +140,17 @@ export function TaskForm({
         </label>
       </div>
       {compact ? (
-        <details className="rounded-[24px] bg-[rgba(255,255,255,0.78)] px-4 py-4">
-          <summary className="cursor-pointer text-sm font-medium text-slate-700">
+        <details className="rounded-[24px] bg-white/85 px-4 py-4">
+          <summary className="cursor-pointer text-sm font-medium text-ink/70">
             {locale === "he" ? "שדות נוספים" : "More details"}
           </summary>
           <div className="mt-4 space-y-5">
-            <label className="block space-y-2 text-sm text-slate-700">
+            <label className="block space-y-2 text-sm text-ink/70">
               <span className="font-medium">
                 {locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
               </span>
               <select
-                className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+                className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
                 defaultValue={defaults.relatedInteractionId}
                 name="relatedInteractionId"
               >
@@ -166,12 +166,12 @@ export function TaskForm({
         </details>
       ) : (
         <>
-          <label className="block space-y-2 text-sm text-slate-700">
+          <label className="block space-y-2 text-sm text-ink/70">
             <span className="font-medium">
               {locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
             </span>
             <select
-              className="w-full rounded-2xl border border-slate-200 px-4 py-3"
+              className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
               defaultValue={defaults.relatedInteractionId}
               name="relatedInteractionId"
             >
@@ -185,10 +185,10 @@ export function TaskForm({
           </label>
         </>
       )}
-      <label className="block space-y-2 text-sm text-slate-700">
+      <label className="block space-y-2 text-sm text-ink/70">
         <span className="font-medium">{locale === "he" ? "הערות" : "Notes"}</span>
         <textarea
-          className={`w-full rounded-2xl border border-slate-200 px-4 py-3 ${compact ? "min-h-24" : "min-h-32"}`}
+          className={`w-full rounded-2xl border border-sand/70 bg-white px-4 py-3 ${compact ? "min-h-24" : "min-h-32"}`}
           defaultValue={defaults.notes}
           name="notes"
         />

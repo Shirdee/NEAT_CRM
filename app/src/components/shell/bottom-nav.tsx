@@ -103,7 +103,7 @@ export function BottomNav({locale}: BottomNavProps) {
             <Link
               className={clsx(
                 "relative flex flex-1 flex-col items-center gap-0.5 px-1 pb-1 pt-2 transition-colors",
-                active ? "text-teal" : "text-slate-400 hover:text-slate-600"
+                active ? "text-teal" : "text-ink/40 hover:text-ink/65"
               )}
               href={href}
               key={href}
@@ -115,7 +115,7 @@ export function BottomNav({locale}: BottomNavProps) {
               <Icon active={active} />
               <span className={clsx(
                 "text-[10px] font-semibold tracking-wide",
-                active ? "text-teal" : "text-slate-400"
+                active ? "text-teal" : "text-ink/40"
               )}>
                 {label}
               </span>

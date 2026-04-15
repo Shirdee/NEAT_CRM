@@ -55,7 +55,7 @@ export default async function ContactDetailPage({
             <div className="space-y-3">
               <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
               <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{contact.fullName}</h2>
-              <p className="max-w-3xl text-sm leading-7 text-slate-600">{contact.notes || t("noNotes")}</p>
+              <p className="max-w-3xl text-sm leading-7 text-ink/70">{contact.notes || t("noNotes")}</p>
             </div>
             <div className="flex flex-wrap gap-2">
               <StatusChip tone="teal">{contact.companyName || t("noCompany")}</StatusChip>
@@ -80,7 +80,7 @@ export default async function ContactDetailPage({
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
           {primaryEmail ? (
             <a
-              className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-sand"
+              className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70 transition hover:bg-sand"
               href={`mailto:${primaryEmail}`}
             >
               <span className="truncate">{primaryEmail}</span>
@@ -88,21 +88,21 @@ export default async function ContactDetailPage({
           ) : null}
           {primaryPhone ? (
             <a
-              className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-sand"
+              className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70 transition hover:bg-sand"
               href={normalizePhoneHref(primaryPhone)}
             >
               <span className="truncate">{primaryPhone}</span>
             </a>
           ) : null}
           <Link
-            className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-sand"
+            className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70 transition hover:bg-sand"
             href={`/interactions?contactId=${contact.id}`}
             locale={locale}
           >
             {t("viewInteractions")}
           </Link>
           <Link
-            className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-sand"
+            className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70 transition hover:bg-sand"
             href={`/tasks?contactId=${contact.id}`}
             locale={locale}
           >
@@ -149,12 +149,12 @@ export default async function ContactDetailPage({
             </Link>
           </div>
           <InfoPair label={t("activity")} value={lastActivity || t("noActivity")} />
-          <p className="text-sm leading-7 text-slate-600">
+          <p className="text-sm leading-7 text-ink/70">
             {contact.inactivityLabel === "stale" ? t("inactive") : t("active")}
           </p>
           {canEdit ? (
             <Link
-              className="inline-flex w-full items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70 sm:w-auto"
               href={`/interactions/new?compact=1&contactId=${contact.id}`}
               locale={locale}
             >
@@ -183,7 +183,7 @@ export default async function ContactDetailPage({
           </div>
           {canEdit ? (
             <Link
-              className="inline-flex w-full items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700 sm:w-auto"
+              className="inline-flex w-full items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/70 sm:w-auto"
               href={`/tasks/new?compact=1&contactId=${contact.id}`}
               locale={locale}
             >
@@ -198,11 +198,11 @@ export default async function ContactDetailPage({
           <h3 className="text-lg font-semibold text-ink">{t("emails")}</h3>
           <div className="space-y-3">
             {contact.emails.length === 0 ? (
-              <p className="text-sm text-slate-600">{t("noEmails")}</p>
+              <p className="text-sm text-ink/70">{t("noEmails")}</p>
             ) : (
               contact.emails.map((email) => (
                 <a
-                  className="flex flex-col gap-2 rounded-[20px] bg-mist/90 px-4 py-3 text-sm text-slate-700 transition hover:bg-sand sm:flex-row sm:items-center sm:justify-between"
+                  className="flex flex-col gap-2 rounded-[20px] bg-mist/90 px-4 py-3 text-sm text-ink/70 transition hover:bg-sand sm:flex-row sm:items-center sm:justify-between"
                   href={`mailto:${email.email}`}
                   key={email.id}
                 >
@@ -219,11 +219,11 @@ export default async function ContactDetailPage({
           <h3 className="text-lg font-semibold text-ink">{t("phones")}</h3>
           <div className="space-y-3">
             {contact.phones.length === 0 ? (
-              <p className="text-sm text-slate-600">{t("noPhones")}</p>
+              <p className="text-sm text-ink/70">{t("noPhones")}</p>
             ) : (
               contact.phones.map((phone) => (
                 <a
-                  className="flex flex-col gap-2 rounded-[20px] bg-mist/90 px-4 py-3 text-sm text-slate-700 transition hover:bg-sand sm:flex-row sm:items-center sm:justify-between"
+                  className="flex flex-col gap-2 rounded-[20px] bg-mist/90 px-4 py-3 text-sm text-ink/70 transition hover:bg-sand sm:flex-row sm:items-center sm:justify-between"
                   href={normalizePhoneHref(phone.phoneNumber)}
                   key={phone.id}
                 >
