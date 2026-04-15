@@ -18,12 +18,10 @@ updated: 2026-04-15
 ## Status
 
 Sprint 7 planning and CTO technical handoff were completed on 2026-04-12.
-Sprint 7 execution is now open.
-`DEV-701` is complete and `DEV-702` is now the active implementation action.
-Sprint 7 remains in active work until all scoped DEV and QA items are complete and PM closes the sprint.
-Later Sprint 7 tasks remain gated by the explicit technical and product constraints documented in the todo.
+Sprint 7 execution is complete.
+All scoped DEV and QA items are complete and PM has closed the sprint on 2026-04-15.
 The Sprint 7 close plan is now documented in [[sprint_07_close_plan|Sprint 07 Close Plan]].
-QA closeout on 2026-04-15 confirmed saved views, dashboard presets, and mobile quick-entry, but batch edit and duplicate cleanup still block sprint close under the current definition.
+QA closeout on 2026-04-15 confirmed saved views, dashboard presets, mobile quick-entry, batch edit, and duplicate cleanup.
 
 ## Objective
 
@@ -73,7 +71,7 @@ Improve day-to-day CRM speed and usability after MVP completion by shipping work
 - key mobile actions take fewer steps and remain usable on iPhone width
 - batch edits and duplicate cleanup are guarded, role-correct, and auditable
 - repository verification targets pass, or any blocker is documented explicitly
-- Sprint 7 is not closable until the batch-edit and duplicate-cleanup deliverables are either implemented or explicitly removed from scope
+- Sprint 7 is closed because the batch-edit and duplicate-cleanup deliverables are implemented and verified
 
 ## Linked Sprint Docs
 

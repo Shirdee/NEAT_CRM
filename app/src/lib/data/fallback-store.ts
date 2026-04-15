@@ -895,3 +895,137 @@ export async function updateFallbackOpportunity(input: {
 
   return opportunity;
 }
+
+function combineFallbackNotes(primary: string | null | undefined, duplicate: string | null | undefined) {
+  const primaryText = primary?.trim() ?? "";
+  const duplicateText = duplicate?.trim() ?? "";
+
+  if (!primaryText) {
+    return duplicateText || null;
+  }
+
+  if (!duplicateText || primaryText === duplicateText) {
+    return primaryText;
+  }
+
+  return `${primaryText}\n\nMerged from duplicate:\n${duplicateText}`;
+}
+
+export async function mergeFallbackCompanies(primaryId: string, duplicateId: string, actorUserId: string) {
+  const state = getState();
+  const primary = state.companies.find((item) => item.id === primaryId);
+  const duplicate = state.companies.find((item) => item.id === duplicateId);
+
+  if (!primary || !duplicate) {
+    throw new Error("Company not found");
+  }
+
+  primary.companyName = primary.companyName || duplicate.companyName;
+  primary.website = primary.website || duplicate.website;
+  primary.sourceValueId = primary.sourceValueId || duplicate.sourceValueId;
+  primary.stageValueId = primary.stageValueId || duplicate.stageValueId;
+  primary.notes = combineFallbackNotes(primary.notes, duplicate.notes);
+  primary.updatedAt = new Date().toISOString();
+  primary.updatedById = actorUserId;
+
+  state.contacts.forEach((contact) => {
+    if (contact.companyId === duplicateId) {
+      contact.companyId = primaryId;
+      contact.updatedAt = new Date().toISOString();
+      contact.updatedById = actorUserId;
+    }
+  });
+
+  state.interactions.forEach((interaction) => {
+    if (interaction.companyId === duplicateId) {
+      interaction.companyId = primaryId;
+      interaction.updatedAt = new Date().toISOString();
+    }
+  });
+
+  state.tasks.forEach((task) => {
+    if (task.companyId === duplicateId) {
+      task.companyId = primaryId;
+      task.updatedAt = new Date().toISOString();
+    }
+  });
+
+  state.opportunities.forEach((opportunity) => {
+    if (opportunity.companyId === duplicateId) {
+      opportunity.companyId = primaryId;
+      opportunity.updatedAt = new Date().toISOString();
+      opportunity.updatedById = actorUserId;
+    }
+  });
+
+  state.companies = state.companies.filter((company) => company.id !== duplicateId);
+
+  return primary;
+}
+
+export async function mergeFallbackContacts(primaryId: string, duplicateId: string, actorUserId: string) {
+  const state = getState();
+  const primary = state.contacts.find((item) => item.id === primaryId);
+  const duplicate = state.contacts.find((item) => item.id === duplicateId);
+
+  if (!primary || !duplicate) {
+    throw new Error("Contact not found");
+  }
+
+  primary.firstName = primary.firstName || duplicate.firstName;
+  primary.lastName = primary.lastName || duplicate.lastName;
+  primary.fullName = primary.fullName || duplicate.fullName;
+  primary.roleTitle = primary.roleTitle || duplicate.roleTitle;
+  primary.companyId = primary.companyId || duplicate.companyId;
+  primary.notes = combineFallbackNotes(primary.notes, duplicate.notes);
+  primary.updatedAt = new Date().toISOString();
+  primary.updatedById = actorUserId;
+
+  const emailValues = dedupeStrings([
+    ...primary.emails.map((email) => email.email),
+    ...duplicate.emails.map((email) => email.email)
+  ]);
+  const emailPrimary =
+    primary.emails.find((email) => email.isPrimary)?.email ??
+    duplicate.emails.find((email) => email.isPrimary)?.email ??
+    emailValues[0] ??
+    null;
+  primary.emails = toFallbackEmails(primary.id, emailValues, emailPrimary);
+
+  const phoneValues = dedupeStrings([
+    ...primary.phones.map((phone) => phone.phoneNumber),
+    ...duplicate.phones.map((phone) => phone.phoneNumber)
+  ]);
+  const phonePrimary =
+    primary.phones.find((phone) => phone.isPrimary)?.phoneNumber ??
+    duplicate.phones.find((phone) => phone.isPrimary)?.phoneNumber ??
+    phoneValues[0] ??
+    null;
+  primary.phones = toFallbackPhones(primary.id, phoneValues, phonePrimary);
+
+  state.interactions.forEach((interaction) => {
+    if (interaction.contactId === duplicateId) {
+      interaction.contactId = primaryId;
+      interaction.updatedAt = new Date().toISOString();
+    }
+  });
+
+  state.tasks.forEach((task) => {
+    if (task.contactId === duplicateId) {
+      task.contactId = primaryId;
+      task.updatedAt = new Date().toISOString();
+    }
+  });
+
+  state.opportunities.forEach((opportunity) => {
+    if (opportunity.contactId === duplicateId) {
+      opportunity.contactId = primaryId;
+      opportunity.updatedAt = new Date().toISOString();
+      opportunity.updatedById = actorUserId;
+    }
+  });
+
+  state.contacts = state.contacts.filter((contact) => contact.id !== duplicateId);
+
+  return primary;
+}

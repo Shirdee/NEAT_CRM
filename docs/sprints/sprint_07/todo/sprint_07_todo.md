@@ -18,13 +18,11 @@ updated: 2026-04-15
 
 Planned by PM and opened by CTO on 2026-04-12.
 Prepared for DEV execution with explicit technical boundaries.
-Implementation is open.
-`DEV-701` is complete.
-`DEV-702` is now in progress.
-Sprint 7 remains open until DEV, QA, and PM closeout are finished.
-The close sequence is now tracked in [[sprint_07_close_plan|Sprint 07 Close Plan]].
-Repo verification gates passed locally on 2026-04-15; QA closeout still needs the functional pass.
-QA functional pass on 2026-04-15 confirmed saved views, dashboard presets, and mobile quick-entry, but reported batch edit and duplicate cleanup as still missing.
+Implementation and closeout are complete on 2026-04-15.
+All Sprint 7 DEV items are complete.
+Repo verification gates passed locally on 2026-04-15.
+QA functional pass on 2026-04-15 confirmed saved views, dashboard presets, mobile quick-entry, batch edit, and duplicate cleanup.
+The close sequence remains documented in [[sprint_07_close_plan|Sprint 07 Close Plan]] for recordkeeping.
 
 ## PM Model Strategy (2026-04-12)
 
@@ -38,19 +36,19 @@ QA functional pass on 2026-04-15 confirmed saved views, dashboard presets, and m
 ## PM Execution Tracker (2026-04-12)
 
 - DEV-701: completed
-- DEV-702: in progress
-- DEV-703: pending
-- DEV-704: pending
-- DEV-705: pending
-- DEV-706: pending
-- DEV-707: pending
+- DEV-702: completed
+- DEV-703: completed
+- DEV-704: completed
+- DEV-705: completed
+- DEV-706: completed
+- DEV-707: completed
 
 ## PM Progress Update (2026-04-12)
 
 - `DEV-701` completed the shared saved-view foundation for private per-user saved views
 - shared saved-view resolution now wraps existing route search params for `companies`, `tasks`, and `opportunities`
 - migration, shared data-layer helpers, first-wave page wiring, and focused tests are in place
-- the next active task is `DEV-702`, which should add the user-facing save, load, rename, and delete flows on the first-wave list screens
+- `DEV-702` through `DEV-707` are complete, including the batch-edit admin tools, duplicate cleanup admin tools, and final verification pass
 
 ## Agent Flow
 
@@ -228,10 +226,10 @@ If DEV and QA complete the items above without scope drift, Sprint 7 should leav
 
 ## Blockers And Approval Dependencies
 
-- dashboard preset defaults still need confirmation before `DEV-703`
-- batch-edit boundaries still need confirmation before `DEV-705`
-- duplicate-resolution affordances still need confirmation before destructive cleanup behavior is implemented
-- under the current sprint definition, batch edit and duplicate cleanup remain the closeout blockers
+- dashboard preset defaults were confirmed before `DEV-703`
+- batch-edit boundaries were confirmed before `DEV-705`
+- duplicate-resolution affordances were confirmed before destructive cleanup behavior was implemented
+- batch edit and duplicate cleanup are now implemented and verified
 
 ## Related
 

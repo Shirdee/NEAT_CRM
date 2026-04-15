@@ -50,7 +50,9 @@
       "reports": "דוחות",
       "search": "חיפוש",
       "adminLists": "רשימות ניהול",
-      "adminImports": "ייבוא"
+      "adminImports": "ייבוא",
+      "adminBatchEdit": "עריכה מרובה",
+      "adminDuplicates": "כפילויות"
     },
     "quickLog": "תיעוד מהיר",
     "quickTask": "מעקב מהיר",
@@ -140,7 +142,106 @@
     "deactivate": "השבתה",
     "activate": "הפעלה",
     "backToDashboard": "חזרה לדשבורד",
+    "tools": {
+      "batch": {
+        "eyebrow": "עריכה מרובה",
+        "title": "עדכונים מבוקרים בשדה מובנה",
+        "body": "מחילים ערך lookup מאושר אחד על קבוצת חברות, משימות או הזדמנויות שנבחרה."
+      },
+      "duplicates": {
+        "eyebrow": "ניקוי כפילויות",
+        "title": "סקירה ומיזוג כפילויות",
+        "body": "בודקים חברות ואנשי קשר חשודים ככפולים, ואז ממזגים את הרשומה המיותרת לתוך הרשומה הראשית."
+      }
+    },
     "valueCount": "{count, plural, one {# ערך} other {# ערכים}}"
+  },
+  "AdminBatch": {
+    "eyebrow": "תחזוקת מנהל",
+    "title": "עריכה מרובה מוגבלת",
+    "subtitle": "בוחרים את הרשומות לעדכון, בוחרים שדה מובנה מותר, ומחילים את אותו ערך על כל הרשומות שנבחרו.",
+    "messages": {
+      "updated": "עודכנו {count, plural, one {# רשומה} other {# רשומות}}."
+    },
+    "filters": {
+      "entity": "סוג רשומה",
+      "query": "חיפוש רשומות",
+      "queryPlaceholder": "חיפוש לפי שם, הערות או רשומה קשורה",
+      "apply": "טעינת רשומות"
+    },
+    "entities": {
+      "companies": "חברות",
+      "tasks": "מעקבים",
+      "opportunities": "הזדמנויות"
+    },
+    "fields": {
+      "sourceValueId": "מקור ליד",
+      "stageValueId": "שלב חברה",
+      "taskTypeValueId": "סוג משימה",
+      "priorityValueId": "עדיפות משימה",
+      "statusValueId": "סטטוס",
+      "opportunityStageValueId": "שלב הזדמנות",
+      "opportunityTypeValueId": "סוג הזדמנות"
+    },
+    "records": {
+      "eyebrow": "רשומות לבחירה",
+      "title": "בוחרים את הרשומות לעדכון",
+      "body": "מסמנים את הרשומות שצריכות לקבל את אותו ערך מובנה. רק הרשומות המסומנות יתעדכנו.",
+      "count": "{count, plural, one {# רשומה} other {# רשומות}}",
+      "empty": "לא נמצאו רשומות לפי הסינון הנוכחי.",
+      "noWebsite": "אין אתר",
+      "noNotes": "אין הערות",
+      "noCompany": "אין חברה מקושרת"
+    },
+    "action": {
+      "eyebrow": "פעולת batch",
+      "title": "מחילים ערך מובנה אחד",
+      "body": "בוחרים את השדה והערך שיחולו, ואז מאשרים את העדכון המרובה לפני השליחה.",
+      "field": "שדה לעדכון",
+      "value": "ערך",
+      "valuePlaceholder": "בחירת ערך",
+      "confirm": "ברור לי שכל הרשומות שנבחרו יעודכנו.",
+      "submit": "החלת עריכה מרובה"
+    },
+    "backToAdmin": "חזרה לכלי הניהול",
+    "backToDashboard": "חזרה לדשבורד"
+  },
+  "AdminDuplicates": {
+    "eyebrow": "תחזוקת מנהל",
+    "title": "ניקוי כפילויות",
+    "subtitle": "בודקים חברות ואנשי קשר שנראים כפולים, ואז ממזגים את הרשומה המיותרת לתוך הרשומה הראשית.",
+    "messages": {
+      "merged": "הרשומה הכפולה מוזגה בהצלחה."
+    },
+    "summary": {
+      "eyebrow": "תור סקירה",
+      "title": "קבוצות כפילות אפשריות",
+      "body": "מוצגות כאן רק קבוצות עם יותר מהתאמה אחת סבירה. הרשומה הראשית היא הרשומה הוותיקה ביותר בכל קבוצה.",
+      "count": "{count, plural, one {# קבוצה} other {# קבוצות}}",
+      "records": "{count, plural, one {# רשומה} other {# רשומות}}",
+      "empty": "לא זוהו קבוצות כפולות."
+    },
+    "groups": {
+      "companies": "כפילויות חברות",
+      "contacts": "כפילויות אנשי קשר"
+    },
+    "records": {
+      "primary": "רשומה ראשית",
+      "duplicate": "רשומה כפולה"
+    },
+    "actions": {
+      "confirm": "ברור לי שהפעולה משאירה את הרשומה הראשית ומוחקת את הכפולה.",
+      "merge": "מיזוג לתוך הראשית"
+    },
+    "reasons": {
+      "name": "התאמת שם",
+      "website": "התאמת אתר",
+      "email": "התאמת אימייל",
+      "phone": "התאמת טלפון",
+      "name-company": "התאמת שם וחברה"
+    },
+    "backToAdmin": "חזרה לכלי הניהול",
+    "backToDashboard": "חזרה לדשבורד"
   },
   "AdminImports": {
     "title": "סקירת ייבוא חוברת עבודה",

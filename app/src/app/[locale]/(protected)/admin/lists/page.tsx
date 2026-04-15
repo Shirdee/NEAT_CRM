@@ -35,6 +35,28 @@ export default async function AdminListsPage({params, searchParams}: AdminListsP
         <h2 className="text-3xl font-semibold text-ink">{t("title")}</h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
       </div>
+      <section className="grid gap-4 md:grid-cols-2">
+        <Link
+          className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm transition hover:border-coral/40 hover:shadow-panel"
+          href="/admin/batch"
+          locale={locale}
+        >
+          <p className="text-xs uppercase tracking-[0.24em] text-coral">{t("tools.batch.eyebrow")}</p>
+          <h3 className="mt-2 text-lg font-semibold text-ink">{t("tools.batch.title")}</h3>
+          <p className="mt-2 text-sm leading-6 text-slate-600">{t("tools.batch.body")}</p>
+        </Link>
+        <Link
+          className="rounded-[24px] border border-slate-200 bg-white p-5 shadow-sm transition hover:border-coral/40 hover:shadow-panel"
+          href="/admin/duplicates"
+          locale={locale}
+        >
+          <p className="text-xs uppercase tracking-[0.24em] text-coral">
+            {t("tools.duplicates.eyebrow")}
+          </p>
+          <h3 className="mt-2 text-lg font-semibold text-ink">{t("tools.duplicates.title")}</h3>
+          <p className="mt-2 text-sm leading-6 text-slate-600">{t("tools.duplicates.body")}</p>
+        </Link>
+      </section>
       {error ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">
           {t("errors.generic")}

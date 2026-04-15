@@ -50,7 +50,9 @@
       "reports": "Reports",
       "search": "Search",
       "adminLists": "Admin lists",
-      "adminImports": "Imports"
+      "adminImports": "Imports",
+      "adminBatchEdit": "Batch edit",
+      "adminDuplicates": "Duplicates"
     },
     "quickLog": "Quick log",
     "quickTask": "Quick follow-up",
@@ -140,7 +142,106 @@
     "deactivate": "Deactivate",
     "activate": "Activate",
     "backToDashboard": "Back to dashboard",
+    "tools": {
+      "batch": {
+        "eyebrow": "Batch edit",
+        "title": "Limited structured bulk updates",
+        "body": "Apply one approved lookup value across a selected set of companies, tasks, or opportunities."
+      },
+      "duplicates": {
+        "eyebrow": "Duplicate cleanup",
+        "title": "Review and merge duplicates",
+        "body": "Inspect likely duplicate companies and contacts, then merge the redundant record into the primary one."
+      }
+    },
     "valueCount": "{count, plural, one {# value} other {# values}}"
+  },
+  "AdminBatch": {
+    "eyebrow": "Admin maintenance",
+    "title": "Limited batch edit",
+    "subtitle": "Select the records to update, choose one allowed structured field, and apply the same value across the selected set.",
+    "messages": {
+      "updated": "Updated {count, plural, one {# record} other {# records}}."
+    },
+    "filters": {
+      "entity": "Record type",
+      "query": "Search records",
+      "queryPlaceholder": "Search by name, notes, or related record",
+      "apply": "Load records"
+    },
+    "entities": {
+      "companies": "Companies",
+      "tasks": "Follow-ups",
+      "opportunities": "Opportunities"
+    },
+    "fields": {
+      "sourceValueId": "Lead source",
+      "stageValueId": "Company stage",
+      "taskTypeValueId": "Task type",
+      "priorityValueId": "Task priority",
+      "statusValueId": "Status",
+      "opportunityStageValueId": "Opportunity stage",
+      "opportunityTypeValueId": "Opportunity type"
+    },
+    "records": {
+      "eyebrow": "Selectable records",
+      "title": "Choose the records to update",
+      "body": "Tick the records that should receive the same structured value. Only the selected records are updated.",
+      "count": "{count, plural, one {# record} other {# records}}",
+      "empty": "No records matched the current filters.",
+      "noWebsite": "No website",
+      "noNotes": "No notes",
+      "noCompany": "No related company"
+    },
+    "action": {
+      "eyebrow": "Batch action",
+      "title": "Apply one structured value",
+      "body": "Pick the field and value to apply, then confirm the bulk update before submitting.",
+      "field": "Field to update",
+      "value": "Value",
+      "valuePlaceholder": "Choose a value",
+      "confirm": "I understand this updates every selected record.",
+      "submit": "Apply batch edit"
+    },
+    "backToAdmin": "Back to admin tools",
+    "backToDashboard": "Back to dashboard"
+  },
+  "AdminDuplicates": {
+    "eyebrow": "Admin maintenance",
+    "title": "Duplicate cleanup",
+    "subtitle": "Review likely duplicate companies and contacts, then merge the redundant record into the primary one.",
+    "messages": {
+      "merged": "Duplicate record merged successfully."
+    },
+    "summary": {
+      "eyebrow": "Review queue",
+      "title": "Potential duplicate groups",
+      "body": "Only groups with more than one likely match are shown here. The primary record is the oldest record in each group.",
+      "count": "{count, plural, one {# group} other {# groups}}",
+      "records": "{count, plural, one {# record} other {# records}}",
+      "empty": "No duplicate groups were detected."
+    },
+    "groups": {
+      "companies": "Company duplicates",
+      "contacts": "Contact duplicates"
+    },
+    "records": {
+      "primary": "Primary record",
+      "duplicate": "Duplicate record"
+    },
+    "actions": {
+      "confirm": "I understand this keeps the primary record and removes the duplicate.",
+      "merge": "Merge into primary"
+    },
+    "reasons": {
+      "name": "Name match",
+      "website": "Website match",
+      "email": "Email match",
+      "phone": "Phone match",
+      "name-company": "Name and company match"
+    },
+    "backToAdmin": "Back to admin tools",
+    "backToDashboard": "Back to dashboard"
   },
   "AdminImports": {
     "title": "Workbook import review",

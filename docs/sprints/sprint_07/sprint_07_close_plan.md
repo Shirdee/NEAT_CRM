@@ -17,8 +17,8 @@ updated: 2026-04-15
 ## Status
 
 Close plan prepared on 2026-04-15.
-Sprint 7 is still open until DEV, QA, and PM closeout finish.
-This note defines the final steps needed to close the sprint cleanly.
+Sprint 7 is closed on 2026-04-15 after DEV, QA, and PM closeout finished.
+This note is retained as the closeout record.
 
 ## Verification Snapshot
 
@@ -33,23 +33,22 @@ This note defines the final steps needed to close the sprint cleanly.
 - saved views: pass
 - dashboard presets: pass for current route-state implementation
 - mobile quick-entry: pass for current implementation
-- batch/bulk safety: fail, limited batch edit is not yet present
-- duplicate cleanup: fail, only import-time duplicate handling exists
-- closeout status: sprint remains open until the missing deliverables are either built or explicitly deferred by PM
+- batch/bulk safety: pass, limited batch edit is present and guarded
+- duplicate cleanup: pass, admin duplicate cleanup and merge flow are present
+- closeout status: sprint is closed
 
 ## Close Objective
 
 Close Sprint 7 without drifting beyond the approved optimization slice.
-The sprint should end with the saved-view work, dashboard preset refinement, mobile quick-entry polish, batch-edit guardrails, and duplicate-cleanup improvements fully verified and documented.
-Current QA says the first three items are ready, while batch-edit and duplicate-cleanup work remain blockers under the present sprint definition.
+The sprint ended with the saved-view work, dashboard preset refinement, mobile quick-entry polish, batch-edit guardrails, and duplicate-cleanup improvements fully verified and documented.
 
 ## Close Sequence
 
-1. Freeze remaining Sprint 7 scope
-2. Finish `DEV-707` and any unresolved Sprint 7 implementation follow-ups
-3. Run QA verification on saved views, dashboard presets, mobile flows, batch edit, and duplicate cleanup
-4. Re-run repo gates if any fix lands during QA
-5. Record PM closeout status and update Sprint 7 docs to closed
+1. Remaining Sprint 7 scope was frozen
+2. `DEV-707` and the remaining Sprint 7 implementation follow-ups were completed
+3. QA verification ran on saved views, dashboard presets, mobile flows, batch edit, and duplicate cleanup
+4. Repo gates were re-run after the final fixes
+5. PM recorded closeout status and updated Sprint 7 docs to closed
 
 ## CTO Handoff To DEV
 
