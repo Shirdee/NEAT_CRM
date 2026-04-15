@@ -9,7 +9,7 @@ export function SurfaceCard({children, className}: SurfaceCardProps) {
   return (
     <section
       className={clsx(
-        "rounded-[28px] bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] backdrop-blur sm:p-6",
+        "rounded-[28px] bg-white p-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] sm:p-6",
         className
       )}
     >

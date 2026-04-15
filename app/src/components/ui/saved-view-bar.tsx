@@ -152,7 +152,7 @@ export function SavedViewBar<M extends SavedViewModule>({
 
   return (
     <div className="space-y-2">
-      <div className="flex flex-col gap-3 rounded-[26px] border border-slate-200 bg-white/80 p-4 shadow-[0_10px_30px_rgba(58,48,45,0.06)] backdrop-blur sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-3 rounded-[26px] border border-slate-200 bg-white p-4 shadow-[0_10px_30px_rgba(58,48,45,0.06)] sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-1 flex-col gap-2 sm:flex-row sm:items-center">
           <p className="text-xs font-semibold uppercase tracking-[0.26em] text-slate-400">
             {label(locale, "Saved views", "תצוגות שמורות")}

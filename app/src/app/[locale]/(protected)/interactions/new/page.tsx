@@ -67,7 +67,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
       <div
         className={
           compactMode
-            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.8),rgba(249,235,231,0.95))] px-5 py-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] backdrop-blur"
+            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.8),rgba(249,235,231,0.95))] px-5 py-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)]"
             : "space-y-3"
         }
       >
