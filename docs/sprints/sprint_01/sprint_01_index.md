@@ -13,6 +13,8 @@ aliases:
 
 ## Status
 
+**CLOSED — 2026-04-15**
+
 Sprint 1 implementation is complete in the repository and has passed QA.
 Sprint 1 closeout is complete: Vercel deployment, PostgreSQL migration, and baseline seed verification are all done.
 

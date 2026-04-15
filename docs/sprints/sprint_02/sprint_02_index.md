@@ -13,11 +13,10 @@ aliases:
 
 ## Status
 
-Sprint 2 planning is approved for implementation.
-Sprint 2 execution is focused on workbook audit, staging, validation, and admin review.
-Current state: Sprint 2 roadmap scope is implemented, including staged editing, row state, entity override, duplicate handling, attach-to-existing controls, lookup overrides, unsaved-changes protection, sample workbook download, clearer import error surfacing, batch-safe creation of new companies during import, founder-approved contact minimum requirements, ignored row-number workbook columns, and a single-current-import model without saved batch history.
-QA status: Sprint 2 implementation is approved for closeout.
-Operational note: run one real-workbook validation pass before production import use.
+**CLOSED — 2026-04-15**
+
+Sprint 2 roadmap scope is implemented and QA-approved for closeout.
+Carryover operational validation was moved to [[sprints/open_tasks|Open Tasks]].
 
 ## Objective
 

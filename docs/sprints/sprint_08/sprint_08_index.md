@@ -17,8 +17,10 @@ updated: 2026-04-15
 
 ## Status
 
-Sprint 8 is proposed and not yet approved for implementation.
-This sprint is the next post-MVP slice under consideration after the Sprint 7 closeout.
+**CLOSED (DEFERRED) — 2026-04-15**
+
+Sprint 8 is closed as deferred (not approved for implementation in this cycle).
+Deferred approval items were moved to [[sprints/open_tasks|Open Tasks]].
 
 ## Objective
 

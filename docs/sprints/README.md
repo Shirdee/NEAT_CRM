@@ -17,6 +17,7 @@ updated: 2026-04-15
 
 ## Start Here
 
+- [Open Tasks](open_tasks.md)
 - [Sprint 10 Index](sprint_10/sprint_10_index.md)
 - [Sprint 10 Todo](sprint_10/todo/sprint_10_todo.md)
 - [Sprint 09 Index](sprint_09/sprint_09_index.md)
@@ -34,9 +35,8 @@ updated: 2026-04-15
 
 ## Planning Reference
 
-Sprint 7 is the latest closed implementation slice. Sprint 9 is currently active for dense UI refresh, with mobile phase implemented and desktop phase pending.
-Use Sprint 7 docs for current closed UI/usability baseline, then Sprint 9 docs for active in-flight changes.
-Sprint 10 was created from `crm/docs/Notes.md`; Workstreams 1 and 2 are opened for DEV via CTO handoff, while Workstreams 3 to 6 remain planned.
+All Sprint 1 to Sprint 10 index docs are now marked closed.
+Any unfinished work was moved to [Open Tasks](open_tasks.md) and should be treated as the active backlog.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 

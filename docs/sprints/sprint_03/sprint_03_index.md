@@ -14,11 +14,10 @@ aliases:
 
 ## Status
 
-Sprint 1 is complete.
-Sprint 2 implementation is complete and approved for closeout, with one operational follow-up: validate the real workbook before production import use.
-Sprint 3 implementation is complete in the repository.
-QA verification now passes for lint, typecheck, tests, and build as of 2026-04-07.
-Sprint 3 closeout work is now focused on workspace-drift review and final closeout publishing.
+**CLOSED — 2026-04-15**
+
+Sprint 3 implementation and QA verification are complete.
+Residual closeout/admin tasks were moved to [[sprints/open_tasks|Open Tasks]].
 
 ## Objective
 
@@ -72,10 +71,8 @@ Verification note:
 ## Closeout Tasks
 
 1. FIN-01 Repair the ESLint toolchain and restore `npm run lint` - complete
-2. FIN-02 Review current workspace drift and classify intentional vs accidental doc changes - open
-3. FIN-03 Run the final verification set after tooling repair - complete
-4. FIN-04 Update Sprint 3 docs to reflect final closeout state - in progress
-5. FIN-05 Commit and push the final closeout snapshot - pending
+2. FIN-03 Run the final verification set after tooling repair - complete
+3. Remaining closeout tasks moved to [[sprints/open_tasks|Open Tasks]]
 
 ## Main Carry-Ins From Earlier Sprints
 

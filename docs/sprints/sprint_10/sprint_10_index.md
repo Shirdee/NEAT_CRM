@@ -16,24 +16,21 @@ updated: 2026-04-15
 
 ## Status
 
-Partially opened for implementation.
-On 2026-04-15, CTO opened Workstream 1 and Workstream 2 for DEV execution via Sprint 10 todo handoff.
-On 2026-04-15, CTO opened Workstream 3 for DEV execution with detailed runtime tasks (`DEV-3001` to `DEV-3005`) and parallel subagent kickoff.
-On 2026-04-15, CTO opened Workstreams 4 to 6 with detailed task packs (`DEV-400x`, `DEV-500x`, `DEV-600x`) and parallel DEV subagent execution.
-On 2026-04-15, CTO opened Workstream 7 (`Ink & Quartz` cutover) with no-gradient enforcement, deployment sequence, and DEV handoff task packs (`DEV-700x`, `DEV-710x`, `DEV-720x`).
-DEV completed Workstream 1 implementation and Workstream 2 planning artifact on 2026-04-15.
-PM/founder approval checkpoint for Workstream 2 execution recorded on 2026-04-15.
-Initial Workstream 2 UI implementation slices were executed via parallel DEV subagents on 2026-04-15.
+**CLOSED — 2026-04-15**
+
+Sprint 10 execution was closed by PM.
+Completed work remains documented below.
+All unfinished workstream items were consolidated into [[sprints/open_tasks|Open Tasks]].
 
 ## Delivery Snapshot (2026-04-15)
 
 - Workstream 1: complete
-- Workstream 2: approved and in progress (initial slices delivered)
-- Workstream 3: partially complete (runtime optimizations shipped; baseline/re-measure docs pending)
-- Workstream 4: partially complete (summary rendering shipped; RTL/mobile validation pending)
-- Workstream 5: mostly complete (phone-call type + interaction links shipped; explicit test additions pending)
-- Workstream 6: mostly complete (live filter behavior shipped on core list routes; large-list perf verification pending)
-- Workstream 7: in progress (no-gradient code pass shipped; full visual parity + QA gate pending)
+- Workstream 2: initial slices delivered; remaining parity tasks moved to `Open Tasks`
+- Workstream 3: optimizations shipped; measurement carryover moved to `Open Tasks`
+- Workstream 4: rendering shipped; validation carryover moved to `Open Tasks`
+- Workstream 5: type/link updates shipped; test carryover moved to `Open Tasks`
+- Workstream 6: live behavior shipped; perf carryover moved to `Open Tasks`
+- Workstream 7: no-gradient cutover started; parity/QA/deploy carryover moved to `Open Tasks`
 
 ### Workstream 2 Initial Slices Delivered
 
@@ -53,9 +50,7 @@ Initial Workstream 2 UI implementation slices were executed via parallel DEV sub
 
 ### Remaining Before Workstream 2 Closeout
 
-1. screenshot-by-screenshot parity sweep against Stitch desktop/mobile references
-2. manual RTL visual sweep for touched routes
-3. PM signoff note with resolved drift list
+Items moved to [[sprints/open_tasks|Open Tasks]].
 
 ## Objective
 

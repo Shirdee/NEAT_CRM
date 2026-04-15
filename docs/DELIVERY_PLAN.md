@@ -18,8 +18,12 @@ updated: 2026-04-15
 
 ## Status
 
-Planning-only document for founder approval.
-No implementation work should start until this plan is approved.
+Execution-active.
+Use this document as strategic baseline and use active sprint docs for live status:
+
+- [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]
+- [[sprints/sprint_10/todo/sprint_10_todo|Sprint 10 Todo]]
+- [[sprints/sprint_10/sprint_10_ink_quartz_cutover_plan|Sprint 10 Ink & Quartz Cutover Plan]]
 
 ## PRD Source Of Truth
 

@@ -15,10 +15,10 @@ updated: 2026-04-11
 
 ## Status
 
-Sprint 4 planning was re-reviewed by CTO against the finished Sprint 3 repository state.
-Sprint 4 implementation scope is now in the repository.
-The current Sprint 4 slice includes shared interactions and tasks reads and writes, interaction and follow-up create/edit routes, explicit interaction-type selection on the interaction form, direct follow-up creation from the interaction create flow, create-follow-up-from-interaction behavior, live-search company and contact pickers in activity forms, compact quick-add entrypoints from shell and record surfaces, compact follow-up continuation after interaction create, and activity summaries on company and contact detail.
-CTO approves production release from the current verified local state on 2026-04-11.
+**CLOSED — 2026-04-15**
+
+Sprint 4 implementation scope is delivered and release-approved.
+Post-closeout confidence checks were moved to [[sprints/open_tasks|Open Tasks]].
 
 ## Objective
 
@@ -56,7 +56,7 @@ Make the CRM operational for daily follow-up work by shipping interactions, foll
 ## Current Implementation Read
 
 - completed in repository: shared activity read and write layer, fallback seed coverage for interactions and tasks, interactions list/detail/create/edit, explicit interaction-type selection in the interaction form, live-search company and contact pickers in interaction and follow-up forms, compact interaction quick-add entrypoints, direct interaction-create to compact follow-up-create handoff, compact follow-up entrypoints from record surfaces, follow-up list/detail/create/edit, create-follow-up-from-interaction path, company/contact activity summaries, shell nav links, locale strings, Sprint 4 fallback tests
-- remaining closeout gate: restore a trustworthy local app install and rerun repo verification plus browser-level QA on the compact mobile flows
+- remaining closeout gate moved to [[sprints/open_tasks|Open Tasks]]
 
 ## Main Carry-Ins
 
