@@ -117,7 +117,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </div>
         </div>
       </SurfaceCard>
-      <div className="grid gap-4 xl:grid-cols-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <MetricCard
           detail={t("metrics.overdueDetail")}
           label={t("metrics.overdue")}
@@ -144,7 +144,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
         />
       </div>
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)]">
-        <SurfaceCard className="space-y-5">
+        <SurfaceCard className="min-w-0 space-y-5">
           <div className="flex items-center justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.28em] text-coral">
@@ -187,8 +187,8 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
             ) : null}
           </div>
         </SurfaceCard>
-        <div className="space-y-4">
-          <SurfaceCard className="space-y-4">
+        <div className="min-w-0 space-y-4">
+          <SurfaceCard className="min-w-0 space-y-4">
             <div className="flex items-center justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.28em] text-teal">
@@ -222,7 +222,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
               ) : null}
             </div>
           </SurfaceCard>
-          <SurfaceCard className="space-y-4">
+          <SurfaceCard className="min-w-0 space-y-4">
             <p className="text-xs uppercase tracking-[0.28em] text-slate-400">{t("insights.eyebrow")}</p>
             <h3 className="text-xl font-semibold text-ink">{t("insights.title")}</h3>
             <div className="space-y-3">
@@ -247,7 +247,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </SurfaceCard>
         </div>
       </div>
-      <SurfaceCard className="grid gap-4 md:grid-cols-3">
+      <SurfaceCard className="min-w-0 grid gap-4 md:grid-cols-3">
         {[
           {value: t("cards.roleTitle"), label: t("cards.roleBody")},
           {value: t("cards.localeTitle"), label: t("cards.localeBody")},
