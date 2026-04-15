@@ -16,8 +16,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "CRM Foundation",
-  description: "Sprint 1 application shell for the bilingual CRM foundation."
+  title: "CRM",
+  description: "Internal bilingual CRM for daily sales work and follow-ups."
 };
 
 export const viewport: Viewport = {

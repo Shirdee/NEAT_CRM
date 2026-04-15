@@ -110,14 +110,14 @@
     "cards": {
       "roleTitle": "Role-aware workspace",
       "roleBody": "Navigation and quick actions still follow the current permission model while the UI layer becomes more operational.",
-      "localeTitle": "Bilingual baseline",
-      "localeBody": "English and Hebrew rendering stay part of the default screen design rather than a late QA fix.",
+      "localeTitle": "Built-in bilingual UI",
+      "localeBody": "English and Hebrew support is part of the product from day one, including RTL-safe layout.",
       "mobileTitle": "Mobile-safe actions",
       "mobileBody": "The dashboard keeps primary actions visible so follow-up work can continue on smaller screens."
     }
   },
   "AdminLists": {
-    "title": "Admin list foundation",
+    "title": "Admin lists",
     "subtitle": "Admin users can now create categories, add values, edit bilingual labels, and toggle activation state without touching code.",
     "restrictedTitle": "Admin access required",
     "restrictedBody": "Only admin users should manage shared lookup values. Editors and viewers are intentionally blocked from this area.",
@@ -127,7 +127,7 @@
     },
     "createCategory": {
       "title": "Create a category",
-      "body": "Add a reusable lookup group for Sprint 2 imports and Sprint 3 CRM forms.",
+      "body": "Add a reusable lookup group for imports and structured form fields.",
       "namePlaceholder": "Display name",
       "keyPlaceholder": "machine_key",
       "submit": "Create category"
@@ -245,7 +245,7 @@
   },
   "AdminImports": {
     "title": "Workbook import review",
-    "subtitle": "Sprint 2 stages workbook data in controlled chunks, profiles the source structure, surfaces cleanup issues, and keeps the final commit behind admin review.",
+    "subtitle": "Stage workbook data in controlled chunks, profile the source structure, surface cleanup issues, and keep the final commit behind admin review.",
     "messages": {
       "committed": "The selected batch was committed successfully.",
       "updated": "The staged row was updated and revalidated."
@@ -309,7 +309,7 @@
   },
   "Companies": {
     "title": "Companies",
-    "subtitle": "Sprint 3 turns the CRM into a usable lead database with searchable, filterable company records and mobile-safe detail views.",
+    "subtitle": "Searchable, filterable company records with mobile-friendly detail views.",
     "create": "Create company",
     "empty": "No companies matched the current filters.",
     "errors": {
@@ -335,7 +335,7 @@
   "CompanyForm": {
     "createTitle": "Create company",
     "editTitle": "Edit company",
-    "subtitle": "Keep company records light, bilingual-ready, and grounded in the shared lookup values from Sprint 1.",
+    "subtitle": "Keep company records light, bilingual-ready, and grounded in shared lookup values.",
     "error": "A company name is required before saving.",
     "back": "Back"
   },
@@ -398,7 +398,7 @@
   "ContactForm": {
     "createTitle": "Create contact",
     "editTitle": "Edit contact",
-    "subtitle": "Use one line per email or phone so the shared Sprint 3 form layer can preserve multiple communication methods cleanly.",
+    "subtitle": "Use one line per email or phone so multiple communication methods stay clean and searchable.",
     "error": "A contact needs a name and at least one email or phone number.",
     "back": "Back"
   },
@@ -438,8 +438,8 @@
   },
   "Interactions": {
     "title": "Interactions",
-    "subtitle": "Sprint 4 begins the daily activity layer with a searchable interaction history across companies and contacts.",
-    "readiness": "Sprint 4 activity layer",
+    "subtitle": "Searchable interaction history across companies and contacts, built for daily activity logging.",
+    "readiness": "Daily activity layer",
     "create": "Log interaction",
     "empty": "No interactions matched the current filters.",
     "filters": {
@@ -565,7 +565,7 @@
   "Reports": {
     "eyebrow": "Reporting",
     "title": "Reports",
-    "subtitle": "Focused MVP reporting views built on the same database truth as the operational CRM screens.",
+    "subtitle": "Focused reporting views built on the same database truth as the operational CRM screens.",
     "cards": {
       "leadsBySource": {
         "title": "Leads by source",
@@ -606,7 +606,7 @@
     "edit": "Edit follow-up",
     "created": "Follow-up created successfully.",
     "updated": "Follow-up updated successfully.",
-    "subtitle": "Sprint 4 links next actions back to the exact record context they belong to.",
+    "subtitle": "Next actions stay linked to the exact record context they belong to.",
     "dueDate": "Due date",
     "status": "Status",
     "priority": "Priority",
@@ -629,14 +629,14 @@
     "createTitle": "Create follow-up",
     "quickAddTitle": "Quick add follow-up",
     "editTitle": "Edit follow-up",
-    "subtitle": "Keep next actions concrete, linked, and easy to complete from the same shared Sprint 4 task flow.",
+    "subtitle": "Keep next actions concrete, linked, and easy to complete from a single shared flow.",
     "quickAddSubtitle": "Use the compact flow to capture the next step immediately while keeping the linked record context intact.",
     "error": "A follow-up needs a due date, type, priority, status, and at least one linked company or contact.",
     "back": "Back"
   },
   "Search": {
     "title": "Global search",
-    "subtitle": "Search now covers the Sprint 3 company and contact surfaces from one entry point.",
+    "subtitle": "Search companies and contacts from one entry point.",
     "placeholder": "Search company name, contact name, email, phone, website, or notes",
     "empty": "Start typing to search the CRM.",
     "companiesTitle": "Companies",
@@ -647,7 +647,7 @@
   "AccessDenied": {
     "eyebrow": "Permissions",
     "title": "This area is outside your current role",
-    "body": "Sprint 1 enforces role boundaries on the server. Viewer users are read-only, and editor users do not manage admin settings.",
+    "body": "Role boundaries are enforced on the server. Viewer users are read-only, and editor users do not manage admin settings.",
     "cta": "Back to dashboard"
   }
 }

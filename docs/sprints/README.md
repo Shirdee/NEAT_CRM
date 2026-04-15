@@ -18,6 +18,8 @@ updated: 2026-04-15
 ## Start Here
 
 - [Open Tasks](open_tasks.md)
+- [Sprint 12 Index](sprint_12/sprint_12_index.md)
+- [Sprint 12 Todo](sprint_12/todo/sprint_12_todo.md)
 - [Sprint 11 Index](sprint_11/sprint_11_index.md)
 - [Sprint 11 Todo](sprint_11/todo/sprint_11_todo.md)
 - [Sprint 10 Index](sprint_10/sprint_10_index.md)
@@ -39,6 +41,7 @@ updated: 2026-04-15
 
 All Sprint 1 to Sprint 11 index docs are now marked closed.
 Any unfinished work was moved to [Open Tasks](open_tasks.md) and should be treated as the active backlog.
+Sprint 12 is planned work for user-facing copy cleanup and is not yet closed.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 
@@ -47,6 +50,7 @@ See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprin
 - [Delivery Plan](../DELIVERY_PLAN.md)
 - [PRD](../PRD.md)
 - [Decisions](../DECISIONS.md)
+- [Sprint 12 Index](sprint_12/sprint_12_index.md)
 - [Sprint 11 Index](sprint_11/sprint_11_index.md)
 - [Sprint 01 Index](sprint_01/sprint_01_index.md)
 - [Sprint 02 Index](sprint_02/sprint_02_index.md)

@@ -147,7 +147,7 @@ export const seededUsers: SeedUser[] = [
   {
     id: "user_admin",
     email: "admin@crm.local",
-    fullName: "Sprint Admin",
+    fullName: "CRM Admin",
     role: "admin",
     languagePreference: "en",
     isActive: true,
@@ -156,7 +156,7 @@ export const seededUsers: SeedUser[] = [
   {
     id: "user_editor",
     email: "editor@crm.local",
-    fullName: "Sprint Editor",
+    fullName: "CRM Editor",
     role: "editor",
     languagePreference: "en",
     isActive: true,
@@ -165,7 +165,7 @@ export const seededUsers: SeedUser[] = [
   {
     id: "user_viewer",
     email: "viewer@crm.local",
-    fullName: "Sprint Viewer",
+    fullName: "CRM Viewer",
     role: "viewer",
     languagePreference: "he",
     isActive: true,

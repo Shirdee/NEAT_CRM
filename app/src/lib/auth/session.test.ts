@@ -7,7 +7,7 @@ describe("session token handling", () => {
     const token = createSessionToken({
       id: "user_admin",
       email: "admin@crm.local",
-      fullName: "Sprint Admin",
+      fullName: "CRM Admin",
       role: "admin",
       languagePreference: "en"
     });
@@ -22,7 +22,7 @@ describe("session token handling", () => {
     const token = createSessionToken({
       id: "user_admin",
       email: "admin@crm.local",
-      fullName: "Sprint Admin",
+      fullName: "CRM Admin",
       role: "admin",
       languagePreference: "en"
     });
