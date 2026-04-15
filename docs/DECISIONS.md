@@ -5,7 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Decisions
-updated: 2026-04-11
+updated: 2026-04-15
 ---
 
 # CRM Decisions
@@ -75,6 +75,12 @@ These are proposed PM and CTO decisions pending founder approval.
 - owner: CTO
 - reason: credentials login avoids adding an email delivery service just for authentication
 
+### D-010: Keep Integration Storage Provider-Agnostic And Minimal
+
+- status: proposed
+- owner: CTO
+- reason: integration config should stay narrow until boundary approval, with no sync, queue, automation, or paid infra assumptions
+
 ## Founder Approval Needed
 
 ### A-001: Login Method
@@ -102,6 +108,12 @@ These are proposed PM and CTO decisions pending founder approval.
 
 - question: if workbook content conflicts with the written requirements, which source wins
 - recommendation: written requirements define target behavior, workbook defines initial data only
+- approval needed from: founder
+
+### A-006: Integration Boundary Scope
+
+- question: confirm whether MVP integration scope is config-only or may include sync-ready fields
+- recommendation: config-only until CTO-803 boundary approval
 - approval needed from: founder
 
 ## Related

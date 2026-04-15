@@ -17,6 +17,8 @@ updated: 2026-04-15
 
 ## Start Here
 
+- [Sprint 08 Index](sprint_08/sprint_08_index.md)
+- [Sprint 08 Todo](sprint_08/todo/sprint_08_todo.md)
 - [Sprint 07 Index](sprint_07/sprint_07_index.md)
 - [Sprint 07 Todo](sprint_07/todo/sprint_07_todo.md)
 - [Sprint 07 Review](sprint_07/reviews/sprint_07_review.md)
@@ -29,6 +31,7 @@ updated: 2026-04-15
 ## Planning Reference
 
 Sprint 7 is the latest closed implementation slice. Use the Sprint 7 docs first for current UI and usability context, then fall back to Sprint 5 for the UI baseline.
+Sprint 8 is the next proposed post-MVP slice and is still in planning.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 

@@ -6,7 +6,7 @@ tags:
   - cto
 aliases:
   - CRM Architecture
-updated: 2026-04-11
+updated: 2026-04-15
 ---
 
 # CRM Architecture
@@ -152,6 +152,7 @@ Canonical entities:
 - `list_values`
 - `import_batches`
 - `import_issues`
+- `integrations`
 
 Computed or derived behavior:
 
@@ -189,6 +190,15 @@ The full schema proposal lives in [[DATA_MODEL|Data Model]].
 - defer dedicated search engine unless performance proves it necessary
 - whenever a user needs to find an existing company, contact, interaction, or similar CRM record inside a form, the UI should use live search backed by the existing data layer instead of rendering an unbounded static select
 
+### Integration Boundary
+
+- store only a narrow, provider-agnostic integration config in the app database
+- keep provider key, external account identity, enabled state, and timestamps
+- keep provider-specific secrets and tokens out of the core model unless a later decision explicitly adds them
+- enforce integration access server-side with app roles
+- no sync logic, webhooks, polling, queues, or automation before boundary approval
+- no paid infra for integration storage or processing in MVP
+
 ### Reporting
 
 - use SQL queries and app-level summaries for MVP
@@ -201,6 +211,7 @@ The full schema proposal lives in [[DATA_MODEL|Data Model]].
 - roles: admin, editor, viewer
 - no ownership-based filtering in MVP
 - audit fields on major tables: `created_at`, `updated_at`, `created_by`, `updated_by` where relevant
+- integration permissions use same server-side role checks; no client-only gating
 
 ## Import Architecture
 
@@ -217,6 +228,14 @@ Free-tier note:
 - the primary import path should avoid sending the entire workbook file to a single Vercel Function
 - preferred hosted path: parse workbook client-side, then send normalized data to staging in chunks
 - if workbook size or validation complexity still exceeds Hobby limits, the fallback path should be a local admin-run import command against the same database
+
+## Integration Architecture
+
+- integration storage is config only until CTO-803 boundary approval
+- first version should stay provider-agnostic and minimal
+- provider-specific sync behavior stays out of scope until the storage contract and permissions are approved
+- no queue-based or scheduled processing path is assumed for MVP
+- no paid infrastructure is assumed for integration persistence or processing
 
 Detailed mapping and cleanup logic lives in `docs/IMPORT_MAPPING.md`.
 
