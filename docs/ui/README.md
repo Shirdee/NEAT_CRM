@@ -7,7 +7,7 @@ aliases:
   - CRM UI
   - CRM UI Docs Redirect
 created: 2026-04-09
-updated: 2026-04-12
+updated: 2026-04-15
 ---
 
 # CRM UI
@@ -20,15 +20,15 @@ updated: 2026-04-12
 
 ## Start Here
 
-- [[CRM Sprint 05 Frontend Implementation Tasks]]
-- [[CRM Sprint 05 Frontend Sprint Checklist]]
-- [[CRM Sprint 05 UI Design]]
-- [[CRM Sprint 05 UI Kit]]
-- [[CRM Sprint 05 Index]]
+- [Sprint 05 Frontend Implementation Tasks](../sprints/sprint_05/ui/FRONTEND_IMPLEMENTATION_TASKS.md)
+- [Sprint 05 Frontend Sprint Checklist](../sprints/sprint_05/ui/FRONTEND_SPRINT_CHECKLIST.md)
+- [Sprint 05 UI Design](../sprints/sprint_05/ui/Design.md)
+- [Sprint 05 UI Kit](../sprints/sprint_05/ui/UI_KIT.md)
+- [Sprint 05 Index](../sprints/sprint_05/sprint_05_index.md)
 
 ## Related
 
-- [[CRM Home]]
-- [[CRM Sprints]]
-- [[CRM Sprint 05 Index]]
-- [[ROADMAP|Roadmap]]
+- [CRM Home](../README.md)
+- [CRM Sprints](../sprints/README.md)
+- [Sprint 05 Index](../sprints/sprint_05/sprint_05_index.md)
+- [Roadmap](../ROADMAP.md)

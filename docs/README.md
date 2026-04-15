@@ -5,46 +5,23 @@ tags:
   - index
 aliases:
   - CRM Home
-updated: 2026-04-12
+updated: 2026-04-15
 ---
 
 # CRM
 
-Project home for the CRM documentation root.
-
-## Current Focus
-
-- Sprint 6 is closed and is the latest delivered business-layer and launch-readiness baseline
-- Sprint 5 remains the current delivered UI baseline underneath Sprint 6 business features
-- Sprint 7 is the active implementation slice for workflow optimization and usability hardening, with `DEV-701` in progress
-- use this note as the entrypoint into the CRM doc graph, not as a long-form status archive
+CRM docs home and fast entrypoint.
 
 ## Start Here
 
-- [[CRM Context]]
-- [[CRM Sprints]]
-- [[CRM UI]]
-- [[CRM PRD]]
-- [[CRM Architecture]]
-- [[Software Requirements Sheet]]
-
-## Agent Launch Routes
-
-- PM: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Review]]
-- CTO: [[CRM Context]] -> [[CRM Architecture]] -> [[CRM Sprint 07 Review]]
-- DEV: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Todo]]
-- QA: [[CRM Context]] -> [[CRM Sprints]] -> [[CRM Sprint 07 Review]]
+- [CRM Context](CODEX.md)
+- [CRM Sprints](sprints/README.md)
+- [CRM UI](ui/README.md)
+- [CRM PRD](PRD.md)
+- [CRM Architecture](ARCHITECTURE.md)
+- [Engineering Docs](Engineering%20Docs/README.md)
 
 ## Runtime
 
-- runnable app: `crm/app`
-- example local command: `cd /Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app && npm run dev`
-
-## Related
-
-- [[CODEX|Project Context]]
-- [[CRM Sprints]]
-- [[CRM UI]]
-- [[CRM PRD]]
-- [[CRM Architecture]]
-- [[Software Requirements Sheet]]
+- app: `crm/app`
+- dev: `cd /Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app && npm run dev`

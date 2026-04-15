@@ -27,7 +27,7 @@ Every project-owned Markdown note should make it easy to answer:
 - the repo root is the master navigation layer
 - `crm/` is a project root
 - inside this project, `docs/` is the CRM wiki root for project-owned notes
-- project docs should optimize for fast entry from [[CRM Home]] -> [[CRM Context]] -> active area hub -> active leaf
+- project docs should optimize for fast entry from [CRM Home](README.md) to [CRM Context](CODEX.md) to the active area hub and then the active leaf
 - cross-project navigation should move through project homes, not leaf-to-leaf links
 
 ## Required Structure For New Docs
@@ -90,8 +90,8 @@ When writing or updating a doc:
 
 Examples:
 
-- a sprint task note should link to [[DELIVERY_PLAN|Delivery Plan]], [[ARCHITECTURE|Architecture]], and the relevant sprint review
-- a product note should link to [[PRD|PRD]], [[DECISIONS|Decisions]], and [[ROADMAP|Roadmap]]
+- a sprint task note should link to [Delivery Plan](DELIVERY_PLAN.md), [Architecture](ARCHITECTURE.md), and the relevant sprint review
+- a product note should link to [PRD](PRD.md), [Decisions](DECISIONS.md), and [Roadmap](ROADMAP.md)
 - an implementation handoff should link to the source sprint note, architecture note, and verification note
 
 ## Alias Rule
@@ -108,10 +108,10 @@ Canonical patterns for this project:
 
 Use `docs/` as the Obsidian vault root for wiki links, for example:
 
-- `[[PRD|PRD]]`
-- `[[ARCHITECTURE|Architecture]]`
-- `[[CODEX|Project Context]]`
-- `[[SCREENS_AND_FLOWS|Screens And Flows]]`
+- `[PRD](PRD.md)`
+- `[Architecture](ARCHITECTURE.md)`
+- `[CRM Context](CODEX.md)`
+- `[Screens And Flows](SCREENS_AND_FLOWS.md)`
 
 Use the shortest stable link that remains unambiguous:
 
@@ -166,8 +166,8 @@ Project and area hubs should include a short `Current Focus` section that answer
 
 ## Related
 
-- [[CRM Home]]
-- [[CRM Context]]
-- [[CRM Sprints]]
-- [[CRM UI]]
-- [[DELIVERY_PLAN|Delivery Plan]]
+- [CRM Home](README.md)
+- [CRM Context](CODEX.md)
+- [CRM Sprints](sprints/README.md)
+- [CRM UI](ui/README.md)
+- [Delivery Plan](DELIVERY_PLAN.md)

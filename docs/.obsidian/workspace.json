@@ -11,10 +11,14 @@
             "id": "bcc15ae234c8f836",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "sprints/sprint_07/sprint_07_close_plan.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "sprint_07_close_plan"
             }
           }
         ]
@@ -181,16 +185,33 @@
   },
   "active": "bcc15ae234c8f836",
   "lastOpenFiles": [
-    "sprints/sprint_06/sprint_06_index.md",
+    "sprints/sprint_07/sprint_07_index.md",
+    "README.md",
     "PRD.md",
     "PERMISSIONS.md",
     "IMPORT_MAPPING.md",
+    "DOCUMENTATION_STANDARD.md",
     "DELIVERY_PLAN.md",
-    "DECISIONS.md",
-    "sprints/sprint_04/todo/sprint_04_todo.md",
-    "sprints/sprint_04/sprint_04_index.md",
+    "CODEX.md",
     "sprints/sprint_05/ui/UI_KIT.md",
     "ui/README.md",
+    "DECISIONS.md",
+    "CRM Sprint 05 Index.md",
+    "sprints/sprint_07/sprint_07_close_plan.md",
+    "sprints/sprint_08/todo/sprint_08_todo.md",
+    "sprints/sprint_08/todo/sprint_08_dev_subagents.md",
+    "sprints/sprint_08/reviews/sprint_08_review.md",
+    "sprints/sprint_08/todo",
+    "sprints/sprint_08/sprint_08_index.md",
+    "sprints/sprint_08/reviews",
+    "sprints/sprint_08/dev_subagents.md",
+    "sprints/sprint_08",
+    "DATA_MODEL.md",
+    "CRM Home.md",
+    "CRM UI.md",
+    "sprints/sprint_06/sprint_06_index.md",
+    "sprints/sprint_04/todo/sprint_04_todo.md",
+    "sprints/sprint_04/sprint_04_index.md",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports/page.tsx.md",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin",
@@ -199,23 +220,6 @@
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src",
     "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app",
-    "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm",
-    "Users/shir/Documents/Claude/Coding/_Codex_tamplate",
-    "Users/shir/Documents/Claude/Coding",
-    "DATA_MODEL.md",
-    "sprints/sprint_05/ui/FRONTEND_SPRINT_CHECKLIST.md",
-    "sprints/sprint_05/ui/FRONTEND_IMPLEMENTATION_TASKS.md",
-    "sprints/sprint_05/ui/Design.md",
-    "SCREENS_AND_FLOWS.md",
-    "DOCUMENTATION_STANDARD.md",
-    "sprints/sprint_05/sprint_05_index.md",
-    "sprints/sprint_05/todo/sprint_05_todo.md",
-    "sprints/sprint_05/reviews/sprint_05_review.md",
-    "sprints/sprint_06/todo/sprint_06_todo.md",
-    "ui/FRONTEND_SPRINT_CHECKLIST.md",
-    "sprints/sprint_06/reviews/sprint_06_review.md",
-    "ui/FRONTEND_IMPLEMENTATION_TASKS.md",
-    "sprints/sprint_04/reviews/sprint_04_review.md",
-    "ui/Design.md"
+    "sprints/sprint_05/ui/FRONTEND_SPRINT_CHECKLIST.md"
   ]
 }

@@ -6,7 +6,7 @@ tags:
 aliases:
   - Engineering Docs
   - CRM Engineering Docs
-updated: 2026-04-11
+updated: 2026-04-15
 ---
 
 # Engineering Docs
@@ -20,9 +20,9 @@ Engineering-owned specifications and verification-facing documents.
 
 ## Start Here
 
-- [[Software Requirements Sheet]]
-- [[CRM Architecture]]
-- [[CRM PRD]]
+- [Software Requirements Sheet](SWRS.md)
+- [CRM Architecture](../ARCHITECTURE.md)
+- [CRM PRD](../PRD.md)
 
 ## Purpose
 
@@ -32,8 +32,8 @@ Engineering-owned specifications and verification-facing documents.
 
 ## Related
 
-- [[CRM Home]]
-- [[CRM Context]]
-- [[CRM Architecture]]
-- [[CRM PRD]]
-- [[Software Requirements Sheet]]
+- [CRM Home](../README.md)
+- [CRM Context](../CODEX.md)
+- [CRM Architecture](../ARCHITECTURE.md)
+- [CRM PRD](../PRD.md)
+- [Software Requirements Sheet](SWRS.md)
