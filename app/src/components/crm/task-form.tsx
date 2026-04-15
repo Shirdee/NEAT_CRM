@@ -145,44 +145,30 @@ export function TaskForm({
             {locale === "he" ? "שדות נוספים" : "More details"}
           </summary>
           <div className="mt-4 space-y-5">
-            <label className="block space-y-2 text-sm text-ink/70">
-              <span className="font-medium">
-                {locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
-              </span>
-              <select
-                className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
-                defaultValue={defaults.relatedInteractionId}
-                name="relatedInteractionId"
-              >
-                <option value="">{locale === "he" ? "ללא אינטראקציה" : "No interaction"}</option>
-                {interactions.map((interaction) => (
-                  <option key={interaction.id} value={interaction.id}>
-                    {interaction.subject}
-                  </option>
-                ))}
-              </select>
-            </label>
+            <SearchableOptionField
+              emptyLabel={locale === "he" ? "ללא אינטראקציה" : "No interaction"}
+              label={locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
+              name="relatedInteractionId"
+              noResultsLabel={locale === "he" ? "לא נמצאו אינטראקציות" : "No interactions found"}
+              options={interactions.map((i) => ({id: i.id, label: i.subject}))}
+              placeholder={locale === "he" ? "חיפוש אינטראקציה" : "Search interaction"}
+              searchPlaceholder={locale === "he" ? "חיפוש אינטראקציה אחרת" : "Search another interaction"}
+              value={defaults.relatedInteractionId}
+            />
           </div>
         </details>
       ) : (
         <>
-          <label className="block space-y-2 text-sm text-ink/70">
-            <span className="font-medium">
-              {locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
-            </span>
-            <select
-              className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
-              defaultValue={defaults.relatedInteractionId}
-              name="relatedInteractionId"
-            >
-              <option value="">{locale === "he" ? "ללא אינטראקציה" : "No interaction"}</option>
-              {interactions.map((interaction) => (
-                <option key={interaction.id} value={interaction.id}>
-                  {interaction.subject}
-                </option>
-              ))}
-            </select>
-          </label>
+          <SearchableOptionField
+            emptyLabel={locale === "he" ? "ללא אינטראקציה" : "No interaction"}
+            label={locale === "he" ? "אינטראקציה קשורה" : "Related interaction"}
+            name="relatedInteractionId"
+            noResultsLabel={locale === "he" ? "לא נמצאו אינטראקציות" : "No interactions found"}
+            options={interactions.map((i) => ({id: i.id, label: i.subject}))}
+            placeholder={locale === "he" ? "חיפוש אינטראקציה" : "Search interaction"}
+            searchPlaceholder={locale === "he" ? "חיפוש אינטראקציה אחרת" : "Search another interaction"}
+            value={defaults.relatedInteractionId}
+          />
         </>
       )}
       <label className="block space-y-2 text-sm text-ink/70">

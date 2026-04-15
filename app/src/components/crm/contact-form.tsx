@@ -1,5 +1,7 @@
 import type {AppLocale} from "@/i18n/routing";
 
+import {SearchableOptionField} from "./searchable-option-field";
+
 type ContactFormValues = {
   firstName: string;
   lastName: string;
@@ -78,21 +80,16 @@ export function ContactForm({
             name="roleTitle"
           />
         </label>
-        <label className="space-y-2 text-sm text-ink/70">
-          <span className="font-medium">{locale === "he" ? "חברה" : "Company"}</span>
-          <select
-            className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
-            defaultValue={defaults.companyId}
-            name="companyId"
-          >
-            <option value="">{locale === "he" ? "ללא חברה" : "No company"}</option>
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.companyName}
-              </option>
-            ))}
-          </select>
-        </label>
+        <SearchableOptionField
+          emptyLabel={locale === "he" ? "ללא חברה" : "No company"}
+          label={locale === "he" ? "חברה" : "Company"}
+          name="companyId"
+          noResultsLabel={locale === "he" ? "לא נמצאו חברות" : "No companies found"}
+          options={companies.map((company) => ({id: company.id, label: company.companyName}))}
+          placeholder={locale === "he" ? "חיפוש חברה" : "Search company"}
+          searchPlaceholder={locale === "he" ? "חיפוש חברה אחרת" : "Search another company"}
+          value={defaults.companyId}
+        />
       </div>
       <div className="grid gap-5 lg:grid-cols-2">
         <label className="space-y-2 text-sm text-ink/70">
