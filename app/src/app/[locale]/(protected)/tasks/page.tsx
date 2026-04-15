@@ -6,6 +6,7 @@ import {getTaskFormOptions, listTasks} from "@/lib/data/crm";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {TaskListClient} from "@/components/tasks/task-list-client";
 import {FilterShell} from "@/components/ui/filter-shell";
+import {SurfaceCard} from "@/components/ui/surface-card";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
 
 type TasksPageProps = {
@@ -71,22 +72,24 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-3">
-          <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("title")}</p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-          <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.92))]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("title")}</p>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+            <p className="max-w-3xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
+          </div>
+          {session && canEditRecords(session.role) ? (
+            <Link
+              className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(16,36,63,0.18)] transition hover:-translate-y-0.5 sm:w-auto"
+              href="/tasks/new"
+              locale={locale}
+            >
+              {t("create")}
+            </Link>
+          ) : null}
         </div>
-        {session && canEditRecords(session.role) ? (
-          <Link
-            className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white sm:w-auto"
-            href="/tasks/new"
-            locale={locale}
-          >
-            {t("create")}
-          </Link>
-        ) : null}
-      </div>
+      </SurfaceCard>
 
       {session ? (
         <SavedViewBar
@@ -145,7 +148,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <button
-            className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white sm:col-span-2 xl:col-span-4 xl:justify-self-start"
+            className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(221,107,77,0.22)] sm:col-span-2 xl:col-span-4 xl:justify-self-start"
             type="submit"
           >
             {t("filters.apply")}
@@ -153,14 +156,16 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
         </form>
       </FilterShell>
 
-      <TaskListClient
-        groups={groups}
-        locale={locale}
-        noCompanyLabel={t("labels.noCompany")}
-        noContactLabel={t("labels.noContact")}
-        noNotesLabel={t("labels.noNotes")}
-        noTasksLabel={t("empty")}
-      />
+      <SurfaceCard className="space-y-4 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.9))]">
+        <TaskListClient
+          groups={groups}
+          locale={locale}
+          noCompanyLabel={t("labels.noCompany")}
+          noContactLabel={t("labels.noContact")}
+          noNotesLabel={t("labels.noNotes")}
+          noTasksLabel={t("empty")}
+        />
+      </SurfaceCard>
     </div>
   );
 }

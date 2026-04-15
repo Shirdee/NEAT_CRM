@@ -5,6 +5,7 @@ import {CompanyForm} from "@/components/crm/company-form";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getCompanyFormOptions} from "@/lib/data/crm";
+import {SurfaceCard} from "@/components/ui/surface-card";
 
 import {createCompanyAction} from "../actions";
 
@@ -28,14 +29,15 @@ export default async function NewCompanyPage({params, searchParams}: NewCompanyP
 
   return (
     <div className="space-y-6">
-      <div className="space-y-3">
-        <h2 className="text-3xl font-semibold text-ink">{t("createTitle")}</h2>
+      <SurfaceCard className="space-y-3 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.92))]">
+        <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("createTitle")}</p>
+        <h2 className="text-3xl font-semibold tracking-tight text-ink">{t("createTitle")}</h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">{t("subtitle")}</p>
-      </div>
+      </SurfaceCard>
       {error ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
       ) : null}
-      <section className="rounded-[24px] border border-slate-200 bg-white p-6">
+      <SurfaceCard className="bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,235,231,0.88))] p-5 sm:p-6">
         <CompanyForm
           action={action}
           invalidFields={invalidFields?.split(",").filter(Boolean) ?? []}
@@ -45,7 +47,7 @@ export default async function NewCompanyPage({params, searchParams}: NewCompanyP
           stageOptions={options.stageOptions}
           values={{companyName: companyName ?? "", website: website ?? "", sourceValueId: sourceValueId ?? "", stageValueId: stageValueId ?? "", notes: notes ?? ""}}
         />
-      </section>
+      </SurfaceCard>
       <Link className="inline-flex text-sm font-medium text-slate-700" href="/companies" locale={locale}>
         {t("back")}
       </Link>

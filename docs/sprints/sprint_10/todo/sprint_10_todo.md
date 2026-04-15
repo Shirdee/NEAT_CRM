@@ -111,7 +111,7 @@ Done when:
 
 - [x] Review all relevant CRM screens through Stitch MCP.
 - [x] Produce detailed implementation plan file with route-by-route changes.
-- [ ] PM approval checkpoint recorded before DEV starts UI implementation.
+- [x] PM/founder approval checkpoint recorded before DEV starts UI implementation.
 
 Done when:
 - No UI implementation starts before plan approval.
@@ -211,5 +211,8 @@ Done when:
   - added blocked-delete handling for linked record constraints
   - added locale strings for deletion UX in English and Hebrew
   - created Stitch route plan: [[sprints/sprint_10/sprint_10_stitch_route_plan|Sprint 10 Stitch Route Plan]]
-- CTO execution packet for DEV sub-streams: [[sprints/sprint_10/sprint_10_dev_execution_packet|Sprint 10 DEV Execution Packet]]
-- PM tracking note: [[sprints/sprint_10/sprint_10_pm_update|Sprint 10 PM Update]]
+- CTO delegated parallel DEV subagents on 2026-04-15 to execute Workstream 2 initial implementation slices:
+  - dashboard parity pass
+  - companies list/detail parity pass
+  - tasks list and create-form shell parity pass across company/contact/task/interaction/opportunity new routes
+- consolidated PM + execution status now tracked in [[sprints/sprint_10/sprint_10_index|Sprint 10 Index]]

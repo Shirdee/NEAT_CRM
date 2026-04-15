@@ -5,6 +5,7 @@ import {TaskForm} from "@/components/crm/task-form";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getInteractionById, getTaskFormOptions} from "@/lib/data/crm";
+import {SurfaceCard} from "@/components/ui/surface-card";
 
 import {createTaskAction} from "../actions";
 
@@ -62,20 +63,17 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
 
   return (
     <div className="space-y-6">
-      <div
-        className={
-          compactMode
-            ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.8),rgba(249,235,231,0.95))] px-5 py-5 shadow-[0_12px_40px_rgba(58,48,45,0.08)] backdrop-blur"
-            : "space-y-3"
-        }
-      >
-        <h2 className="text-3xl font-semibold text-ink">
+      <SurfaceCard className="space-y-3 bg-[linear-gradient(180deg,rgba(255,255,255,0.97),rgba(249,235,231,0.92))]">
+        <p className="text-xs uppercase tracking-[0.3em] text-coral">
+          {compactMode ? t("quickAddTitle") : t("createTitle")}
+        </p>
+        <h2 className="text-3xl font-semibold tracking-tight text-ink">
           {compactMode ? t("quickAddTitle") : t("createTitle")}
         </h2>
         <p className="max-w-2xl text-sm leading-7 text-slate-600">
           {compactMode ? t("quickAddSubtitle") : t("subtitle")}
         </p>
-      </div>
+      </SurfaceCard>
       {error ? (
         <p className="rounded-2xl bg-amber-50 px-4 py-3 text-sm text-amber-800">{t("error")}</p>
       ) : null}
@@ -83,7 +81,7 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
         className={
           compactMode
             ? "rounded-[32px] bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.92))] p-4 shadow-[0_12px_40px_rgba(58,48,45,0.08)] sm:p-5"
-            : "rounded-[24px] border border-slate-200 bg-white p-6"
+            : "rounded-[30px] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(249,235,231,0.88))] p-5 sm:p-6"
         }
       >
         <TaskForm

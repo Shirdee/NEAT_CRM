@@ -38,7 +38,7 @@ export default async function CompanyDetailPage({
     .join(", ");
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 lg:space-y-5">
       {error ? (
         <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
           {error === "confirm"
@@ -54,8 +54,8 @@ export default async function CompanyDetailPage({
         </p>
       ) : null}
 
-      <SurfaceCard className="space-y-5 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.9))]">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+      <SurfaceCard className="space-y-6 bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(249,235,231,0.9))]">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
             <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
             <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
@@ -65,31 +65,33 @@ export default async function CompanyDetailPage({
               {company.notes || t("noNotes")}
             </p>
           </div>
-          <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:w-auto">
-            {session && canEditRecords(session.role) ? (
-              <>
+          {session && canEditRecords(session.role) ? (
+            <div className="w-full space-y-3 lg:max-w-2xl lg:flex-1">
+              <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
                 <Link
-                  className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-medium text-white"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 sm:w-auto"
                   href={`/interactions/new?compact=1&companyId=${company.id}`}
                   locale={locale}
                 >
                   {t("addInteraction")}
                 </Link>
                 <Link
-                  className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700"
+                  className="inline-flex w-full items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700 transition hover:bg-sand sm:w-auto"
                   href={`/tasks/new?compact=1&companyId=${company.id}`}
                   locale={locale}
                 >
                   {t("addTask")}
                 </Link>
                 <Link
-                  className="inline-flex items-center justify-center rounded-full bg-[rgba(244,229,225,0.9)] px-5 py-3 text-sm font-medium text-slate-700"
+                  className="inline-flex w-full items-center justify-center rounded-full border border-slate-200 bg-white/80 px-5 py-3 text-sm font-medium text-ink transition hover:border-coral/30 hover:bg-sand sm:w-auto"
                   href={`/companies/${company.id}/edit`}
                   locale={locale}
                 >
                   {t("edit")}
                 </Link>
-                {session.role === "admin" ? (
+              </div>
+              {session.role === "admin" ? (
+                <div className="rounded-[24px] border border-rose-200 bg-rose-50/70 p-3">
                   <form action={deleteCompanyAction.bind(null, locale)} className="space-y-2">
                     <input name="companyId" type="hidden" value={company.id} />
                     <label className="flex items-center gap-2 text-xs text-slate-600">
@@ -97,16 +99,16 @@ export default async function CompanyDetailPage({
                       {t("deleteConfirm")}
                     </label>
                     <button
-                      className="inline-flex items-center justify-center rounded-full bg-rose-700 px-5 py-3 text-sm font-medium text-white"
+                      className="inline-flex w-full items-center justify-center rounded-full bg-rose-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-rose-800 sm:w-auto"
                       type="submit"
                     >
                       {t("delete")}
                     </button>
                   </form>
-                ) : null}
-              </>
-            ) : null}
-          </div>
+                </div>
+              ) : null}
+            </div>
+          ) : null}
         </div>
         <div className="flex flex-wrap gap-2">
           <StatusChip tone="teal">
@@ -197,13 +199,13 @@ export default async function CompanyDetailPage({
           <div className="space-y-3">
             {company.contacts.map((contact) => (
               <Link
-                className="block rounded-[20px] bg-mist p-4 transition hover:bg-sand"
+                className="block rounded-[22px] border border-slate-200/70 bg-white/80 p-4 transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:p-5"
                 href={`/contacts/${contact.id}`}
                 key={contact.id}
                 locale={locale}
               >
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div>
+                  <div className="min-w-0">
                     <p className="font-medium text-ink">{contact.fullName}</p>
                     <p className="text-sm text-slate-600">{contact.roleTitle || t("noRole")}</p>
                   </div>

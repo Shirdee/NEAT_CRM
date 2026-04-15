@@ -68,16 +68,21 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
 
   return (
     <div className="space-y-4 lg:space-y-3">
-      <SurfaceCard className="overflow-hidden bg-[linear-gradient(140deg,rgba(16,36,63,0.98)_0%,rgba(23,53,92,0.96)_48%,rgba(15,118,110,0.88)_100%)] text-white">
-        <div className="space-y-3">
-          <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>
-          <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-4xl">
-            {t("title")}
-          </h2>
-          <p className="hidden max-w-2xl text-sm leading-7 text-white/70 sm:block">
-            {t("subtitle", {role: session?.role ?? "viewer"})}
-          </p>
-          <div className="flex flex-wrap gap-2 pt-1">
+      <SurfaceCard className="relative overflow-hidden bg-[linear-gradient(140deg,rgba(16,36,63,0.98)_0%,rgba(23,53,92,0.96)_48%,rgba(15,118,110,0.88)_100%)] text-white">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.12),transparent_34%),radial-gradient(circle_at_bottom_left,rgba(255,255,255,0.08),transparent_28%)]" />
+        <div className="relative space-y-4">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-white/60">{t("eyebrow")}</p>
+            <div className="space-y-2">
+              <h2 className="font-display text-2xl font-semibold tracking-tight sm:text-4xl">
+                {t("title")}
+              </h2>
+              <p className="hidden max-w-2xl text-sm leading-7 text-white/70 sm:block">
+                {t("subtitle", {role: session?.role ?? "viewer"})}
+              </p>
+            </div>
+          </div>
+          <div className="inline-flex flex-wrap gap-2 rounded-[24px] bg-white/8 p-2 shadow-[inset_0_1px_0_rgba(255,255,255,0.12)]">
             {[
               {key: "7d", days: 7},
               {key: "30d", days: 30},
@@ -86,8 +91,8 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
               <Link
                 className={[
                   "rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] transition",
-                  periodDays === preset.days ? "bg-white/20 text-white" : "bg-white/10 text-white/80 hover:bg-white/15"
-                ].join(" ")}
+                periodDays === preset.days ? "bg-white/20 text-white" : "bg-white/10 text-white/80 hover:bg-white/15"
+              ].join(" ")}
                 href={`/dashboard?period=${preset.key}`}
                 key={preset.key}
               >
@@ -95,21 +100,21 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
               </Link>
             ))}
           </div>
-          <div className="grid grid-cols-2 gap-2 pt-1 sm:flex sm:flex-wrap sm:gap-3">
+          <div className="grid grid-cols-1 gap-2 pt-1 sm:grid-cols-3 sm:gap-3">
             <Link
-              className="inline-flex items-center justify-center rounded-full bg-coral px-4 py-2.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 sm:px-5 sm:py-3"
+              className="inline-flex items-center justify-center rounded-full bg-coral px-4 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 sm:px-5"
               href="/tasks"
             >
               {t("actions.reviewTasks")}
             </Link>
             <Link
-              className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/15 sm:px-5 sm:py-3"
+              className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/10 px-4 py-3 text-sm font-medium text-white transition hover:bg-white/15 sm:px-5"
               href="/interactions/new?compact=1"
             >
               {t("actions.logInteraction")}
             </Link>
             <Link
-              className="col-span-2 inline-flex items-center justify-center rounded-full border border-white/15 bg-white/10 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-white/15 sm:col-span-1 sm:px-5 sm:py-3"
+              className="inline-flex items-center justify-center rounded-full border border-white/12 bg-white/10 px-4 py-3 text-sm font-medium text-white transition hover:bg-white/15 sm:px-5"
               href="/opportunities"
             >
               {t("actions.reviewOpportunities")}
@@ -117,7 +122,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
           </div>
         </div>
       </SurfaceCard>
-      <div className="grid grid-cols-2 gap-2 sm:gap-4 xl:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">
         <MetricCard
           detail={t("metrics.overdueDetail")}
           label={t("metrics.overdue")}
@@ -145,7 +150,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
       </div>
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)] xl:items-start">
         <SurfaceCard className="min-w-0 space-y-5">
-          <div className="flex items-center justify-between gap-4">
+          <div className="flex items-start justify-between gap-4">
             <div>
               <p className="text-xs uppercase tracking-[0.28em] text-coral">
                 {t("priority.eyebrow")}
@@ -154,14 +159,14 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
                 {t("priority.title")}
               </h3>
             </div>
-            <Link className="text-sm font-medium text-teal" href="/tasks">
+            <Link className="rounded-full bg-mist px-3 py-1.5 text-sm font-medium text-teal transition hover:bg-mint" href="/tasks">
               {t("priority.cta")}
             </Link>
           </div>
           <div className="space-y-3">
             {overdueTasks.slice(0, 5).map((task) => (
               <Link
-                className="block rounded-[24px] border border-slate-200 bg-slate-50/70 p-4 transition hover:border-coral/40 hover:bg-white"
+                className="block rounded-[24px] border border-transparent bg-slate-50/75 p-4 shadow-[0_1px_0_rgba(15,23,42,0.04)] transition hover:bg-white hover:shadow-[0_8px_24px_rgba(15,23,42,0.06)]"
                 href={`/tasks/${task.id}`}
                 key={task.id}
               >
@@ -181,7 +186,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
               </Link>
             ))}
             {overdueTasks.length === 0 ? (
-              <div className="rounded-[24px] bg-mint px-4 py-5 text-sm text-slate-700">
+              <div className="rounded-[24px] bg-mint/70 px-4 py-5 text-sm text-slate-700">
                 {t("priority.empty")}
               </div>
             ) : null}
@@ -189,21 +194,21 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
         </SurfaceCard>
         <div className="min-w-0 space-y-4">
           <SurfaceCard className="min-w-0 space-y-4">
-            <div className="flex items-center justify-between gap-4">
+            <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-xs uppercase tracking-[0.28em] text-teal">
                   {t("timeline.eyebrow")}
                 </p>
                 <h3 className="mt-2 text-xl font-semibold text-ink">{t("timeline.title")}</h3>
               </div>
-              <Link className="text-sm font-medium text-teal" href="/interactions">
+              <Link className="rounded-full bg-mist px-3 py-1.5 text-sm font-medium text-teal transition hover:bg-mint" href="/interactions">
                 {t("timeline.cta")}
               </Link>
             </div>
             <div className="space-y-3">
               {recentInteractions.map((interaction) => (
                 <Link
-                  className="block rounded-[18px] border border-slate-200/70 bg-white/50 px-3 py-3 transition hover:bg-mint/70 sm:rounded-[22px] sm:border-transparent sm:bg-mist sm:px-4 sm:py-4 sm:hover:bg-mint"
+                  className="block rounded-[22px] border border-transparent bg-mist/70 px-3 py-3 transition hover:bg-mint sm:px-4 sm:py-4"
                   href={`/interactions/${interaction.id}`}
                   key={interaction.id}
                 >
@@ -216,7 +221,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
                 </Link>
               ))}
               {recentInteractions.length === 0 ? (
-                <p className="rounded-[22px] bg-mist px-4 py-5 text-sm text-slate-700">
+                <p className="rounded-[22px] bg-mist/70 px-4 py-5 text-sm text-slate-700">
                   {t("timeline.empty")}
                 </p>
               ) : null}
@@ -228,7 +233,7 @@ export default async function DashboardPage({searchParams}: DashboardPageProps) 
             <div className="space-y-3">
               {activeCompanies.map((company) => (
                 <Link
-                  className="flex items-center justify-between gap-3 rounded-[22px] border border-slate-200 px-4 py-3 transition hover:border-teal/35 hover:bg-mint/60"
+                  className="flex items-center justify-between gap-3 rounded-[22px] border border-transparent bg-slate-50/75 px-4 py-3 transition hover:bg-mint/70"
                   href={`/companies/${company.id}`}
                   key={company.id}
                 >

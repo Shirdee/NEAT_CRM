@@ -20,7 +20,36 @@ Partially opened for implementation.
 On 2026-04-15, CTO opened Workstream 1 and Workstream 2 for DEV execution via Sprint 10 todo handoff.
 Workstreams 3 to 6 remain planned and not yet opened.
 DEV completed Workstream 1 implementation and Workstream 2 planning artifact on 2026-04-15.
-PM approval checkpoint for Workstream 2 execution remains open.
+PM/founder approval checkpoint for Workstream 2 execution recorded on 2026-04-15.
+Initial Workstream 2 UI implementation slices were executed via parallel DEV subagents on 2026-04-15.
+
+## Delivery Snapshot (2026-04-15)
+
+- Workstream 1: complete
+- Workstream 2: approved and in progress (initial slices delivered)
+- Workstreams 3 to 6: not opened
+
+### Workstream 2 Initial Slices Delivered
+
+- `/[locale]/dashboard`
+- `/[locale]/companies`
+- `/[locale]/companies/[companyId]`
+- `/[locale]/tasks`
+- `/[locale]/interactions/new`
+- shared `new` shells for companies, contacts, tasks, opportunities
+
+### QA Evidence For Opened Slice
+
+- `npm run lint`: pass
+- `npm run typecheck`: pass
+- `npx vitest run src/lib/data/crm.test.ts src/lib/data/crm-sprint4.test.ts`: pass (`11/11`)
+- `npm run build`: pass
+
+### Remaining Before Workstream 2 Closeout
+
+1. screenshot-by-screenshot parity sweep against Stitch desktop/mobile references
+2. manual RTL visual sweep for touched routes
+3. PM signoff note with resolved drift list
 
 ## Objective
 
@@ -74,8 +103,6 @@ Convert `crm/docs/Notes.md` into one execution-ready sprint that tightens UX beh
 
 - [[sprints/sprint_10/todo/sprint_10_todo|Sprint 10 Todo]]
 - [[sprints/sprint_10/sprint_10_stitch_route_plan|Sprint 10 Stitch Route Plan]]
-- [[sprints/sprint_10/sprint_10_dev_execution_packet|Sprint 10 DEV Execution Packet]]
-- [[sprints/sprint_10/sprint_10_pm_update|Sprint 10 PM Update]]
 - [[sprints/sprint_09/sprint_09_index|Sprint 09 Index]]
 
 ## Related
