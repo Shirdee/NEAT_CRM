@@ -10,7 +10,7 @@ aliases:
   - Sprint 07 Index
   - CRM Sprint 07 Index
 created: 2026-04-12
-updated: 2026-04-12
+updated: 2026-04-15
 ---
 
 # Sprint 07 Index
@@ -22,6 +22,8 @@ Sprint 7 execution is now open.
 `DEV-701` is complete and `DEV-702` is now the active implementation action.
 Sprint 7 remains in active work until all scoped DEV and QA items are complete and PM closes the sprint.
 Later Sprint 7 tasks remain gated by the explicit technical and product constraints documented in the todo.
+The Sprint 7 close plan is now documented in [[sprint_07_close_plan|Sprint 07 Close Plan]].
+QA closeout on 2026-04-15 confirmed saved views, dashboard presets, and mobile quick-entry, but batch edit and duplicate cleanup still block sprint close under the current definition.
 
 ## Objective
 
@@ -71,11 +73,13 @@ Improve day-to-day CRM speed and usability after MVP completion by shipping work
 - key mobile actions take fewer steps and remain usable on iPhone width
 - batch edits and duplicate cleanup are guarded, role-correct, and auditable
 - repository verification targets pass, or any blocker is documented explicitly
+- Sprint 7 is not closable until the batch-edit and duplicate-cleanup deliverables are either implemented or explicitly removed from scope
 
 ## Linked Sprint Docs
 
 - [[sprints/sprint_07/reviews/sprint_07_review|Sprint 07 Review]]
 - [[sprints/sprint_07/todo/sprint_07_todo|Sprint 07 Todo]]
+- [[sprints/sprint_07/sprint_07_close_plan|Sprint 07 Close Plan]]
 
 ## Related
 

@@ -5,17 +5,10 @@ tags:
   - planning
 aliases:
   - CRM Sprints
-updated: 2026-04-12
+updated: 2026-04-15
 ---
 
 # CRM Sprints
-
-## Current Focus
-
-- Sprint 6 is closed as the latest MVP business-layer baseline
-- Sprint 5 UI docs still own the current visual baseline and closeout record
-- Sprint 4 remains the workflow behavior reference underneath the delivered UI and later business features
-- Sprint 7 is now the active implementation slice, opened on the narrowed saved-view first wave with `DEV-701` in progress
 
 ## Rules
 
@@ -24,27 +17,28 @@ updated: 2026-04-12
 
 ## Start Here
 
-- [[CRM Sprint 07 Index]]
-- [[CRM Sprint 07 Todo]]
-- [[CRM Sprint 07 Review]]
-- [[CRM Sprint 06 Review]]
-- [[CRM Sprint 05 Review]]
-- [[CRM UI]]
-- [[DELIVERY_PLAN|Delivery Plan]]
+- [Sprint 07 Index](sprint_07/sprint_07_index.md)
+- [Sprint 07 Todo](sprint_07/todo/sprint_07_todo.md)
+- [Sprint 07 Review](sprint_07/reviews/sprint_07_review.md)
+- [Sprint 07 Close Plan](sprint_07/sprint_07_close_plan.md)
+- [Sprint 06 Review](sprint_06/reviews/sprint_06_review.md)
+- [Sprint 05 Review](sprint_05/reviews/sprint_05_review.md)
+- [CRM UI](../ui/README.md)
+- [Delivery Plan](../DELIVERY_PLAN.md)
 
 ## Planning Reference
 
-See [[DELIVERY_PLAN|Delivery Plan]] for the full PM and CTO sprint-by-sprint implementation and deployment plan.
+See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 
 ## Related
 
-- [[DELIVERY_PLAN|Delivery Plan]]
-- [[PRD|PRD]]
-- [[DECISIONS|Decisions]]
-- [[CRM Sprint 01 Index]]
-- [[CRM Sprint 02 Index]]
-- [[CRM Sprint 03 Index]]
-- [[CRM Sprint 04 Index]]
-- [[CRM Sprint 05 Index]]
-- [[CRM Sprint 06 Index]]
-- [[CRM Sprint 07 Index]]
+- [Delivery Plan](../DELIVERY_PLAN.md)
+- [PRD](../PRD.md)
+- [Decisions](../DECISIONS.md)
+- [Sprint 01 Index](sprint_01/sprint_01_index.md)
+- [Sprint 02 Index](sprint_02/sprint_02_index.md)
+- [Sprint 03 Index](sprint_03/sprint_03_index.md)
+- [Sprint 04 Index](sprint_04/sprint_04_index.md)
+- [Sprint 05 Index](sprint_05/sprint_05_index.md)
+- [Sprint 06 Index](sprint_06/sprint_06_index.md)
+- [Sprint 07 Index](sprint_07/sprint_07_index.md)

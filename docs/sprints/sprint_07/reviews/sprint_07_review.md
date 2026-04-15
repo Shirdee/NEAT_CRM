@@ -10,7 +10,7 @@ aliases:
   - Sprint 07 Review
   - CRM Sprint 07 Review
 created: 2026-04-12
-updated: 2026-04-12
+updated: 2026-04-15
 ---
 
 # Sprint 07 Review
@@ -23,6 +23,9 @@ Sprint 7 is approved as the next implementation slice after Sprint 6.
 Execution remains open.
 `DEV-701` is complete and `DEV-702` is the active next task.
 Sprint 7 should remain in active work until DEV, QA, and PM closeout are complete.
+Close planning is documented in [[sprint_07_close_plan|Sprint 07 Close Plan]].
+Repo verification gates passed locally on 2026-04-15; QA functional confirmation is still the remaining closeout step.
+QA closeout on 2026-04-15 passed saved views, dashboard presets, and mobile quick-entry, but flagged batch edit and duplicate cleanup as missing deliverables under the current sprint scope.
 
 ## PM Findings
 
@@ -65,6 +68,7 @@ Sprint 7 should remain in active work until DEV, QA, and PM closeout are complet
 - founder priorities may shift once real usage feedback is collected
 - saved-view persistence can create stale-state edge cases if contracts are not defined carefully
 - batch edit and duplicate cleanup can create trust issues if confirmations and result reporting are weak
+- the sprint cannot close under its current definition until batch edit and duplicate cleanup are either implemented or explicitly dropped from scope
 
 ## QA Notes
 
@@ -88,6 +92,7 @@ Later tasks remain gated where policy-sensitive decisions are still explicitly u
 
 - [[sprints/sprint_07/sprint_07_index|Sprint 07 Index]]
 - [[sprints/sprint_07/todo/sprint_07_todo|Sprint 07 Todo]]
+- [[sprints/sprint_07/sprint_07_close_plan|Sprint 07 Close Plan]]
 - [[ROADMAP|Roadmap]]
 - [[DELIVERY_PLAN|Delivery Plan]]
 - [[ARCHITECTURE|Architecture]]

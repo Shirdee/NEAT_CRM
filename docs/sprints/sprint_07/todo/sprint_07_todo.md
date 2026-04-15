@@ -9,7 +9,7 @@ aliases:
   - Sprint 07 Todo
   - CRM Sprint 07 Todo
 created: 2026-04-12
-updated: 2026-04-12
+updated: 2026-04-15
 ---
 
 # Sprint 07 Todo
@@ -22,6 +22,9 @@ Implementation is open.
 `DEV-701` is complete.
 `DEV-702` is now in progress.
 Sprint 7 remains open until DEV, QA, and PM closeout are finished.
+The close sequence is now tracked in [[sprint_07_close_plan|Sprint 07 Close Plan]].
+Repo verification gates passed locally on 2026-04-15; QA closeout still needs the functional pass.
+QA functional pass on 2026-04-15 confirmed saved views, dashboard presets, and mobile quick-entry, but reported batch edit and duplicate cleanup as still missing.
 
 ## PM Model Strategy (2026-04-12)
 
@@ -228,7 +231,9 @@ If DEV and QA complete the items above without scope drift, Sprint 7 should leav
 - dashboard preset defaults still need confirmation before `DEV-703`
 - batch-edit boundaries still need confirmation before `DEV-705`
 - duplicate-resolution affordances still need confirmation before destructive cleanup behavior is implemented
+- under the current sprint definition, batch edit and duplicate cleanup remain the closeout blockers
 
 ## Related
 
 - [[sprints/sprint_07/sprint_07_index|Sprint 07 Index]]
+- [[sprints/sprint_07/sprint_07_close_plan|Sprint 07 Close Plan]]
