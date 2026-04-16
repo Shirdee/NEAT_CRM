@@ -24,10 +24,10 @@
     "form": {
       "title": "Sign in and keep the pipeline moving",
       "subtitle": "Use your work account to open the CRM shell, review today’s follow-ups, and log new activity without losing context.",
-      "identifier": "Username or email",
-      "identifierPlaceholder": "ShirAdmin",
-      "password": "Password",
-      "passwordPlaceholder": "Enter your password",
+      "identifier": "User",
+      "identifierPlaceholder": "User",
+      "password": "Pass",
+      "passwordPlaceholder": "Pass",
       "submit": "Enter CRM",
       "hint": "Ask an admin if you need access.",
       "errors": {

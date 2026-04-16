@@ -11,8 +11,8 @@ function hashPassword(password) {
 const users = [
   {
     id: "user_admin",
-    email: "shiradmin@crm.local",
-    fullName: "ShirAdmin",
+    email: "shirdn@neat-tech.com",
+    fullName: "Top Admin",
     role: "admin",
     languagePreference: "en",
     isActive: true,
@@ -109,8 +109,9 @@ const categories = [
 async function main() {
   for (const user of users) {
     await prisma.user.upsert({
-      where: {email: user.email},
+      where: {id: user.id},
       update: {
+        email: user.email,
         fullName: user.fullName,
         passwordHash: user.passwordHash,
         role: user.role,

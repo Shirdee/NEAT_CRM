@@ -18,7 +18,7 @@ Use this runbook only after real PostgreSQL and Vercel access are available.
 3. Seed the baseline Sprint 1 users and lookup values:
    - `npm run db:seed`
 4. Smoke-test the live data path:
-   - log in with `ShirAdmin` / `shir1994`
+   - log in with `shirdn@neat-tech.com` / `shir1994`
    - confirm admin lists load and edits persist
 
 ## Preview Deployment Closeout

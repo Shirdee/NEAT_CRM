@@ -24,10 +24,10 @@
     "form": {
       "title": "להיכנס ולהמשיך להזיז את הפייפליין",
       "subtitle": "התחברו עם החשבון שלכם כדי לפתוח את מעטפת ה-CRM, לעבור על המשימות של היום ולתעד פעילות חדשה בלי לאבד הקשר.",
-      "identifier": "שם משתמש או אימייל",
-      "identifierPlaceholder": "ShirAdmin",
-      "password": "סיסמה",
-      "passwordPlaceholder": "הקלידו סיסמה",
+      "identifier": "User",
+      "identifierPlaceholder": "User",
+      "password": "Pass",
+      "passwordPlaceholder": "Pass",
       "submit": "כניסה למערכת",
       "hint": "אם אין לכם גישה, פנו למנהל מערכת.",
       "errors": {

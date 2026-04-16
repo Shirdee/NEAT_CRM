@@ -4,7 +4,7 @@ tags:
   - sprint
   - sprint-13
   - auth
-  - cto
+  - pm
 aliases:
   - Sprint 13 Index
   - CRM Sprint 13 Index
@@ -18,37 +18,22 @@ Parent: [[sprints/README|CRM Sprints]]
 
 ## Status
 
-**PLANNED — 2026-04-16**
+**READY FOR DEV/QA — 2026-04-16**
 
-Sprint 13 focuses on login cleanup and admin user access control.
-This sprint keeps credentials auth as primary path.
+## Scope (Short)
 
-## Objective
+- login uses username-or-email
+- remove debug/demo defaults from login UI
+- admin seed account is `ShirAdmin` / `shir1994`
+- add admin users page (create user, set role + locale, activate/deactivate)
+- keep credentials auth now; Microsoft auth stays next-step decision
 
-Ship production-ready login defaults and an admin-managed user access flow.
+## Done When
 
-## Scope
-
-- remove debug/demo login defaults from UI copy and form behavior
-- set seeded admin login to `ShirAdmin` with password `shir1994`
-- support login by username or email
-- add admin user-management screen to create users and toggle account activation
-- document Microsoft auth boundary and keep it as planned follow-up
-
-## Out Of Scope
-
-- replacing credentials auth with OAuth-only login
-- automatic Microsoft directory sync or SCIM
-- role model changes beyond current `admin`, `editor`, `viewer`
-
-## Definition Of Done
-
-- no debug/demo credentials shown in login UI
-- seeded admin credentials match founder request
-- admin can add users from app UI and control active/inactive state
-- user role and locale assignment is set during user creation
-- Microsoft auth next-step is documented with explicit approval gate
-- lint, typecheck, and targeted tests pass
+- founder can log in with requested admin credentials
+- no debug/demo credential hints remain
+- admin can manage users from UI
+- focused test + typecheck are green
 
 ## Linked Sprint Docs
 
