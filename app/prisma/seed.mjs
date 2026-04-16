@@ -11,12 +11,12 @@ function hashPassword(password) {
 const users = [
   {
     id: "user_admin",
-    email: "admin@crm.local",
-    fullName: "Sprint Admin",
+    email: "shiradmin@crm.local",
+    fullName: "ShirAdmin",
     role: "admin",
     languagePreference: "en",
     isActive: true,
-    passwordHash: hashPassword("shir")
+    passwordHash: hashPassword("shir1994")
   },
   {
     id: "user_editor",

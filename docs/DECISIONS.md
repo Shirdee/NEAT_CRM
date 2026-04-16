@@ -5,7 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Decisions
-updated: 2026-04-15
+updated: 2026-04-16
 ---
 
 # CRM Decisions
@@ -81,6 +81,12 @@ These are proposed PM and CTO decisions pending founder approval.
 - owner: CTO
 - reason: integration config should stay narrow until boundary approval, with no sync, queue, automation, or paid infra assumptions
 
+### D-011: Keep Credentials Auth As Primary, Plan Microsoft OAuth As Optional Extension
+
+- status: proposed
+- owner: CTO
+- reason: credentials auth unblocks immediate delivery while preserving a clean decision gate for Microsoft SSO migration
+
 ## Founder Approval Needed
 
 ### A-001: Login Method
@@ -114,6 +120,12 @@ These are proposed PM and CTO decisions pending founder approval.
 
 - question: confirm whether MVP integration scope is config-only or may include sync-ready fields
 - recommendation: config-only until CTO-803 boundary approval
+- approval needed from: founder
+
+### A-007: Microsoft Auth Timing
+
+- question: should Microsoft OAuth be enabled now or after Sprint 13 credentials + user-management stabilization
+- recommendation: ship Sprint 13 on credentials first, then approve Microsoft OAuth as the next auth iteration
 - approval needed from: founder
 
 ## Related

@@ -24,12 +24,14 @@
     "form": {
       "title": "Sign in and keep the pipeline moving",
       "subtitle": "Use your work account to open the CRM shell, review today’s follow-ups, and log new activity without losing context.",
-      "email": "Work email",
+      "identifier": "Username or email",
+      "identifierPlaceholder": "ShirAdmin",
       "password": "Password",
+      "passwordPlaceholder": "Enter your password",
       "submit": "Enter CRM",
-      "hint": "Demo review account: admin@crm.local with password shir.",
+      "hint": "Ask an admin if you need access.",
       "errors": {
-        "missingCredentials": "Email and password are required.",
+        "missingCredentials": "Username or email and password are required.",
         "invalidCredentials": "Those credentials were not accepted."
       }
     }
@@ -49,6 +51,7 @@
       "opportunities": "Opportunities",
       "reports": "Reports",
       "search": "Search",
+      "adminUsers": "Users",
       "adminLists": "Admin lists",
       "adminImports": "Imports",
       "adminBatchEdit": "Batch edit",
@@ -143,6 +146,11 @@
     "activate": "Activate",
     "backToDashboard": "Back to dashboard",
     "tools": {
+      "users": {
+        "eyebrow": "User access",
+        "title": "Add and manage users",
+        "body": "Create new users, assign roles, and activate or deactivate account access."
+      },
       "batch": {
         "eyebrow": "Batch edit",
         "title": "Limited structured bulk updates",
@@ -155,6 +163,44 @@
       }
     },
     "valueCount": "{count, plural, one {# value} other {# values}}"
+  },
+  "AdminUsers": {
+    "title": "User access",
+    "subtitle": "Create CRM users, assign role permissions, and keep account access aligned with your team.",
+    "errors": {
+      "missing": "Complete all required user fields.",
+      "password": "Password must be at least 8 characters.",
+      "locale": "Select a valid language preference.",
+      "email": "This email is already in use."
+    },
+    "create": {
+      "title": "Add user",
+      "body": "Create a credentials-based account. Microsoft sign-in is planned for a later sprint.",
+      "fullNamePlaceholder": "Full name",
+      "emailPlaceholder": "name@company.com",
+      "passwordPlaceholder": "Temporary password",
+      "submit": "Create user"
+    },
+    "meta": "Role: {role} • Language: {locale}",
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "actions": {
+      "activate": "Activate user",
+      "deactivate": "Deactivate user"
+    },
+    "roles": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    },
+    "languages": {
+      "en": "English",
+      "he": "Hebrew"
+    },
+    "backToAdmin": "Back to admin tools",
+    "backToDashboard": "Back to dashboard"
   },
   "AdminBatch": {
     "eyebrow": "Admin maintenance",

@@ -82,6 +82,70 @@ export async function getFallbackUserByEmail(email: string) {
   );
 }
 
+export async function getFallbackUserByIdentifier(identifier: string) {
+  const value = identifier.trim();
+  const normalized = value.toLowerCase();
+
+  return (
+    getState().users.find((user) => {
+      if (!user.isActive) {
+        return false;
+      }
+
+      if (value.includes("@")) {
+        return user.email.toLowerCase() === normalized;
+      }
+
+      return user.fullName.toLowerCase() === normalized;
+    }) ?? null
+  );
+}
+
+export async function listFallbackUsers() {
+  return getState().users
+    .slice()
+    .sort((left, right) => left.fullName.localeCompare(right.fullName));
+}
+
+export async function createFallbackUser(input: {
+  email: string;
+  fullName: string;
+  passwordHash: string;
+  role: SeedUser["role"];
+  languagePreference: SeedUser["languagePreference"];
+}) {
+  const normalizedEmail = input.email.trim().toLowerCase();
+  const emailTaken = getState().users.some((user) => user.email.toLowerCase() === normalizedEmail);
+
+  if (emailTaken) {
+    throw new Error("User email already exists");
+  }
+
+  const user: SeedUser = {
+    id: randomUUID(),
+    email: normalizedEmail,
+    fullName: input.fullName.trim(),
+    passwordHash: input.passwordHash,
+    role: input.role,
+    languagePreference: input.languagePreference,
+    isActive: true
+  };
+
+  getState().users.push(user);
+  return user;
+}
+
+export async function toggleFallbackUserActive(id: string) {
+  const user = getState().users.find((item) => item.id === id);
+
+  if (!user) {
+    throw new Error("User not found");
+  }
+
+  user.isActive = !user.isActive;
+  return user;
+}
+
 export async function createFallbackCategory(input: {key: string; name: string}) {
   const now = new Date().toISOString();
   const category: SeedListCategory = {

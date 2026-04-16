@@ -28,6 +28,7 @@ export async function AppShell({children, locale, session}: AppShellProps) {
   ];
 
   if (canManageAdminLists(session.role)) {
+    navItems.push({href: "/admin/users", label: t("nav.adminUsers")});
     navItems.push({href: "/admin/lists", label: t("nav.adminLists")});
     navItems.push({href: "/admin/imports", label: t("nav.adminImports")});
     navItems.push({href: "/admin/batch", label: t("nav.adminBatchEdit")});

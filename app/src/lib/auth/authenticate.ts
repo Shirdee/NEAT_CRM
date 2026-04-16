@@ -1,13 +1,13 @@
-import {getUserByEmail} from "@/lib/data/repository";
+import {getUserByIdentifier} from "@/lib/data/repository";
 
 import {verifyPassword} from "./password";
 import type {UserSession} from "./session";
 
 export async function authenticateUser(
-  email: string,
+  identifier: string,
   password: string
 ): Promise<UserSession | null> {
-  const user = await getUserByEmail(email);
+  const user = await getUserByIdentifier(identifier);
 
   if (!user || !user.isActive || !verifyPassword(password, user.passwordHash)) {
     return null;

@@ -77,8 +77,10 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
             <LoginForm
               action={loginAction}
               copy={{
-                email: t("form.email"),
+                identifier: t("form.identifier"),
+                identifierPlaceholder: t("form.identifierPlaceholder"),
                 password: t("form.password"),
+                passwordPlaceholder: t("form.passwordPlaceholder"),
                 submit: t("form.submit"),
                 hint: t("form.hint")
               }}

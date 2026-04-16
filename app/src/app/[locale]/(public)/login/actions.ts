@@ -8,16 +8,16 @@ import {authenticateUser} from "@/lib/auth/authenticate";
 import {createSessionToken, isLocale, SESSION_COOKIE} from "@/lib/auth/session";
 
 export async function loginAction(formData: FormData) {
-  const email = String(formData.get("email") ?? "").trim().toLowerCase();
+  const identifier = String(formData.get("identifier") ?? "").trim();
   const password = String(formData.get("password") ?? "");
   const locale = String(formData.get("locale") ?? "en");
   const safeLocale = isLocale(locale) ? locale : "en";
 
-  if (!email || !password) {
+  if (!identifier || !password) {
     redirect(`/${safeLocale}/login?error=missing`);
   }
 
-  const session = await authenticateUser(email, password);
+  const session = await authenticateUser(identifier, password);
 
   if (!session) {
     redirect(`/${safeLocale}/login?error=invalid`);

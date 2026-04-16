@@ -1,8 +1,10 @@
 type LoginFormProps = {
   action: (formData: FormData) => Promise<void>;
   copy: {
-    email: string;
+    identifier: string;
+    identifierPlaceholder: string;
     password: string;
+    passwordPlaceholder: string;
     submit: string;
     hint: string;
   };
@@ -15,15 +17,16 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
     <form action={action} className="space-y-5">
       <input name="locale" type="hidden" value={locale} />
       <div className="space-y-2">
-        <label className="block text-sm font-medium text-ink/70" htmlFor="email">
-          {copy.email}
+        <label className="block text-sm font-medium text-ink/70" htmlFor="identifier">
+          {copy.identifier}
         </label>
         <input
           className="w-full rounded-[22px] border border-mist bg-white/80 px-4 py-3.5 text-sm text-ink outline-none ring-0 transition placeholder:text-ink/35 focus:border-teal focus:bg-white"
-          defaultValue="admin@crm.local"
-          id="email"
-          name="email"
-          type="email"
+          autoComplete="username"
+          placeholder={copy.identifierPlaceholder}
+          id="identifier"
+          name="identifier"
+          type="text"
         />
       </div>
       <div className="space-y-2">
@@ -32,7 +35,8 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
         </label>
         <input
           className="w-full rounded-[22px] border border-mist bg-white/80 px-4 py-3.5 text-sm text-ink outline-none ring-0 transition placeholder:text-ink/35 focus:border-teal focus:bg-white"
-          defaultValue="shir"
+          autoComplete="current-password"
+          placeholder={copy.passwordPlaceholder}
           id="password"
           name="password"
           type="password"

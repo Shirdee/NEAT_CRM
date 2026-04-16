@@ -146,12 +146,12 @@ const importStatusId = "cat_import_status";
 export const seededUsers: SeedUser[] = [
   {
     id: "user_admin",
-    email: "admin@crm.local",
-    fullName: "CRM Admin",
+    email: "shiradmin@crm.local",
+    fullName: "ShirAdmin",
     role: "admin",
     languagePreference: "en",
     isActive: true,
-    passwordHash: hashPassword("shir")
+    passwordHash: hashPassword("shir1994")
   },
   {
     id: "user_editor",

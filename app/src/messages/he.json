@@ -24,12 +24,14 @@
     "form": {
       "title": "להיכנס ולהמשיך להזיז את הפייפליין",
       "subtitle": "התחברו עם החשבון שלכם כדי לפתוח את מעטפת ה-CRM, לעבור על המשימות של היום ולתעד פעילות חדשה בלי לאבד הקשר.",
-      "email": "אימייל עבודה",
+      "identifier": "שם משתמש או אימייל",
+      "identifierPlaceholder": "ShirAdmin",
       "password": "סיסמה",
+      "passwordPlaceholder": "הקלידו סיסמה",
       "submit": "כניסה למערכת",
-      "hint": "חשבון הדגמה לבדיקה: admin@crm.local עם הסיסמה shir.",
+      "hint": "אם אין לכם גישה, פנו למנהל מערכת.",
       "errors": {
-        "missingCredentials": "צריך למלא אימייל וסיסמה.",
+        "missingCredentials": "צריך למלא שם משתמש או אימייל וסיסמה.",
         "invalidCredentials": "פרטי ההתחברות לא התקבלו."
       }
     }
@@ -49,6 +51,7 @@
       "opportunities": "הזדמנויות",
       "reports": "דוחות",
       "search": "חיפוש",
+      "adminUsers": "משתמשים",
       "adminLists": "רשימות ניהול",
       "adminImports": "ייבוא",
       "adminBatchEdit": "עריכה מרובה",
@@ -143,6 +146,11 @@
     "activate": "הפעלה",
     "backToDashboard": "חזרה לדשבורד",
     "tools": {
+      "users": {
+        "eyebrow": "גישות משתמשים",
+        "title": "ניהול והוספת משתמשים",
+        "body": "יוצרים משתמשים חדשים, מגדירים תפקידים, ומפעילים או משביתים גישת חשבון."
+      },
       "batch": {
         "eyebrow": "עריכה מרובה",
         "title": "עדכונים מבוקרים בשדה מובנה",
@@ -155,6 +163,44 @@
       }
     },
     "valueCount": "{count, plural, one {# ערך} other {# ערכים}}"
+  },
+  "AdminUsers": {
+    "title": "גישות משתמשים",
+    "subtitle": "יצירת משתמשי CRM, הגדרת הרשאות לפי תפקיד, ושמירה על שליטה בגישת חשבונות הצוות.",
+    "errors": {
+      "missing": "יש למלא את כל שדות המשתמש החובה.",
+      "password": "הסיסמה חייבת להכיל לפחות 8 תווים.",
+      "locale": "יש לבחור שפת ממשק תקינה.",
+      "email": "האימייל הזה כבר קיים במערכת."
+    },
+    "create": {
+      "title": "הוספת משתמש",
+      "body": "נוצר חשבון מבוסס סיסמה. התחברות Microsoft מתוכננת לספרינט המשך.",
+      "fullNamePlaceholder": "שם מלא",
+      "emailPlaceholder": "name@company.com",
+      "passwordPlaceholder": "סיסמה זמנית",
+      "submit": "יצירת משתמש"
+    },
+    "meta": "תפקיד: {role} • שפה: {locale}",
+    "status": {
+      "active": "פעיל",
+      "inactive": "לא פעיל"
+    },
+    "actions": {
+      "activate": "הפעלת משתמש",
+      "deactivate": "השבתת משתמש"
+    },
+    "roles": {
+      "admin": "מנהל",
+      "editor": "עורך",
+      "viewer": "צופה"
+    },
+    "languages": {
+      "en": "אנגלית",
+      "he": "עברית"
+    },
+    "backToAdmin": "חזרה לכלי הניהול",
+    "backToDashboard": "חזרה לדשבורד"
   },
   "AdminBatch": {
     "eyebrow": "תחזוקת מנהל",

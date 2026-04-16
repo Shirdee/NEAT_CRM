@@ -1,17 +1,27 @@
 import type {User} from "@prisma/client";
 
 import {
+  createFallbackUser,
   createFallbackCategory,
   createFallbackValue,
   getFallbackUserByEmail,
+  getFallbackUserByIdentifier,
+  listFallbackUsers,
   listFallbackCategories,
+  toggleFallbackUserActive,
   toggleFallbackValue,
   updateFallbackValue
 } from "./fallback-store";
+import {hashPassword} from "@/lib/auth/password";
 
 export type UserLike = Pick<
   User,
   "id" | "email" | "fullName" | "passwordHash" | "role" | "languagePreference" | "isActive"
+>;
+
+export type AdminUserItem = Pick<
+  User,
+  "id" | "email" | "fullName" | "role" | "languagePreference" | "isActive"
 >;
 
 function hasDatabaseUrl() {
@@ -34,6 +44,103 @@ export async function getUserByEmail(email: string): Promise<UserLike | null> {
   return prisma.user.findUnique({
     where: {
       email: email.trim().toLowerCase()
+    }
+  });
+}
+
+export async function getUserByIdentifier(identifier: string): Promise<UserLike | null> {
+  if (!hasDatabaseUrl()) {
+    return getFallbackUserByIdentifier(identifier);
+  }
+
+  const value = identifier.trim();
+  const prisma = await getPrisma();
+
+  if (value.includes("@")) {
+    return prisma.user.findUnique({
+      where: {
+        email: value.toLowerCase()
+      }
+    });
+  }
+
+  return prisma.user.findFirst({
+    where: {
+      fullName: {
+        equals: value,
+        mode: "insensitive"
+      }
+    }
+  });
+}
+
+export async function listAdminUsers(): Promise<AdminUserItem[]> {
+  if (!hasDatabaseUrl()) {
+    return listFallbackUsers();
+  }
+
+  const prisma = await getPrisma();
+  return prisma.user.findMany({
+    select: {
+      id: true,
+      email: true,
+      fullName: true,
+      role: true,
+      languagePreference: true,
+      isActive: true
+    },
+    orderBy: [{fullName: "asc"}, {email: "asc"}]
+  });
+}
+
+export async function createAdminUser(input: {
+  email: string;
+  fullName: string;
+  password: string;
+  role: User["role"];
+  languagePreference: User["languagePreference"];
+}) {
+  const normalizedEmail = input.email.trim().toLowerCase();
+  const fullName = input.fullName.trim();
+  const passwordHash = hashPassword(input.password);
+
+  if (!hasDatabaseUrl()) {
+    return createFallbackUser({
+      email: normalizedEmail,
+      fullName,
+      passwordHash,
+      role: input.role,
+      languagePreference: input.languagePreference
+    });
+  }
+
+  const prisma = await getPrisma();
+  return prisma.user.create({
+    data: {
+      email: normalizedEmail,
+      fullName,
+      passwordHash,
+      role: input.role,
+      languagePreference: input.languagePreference,
+      isActive: true
+    }
+  });
+}
+
+export async function toggleAdminUserActive(id: string) {
+  if (!hasDatabaseUrl()) {
+    return toggleFallbackUserActive(id);
+  }
+
+  const prisma = await getPrisma();
+  const current = await prisma.user.findUniqueOrThrow({
+    where: {id}
+  });
+
+  return prisma.user.update({
+    where: {id},
+    data: {
+      isActive: !current.isActive
     }
   });
 }

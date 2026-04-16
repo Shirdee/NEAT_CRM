@@ -18,8 +18,8 @@ describe("fallback repository", () => {
   });
 
   it("authenticates trusted seeded users instead of self-selected roles", async () => {
-    const admin = await authenticateUser("admin@crm.local", "shir");
-    const rejected = await authenticateUser("admin@crm.local", "wrong-password");
+    const admin = await authenticateUser("ShirAdmin", "shir1994");
+    const rejected = await authenticateUser("ShirAdmin", "wrong-password");
 
     expect(admin?.role).toBe("admin");
     expect(rejected).toBeNull();

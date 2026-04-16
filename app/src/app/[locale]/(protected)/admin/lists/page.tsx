@@ -35,7 +35,16 @@ export default async function AdminListsPage({params, searchParams}: AdminListsP
         <h2 className="text-3xl font-semibold text-ink">{t("title")}</h2>
         <p className="max-w-2xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
       </div>
-      <section className="grid gap-4 md:grid-cols-2">
+      <section className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <Link
+          className="rounded-[24px] border border-mist bg-white p-5 shadow-sm transition hover:border-coral/40 hover:shadow-panel"
+          href="/admin/users"
+          locale={locale}
+        >
+          <p className="text-xs uppercase tracking-[0.24em] text-coral">{t("tools.users.eyebrow")}</p>
+          <h3 className="mt-2 text-lg font-semibold text-ink">{t("tools.users.title")}</h3>
+          <p className="mt-2 text-sm leading-6 text-ink/70">{t("tools.users.body")}</p>
+        </Link>
         <Link
           className="rounded-[24px] border border-mist bg-white p-5 shadow-sm transition hover:border-coral/40 hover:shadow-panel"
           href="/admin/batch"
