@@ -1,13 +1,13 @@
 
-- delete option for records
-- UI
-	- rebuild from stitch - full detailed plan before implementation
-	- must review all screens from the mcp
-- improve run-time
-- interaction summary
+- interactions in list use "-" instead of "+"
+- interaction summary in dashboard
 	- in bold - first name + Company
 	- below subject + date
-- in interaction record view
-	- add phone call as type
-	- company, contact clickable
-- all search boxes or open-list are live search
+- add option to close interuction/follow-up with cause (not relevant/etc)
+- add archive option
+	- for contact - archive all inteructions and followups
+	- for companies - archive all contacts (and therefore all inteructions and followups)
+- **log in!**
+- right click manu
+- select and export (companies)
+- search box for companies resets once clicking outside of it
