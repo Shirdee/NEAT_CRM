@@ -18,7 +18,23 @@ Parent: [[sprints/README|CRM Sprints]]
 
 ## Status
 
-**READY FOR DEV — 2026-04-19**
+**READY FOR QA / PM CLOSEOUT — 2026-04-19**
+
+## PM Delivery Update (2026-04-19)
+
+- DEV implementation complete in commit `1be1e4d` on branch `crm_new_ui`
+- delivered scope matches Sprint 14 UI redesign package (`T1` to `T18`)
+- verification evidence captured by DEV:
+  - `npm run typecheck` pass
+  - `npm run lint` pass
+  - `npm run test` pass (`44/44`)
+  - `npm run build` pass
+- residual open gate: manual visual QA sweep (desktop, mobile 390px, RTL/Hebrew, role-visibility checks)
+
+## Next Action
+
+- QA executes manual sweep and files any regressions
+- PM closes sprint after QA signoff note
 
 ## Scope (Approved)
 

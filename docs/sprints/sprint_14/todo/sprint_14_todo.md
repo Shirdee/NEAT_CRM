@@ -20,6 +20,8 @@ Parent: [[sprints/sprint_14/sprint_14_index|Sprint 14 Index]]
 
 Planned and handed off by CTO on 2026-04-19.
 Execution opened for DEV.
+DEV implementation complete on 2026-04-19 in commit `1be1e4d`.
+Sprint is now in QA/PM closeout phase.
 
 ## Scope Slice In This Handoff
 
@@ -36,14 +38,14 @@ Execution opened for DEV.
 
 ## Execution Order
 
-1. `DEV-1401` Foundation tokens and primitives (`tailwind.config.ts`, `globals.css`, `status-chip.tsx`, `surface-card.tsx`, add `metric-card.tsx`, `activity-feed.tsx`, `avatar-initial.tsx`)
-2. `DEV-1402` Shell redesign (`app-shell.tsx`, new `sidebar-nav-item.tsx`, remove old desktop header/glass aside, preserve mobile header + bottom nav)
-3. `DEV-1403` Dashboard rebuild + `period-toggle` + recent activity read layer (`src/lib/data/activity.ts`) with no API contract break
-4. `DEV-1404` Companies list styling + company detail 2-column + activity panel
-5. `DEV-1405` Tasks grouped card layout + `task-card.tsx`
-6. `DEV-1406` Opportunities table/pipeline toggle + `kanban-board.tsx` + `view-toggle.tsx`
-7. `DEV-1407` Fast styling pass: interactions, contacts, reports, admin pages + login redesign
-8. `DEV-1408` i18n completion (`en.json`, `he.json`), parity QA fixes, final verification gate
+1. [x] `DEV-1401` Foundation tokens and primitives (`tailwind.config.ts`, `globals.css`, `status-chip.tsx`, `surface-card.tsx`, add `metric-card.tsx`, `activity-feed.tsx`, `avatar-initial.tsx`)
+2. [x] `DEV-1402` Shell redesign (`app-shell.tsx`, new `sidebar-nav-item.tsx`, remove old desktop header/glass aside, preserve mobile header + bottom nav)
+3. [x] `DEV-1403` Dashboard rebuild + `period-toggle` + recent activity read layer (`src/lib/data/activity.ts`) with no API contract break
+4. [x] `DEV-1404` Companies list styling + company detail 2-column + activity panel
+5. [x] `DEV-1405` Tasks grouped card layout + `task-card.tsx`
+6. [x] `DEV-1406` Opportunities table/pipeline toggle + `kanban-board.tsx` + `view-toggle.tsx`
+7. [x] `DEV-1407` Fast styling pass: interactions, contacts, reports, admin pages + login redesign
+8. [x] `DEV-1408` i18n completion (`en.json`, `he.json`), parity QA fixes, final verification gate
 
 ## Done Conditions (Per Unit)
 
@@ -67,6 +69,17 @@ Execution opened for DEV.
 - manual RTL/Hebrew sweep on dashboard, companies, company detail, tasks, opportunities, login
 - role checks: `admin` sees admin section; `viewer` has no create/edit actions
 
+## Verification Evidence (DEV, 2026-04-19)
+
+- [x] `npm run typecheck`
+- [x] `npm run lint`
+- [x] `npm run test` (`44/44`)
+- [x] `npm run build`
+- [ ] manual desktop route sweep
+- [ ] manual mobile 390px sweep
+- [ ] manual RTL/Hebrew sweep
+- [ ] role-visibility sweep (`admin` vs `viewer`)
+
 ## Risks / Blockers
 
 - source sprint package incomplete (missing sprint-14 review doc)
@@ -81,4 +94,4 @@ Execution opened for DEV.
 
 ## PM Sync Note
 
-PM should log this handoff as Sprint 14 active build scope and track progress using `DEV-1401` to `DEV-1408` checkpoints.
+PM logged DEV completion and moved sprint into QA/PM closeout.
