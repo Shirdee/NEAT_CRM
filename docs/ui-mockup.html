@@ -1,0 +1,1294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRM — Focused Clarity UI Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #10243F;
+    --ink-70: rgba(16,36,63,0.7);
+    --ink-50: rgba(16,36,63,0.5);
+    --ink-30: rgba(16,36,63,0.3);
+    --ink-10: rgba(16,36,63,0.1);
+    --ink-06: rgba(16,36,63,0.06);
+    --teal: #0F766E;
+    --teal-bg: rgba(15,118,110,0.12);
+    --teal-bg-strong: rgba(15,118,110,0.18);
+    --mint: #99EFE5;
+    --coral: #DD6B4D;
+    --coral-bg: rgba(221,107,77,0.1);
+    --amber: #D97706;
+    --amber-bg: rgba(217,119,6,0.1);
+    --lime: #4D7C0F;
+    --lime-bg: rgba(77,124,15,0.1);
+    --sand: #F5F0E7;
+    --sand-dark: #EDE8DF;
+    --mist: #F8F3EA;
+    --white: #FFFFFF;
+    --shadow-card: 0 2px 12px rgba(16,36,63,0.07);
+    --shadow-hover: 0 6px 24px rgba(16,36,63,0.11);
+    --shadow-modal: 0 16px 48px rgba(16,36,63,0.16);
+    --r-card: 20px;
+    --r-input: 12px;
+    --r-pill: 9999px;
+    --r-chip: 9999px;
+  }
+
+  body { font-family: 'Inter', sans-serif; background: #1a1a2e; display: flex; flex-direction: column; min-height: 100vh; }
+
+  /* ── SCREEN SWITCHER ── */
+  .switcher { display: flex; gap: 8px; padding: 16px 24px; background: rgba(255,255,255,0.06); border-bottom: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap; }
+  .switcher button { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 9999px; border: none; cursor: pointer; background: rgba(255,255,255,0.08); color: rgba(255,255,255,0.6); transition: all 0.15s; }
+  .switcher button:hover { background: rgba(255,255,255,0.14); color: rgba(255,255,255,0.9); }
+  .switcher button.active { background: #0F766E; color: white; }
+  .switcher-label { color: rgba(255,255,255,0.3); font-size: 11px; font-weight: 500; align-self: center; margin-right: 4px; letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* ── APP FRAME ── */
+  .screen { display: none; height: calc(100vh - 57px); }
+  .screen.active { display: flex; }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: 240px; min-width: 240px; background: var(--ink);
+    display: flex; flex-direction: column; padding: 0; overflow-y: auto;
+    flex-shrink: 0;
+  }
+  .sidebar-logo {
+    padding: 22px 20px 18px; display: flex; align-items: center; gap: 10px;
+  }
+  .sidebar-logo-icon {
+    width: 32px; height: 32px; background: var(--teal); border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 14px; color: white;
+  }
+  .sidebar-logo-name { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 15px; color: white; }
+  .sidebar-section { padding: 4px 12px; margin-bottom: 2px; }
+  .sidebar-section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.25); padding: 8px 8px 4px; }
+  .nav-item {
+    display: flex; align-items: center; gap: 10px; padding: 9px 10px;
+    border-radius: 8px; cursor: pointer; transition: all 0.12s;
+    color: rgba(255,255,255,0.55); font-size: 13.5px; font-weight: 500;
+    margin-bottom: 1px;
+  }
+  .nav-item:hover { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.85); }
+  .nav-item.active { background: var(--teal-bg-strong); color: white; }
+  .nav-item.active .nav-icon { color: var(--teal); }
+  .nav-item svg { flex-shrink: 0; }
+  .nav-icon { width: 16px; height: 16px; opacity: 0.7; }
+  .nav-item.active .nav-icon { opacity: 1; }
+  .sidebar-footer {
+    margin-top: auto; padding: 12px; border-top: 1px solid rgba(255,255,255,0.07);
+  }
+  .user-row {
+    display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px;
+    cursor: pointer; transition: background 0.12s;
+  }
+  .user-row:hover { background: rgba(255,255,255,0.05); }
+  .avatar {
+    width: 32px; height: 32px; border-radius: 9999px;
+    background: var(--teal-bg-strong); color: var(--teal);
+    font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .avatar.lg { width: 40px; height: 40px; font-size: 16px; }
+  .avatar.sm { width: 28px; height: 28px; font-size: 11px; }
+  .user-info { flex: 1; min-width: 0; }
+  .user-name { font-size: 13px; font-weight: 600; color: rgba(255,255,255,0.9); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .user-role { font-size: 11px; color: rgba(255,255,255,0.35); }
+
+  /* ── MAIN CONTENT ── */
+  .main { flex: 1; background: var(--sand); overflow-y: auto; display: flex; flex-direction: column; min-width: 0; }
+
+  /* ── PAGE HEADER ── */
+  .page-header { padding: 28px 32px 0; display: flex; align-items: flex-start; justify-content: space-between; }
+  .page-title-group { display: flex; flex-direction: column; gap: 4px; }
+  .page-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--teal); }
+  .page-title { font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 700; color: var(--ink); }
+  .page-subtitle { font-size: 13px; color: var(--ink-50); }
+  .page-actions { display: flex; align-items: center; gap: 8px; }
+
+  /* ── BUTTONS ── */
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'Inter', sans-serif; font-weight: 500; border: none; cursor: pointer; transition: all 0.12s; white-space: nowrap; }
+  .btn-primary { background: var(--coral); color: white; border-radius: var(--r-pill); padding: 9px 18px; font-size: 13.5px; }
+  .btn-primary:hover { background: #c95c3e; }
+  .btn-secondary { background: transparent; color: var(--ink); border: 1.5px solid rgba(16,36,63,0.2); border-radius: var(--r-pill); padding: 8px 16px; font-size: 13px; }
+  .btn-secondary:hover { background: var(--ink-06); }
+  .btn-ghost { background: transparent; color: var(--teal); border-radius: var(--r-pill); padding: 8px 14px; font-size: 13px; }
+  .btn-ghost:hover { background: var(--teal-bg); }
+  .btn-sm { padding: 6px 12px; font-size: 12px; }
+  .btn svg { width: 14px; height: 14px; }
+
+  /* ── PILLS / CHIPS ── */
+  .chip { display: inline-flex; align-items: center; font-size: 11px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; padding: 3px 9px; border-radius: var(--r-chip); white-space: nowrap; }
+  .chip-teal { background: var(--teal-bg); color: var(--teal); }
+  .chip-coral { background: var(--coral-bg); color: var(--coral); }
+  .chip-amber { background: var(--amber-bg); color: var(--amber); }
+  .chip-lime { background: var(--lime-bg); color: var(--lime); }
+  .chip-ink { background: var(--ink-06); color: var(--ink-70); }
+  .chip-lg { font-size: 12px; padding: 4px 12px; }
+
+  /* ── PERIOD TOGGLE ── */
+  .period-toggle { display: flex; background: var(--mist); border-radius: var(--r-pill); padding: 3px; gap: 2px; }
+  .period-btn { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: var(--r-pill); border: none; cursor: pointer; color: var(--ink-50); background: transparent; transition: all 0.12s; }
+  .period-btn.active { background: var(--teal); color: white; }
+
+  /* ── METRIC CARDS ── */
+  .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; padding: 24px 32px 0; }
+  .metric-card {
+    background: var(--white); border-radius: var(--r-card); padding: 20px;
+    box-shadow: var(--shadow-card); display: flex; flex-direction: column; gap: 6px;
+    transition: box-shadow 0.15s, transform 0.15s;
+    cursor: default;
+  }
+  .metric-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+  .metric-label { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-40, var(--ink-50)); }
+  .metric-value { font-family: 'Manrope', sans-serif; font-size: 36px; font-weight: 800; line-height: 1; margin-top: 4px; }
+  .metric-value.coral { color: var(--coral); }
+  .metric-value.amber { color: var(--amber); }
+  .metric-value.teal { color: var(--teal); }
+  .metric-value.lime { color: var(--lime); }
+  .metric-sub { font-size: 12px; color: var(--ink-50); margin-top: 4px; }
+
+  /* ── CONTENT SECTIONS ── */
+  .content-grid { display: grid; grid-template-columns: 1fr 320px; gap: 20px; padding: 24px 32px 32px; }
+  .content-main { display: flex; flex-direction: column; gap: 20px; }
+  .content-aside { display: flex; flex-direction: column; gap: 16px; }
+
+  .section-card { background: var(--white); border-radius: var(--r-card); box-shadow: var(--shadow-card); overflow: hidden; }
+  .section-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; }
+  .section-title { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: var(--ink); display: flex; align-items: center; gap: 8px; }
+  .count-badge { font-size: 11px; font-weight: 600; background: var(--ink-06); color: var(--ink-50); padding: 2px 7px; border-radius: 9999px; }
+  .count-badge.coral { background: var(--coral-bg); color: var(--coral); }
+  .view-all { font-size: 12px; color: var(--teal); font-weight: 500; text-decoration: none; cursor: pointer; }
+  .view-all:hover { text-decoration: underline; }
+
+  /* ── TASK ROWS ── */
+  .task-list { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 2px; }
+  .task-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; cursor: pointer; border-radius: 8px; transition: background 0.1s; }
+  .task-row:hover { background: var(--sand); margin: 0 -8px; padding: 10px 8px; }
+  .checkbox { width: 18px; height: 18px; border-radius: 9999px; border: 2px solid rgba(16,36,63,0.2); flex-shrink: 0; }
+  .task-content { flex: 1; min-width: 0; }
+  .task-text { font-size: 13.5px; color: var(--ink); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .task-meta { font-size: 12px; color: var(--ink-50); margin-top: 1px; }
+  .task-company { color: var(--teal); font-weight: 500; }
+  .date-pill { font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 9999px; white-space: nowrap; flex-shrink: 0; }
+  .date-pill.overdue { background: var(--coral-bg); color: var(--coral); }
+  .date-pill.today { background: var(--amber-bg); color: var(--amber); }
+  .date-pill.upcoming { background: var(--ink-06); color: var(--ink-50); }
+
+  /* ── INTERACTION ROWS ── */
+  .interaction-list { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 4px; }
+  .interaction-row { display: flex; align-items: center; gap: 12px; padding: 8px 0; cursor: pointer; }
+  .interaction-row:hover { background: var(--sand); margin: 0 -8px; padding: 8px 8px; border-radius: 8px; }
+  .interaction-info { flex: 1; min-width: 0; }
+  .interaction-name { font-size: 13px; font-weight: 600; color: var(--ink); }
+  .interaction-company { font-size: 12px; color: var(--ink-50); }
+  .interaction-time { font-size: 11px; color: var(--ink-30); white-space: nowrap; }
+
+  /* ── ACTIVITY FEED ── */
+  .activity-feed { padding: 0 20px 16px; display: flex; flex-direction: column; gap: 0; }
+  .activity-date-group { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-30); padding: 10px 0 6px; }
+  .activity-item { display: flex; align-items: flex-start; gap: 10px; padding: 6px 0; }
+  .activity-icon { width: 28px; height: 28px; border-radius: 9999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 12px; margin-top: 1px; }
+  .activity-icon.teal { background: var(--teal-bg); color: var(--teal); }
+  .activity-icon.lime { background: var(--lime-bg); color: var(--lime); }
+  .activity-icon.ink { background: var(--ink-06); color: var(--ink-50); }
+  .activity-icon.coral { background: var(--coral-bg); color: var(--coral); }
+  .activity-body { flex: 1; min-width: 0; }
+  .activity-text { font-size: 12.5px; color: var(--ink); line-height: 1.4; }
+  .activity-text strong { font-weight: 600; }
+  .activity-time { font-size: 11px; color: var(--ink-30); margin-top: 2px; }
+
+  /* ── TABLE SCREEN ── */
+  .table-page { padding: 28px 32px 32px; display: flex; flex-direction: column; gap: 20px; }
+  .filter-card { background: var(--white); border-radius: var(--r-card); box-shadow: var(--shadow-card); padding: 16px 20px; display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .search-wrap { position: relative; flex: 1; min-width: 200px; }
+  .search-input { width: 100%; background: var(--mist); border: none; border-radius: var(--r-input); padding: 9px 14px 9px 36px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: var(--ink); outline: none; }
+  .search-input:focus { box-shadow: 0 0 0 2px rgba(15,118,110,0.3); }
+  .search-input::placeholder { color: var(--ink-30); }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--ink-30); pointer-events: none; }
+  .filter-select { background: var(--mist); border: none; border-radius: var(--r-input); padding: 9px 14px; font-family: 'Inter', sans-serif; font-size: 13px; color: var(--ink-70); outline: none; cursor: pointer; }
+  .filter-select:focus { box-shadow: 0 0 0 2px rgba(15,118,110,0.3); }
+  .saved-view-bar { display: flex; align-items: center; gap: 8px; }
+  .saved-view-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--ink-30); }
+  .view-pill { font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 9999px; border: 1.5px solid transparent; cursor: pointer; background: var(--mist); color: var(--ink-50); transition: all 0.12s; }
+  .view-pill.active { border-color: var(--teal); color: var(--teal); background: var(--teal-bg); }
+  .view-pill:hover:not(.active) { background: var(--sand-dark); }
+
+  /* ── DATA TABLE ── */
+  .data-table-wrap { background: var(--white); border-radius: var(--r-card); box-shadow: var(--shadow-card); overflow: hidden; }
+  .data-table { width: 100%; border-collapse: collapse; }
+  .data-table thead tr { background: var(--mist); }
+  .data-table th { font-size: 11px; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-40, var(--ink-50)); padding: 12px 16px; text-align: left; }
+  .data-table td { padding: 0 16px; height: 52px; font-size: 13.5px; color: var(--ink-70); border-bottom: none; }
+  .data-table tbody tr { cursor: pointer; transition: background 0.1s; border-top: 1px solid transparent; }
+  .data-table tbody tr:hover { background: var(--sand); }
+  .data-table tbody tr:not(:last-child) td { box-shadow: inset 0 -1px 0 rgba(16,36,63,0.04); }
+  .company-cell { display: flex; align-items: center; gap: 10px; }
+  .company-initial { width: 32px; height: 32px; border-radius: 9999px; background: var(--teal-bg); color: var(--teal); font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .company-name { font-weight: 600; color: var(--ink); font-size: 13.5px; }
+  .website-link { color: var(--ink-50); font-size: 13px; }
+  .contact-count { background: var(--ink-06); color: var(--ink-50); font-size: 12px; font-weight: 600; padding: 2px 9px; border-radius: 9999px; }
+  .last-activity { font-size: 13px; color: var(--ink-50); }
+  .last-activity.recent { color: var(--teal); font-weight: 500; }
+  .show-all-row td { padding: 12px 16px; text-align: center; color: var(--teal); font-size: 13px; font-weight: 500; cursor: pointer; background: transparent; }
+  .show-all-row:hover td { background: var(--sand); }
+
+  /* ── COMPANY DETAIL ── */
+  .detail-layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; padding: 24px 32px 32px; }
+  .detail-main { display: flex; flex-direction: column; gap: 16px; }
+  .detail-aside { display: flex; flex-direction: column; gap: 16px; }
+  .hero-card { background: var(--white); border-radius: var(--r-card); padding: 24px; box-shadow: var(--shadow-card); }
+  .hero-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
+  .hero-title { font-family: 'Manrope', sans-serif; font-size: 26px; font-weight: 800; color: var(--ink); line-height: 1.2; margin-bottom: 8px; }
+  .hero-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .hero-actions { display: flex; gap: 8px; flex-shrink: 0; }
+  .info-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 20px; }
+  .info-cell { background: var(--mist); border-radius: 12px; padding: 14px 16px; }
+  .info-label { font-size: 10px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-40, var(--ink-50)); margin-bottom: 6px; }
+  .info-value { font-size: 13.5px; font-weight: 500; color: var(--ink); }
+  .info-value.teal { color: var(--teal); }
+  .info-value.stale { color: var(--amber); }
+
+  /* ── TABS ── */
+  .tab-bar { display: flex; border-bottom: 2px solid var(--ink-06); padding: 0 4px; background: var(--white); border-radius: var(--r-card) var(--r-card) 0 0; }
+  .tab { font-size: 13px; font-weight: 500; padding: 12px 18px; cursor: pointer; color: var(--ink-50); border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.12s; }
+  .tab:hover { color: var(--ink); }
+  .tab.active { color: var(--teal); border-bottom-color: var(--teal); font-weight: 600; }
+  .tab-content { background: var(--white); border-radius: 0 0 var(--r-card) var(--r-card); padding: 16px 20px; box-shadow: var(--shadow-card); }
+
+  /* ── CONTACT ROW ── */
+  .contact-row { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-radius: 8px; cursor: pointer; transition: background 0.1s; }
+  .contact-row:hover { background: var(--sand); margin: 0 -8px; padding: 10px 8px; }
+  .contact-info { flex: 1; }
+  .contact-name { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .contact-title { font-size: 12px; color: var(--ink-50); }
+  .contact-email { font-size: 12px; color: var(--teal); }
+  .separator { height: 1px; background: transparent; box-shadow: 0 1px 0 rgba(16,36,63,0.05); margin: 4px 0; }
+
+  /* ── TASKS SCREEN ── */
+  .tasks-page { padding: 28px 32px 32px; display: flex; flex-direction: column; gap: 20px; max-width: 860px; }
+  .task-group { display: flex; flex-direction: column; gap: 2px; }
+  .group-header { display: flex; align-items: center; gap: 8px; padding: 6px 0 4px; margin-bottom: 4px; }
+  .group-title { font-family: 'Manrope', sans-serif; font-size: 13px; font-weight: 700; color: var(--ink); }
+  .group-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 9999px; }
+  .group-badge.coral { background: var(--coral-bg); color: var(--coral); }
+  .group-badge.amber { background: var(--amber-bg); color: var(--amber); }
+  .group-badge.ink { background: var(--ink-06); color: var(--ink-50); }
+  .group-badge.lime { background: var(--lime-bg); color: var(--lime); }
+  .task-row-full { display: flex; align-items: center; gap: 12px; padding: 10px 14px; cursor: pointer; border-radius: 10px; transition: background 0.1s; background: var(--white); box-shadow: var(--shadow-card); margin-bottom: 6px; }
+  .task-row-full:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+  .task-row-full.done .task-text { text-decoration: line-through; color: var(--ink-30); }
+  .checkbox.done { border-color: transparent; background: var(--lime-bg); display: flex; align-items: center; justify-content: center; }
+  .checkbox.done::after { content: '✓'; font-size: 11px; color: var(--lime); font-weight: 700; }
+  .priority-dot { width: 8px; height: 8px; border-radius: 9999px; flex-shrink: 0; }
+  .priority-dot.high { background: var(--coral); }
+  .priority-dot.medium { background: var(--amber); }
+  .priority-dot.low { background: var(--ink-30); }
+  .task-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+
+  /* ── LOGIN SCREEN ── */
+  .login-screen { display: none; }
+  .login-screen.active { display: grid; grid-template-columns: 420px 1fr; height: 100%; }
+  .login-brand { background: var(--ink); padding: 48px 40px; display: flex; flex-direction: column; justify-content: space-between; }
+  .brand-logo { display: flex; align-items: center; gap: 12px; }
+  .brand-logo-icon { width: 40px; height: 40px; background: var(--teal); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-family: 'Manrope', sans-serif; font-weight: 800; font-size: 18px; color: white; }
+  .brand-logo-name { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 18px; color: white; }
+  .brand-headline { font-family: 'Manrope', sans-serif; font-size: 32px; font-weight: 800; color: white; line-height: 1.25; }
+  .brand-sub { font-size: 15px; color: rgba(255,255,255,0.5); margin-top: 12px; line-height: 1.6; }
+  .brand-features { display: flex; flex-direction: column; gap: 12px; }
+  .brand-feature { display: flex; align-items: center; gap: 12px; padding: 14px 16px; background: rgba(255,255,255,0.06); border-radius: 12px; }
+  .brand-feature-icon { width: 36px; height: 36px; background: var(--teal-bg-strong); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .brand-feature-text { font-size: 13px; color: rgba(255,255,255,0.8); font-weight: 500; }
+  .brand-feature-sub { font-size: 12px; color: rgba(255,255,255,0.35); margin-top: 2px; }
+  .login-form-wrap { background: var(--sand); display: flex; align-items: center; justify-content: center; padding: 48px; }
+  .login-form-card { background: var(--white); border-radius: 24px; padding: 40px; width: 100%; max-width: 420px; box-shadow: var(--shadow-modal); }
+  .login-title { font-family: 'Manrope', sans-serif; font-size: 24px; font-weight: 800; color: var(--ink); margin-bottom: 8px; }
+  .login-sub { font-size: 14px; color: var(--ink-50); margin-bottom: 28px; }
+  .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+  .form-label { font-size: 11px; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-50); }
+  .form-input { background: var(--mist); border: none; border-radius: 12px; padding: 12px 16px; font-family: 'Inter', sans-serif; font-size: 14px; color: var(--ink); outline: none; }
+  .form-input:focus { box-shadow: 0 0 0 2px rgba(15,118,110,0.35); }
+  .form-input::placeholder { color: var(--ink-30); }
+  .login-btn { width: 100%; background: var(--coral); color: white; border: none; border-radius: 9999px; padding: 13px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 8px; transition: background 0.12s; }
+  .login-btn:hover { background: #c95c3e; }
+
+  /* ── QUICK ADD SHEET (shown inline) ── */
+  .quick-add-wrap { display: none; }
+  .quick-add-wrap.active { display: flex; }
+  .quick-add-backdrop { position: fixed; inset: 0; background: rgba(16,36,63,0.4); z-index: 100; display: flex; align-items: flex-end; justify-content: center; }
+  .quick-add-sheet { background: white; border-radius: 24px 24px 0 0; padding: 0 0 32px; width: 100%; max-width: 500px; box-shadow: var(--shadow-modal); }
+  .sheet-handle { width: 36px; height: 4px; background: var(--ink-10); border-radius: 9999px; margin: 12px auto 0; }
+  .sheet-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px 8px; }
+  .sheet-title { font-family: 'Manrope', sans-serif; font-size: 17px; font-weight: 700; color: var(--ink); }
+  .sheet-close { width: 32px; height: 32px; border-radius: 9999px; background: var(--mist); border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 16px; color: var(--ink-50); }
+  .sheet-body { padding: 8px 24px 0; display: flex; flex-direction: column; gap: 14px; }
+  .type-pills { display: flex; gap: 8px; flex-wrap: wrap; }
+  .type-pill { padding: 7px 16px; border-radius: 9999px; border: 1.5px solid var(--ink-10); background: transparent; font-family: 'Inter', sans-serif; font-size: 13px; font-weight: 500; color: var(--ink-50); cursor: pointer; transition: all 0.12s; }
+  .type-pill.active { border-color: var(--teal); background: var(--teal-bg); color: var(--teal); }
+  .textarea-input { background: var(--mist); border: none; border-radius: 12px; padding: 12px 16px; font-family: 'Inter', sans-serif; font-size: 13.5px; color: var(--ink); outline: none; resize: none; width: 100%; }
+  .textarea-input:focus { box-shadow: 0 0 0 2px rgba(15,118,110,0.3); }
+  .sheet-footer { padding: 20px 24px 0; }
+  .sheet-save-btn { width: 100%; background: var(--coral); color: white; border: none; border-radius: 9999px; padding: 14px; font-family: 'Inter', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; }
+
+  /* ── PIPELINE ── */
+  .pipeline-wrap { overflow-x: auto; padding: 28px 32px 32px; }
+  .pipeline-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+  .view-toggle { display: flex; background: var(--mist); border-radius: 9999px; padding: 3px; }
+  .view-toggle-btn { font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 500; padding: 5px 14px; border-radius: 9999px; border: none; cursor: pointer; color: var(--ink-50); background: transparent; transition: all 0.12s; display: flex; align-items: center; gap: 5px; }
+  .view-toggle-btn.active { background: var(--white); color: var(--ink); box-shadow: 0 1px 4px rgba(16,36,63,0.1); }
+  .kanban-board { display: flex; gap: 14px; min-width: max-content; padding-bottom: 8px; }
+  .kanban-col { width: 240px; display: flex; flex-direction: column; gap: 8px; }
+  .kanban-col-header { display: flex; align-items: center; justify-content: space-between; padding: 0 4px 8px; }
+  .kanban-col-title { font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; color: var(--ink-50); text-transform: uppercase; letter-spacing: 0.06em; }
+  .kanban-col-count { font-size: 11px; background: var(--ink-06); color: var(--ink-50); padding: 2px 7px; border-radius: 9999px; font-weight: 600; }
+  .kanban-card { background: var(--white); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow-card); cursor: pointer; transition: box-shadow 0.12s, transform 0.12s; }
+  .kanban-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+  .kanban-card-name { font-size: 13.5px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+  .kanban-card-company { font-size: 12px; color: var(--teal); margin-bottom: 10px; }
+  .kanban-card-footer { display: flex; align-items: center; justify-content: space-between; }
+  .kanban-card-value { font-family: 'Manrope', sans-serif; font-size: 14px; font-weight: 700; color: var(--coral); }
+  .kanban-card-date { font-size: 11px; color: var(--ink-40, var(--ink-50)); }
+  .kanban-add { display: flex; align-items: center; gap: 6px; padding: 8px 4px; font-size: 12px; font-weight: 500; color: var(--ink-30); cursor: pointer; border-radius: 8px; transition: color 0.12s; }
+  .kanban-add:hover { color: var(--teal); }
+
+  .spacer { flex: 1; }
+
+  /* ── GREETING ROW ── */
+  .greeting-row { display: flex; align-items: center; justify-content: space-between; padding: 28px 32px 0; }
+  .greeting-text { font-family: 'Manrope', sans-serif; font-size: 26px; font-weight: 800; color: var(--ink); }
+  .greeting-sub { font-size: 13px; color: var(--ink-50); margin-top: 2px; }
+  .greeting-actions { display: flex; align-items: center; gap: 10px; }
+
+  @media (max-width: 900px) {
+    .metrics-grid { grid-template-columns: repeat(2,1fr); }
+    .content-grid { grid-template-columns: 1fr; }
+    .detail-layout { grid-template-columns: 1fr; }
+    .info-grid { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── SWITCHER ── -->
+<div class="switcher">
+  <span class="switcher-label">Screen</span>
+  <button class="active" onclick="showScreen('dashboard')">Dashboard</button>
+  <button onclick="showScreen('companies')">Companies</button>
+  <button onclick="showScreen('company-detail')">Company Detail</button>
+  <button onclick="showScreen('tasks')">Tasks</button>
+  <button onclick="showScreen('opportunities')">Pipeline</button>
+  <button onclick="showScreen('login')">Login</button>
+</div>
+
+<!-- ═══════════════════════════════════════ DASHBOARD ═══════════════════════════ -->
+<div class="screen active" id="screen-dashboard">
+  <div class="sidebar">
+    <div class="sidebar-logo">
+      <div class="sidebar-logo-icon">C</div>
+      <span class="sidebar-logo-name">CRM</span>
+    </div>
+    <div class="sidebar-section">
+      <div class="nav-item active">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>
+        Dashboard
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V2M11 3V2"/></svg>
+        Companies
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="3"/><path d="M1 13c0-2.8 2.2-5 5-5"/><circle cx="12" cy="9" r="2.5"/><path d="M9.5 13c0-1.5 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5"/></svg>
+        Contacts
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h8M2 12h5"/></svg>
+        Interactions
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="8" r="2"/><path d="M7 8h7"/><circle cx="11" cy="4" r="2"/><path d="M1 4h8"/><circle cx="11" cy="12" r="2"/><path d="M1 12h8"/></svg>
+        Tasks
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 13V7l6-5 6 5v6a1 1 0 01-1 1H3a1 1 0 01-1-1z"/><path d="M6 14V9h4v5"/></svg>
+        Opportunities
+      </div>
+      <div class="nav-item">
+        <svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12V4l4 5 2-6 2 4 2-3 2 4"/></svg>
+        Reports
+      </div>
+    </div>
+    <div class="spacer"></div>
+    <div class="sidebar-footer">
+      <div class="user-row">
+        <div class="avatar">SD</div>
+        <div class="user-info">
+          <div class="user-name">Shir D.</div>
+          <div class="user-role">Admin</div>
+        </div>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.8"><path d="M10 8H2M13 4l-3 4 3 4"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="main">
+    <!-- Greeting -->
+    <div class="greeting-row">
+      <div>
+        <div class="greeting-text">Good morning, Shir ✦</div>
+        <div class="greeting-sub">Here's what needs your attention today</div>
+      </div>
+      <div class="greeting-actions">
+        <div class="period-toggle">
+          <button class="period-btn">7d</button>
+          <button class="period-btn active">30d</button>
+          <button class="period-btn">90d</button>
+        </div>
+        <button class="btn btn-primary btn-sm">+ Log Interaction</button>
+        <button class="btn btn-secondary btn-sm">+ Add Task</button>
+      </div>
+    </div>
+
+    <!-- Metrics -->
+    <div class="metrics-grid">
+      <div class="metric-card">
+        <div class="metric-label">Overdue Tasks</div>
+        <div class="metric-value coral">5</div>
+        <div class="metric-sub">↑ 2 since yesterday</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Due Today</div>
+        <div class="metric-value amber">8</div>
+        <div class="metric-sub">3 high priority</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Meetings · 30d</div>
+        <div class="metric-value teal">12</div>
+        <div class="metric-sub">↑ 4 vs prior period</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">Open Deals</div>
+        <div class="metric-value lime">7</div>
+        <div class="metric-sub">₪ 840K total value</div>
+      </div>
+    </div>
+
+    <!-- Main content grid -->
+    <div class="content-grid">
+      <div class="content-main">
+
+        <!-- Overdue tasks -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">
+              Overdue
+              <span class="count-badge coral">5</span>
+            </div>
+            <a class="view-all">View all tasks →</a>
+          </div>
+          <div class="task-list">
+            <div class="task-row">
+              <div class="checkbox"></div>
+              <div class="task-content">
+                <div class="task-text">Follow up on proposal — Q2 scope</div>
+                <div class="task-meta"><span class="task-company">Acme Corp</span> · Follow-up</div>
+              </div>
+              <span class="date-pill overdue">5d overdue</span>
+            </div>
+            <div class="task-row">
+              <div class="checkbox"></div>
+              <div class="task-content">
+                <div class="task-text">Send revised pricing to CFO</div>
+                <div class="task-meta"><span class="task-company">Bright Labs</span> · Pricing</div>
+              </div>
+              <span class="date-pill overdue">3d overdue</span>
+            </div>
+            <div class="task-row">
+              <div class="checkbox"></div>
+              <div class="task-content">
+                <div class="task-text">Schedule technical deep-dive call</div>
+                <div class="task-meta"><span class="task-company">DataFlow Inc</span> · Meeting</div>
+              </div>
+              <span class="date-pill overdue">1d overdue</span>
+            </div>
+            <div class="task-row">
+              <div class="checkbox"></div>
+              <div class="task-content">
+                <div class="task-text">Review NDA and send back signed</div>
+                <div class="task-meta"><span class="task-company">EchoSystems</span> · Legal</div>
+              </div>
+              <span class="date-pill overdue">2d overdue</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent interactions -->
+        <div class="section-card">
+          <div class="section-header">
+            <div class="section-title">Recent Interactions</div>
+            <a class="view-all">View all →</a>
+          </div>
+          <div class="interaction-list">
+            <div class="interaction-row">
+              <div class="avatar sm">DC</div>
+              <div class="interaction-info">
+                <div class="interaction-name">Dana Cohen</div>
+                <div class="interaction-company">Acme Corp</div>
+              </div>
+              <span class="chip chip-teal">Meeting</span>
+              <span class="interaction-time">2h ago</span>
+            </div>
+            <div class="interaction-row">
+              <div class="avatar sm" style="background:rgba(221,107,77,0.12);color:var(--coral)">YL</div>
+              <div class="interaction-info">
+                <div class="interaction-name">Yaron Levi</div>
+                <div class="interaction-company">Bright Labs</div>
+              </div>
+              <span class="chip chip-ink">Call</span>
+              <span class="interaction-time">Yesterday</span>
+            </div>
+            <div class="interaction-row">
+              <div class="avatar sm" style="background:rgba(77,124,15,0.1);color:var(--lime)">MK</div>
+              <div class="interaction-info">
+                <div class="interaction-name">Maya Katz</div>
+                <div class="interaction-company">DataFlow Inc</div>
+              </div>
+              <span class="chip chip-teal">Meeting</span>
+              <span class="interaction-time">2d ago</span>
+            </div>
+            <div class="interaction-row">
+              <div class="avatar sm" style="background:rgba(217,119,6,0.1);color:var(--amber)">RP</div>
+              <div class="interaction-info">
+                <div class="interaction-name">Roni Peretz</div>
+                <div class="interaction-company">EchoSystems</div>
+              </div>
+              <span class="chip chip-ink">Email</span>
+              <span class="interaction-time">3d ago</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Activity aside -->
+      <div class="content-aside">
+        <div class="section-card" style="flex:1">
+          <div class="section-header">
+            <div class="section-title">Activity Feed</div>
+          </div>
+          <div class="activity-feed">
+            <div class="activity-date-group">Today</div>
+            <div class="activity-item">
+              <div class="activity-icon teal">✎</div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>You</strong> logged a meeting with Dana Cohen at Acme Corp</div>
+                <div class="activity-time">2h ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon lime">✓</div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>You</strong> completed "Send intro deck" for Bright Labs</div>
+                <div class="activity-time">4h ago</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon coral">!</div>
+              <div class="activity-body">
+                <div class="activity-text">Task overdue: "Follow up on proposal" — Acme Corp</div>
+                <div class="activity-time">This morning</div>
+              </div>
+            </div>
+            <div class="activity-date-group">Yesterday</div>
+            <div class="activity-item">
+              <div class="activity-icon ink">+</div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>You</strong> created opportunity "Q3 Platform License" at DataFlow Inc</div>
+                <div class="activity-time">Yesterday 3pm</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon teal">✎</div>
+              <div class="activity-body">
+                <div class="activity-text"><strong>You</strong> logged a call with Yaron Levi</div>
+                <div class="activity-time">Yesterday 11am</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon lime">✓</div>
+              <div class="activity-body">
+                <div class="activity-text">Opportunity "Pilot Agreement" moved to Proposal stage</div>
+                <div class="activity-time">Yesterday 9am</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ COMPANIES ═══════════════════════════ -->
+<div class="screen" id="screen-companies">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">C</div><span class="sidebar-logo-name">CRM</span></div>
+    <div class="sidebar-section">
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>Dashboard</div>
+      <div class="nav-item active"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V2M11 3V2"/></svg>Companies</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="3"/><path d="M1 13c0-2.8 2.2-5 5-5"/><circle cx="12" cy="9" r="2.5"/><path d="M9.5 13c0-1.5 1.1-2.5 2.5-2.5s2.5 1.1 2.5 2.5"/></svg>Contacts</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h8M2 12h5"/></svg>Interactions</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="8" r="2"/><path d="M7 8h7"/><circle cx="11" cy="4" r="2"/><path d="M1 4h8"/><circle cx="11" cy="12" r="2"/><path d="M1 12h8"/></svg>Tasks</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 13V7l6-5 6 5v6a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>Opportunities</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="sidebar-footer"><div class="user-row"><div class="avatar">SD</div><div class="user-info"><div class="user-name">Shir D.</div><div class="user-role">Admin</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="table-page">
+      <div class="page-header" style="padding:0">
+        <div class="page-title-group">
+          <div class="page-title">Companies <span style="font-size:14px;font-weight:500;color:var(--ink-40,var(--ink-50));background:var(--mist);padding:3px 10px;border-radius:9999px;margin-left:8px;vertical-align:middle">248</span></div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-secondary btn-sm">Export</button>
+          <button class="btn btn-primary">+ New Company</button>
+        </div>
+      </div>
+
+      <div class="filter-card">
+        <div class="search-wrap">
+          <svg class="search-icon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg>
+          <input class="search-input" placeholder="Search companies…" type="text">
+        </div>
+        <select class="filter-select"><option>All Sources</option><option>Referral</option><option>Conference</option><option>LinkedIn</option></select>
+        <select class="filter-select"><option>All Stages</option><option>Prospect</option><option>Qualified</option><option>Proposal</option></select>
+        <div class="view-pill active">All</div>
+        <div class="view-pill">Inactive 60d+</div>
+        <div class="view-pill">My Accounts</div>
+      </div>
+
+      <div class="data-table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Company</th>
+              <th>Website</th>
+              <th>Stage</th>
+              <th>Source</th>
+              <th>Last Activity</th>
+              <th>Contacts</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="company-cell"><div class="company-initial">A</div><span class="company-name">Acme Corp</span></div></td>
+              <td><span class="website-link">acme.com</span></td>
+              <td><span class="chip chip-teal">Qualified</span></td>
+              <td><span class="chip chip-ink">Referral</span></td>
+              <td><span class="last-activity recent">Today</span></td>
+              <td><span class="contact-count">4</span></td>
+            </tr>
+            <tr>
+              <td><div class="company-cell"><div class="company-initial" style="background:rgba(221,107,77,0.12);color:var(--coral)">B</div><span class="company-name">Bright Labs</span></div></td>
+              <td><span class="website-link">brightlabs.io</span></td>
+              <td><span class="chip chip-ink">Prospect</span></td>
+              <td><span class="chip chip-ink">Conference</span></td>
+              <td><span class="last-activity">1w ago</span></td>
+              <td><span class="contact-count">2</span></td>
+            </tr>
+            <tr>
+              <td><div class="company-cell"><div class="company-initial" style="background:rgba(217,119,6,0.1);color:var(--amber)">D</div><span class="company-name">DataFlow Inc</span></div></td>
+              <td><span class="website-link">dataflow.io</span></td>
+              <td><span class="chip chip-amber">Proposal</span></td>
+              <td><span class="chip chip-ink">LinkedIn</span></td>
+              <td><span class="last-activity">3d ago</span></td>
+              <td><span class="contact-count">6</span></td>
+            </tr>
+            <tr>
+              <td><div class="company-cell"><div class="company-initial" style="background:rgba(15,118,110,0.15);color:var(--teal)">E</div><span class="company-name">EchoSystems</span></div></td>
+              <td><span class="website-link">echosystems.com</span></td>
+              <td><span class="chip chip-coral">Negotiation</span></td>
+              <td><span class="chip chip-ink">Inbound</span></td>
+              <td><span class="last-activity recent">2d ago</span></td>
+              <td><span class="contact-count">1</span></td>
+            </tr>
+            <tr>
+              <td><div class="company-cell"><div class="company-initial" style="background:rgba(77,124,15,0.12);color:var(--lime)">F</div><span class="company-name">Fusion Analytics</span></div></td>
+              <td><span class="website-link">fusion.ai</span></td>
+              <td><span class="chip chip-lime">Closed Won</span></td>
+              <td><span class="chip chip-ink">Referral</span></td>
+              <td><span class="last-activity">5d ago</span></td>
+              <td><span class="contact-count">3</span></td>
+            </tr>
+            <tr>
+              <td><div class="company-cell"><div class="company-initial" style="background:rgba(16,36,63,0.07);color:var(--ink-50)">G</div><span class="company-name">GlobalMesh</span></div></td>
+              <td><span class="website-link">globalmesh.net</span></td>
+              <td><span class="chip chip-ink">Prospect</span></td>
+              <td><span class="chip chip-ink">Event</span></td>
+              <td><span class="last-activity">2w ago</span></td>
+              <td><span class="contact-count">2</span></td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr class="show-all-row"><td colspan="6">Show all 248 companies →</td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ COMPANY DETAIL ══════════════════════ -->
+<div class="screen" id="screen-company-detail">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">C</div><span class="sidebar-logo-name">CRM</span></div>
+    <div class="sidebar-section">
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>Dashboard</div>
+      <div class="nav-item active"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="10" rx="1.5"/><path d="M5 3V2M11 3V2"/></svg>Companies</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="3"/><path d="M1 13c0-2.8 2.2-5 5-5"/></svg>Contacts</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h8M2 12h5"/></svg>Interactions</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="8" r="2"/><path d="M7 8h7M1 4h8M1 12h8"/></svg>Tasks</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 13V7l6-5 6 5v6a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>Opportunities</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="sidebar-footer"><div class="user-row"><div class="avatar">SD</div><div class="user-info"><div class="user-name">Shir D.</div><div class="user-role">Admin</div></div></div></div>
+  </div>
+  <div class="main">
+    <div style="padding: 12px 32px 0; font-size: 12px; color: var(--ink-40, var(--ink-50));">
+      <span style="color:var(--teal);cursor:pointer">Companies</span> / Acme Corp
+    </div>
+    <div class="detail-layout">
+      <div class="detail-main">
+        <!-- Hero card -->
+        <div class="hero-card">
+          <div class="hero-top">
+            <div>
+              <div class="hero-title">Acme Corp</div>
+              <div class="hero-chips">
+                <span class="chip chip-teal chip-lg">Qualified</span>
+                <span class="chip chip-ink chip-lg">Referral</span>
+                <span class="chip chip-amber chip-lg">Stale 12d</span>
+              </div>
+            </div>
+            <div class="hero-actions">
+              <button class="btn btn-primary">+ Log Interaction</button>
+              <button class="btn btn-secondary">+ Add Task</button>
+              <button class="btn btn-ghost">Edit</button>
+            </div>
+          </div>
+          <div style="font-size:13.5px;color:var(--ink-50);line-height:1.6;padding: 4px 0 0;">
+            Enterprise SaaS platform for logistics. Key contact: Dana Cohen (CFO). Warm relationship — referred by Fusion Analytics.
+          </div>
+          <div class="info-grid">
+            <div class="info-cell">
+              <div class="info-label">Website</div>
+              <div class="info-value teal">acme.com ↗</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-label">Stage</div>
+              <div class="info-value">Qualified</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-label">Source</div>
+              <div class="info-value">Referral</div>
+            </div>
+            <div class="info-cell">
+              <div class="info-label">Last Activity</div>
+              <div class="info-value stale">12d ago</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tabs -->
+        <div>
+          <div class="tab-bar">
+            <div class="tab active">Contacts <span style="background:var(--teal-bg);color:var(--teal);font-size:11px;padding:1px 6px;border-radius:9999px;margin-left:4px">4</span></div>
+            <div class="tab">Interactions <span style="background:var(--ink-06);color:var(--ink-50);font-size:11px;padding:1px 6px;border-radius:9999px;margin-left:4px">8</span></div>
+            <div class="tab">Tasks <span style="background:var(--coral-bg);color:var(--coral);font-size:11px;padding:1px 6px;border-radius:9999px;margin-left:4px">3</span></div>
+            <div class="tab">Opportunities <span style="background:var(--ink-06);color:var(--ink-50);font-size:11px;padding:1px 6px;border-radius:9999px;margin-left:4px">2</span></div>
+          </div>
+          <div class="tab-content">
+            <div class="contact-row">
+              <div class="avatar">DC</div>
+              <div class="contact-info">
+                <div class="contact-name">Dana Cohen</div>
+                <div class="contact-title">Chief Financial Officer</div>
+                <div class="contact-email">dana@acme.com</div>
+              </div>
+              <span class="chip chip-teal">Primary</span>
+            </div>
+            <div class="separator"></div>
+            <div class="contact-row">
+              <div class="avatar" style="background:rgba(221,107,77,0.12);color:var(--coral)">NB</div>
+              <div class="contact-info">
+                <div class="contact-name">Nir Ben-David</div>
+                <div class="contact-title">VP Engineering</div>
+                <div class="contact-email">nir@acme.com</div>
+              </div>
+            </div>
+            <div class="separator"></div>
+            <div class="contact-row">
+              <div class="avatar" style="background:rgba(77,124,15,0.1);color:var(--lime)">SR</div>
+              <div class="contact-info">
+                <div class="contact-name">Shira Rotem</div>
+                <div class="contact-title">Product Manager</div>
+                <div class="contact-email">shira@acme.com</div>
+              </div>
+            </div>
+            <div class="separator"></div>
+            <div class="contact-row">
+              <div class="avatar" style="background:rgba(217,119,6,0.1);color:var(--amber)">YM</div>
+              <div class="contact-info">
+                <div class="contact-name">Yael Mizrahi</div>
+                <div class="contact-title">CEO</div>
+                <div class="contact-email">yael@acme.com</div>
+              </div>
+            </div>
+            <div style="padding-top:12px">
+              <a class="view-all">+ Add contact to Acme Corp</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Activity aside -->
+      <div class="detail-aside">
+        <div class="section-card" style="flex:1">
+          <div class="section-header">
+            <div class="section-title">Activity</div>
+            <button class="btn btn-ghost btn-sm" style="font-size:12px">+ Note</button>
+          </div>
+          <div class="activity-feed">
+            <div class="activity-date-group">Today</div>
+            <div class="activity-item">
+              <div class="activity-icon teal">✎</div>
+              <div class="activity-body">
+                <div class="activity-text">Meeting logged with <strong>Dana Cohen</strong> — "Q3 renewal discussion"</div>
+                <div class="activity-time">2h ago · by Shir</div>
+              </div>
+            </div>
+            <div class="activity-date-group">This week</div>
+            <div class="activity-item">
+              <div class="activity-icon coral">!</div>
+              <div class="activity-body">
+                <div class="activity-text">Task overdue: <strong>"Follow up on proposal"</strong></div>
+                <div class="activity-time">Mon · by System</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon ink">+</div>
+              <div class="activity-body">
+                <div class="activity-text">Opportunity <strong>"Q3 Platform License"</strong> created</div>
+                <div class="activity-time">Mon · by Shir</div>
+              </div>
+            </div>
+            <div class="activity-date-group">Last week</div>
+            <div class="activity-item">
+              <div class="activity-icon teal">✎</div>
+              <div class="activity-body">
+                <div class="activity-text">Call with <strong>Nir Ben-David</strong> — "Technical scoping"</div>
+                <div class="activity-time">Apr 14 · by Shir</div>
+              </div>
+            </div>
+            <div class="activity-item">
+              <div class="activity-icon lime">✓</div>
+              <div class="activity-body">
+                <div class="activity-text">Task completed: <strong>"Send NDA draft"</strong></div>
+                <div class="activity-time">Apr 13 · by Shir</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ TASKS ══════════════════════════════ -->
+<div class="screen" id="screen-tasks">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">C</div><span class="sidebar-logo-name">CRM</span></div>
+    <div class="sidebar-section">
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>Dashboard</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="10" rx="1.5"/></svg>Companies</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="3"/><path d="M1 13c0-2.8 2.2-5 5-5"/></svg>Contacts</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h8M2 12h5"/></svg>Interactions</div>
+      <div class="nav-item active"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="8" r="2"/><path d="M7 8h7M1 4h8M1 12h8"/></svg>Tasks</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 13V7l6-5 6 5v6a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>Opportunities</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="sidebar-footer"><div class="user-row"><div class="avatar">SD</div><div class="user-info"><div class="user-name">Shir D.</div><div class="user-role">Admin</div></div></div></div>
+  </div>
+  <div class="main">
+    <div class="tasks-page">
+      <div class="page-header" style="padding:0">
+        <div class="page-title-group">
+          <div class="page-title">Tasks</div>
+        </div>
+        <div class="page-actions">
+          <button class="btn btn-primary">+ New Task</button>
+        </div>
+      </div>
+
+      <div class="filter-card">
+        <div class="search-wrap" style="max-width:280px">
+          <svg class="search-icon" width="15" height="15" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="7" cy="7" r="5"/><path d="M11 11l3 3"/></svg>
+          <input class="search-input" placeholder="Search tasks…" type="text">
+        </div>
+        <select class="filter-select"><option>All Companies</option></select>
+        <select class="filter-select"><option>All Contacts</option></select>
+        <select class="filter-select"><option>All Priorities</option><option>High</option><option>Medium</option></select>
+      </div>
+
+      <!-- Overdue -->
+      <div class="task-group">
+        <div class="group-header">
+          <span class="group-title">Overdue</span>
+          <span class="group-badge coral">5</span>
+        </div>
+        <div class="task-row-full">
+          <div class="checkbox"></div>
+          <div class="priority-dot high"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Follow up on proposal — Q2 scope</div>
+            <div class="task-meta"><span class="task-company">Acme Corp</span> · Dana Cohen</div>
+          </div>
+          <div class="task-right">
+            <span class="chip chip-coral">High</span>
+            <span class="date-pill overdue">5d overdue</span>
+          </div>
+        </div>
+        <div class="task-row-full">
+          <div class="checkbox"></div>
+          <div class="priority-dot high"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Send revised pricing to CFO</div>
+            <div class="task-meta"><span class="task-company">Bright Labs</span> · Yaron Levi</div>
+          </div>
+          <div class="task-right">
+            <span class="chip chip-coral">High</span>
+            <span class="date-pill overdue">3d overdue</span>
+          </div>
+        </div>
+        <div class="task-row-full">
+          <div class="checkbox"></div>
+          <div class="priority-dot medium"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Review NDA and send back signed</div>
+            <div class="task-meta"><span class="task-company">EchoSystems</span> · Roni Peretz</div>
+          </div>
+          <div class="task-right">
+            <span class="chip chip-amber">Medium</span>
+            <span class="date-pill overdue">2d overdue</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today -->
+      <div class="task-group">
+        <div class="group-header">
+          <span class="group-title">Today</span>
+          <span class="group-badge amber">3</span>
+        </div>
+        <div class="task-row-full">
+          <div class="checkbox"></div>
+          <div class="priority-dot high"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Schedule technical deep-dive call</div>
+            <div class="task-meta"><span class="task-company">DataFlow Inc</span> · Maya Katz</div>
+          </div>
+          <div class="task-right">
+            <span class="chip chip-coral">High</span>
+            <span class="date-pill today">Today</span>
+          </div>
+        </div>
+        <div class="task-row-full">
+          <div class="checkbox"></div>
+          <div class="priority-dot medium"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Update opportunity stage after call</div>
+            <div class="task-meta"><span class="task-company">EchoSystems</span></div>
+          </div>
+          <div class="task-right">
+            <span class="chip chip-amber">Medium</span>
+            <span class="date-pill today">Today</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- This Week -->
+      <div class="task-group">
+        <div class="group-header">
+          <span class="group-title">This Week</span>
+          <span class="group-badge ink">5</span>
+        </div>
+        <div class="task-row-full">
+          <div class="checkbox"></div>
+          <div class="priority-dot low"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Prepare demo environment for pilot</div>
+            <div class="task-meta"><span class="task-company">Acme Corp</span></div>
+          </div>
+          <div class="task-right">
+            <span class="chip chip-ink">Low</span>
+            <span class="date-pill upcoming">Thu Apr 24</span>
+          </div>
+        </div>
+        <div class="task-row-full">
+          <div class="checkbox"></div>
+          <div class="priority-dot medium"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Send partnership intro email</div>
+            <div class="task-meta"><span class="task-company">GlobalMesh</span> · Avi Shalom</div>
+          </div>
+          <div class="task-right">
+            <span class="chip chip-amber">Medium</span>
+            <span class="date-pill upcoming">Fri Apr 25</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Done -->
+      <div class="task-group">
+        <div class="group-header">
+          <span class="group-title" style="color:var(--ink-30)">Completed</span>
+          <span class="group-badge lime">8</span>
+        </div>
+        <div class="task-row-full done" style="opacity:0.6">
+          <div class="checkbox done"></div>
+          <div class="priority-dot" style="background:var(--ink-10)"></div>
+          <div class="task-content" style="flex:1">
+            <div class="task-text">Send intro deck to Dana Cohen</div>
+            <div class="task-meta"><span class="task-company">Acme Corp</span></div>
+          </div>
+          <div class="task-right">
+            <span class="date-pill upcoming">Done · Apr 18</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ PIPELINE ══════════════════════════ -->
+<div class="screen" id="screen-opportunities">
+  <div class="sidebar">
+    <div class="sidebar-logo"><div class="sidebar-logo-icon">C</div><span class="sidebar-logo-name">CRM</span></div>
+    <div class="sidebar-section">
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="1" width="6" height="6" rx="1.5"/><rect x="9" y="1" width="6" height="6" rx="1.5"/><rect x="1" y="9" width="6" height="6" rx="1.5"/><rect x="9" y="9" width="6" height="6" rx="1.5"/></svg>Dashboard</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="12" height="10" rx="1.5"/></svg>Companies</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="5" r="3"/><path d="M1 13c0-2.8 2.2-5 5-5"/></svg>Contacts</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h12M2 8h8M2 12h5"/></svg>Interactions</div>
+      <div class="nav-item"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="5" cy="8" r="2"/><path d="M7 8h7M1 4h8M1 12h8"/></svg>Tasks</div>
+      <div class="nav-item active"><svg class="nav-icon" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 13V7l6-5 6 5v6a1 1 0 01-1 1H3a1 1 0 01-1-1z"/></svg>Opportunities</div>
+    </div>
+    <div class="spacer"></div>
+    <div class="sidebar-footer"><div class="user-row"><div class="avatar">SD</div><div class="user-info"><div class="user-name">Shir D.</div><div class="user-role">Admin</div></div></div></div>
+  </div>
+  <div class="main" style="overflow:hidden">
+    <div class="pipeline-wrap">
+      <div class="pipeline-header">
+        <div>
+          <div class="page-title">Pipeline</div>
+          <div style="font-size:13px;color:var(--ink-50);margin-top:2px">₪ 1.24M total open value</div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:center">
+          <div class="view-toggle">
+            <button class="view-toggle-btn">☰ Table</button>
+            <button class="view-toggle-btn active">⬜ Pipeline</button>
+          </div>
+          <button class="btn btn-primary">+ New Deal</button>
+        </div>
+      </div>
+      <div class="kanban-board">
+        <!-- Prospect -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">Prospect</span>
+            <span class="kanban-col-count">3</span>
+          </div>
+          <div class="kanban-card">
+            <div class="kanban-card-name">Website Redesign Project</div>
+            <div class="kanban-card-company">GlobalMesh</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-value">₪ 80K</span>
+              <span class="kanban-card-date">Jun 30</span>
+            </div>
+          </div>
+          <div class="kanban-card">
+            <div class="kanban-card-name">Data Pipeline POC</div>
+            <div class="kanban-card-company">Bright Labs</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-value">₪ 55K</span>
+              <span class="kanban-card-date">Jul 15</span>
+            </div>
+          </div>
+          <div class="kanban-add">+ Add deal</div>
+        </div>
+
+        <!-- Qualified -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">Qualified</span>
+            <span class="kanban-col-count">2</span>
+          </div>
+          <div class="kanban-card">
+            <div class="kanban-card-name">Annual SaaS License</div>
+            <div class="kanban-card-company">Acme Corp</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-value">₪ 280K</span>
+              <span class="kanban-card-date">May 31</span>
+            </div>
+          </div>
+          <div class="kanban-add">+ Add deal</div>
+        </div>
+
+        <!-- Proposal -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">Proposal</span>
+            <span class="kanban-col-count">2</span>
+          </div>
+          <div class="kanban-card">
+            <div class="kanban-card-name">Q3 Platform License</div>
+            <div class="kanban-card-company">DataFlow Inc</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-value">₪ 340K</span>
+              <span class="kanban-card-date">May 15</span>
+            </div>
+          </div>
+          <div class="kanban-card">
+            <div class="kanban-card-name">Pilot Agreement</div>
+            <div class="kanban-card-company">Bright Labs</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-value">₪ 90K</span>
+              <span class="kanban-card-date">May 20</span>
+            </div>
+          </div>
+          <div class="kanban-add">+ Add deal</div>
+        </div>
+
+        <!-- Negotiation -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title">Negotiation</span>
+            <span class="kanban-col-count">1</span>
+          </div>
+          <div class="kanban-card">
+            <div class="kanban-card-name">Enterprise Expansion</div>
+            <div class="kanban-card-company">EchoSystems</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-value">₪ 400K</span>
+              <span class="kanban-card-date">Apr 30</span>
+            </div>
+          </div>
+          <div class="kanban-add">+ Add deal</div>
+        </div>
+
+        <!-- Closed Won -->
+        <div class="kanban-col">
+          <div class="kanban-col-header">
+            <span class="kanban-col-title" style="color:var(--lime)">Closed Won</span>
+            <span class="kanban-col-count">4</span>
+          </div>
+          <div class="kanban-card" style="opacity:0.75">
+            <div class="kanban-card-name">Initial Platform Setup</div>
+            <div class="kanban-card-company">Fusion Analytics</div>
+            <div class="kanban-card-footer">
+              <span class="kanban-card-value" style="color:var(--lime)">₪ 180K</span>
+              <span class="kanban-card-date">Won Apr 10</span>
+            </div>
+          </div>
+          <div class="kanban-add">+ Add deal</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════ LOGIN ══════════════════════════════ -->
+<div class="screen login-screen" id="screen-login">
+  <div class="login-brand">
+    <div>
+      <div class="brand-logo">
+        <div class="brand-logo-icon">C</div>
+        <span class="brand-logo-name">CRM</span>
+      </div>
+      <div style="margin-top: 48px;">
+        <div class="brand-headline">Your pipeline,<br>finally organized.</div>
+        <div class="brand-sub">Built for Israeli sales teams. Bilingual, mobile-ready, and focused on what matters — booking more meetings.</div>
+      </div>
+    </div>
+    <div class="brand-features">
+      <div class="brand-feature">
+        <div class="brand-feature-icon">🔒</div>
+        <div>
+          <div class="brand-feature-text">Role-based Access</div>
+          <div class="brand-feature-sub">Admin, Editor, Viewer — full control</div>
+        </div>
+      </div>
+      <div class="brand-feature">
+        <div class="brand-feature-icon">🌐</div>
+        <div>
+          <div class="brand-feature-text">Bilingual EN / עב</div>
+          <div class="brand-feature-sub">Full Hebrew support, RTL-ready</div>
+        </div>
+      </div>
+      <div class="brand-feature">
+        <div class="brand-feature-icon">📱</div>
+        <div>
+          <div class="brand-feature-text">Mobile-first</div>
+          <div class="brand-feature-sub">Log interactions anywhere, anytime</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="login-form-wrap">
+    <div class="login-form-card">
+      <div class="login-title">Sign in</div>
+      <div class="login-sub">Welcome back. Enter your credentials below.</div>
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input class="form-input" type="email" placeholder="you@company.com">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input class="form-input" type="password" placeholder="••••••••••">
+      </div>
+      <button class="login-btn">Sign in →</button>
+      <div style="text-align:center;margin-top:20px;font-size:12px;color:var(--ink-30)">Forgot password? Contact your admin.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function showScreen(name) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.switcher button').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('screen-' + name);
+  if (el) el.classList.add('active');
+  const btns = document.querySelectorAll('.switcher button');
+  const labels = ['dashboard','companies','company-detail','tasks','opportunities','login'];
+  const idx = labels.indexOf(name);
+  if (btns[idx]) btns[idx].classList.add('active');
+}
+
+// Login screen needs special handling (grid not flex)
+const orig = showScreen;
+window.showScreen = function(name) {
+  orig(name);
+  const login = document.getElementById('screen-login');
+  if (name === 'login') {
+    login.style.display = 'grid';
+  } else {
+    login.style.display = '';
+  }
+};
+</script>
+</body>
+</html>
