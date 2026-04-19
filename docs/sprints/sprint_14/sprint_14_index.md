@@ -31,6 +31,20 @@ Parent: [[sprints/README|CRM Sprints]]
   - `npm run build` pass
 - residual open gate: manual visual QA sweep (desktop, mobile 390px, RTL/Hebrew, role-visibility checks)
 
+## PM Refinement Update (2026-04-19)
+
+- Main branch refinement pass executed against `docs/sprints/sprint_14/todo/DESIGN_FIXES.md` using `ui-mockup.html` reference
+- scope completed in owned login slice:
+  - viewport zoom re-enabled for locale layout (remove zoom lock behavior)
+  - login wrapper selector override removed; styles now applied on real form controls
+  - duplicate aside tagline removed
+  - non-standard opacity replaced (`text-white/72` -> `text-white/70`)
+  - login copy updated to identifier/password semantics in EN/HE
+  - focus ring visibility restored on login inputs and submit button
+- checks:
+  - `npm run typecheck` pass
+  - targeted eslint on owned TS/TSX files pass
+
 ## Next Action
 
 - QA executes manual sweep and files any regressions

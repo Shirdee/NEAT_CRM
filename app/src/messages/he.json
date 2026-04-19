@@ -24,14 +24,14 @@
     "form": {
       "title": "להיכנס ולהמשיך להזיז את הפייפליין",
       "subtitle": "התחברו עם החשבון שלכם כדי לפתוח את מעטפת ה-CRM, לעבור על המשימות של היום ולתעד פעילות חדשה בלי לאבד הקשר.",
-      "identifier": "User",
-      "identifierPlaceholder": "User",
-      "password": "Pass",
-      "passwordPlaceholder": "Pass",
+      "identifier": "כתובת מייל",
+      "identifierPlaceholder": "you@company.com",
+      "password": "סיסמה",
+      "passwordPlaceholder": "••••••••",
       "submit": "כניסה למערכת",
       "hint": "אם אין לכם גישה, פנו למנהל מערכת.",
       "errors": {
-        "missingCredentials": "צריך למלא שם משתמש או אימייל וסיסמה.",
+        "missingCredentials": "צריך למלא כתובת מייל וסיסמה.",
         "invalidCredentials": "פרטי ההתחברות לא התקבלו."
       }
     }

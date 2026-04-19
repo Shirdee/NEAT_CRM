@@ -46,7 +46,7 @@ export default async function EditCompanyPage({params, searchParams}: EditCompan
         <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("error")}</p>
       ) : null}
       {error && error !== "validation" ? (
-        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-800">
+        <p className="rounded-2xl bg-coral/8 px-4 py-3 text-sm text-coral">
           {error === "confirm"
             ? tDetail("deleteConfirmError")
             : error === "blocked"
@@ -72,7 +72,7 @@ export default async function EditCompanyPage({params, searchParams}: EditCompan
         />
       </section>
       {session.role === "admin" ? (
-        <section className="rounded-[24px] border border-rose-200 bg-rose-50/70 p-4">
+        <section className="rounded-[24px] border border-coral/20 bg-coral/8 p-4">
           <form action={deleteCompanyAction.bind(null, locale)} className="space-y-3">
             <input name="companyId" type="hidden" value={company.id} />
             <label className="flex items-center gap-2 text-xs text-ink/70">
@@ -80,7 +80,7 @@ export default async function EditCompanyPage({params, searchParams}: EditCompan
               {tDetail("deleteConfirm")}
             </label>
             <button
-              className="inline-flex items-center justify-center rounded-full bg-rose-700 px-5 py-3 text-sm font-semibold text-white transition hover:bg-rose-800"
+              className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:bg-coral/90"
               type="submit"
             >
               {tDetail("delete")}

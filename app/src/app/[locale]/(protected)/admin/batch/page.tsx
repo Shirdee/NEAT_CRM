@@ -55,10 +55,10 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
       </SurfaceCard>
 
       {error ? (
-        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{decodeURIComponent(error)}</p>
+        <p className="rounded-2xl bg-coral/8 px-4 py-3 text-sm text-coral">{decodeURIComponent(error)}</p>
       ) : null}
       {success ? (
-        <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <p className="rounded-2xl bg-teal/8 px-4 py-3 text-sm text-teal">
           {t("messages.updated", {
             count:
               Number(success) ||

@@ -61,7 +61,7 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
       </div>
 
       {success ? (
-        <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-800">
+        <p className="rounded-2xl bg-teal/8 px-4 py-3 text-sm text-teal">
           {success === "created" ? t("created") : t("updated")}
         </p>
       ) : null}

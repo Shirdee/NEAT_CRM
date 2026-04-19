@@ -126,7 +126,7 @@ export default async function AdminListsPage({params, searchParams}: AdminListsP
                         </span>
                         <span
                           className={`rounded-full px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] ${
-                            value.isActive ? "bg-emerald-100 text-emerald-800" : "bg-mist text-ink/55"
+                            value.isActive ? "bg-teal/10 text-teal" : "bg-mist text-ink/55"
                           }`}
                         >
                           {value.isActive ? t("status.active") : t("status.inactive")}

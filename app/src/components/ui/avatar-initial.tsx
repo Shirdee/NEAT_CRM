@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import {avatarTone} from "@/lib/ui/avatar-color";
 
 type AvatarInitialProps = {
   name: string;
@@ -12,6 +13,7 @@ const sizeClasses = {
 } as const;
 
 export function AvatarInitial({name, size = "md"}: AvatarInitialProps) {
+  const tone = avatarTone(name);
   const initials = name
     .trim()
     .split(/\s+/)
@@ -24,7 +26,9 @@ export function AvatarInitial({name, size = "md"}: AvatarInitialProps) {
     <div
       aria-label={name}
       className={clsx(
-        "flex shrink-0 items-center justify-center rounded-full bg-teal/15 font-display font-bold text-teal",
+        "flex shrink-0 items-center justify-center rounded-full font-display font-bold",
+        tone.bg,
+        tone.text,
         sizeClasses[size]
       )}
       role="img"

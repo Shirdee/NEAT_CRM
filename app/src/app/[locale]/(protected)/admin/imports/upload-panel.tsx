@@ -177,7 +177,7 @@ export function ImportUploadPanel({
           {startImportLabel}
         </button>
         {statusText ? <p className="text-sm text-ink/70">{statusText}</p> : null}
-        {errorText ? <p className="text-sm text-rose-700">{errorText}</p> : null}
+        {errorText ? <p className="text-sm text-coral">{errorText}</p> : null}
       </div>
     </article>
   );

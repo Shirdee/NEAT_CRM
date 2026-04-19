@@ -107,7 +107,7 @@ export default async function AdminUsersPage({params, searchParams}: AdminUsersP
                 </div>
                 <span
                   className={`rounded-full px-3 py-1 text-xs font-medium ${
-                    user.isActive ? "bg-emerald-100 text-emerald-800" : "bg-mist text-ink/70"
+                    user.isActive ? "bg-teal/10 text-teal" : "bg-mist text-ink/70"
                   }`}
                 >
                   {user.isActive ? t("status.active") : t("status.inactive")}

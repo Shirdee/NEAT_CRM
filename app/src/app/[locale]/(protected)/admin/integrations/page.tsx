@@ -64,7 +64,7 @@ export default async function AdminIntegrationsPage({params}: AdminIntegrationsP
               </div>
               <span
                 className={`rounded-full px-3 py-1 text-xs font-medium ${
-                  provider.enabled ? "bg-emerald-100 text-emerald-800" : "bg-mist text-ink/70"
+                  provider.enabled ? "bg-teal/10 text-teal" : "bg-mist text-ink/70"
                 }`}
               >
                 {provider.enabled ? "enabled" : "disabled"}

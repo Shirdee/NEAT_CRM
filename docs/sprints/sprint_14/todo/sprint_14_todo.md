@@ -80,6 +80,25 @@ Sprint is now in QA/PM closeout phase.
 - [ ] manual RTL/Hebrew sweep
 - [ ] role-visibility sweep (`admin` vs `viewer`)
 
+## Refinement Slice (Main_CRM, 2026-04-19)
+
+- [x] `DEV-1409` Login/accessibility high-priority fixes from `todo/DESIGN_FIXES.md`:
+  - [x] viewport zoom lock removed in locale layout
+  - [x] login wrapper descendant selector styling removed
+  - [x] duplicate tagline removed in login aside logo row
+  - [x] non-standard opacity replaced (`text-white/72` -> `text-white/70`)
+  - [x] EN/HE login copy updated (`identifier/password` labels and placeholders)
+  - [x] focus ring restored on login inputs/button; `ring-0` suppression removed
+- files updated:
+  - `app/src/app/[locale]/layout.tsx`
+  - `app/src/app/[locale]/(public)/login/page.tsx`
+  - `app/src/components/auth/login-form.tsx`
+  - `app/src/messages/en.json`
+  - `app/src/messages/he.json`
+- checks:
+  - [x] `npm run typecheck`
+  - [x] `npx eslint src/app/[locale]/layout.tsx src/app/[locale]/(public)/login/page.tsx src/components/auth/login-form.tsx`
+
 ## Risks / Blockers
 
 - source sprint package incomplete (missing sprint-14 review doc)

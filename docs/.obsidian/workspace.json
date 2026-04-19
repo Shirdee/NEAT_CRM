@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
+                "file": "sprints/sprint_14/todo/DESIGN_FIXES.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "SPRINT_14_UI_REDESIGN"
+              "title": "DESIGN_FIXES"
             }
           }
         ]
@@ -196,13 +196,18 @@
       "bases:Create new base": false
     }
   },
-  "active": "af9b1f03307986e2",
+  "active": "d5b5131d1506c929",
   "lastOpenFiles": [
-    "sprints/sprint_14/todo/sprint_14_todo.md",
-    "sprints/sprint_14/sprint_14_index.md",
+    "sprints/sprint_14/new_design.md",
     "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
+    "sprints/sprint_14/todo/ui-mockup.html",
+    "sprints/sprint_14/ui-mockup.html",
+    "sprints/sprint_14/todo/DESIGN_FIXES.md",
+    "sprints/sprint_14/todo/sprint_14_todo.md",
+    "IMPORT_MAPPING.md",
+    "ui-mockup.html",
     "sprints/sprint_14/todo",
-    "new_design.md",
+    "sprints/sprint_14/sprint_14_index.md",
     "sprints/sprint_14",
     "PERMISSIONS.md",
     "sprints/sprint_13/todo/sprint_13_todo.md",
@@ -225,14 +230,8 @@
     "sprints/sprint_10/sprint_10_dev_execution_packet.md",
     "sprints/sprint_10/todo",
     "sprints/sprint_09/todo/sprint_09_todo.md",
-    "sprints/sprint_10",
     "sprints/sprint_09/sprint_09_index.md",
     "ROADMAP.md",
-    "DELIVERY_PLAN.md",
-    "PRD.md",
-    "sprints/README.md",
-    "sprints/sprint_08/todo/sprint_08_todo.md",
-    "sprints/sprint_08/todo",
-    "sprints/sprint_08"
+    "DELIVERY_PLAN.md"
   ]
 }

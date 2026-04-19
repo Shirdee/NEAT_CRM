@@ -1,6 +1,7 @@
 import {NextIntlClientProvider, hasLocale} from "next-intl";
 import {getMessages, setRequestLocale} from "next-intl/server";
 import {notFound} from "next/navigation";
+import type {Viewport} from "next";
 
 import {routing} from "@/i18n/routing";
 
@@ -12,6 +13,12 @@ type LocaleLayoutProps = {
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover"
+};
 
 export default async function LocaleLayout({children, params}: LocaleLayoutProps) {
   const {locale} = await params;

@@ -55,10 +55,10 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
       </SurfaceCard>
 
       {error ? (
-        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{decodeURIComponent(error)}</p>
+        <p className="rounded-2xl bg-coral/8 px-4 py-3 text-sm text-coral">{decodeURIComponent(error)}</p>
       ) : null}
       {success ? (
-        <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <p className="rounded-2xl bg-teal/8 px-4 py-3 text-sm text-teal">
           {t("messages.merged")}
         </p>
       ) : null}
@@ -96,7 +96,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
 
                     return (
                       <div
-                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-ink/10 bg-white"}`}
+                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-teal/20 bg-teal/8" : "border-ink/10 bg-white"}`}
                         key={record.id}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -162,7 +162,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
 
                     return (
                       <div
-                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-ink/10 bg-white"}`}
+                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-teal/20 bg-teal/8" : "border-ink/10 bg-white"}`}
                         key={record.id}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">

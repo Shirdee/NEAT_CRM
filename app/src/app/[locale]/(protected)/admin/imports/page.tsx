@@ -107,12 +107,12 @@ export default async function AdminImportsPage({
       </SurfaceCard>
 
       {error ? (
-        <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        <p className="rounded-2xl bg-coral/8 px-4 py-3 text-sm text-coral">
           {decodeURIComponent(error)}
         </p>
       ) : null}
       {success ? (
-        <p className="rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <p className="rounded-2xl bg-teal/8 px-4 py-3 text-sm text-teal">
           {success === "updated" ? t("messages.updated") : t("messages.committed")}
         </p>
       ) : null}
@@ -258,7 +258,7 @@ export default async function AdminImportsPage({
                   </p>
                 </div>
                 {selectedBatch.issues.length === 0 ? (
-                  <p className="text-sm text-emerald-700">{t("review.noIssues")}</p>
+                  <p className="text-sm text-teal">{t("review.noIssues")}</p>
                 ) : (
                   <div className="grid gap-4 xl:grid-cols-3">
                     {(["error", "warning", "info"] as const).map((severity) => (

@@ -21,7 +21,7 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
           {copy.identifier}
         </label>
         <input
-          className="w-full rounded-[22px] border border-mist bg-white/80 px-4 py-3.5 text-sm text-ink outline-none ring-0 transition placeholder:text-ink/35 focus:border-teal focus:bg-white"
+          className="w-full rounded-[12px] border-0 bg-mist px-4 py-3 text-sm text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-teal/30"
           autoComplete="username"
           placeholder={copy.identifierPlaceholder}
           id="identifier"
@@ -34,7 +34,7 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
           {copy.password}
         </label>
         <input
-          className="w-full rounded-[22px] border border-mist bg-white/80 px-4 py-3.5 text-sm text-ink outline-none ring-0 transition placeholder:text-ink/35 focus:border-teal focus:bg-white"
+          className="w-full rounded-[12px] border-0 bg-mist px-4 py-3 text-sm text-ink placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-teal/30"
           autoComplete="current-password"
           placeholder={copy.passwordPlaceholder}
           id="password"
@@ -43,7 +43,7 @@ export function LoginForm({action, copy, locale, error}: LoginFormProps) {
         />
       </div>
       <button
-        className="w-full rounded-full bg-coral px-4 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
+        className="w-full rounded-full bg-coral px-4 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 focus:outline-none focus:ring-2 focus:ring-coral/40 focus:ring-offset-2"
         type="submit"
       >
         {copy.submit}

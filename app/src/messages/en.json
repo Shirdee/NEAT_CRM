@@ -24,14 +24,14 @@
     "form": {
       "title": "Sign in and keep the pipeline moving",
       "subtitle": "Use your work account to open the CRM shell, review today’s follow-ups, and log new activity without losing context.",
-      "identifier": "User",
-      "identifierPlaceholder": "User",
-      "password": "Pass",
-      "passwordPlaceholder": "Pass",
+      "identifier": "Email address",
+      "identifierPlaceholder": "you@company.com",
+      "password": "Password",
+      "passwordPlaceholder": "••••••••",
       "submit": "Enter CRM",
       "hint": "Ask an admin if you need access.",
       "errors": {
-        "missingCredentials": "Username or email and password are required.",
+        "missingCredentials": "Email address and password are required.",
         "invalidCredentials": "Those credentials were not accepted."
       }
     }
