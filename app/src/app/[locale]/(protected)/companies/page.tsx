@@ -6,6 +6,7 @@ import {getCompanyFormOptions, listCompanies} from "@/lib/data/crm";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
+import {LiveSearchSelect} from "@/components/ui/live-search-select";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
 
@@ -86,30 +87,26 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             name="q"
             placeholder={t("filters.query")}
           />
-          <select
-            className="rounded-[12px] bg-mist px-4 py-3 text-[13px] text-ink/70 focus:outline-none focus:ring-2 focus:ring-teal/20"
-            defaultValue={filters.source ?? ""}
+          <LiveSearchSelect
+            allLabel={t("filters.allSources")}
             name="source"
-          >
-            <option value="">{t("filters.allSources")}</option>
-            {sourceOptions.map((option) => (
-              <option key={option.id} value={option.id}>
-                {locale === "he" ? option.labelHe : option.labelEn}
-              </option>
-            ))}
-          </select>
-          <select
-            className="rounded-[12px] bg-mist px-4 py-3 text-[13px] text-ink/70 focus:outline-none focus:ring-2 focus:ring-teal/20"
-            defaultValue={filters.stage ?? ""}
+            options={sourceOptions.map((option) => ({
+              id: option.id,
+              label: locale === "he" ? option.labelHe : option.labelEn
+            }))}
+            placeholder={t("filters.allSources")}
+            value={filters.source ?? ""}
+          />
+          <LiveSearchSelect
+            allLabel={t("filters.allStages")}
             name="stage"
-          >
-            <option value="">{t("filters.allStages")}</option>
-            {stageOptions.map((option) => (
-              <option key={option.id} value={option.id}>
-                {locale === "he" ? option.labelHe : option.labelEn}
-              </option>
-            ))}
-          </select>
+            options={stageOptions.map((option) => ({
+              id: option.id,
+              label: locale === "he" ? option.labelHe : option.labelEn
+            }))}
+            placeholder={t("filters.allStages")}
+            value={filters.stage ?? ""}
+          />
           <button
             className="rounded-full bg-ink px-5 py-3 text-sm font-medium text-white transition hover:bg-ink/95 xl:ml-auto"
             type="submit"

@@ -3,9 +3,8 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getContactFormOptions, listContacts} from "@/lib/data/crm";
-import {FilterShell} from "@/components/ui/filter-shell";
-import {InfoPair} from "@/components/ui/info-pair";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
+import {LiveSearchSelect} from "@/components/ui/live-search-select";
 import {SurfaceCard} from "@/components/ui/surface-card";
 
 type ContactsPageProps = {
@@ -24,95 +23,75 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
   ]);
 
   return (
-    <div className="space-y-4 lg:space-y-5">
-      <SurfaceCard className="overflow-hidden bg-white/95">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("columns.contact")}</p>
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-            <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
-          </div>
-          {session && canEditRecords(session.role) ? (
-            <Link
-              className="inline-flex w-full items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 sm:w-auto"
-              href="/contacts/new"
-              locale={locale}
-            >
-              {t("create")}
-            </Link>
-          ) : null}
+    <div className="flex flex-col gap-5 px-4 py-4 lg:px-8 lg:py-7">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <h1 className="font-display text-2xl font-bold text-ink">{t("title")}</h1>
+          <span className="rounded-full bg-mist px-3 py-0.5 text-[13px] font-medium text-ink/50">
+            {contacts.length}
+          </span>
         </div>
-      </SurfaceCard>
+        {session && canEditRecords(session.role) ? (
+          <Link
+            className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
+            href="/contacts/new"
+            locale={locale}
+          >
+            {t("create")}
+          </Link>
+        ) : null}
+      </div>
 
       {query.error ? (
         <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("errors.generic")}</p>
       ) : null}
 
-      <FilterShell>
-        <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_auto]">
+      <SurfaceCard className="space-y-4">
+        <LiveFilterForm className="flex flex-col gap-3 xl:flex-row xl:flex-wrap xl:items-center">
           <input
-            className="rounded bg-mist px-4 py-3 text-ink/70"
+            className="min-w-[220px] flex-1 rounded-[12px] bg-mist px-4 py-3 text-[13.5px] text-ink/70 placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-teal/20"
             defaultValue={query.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
-          <select
-            className="rounded bg-mist px-4 py-3 text-ink/70"
-            defaultValue={query.companyId ?? ""}
+          <LiveSearchSelect
+            allLabel={t("filters.allCompanies")}
             name="companyId"
-          >
-            <option value="">{t("filters.allCompanies")}</option>
-            {companies.map((company) => (
-              <option key={company.id} value={company.id}>
-                {company.companyName}
-              </option>
-            ))}
-          </select>
+            options={companies.map((company) => ({id: company.id, label: company.companyName}))}
+            placeholder={t("filters.allCompanies")}
+            value={query.companyId ?? ""}
+          />
           <button
-            className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white sm:col-span-2 xl:col-span-1"
+            className="rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90 xl:ml-auto"
             type="submit"
           >
             {t("filters.apply")}
           </button>
         </LiveFilterForm>
-      </FilterShell>
+      </SurfaceCard>
 
       {contacts.length === 0 ? (
-        <SurfaceCard className="bg-white/95 p-5 text-sm text-ink/70">{t("empty")}</SurfaceCard>
+        <SurfaceCard className="bg-white p-5 text-sm text-ink/70">{t("empty")}</SurfaceCard>
       ) : (
-        <SurfaceCard className="space-y-4 bg-white/95">
-          <div className="hidden grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] gap-4 rounded-[22px] bg-mist px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-ink/50 lg:grid">
-            <span>{t("columns.contact")}</span>
-            <span>{t("columns.company")}</span>
-            <span>{t("columns.email")}</span>
-            <span>{t("columns.phone")}</span>
-          </div>
+        <SurfaceCard className="overflow-hidden p-0">
           <div className="space-y-3">
             {contacts.map((contact) => (
               <Link
-                className="block rounded-[24px] border border-ink/10 bg-white/80 px-4 py-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)] transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:px-5 sm:py-5"
+                className="block px-4 py-4 transition hover:bg-sand/70 sm:px-5 sm:py-5 [&:not(:last-child)]:shadow-[inset_0_-1px_0_rgba(16,36,63,0.04)]"
                 href={`/contacts/${contact.id}`}
                 key={contact.id}
                 locale={locale}
               >
-                <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)] lg:items-center lg:gap-4 lg:space-y-0">
-                  <div className="space-y-3">
-                    <p className="text-lg font-semibold text-ink">{contact.fullName}</p>
-                    <p className="mt-2 text-sm text-ink/70">{contact.roleTitle || t("labels.noRole")}</p>
-                    <div className="grid gap-3 sm:grid-cols-3 lg:hidden">
-                      <InfoPair
-                        label={t("columns.company")}
-                        value={contact.companyName || t("labels.noCompany")}
-                      />
-                      <InfoPair label={t("columns.email")} value={contact.primaryEmail || "—"} />
-                      <InfoPair label={t("columns.phone")} value={contact.primaryPhone || "—"} />
-                    </div>
+                <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <p className="text-[13.5px] font-semibold text-ink">{contact.fullName}</p>
+                    <p className="text-sm text-ink/60">{contact.roleTitle || t("labels.noRole")}</p>
                   </div>
-                  <div className="hidden text-sm text-ink/70 lg:block">
-                    {contact.companyName || t("labels.noCompany")}
+                  <div className="flex flex-wrap gap-4 text-sm text-ink/60">
+                    <span>{contact.companyName || t("labels.noCompany")}</span>
+                    <span>{contact.primaryEmail || "—"}</span>
+                    <span>{contact.primaryPhone || "—"}</span>
                   </div>
-                  <div className="hidden text-sm text-ink/70 lg:block">{contact.primaryEmail || "—"}</div>
-                  <div className="hidden text-sm text-ink/70 lg:block">{contact.primaryPhone || "—"}</div>
                 </div>
               </Link>
             ))}

@@ -6,7 +6,7 @@ import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {listInteractions, listTasks, getDashboardSnapshot} from "@/lib/data/crm";
-import {formatRelativeActivityTime, getOpenDealValue, getRecentActivity, type ActivityItem} from "@/lib/data/activity";
+import {formatInteractionTitle, formatRelativeActivityTime, getOpenDealValue, getRecentActivity, type ActivityItem} from "@/lib/data/activity";
 
 type DashboardPageProps = {
   params: Promise<{locale: "en" | "he"}>;
@@ -280,7 +280,7 @@ export default async function DashboardPage({params, searchParams}: DashboardPag
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[13px] font-semibold text-ink">
-                        {interaction.subject}
+                        {formatInteractionTitle(interaction.contactName, interaction.companyName, interaction.subject)}
                       </p>
                       <p className="truncate text-[12px] text-ink/50">
                         {interaction.companyName || interaction.contactName || t("timeline.general")}

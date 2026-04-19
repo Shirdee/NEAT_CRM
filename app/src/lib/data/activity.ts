@@ -24,6 +24,29 @@ function isOverdue(dueDate: Date | string | null | undefined, now: number) {
   return toTimestamp(dueDate) < now;
 }
 
+function firstName(fullName: string | null | undefined) {
+  return fullName?.trim().split(/\s+/)[0] ?? "";
+}
+
+export function formatInteractionTitle(contactName: string | null | undefined, companyName: string | null | undefined, fallback: string) {
+  const contact = firstName(contactName);
+  const company = companyName?.trim() ?? "";
+
+  if (contact && company) {
+    return `${contact} - ${company}`;
+  }
+
+  if (contact) {
+    return contact;
+  }
+
+  if (company) {
+    return company;
+  }
+
+  return fallback;
+}
+
 export async function getRecentActivity(limit = 10): Promise<ActivityItem[]> {
   const now = Date.now();
   const [interactions, tasks, opportunities] = await Promise.all([
@@ -36,7 +59,7 @@ export async function getRecentActivity(limit = 10): Promise<ActivityItem[]> {
     id: `interaction-${interaction.id}`,
     type: "interaction",
     timestamp: toTimestamp(interaction.updatedAt ?? interaction.interactionDate),
-    text: interaction.subject,
+    text: formatInteractionTitle(interaction.contactName, interaction.companyName, interaction.subject),
     href: `/interactions/${interaction.id}`
   }));
 
