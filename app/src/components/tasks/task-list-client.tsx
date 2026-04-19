@@ -1,11 +1,6 @@
 "use client";
 
-import {useState} from "react";
-
-import {Link} from "@/i18n/navigation";
-import {StatusChip} from "@/components/ui/status-chip";
-import {SurfaceCard} from "@/components/ui/surface-card";
-import {TaskFilterTabs} from "./task-filter-tabs";
+import {TaskCard} from "./task-card";
 
 type Tab = "overdue" | "today" | "upcoming" | "done";
 
@@ -35,116 +30,88 @@ type TaskListClientProps = {
   noContactLabel: string;
 };
 
-function labelForLocale(
-  locale: "en" | "he",
-  values: {en?: string | null; he?: string | null}
-) {
-  return locale === "he" ? values.he || values.en || "—" : values.en || values.he || "—";
-}
-
-const toneBorder: Record<Tab, string> = {
-  overdue: "bg-coral/10",
-  today: "bg-mist",
-  upcoming: "bg-mint/24",
-  done: "bg-sand/70"
+const groupTitleColor: Record<Tab, string> = {
+  overdue: "text-ink",
+  today: "text-ink",
+  upcoming: "text-ink",
+  done: "text-ink/30"
 };
 
-const toneChip: Record<Tab, "coral" | "amber" | "teal" | "default"> = {
-  overdue: "coral",
-  today: "amber",
-  upcoming: "teal",
-  done: "default"
+const groupBadgeStyle: Record<Tab, string> = {
+  overdue: "bg-coral/10 text-coral",
+  today: "bg-amber/15 text-amber-text",
+  upcoming: "bg-ink/6 text-ink/50",
+  done: "bg-lime/15 text-lime/80"
 };
+
+const groupOrder: Array<{key: Tab; label: string}> = [
+  {key: "overdue", label: "Overdue"},
+  {key: "today", label: "Today"},
+  {key: "upcoming", label: "Upcoming"},
+  {key: "done", label: "Done"}
+];
 
 export function TaskListClient({
   groups,
   locale,
   noTasksLabel,
   noNotesLabel,
-  noCompanyLabel
+  noCompanyLabel,
+  noContactLabel
 }: TaskListClientProps) {
-  const [activeTab, setActiveTab] = useState<Tab>("overdue");
   const counts = {
     overdue: groups.overdue.length,
     today: groups.today.length,
     upcoming: groups.upcoming.length,
     done: groups.done.length
   };
-  const tasks = groups[activeTab];
+
+  const hasAnyTasks = Object.values(counts).some((count) => count > 0);
+
+  if (!hasAnyTasks) {
+    return (
+      <div className="rounded-[20px] bg-white p-5 text-sm text-ink/60 shadow-card">
+        {noTasksLabel}
+      </div>
+    );
+  }
 
   return (
-    <div className="space-y-4">
-      <TaskFilterTabs active={activeTab} counts={counts} onChange={setActiveTab} />
+    <div className="flex flex-col gap-5">
+      {groupOrder.map(({key, label}) => {
+        const tasks = groups[key];
 
-      {tasks.length === 0 ? (
-        <SurfaceCard className="bg-white/95 p-5 text-sm text-ink/70">
-          {noTasksLabel}
-        </SurfaceCard>
-      ) : (
-        <div className="space-y-3">
-          {tasks.map((task) => (
-            <Link
-              className={[
-                "block rounded-[22px] bg-white px-3 py-3 shadow-[0_8px_24px_rgba(16,36,63,0.06)] transition",
-                "hover:bg-sand/60",
-                toneBorder[activeTab]
-              ].join(" ")}
-              href={`/tasks/${task.id}`}
-              key={task.id}
-              locale={locale}
-            >
-              {/* Priority chip + date row — always visible */}
-              <div className="mb-1 flex items-center justify-between gap-2">
-                <StatusChip tone={toneChip[activeTab]}>
-                  {labelForLocale(locale, {
-                    en: task.priorityLabelEn,
-                    he: task.priorityLabelHe
-                  })}
-                </StatusChip>
-                <span className="text-xs font-medium tabular-nums text-ink/55">
-                  {new Intl.DateTimeFormat(locale === "he" ? "he-IL" : "en-US", {
-                    month: "short",
-                    day: "numeric"
-                  }).format(new Date(task.dueDate))}
-                </span>
-              </div>
+        if (tasks.length === 0) {
+          return null;
+        }
 
-              {/* Title */}
-              <p className={[
-                "text-sm font-semibold leading-snug",
-                activeTab === "done" ? "text-ink/45 line-through" : "text-ink"
-              ].join(" ")}>
-                {task.notes || noNotesLabel}
-              </p>
+        return (
+          <section className="flex flex-col gap-2" key={key}>
+            <div className="flex items-center gap-2 py-1">
+              <h2 className={["font-display text-[13px] font-bold", groupTitleColor[key]].join(" ")}>
+                {label}
+              </h2>
+              <span className={["rounded-full px-2 py-0.5 text-[11px] font-semibold", groupBadgeStyle[key]].join(" ")}>
+                {counts[key]}
+              </span>
+            </div>
 
-              {/* Company / contact — compact row */}
-              <p className="mt-0.5 text-xs text-ink/55">
-                {task.companyName || task.contactName || noCompanyLabel}
-                {task.companyName && task.contactName ? (
-                  <span className="mx-1.5 opacity-40">·</span>
-                ) : null}
-                {task.companyName && task.contactName ? task.contactName : null}
-              </p>
-
-              {/* Type chip + status — only on larger screens */}
-              <div className="mt-1.5 hidden gap-1.5 sm:flex">
-                <StatusChip>
-                  {labelForLocale(locale, {
-                    en: task.taskTypeLabelEn,
-                    he: task.taskTypeLabelHe
-                  })}
-                </StatusChip>
-                <StatusChip>
-                  {labelForLocale(locale, {
-                    en: task.statusLabelEn,
-                    he: task.statusLabelHe
-                  })}
-                </StatusChip>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+            <div className="flex flex-col gap-2">
+              {tasks.map((task) => (
+                <TaskCard
+                  key={task.id}
+                  locale={locale}
+                  noCompanyLabel={noCompanyLabel}
+                  noContactLabel={noContactLabel}
+                  noNotesLabel={noNotesLabel}
+                  task={task}
+                  groupKey={key}
+                />
+              ))}
+            </div>
+          </section>
+        );
+      })}
     </div>
   );
 }

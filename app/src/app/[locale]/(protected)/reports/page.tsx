@@ -12,12 +12,14 @@ export default async function ReportsHomePage({params}: ReportsHomePageProps) {
   const t = await getTranslations("Reports");
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
-      </div>
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+          <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
+        </div>
+      </SurfaceCard>
 
       <div className="grid gap-4 lg:grid-cols-2">
         {[
@@ -32,12 +34,7 @@ export default async function ReportsHomePage({params}: ReportsHomePageProps) {
             body: t("cards.meetings.body")
           }
         ].map((card) => (
-          <Link
-            className="block"
-            href={card.href}
-            key={card.href}
-            locale={locale}
-          >
+          <Link className="block" href={card.href} key={card.href} locale={locale}>
             <SurfaceCard className="space-y-3 transition hover:-translate-y-0.5 hover:shadow-panel">
               <h3 className="text-xl font-semibold text-ink">{card.title}</h3>
               <p className="text-sm leading-7 text-ink/70">{card.body}</p>
@@ -48,4 +45,3 @@ export default async function ReportsHomePage({params}: ReportsHomePageProps) {
     </div>
   );
 }
-

@@ -9,6 +9,7 @@
   --color-mint: 153 239 229;
   --color-coral: 221 107 77;
   --color-amber: 244 183 64;
+  --color-amber-text: 180 110 20;
   --color-lime: 139 207 91;
   --color-sand: 245 240 231;
   --color-mist: 248 243 234;
@@ -116,4 +117,9 @@ button:focus-visible {
 @keyframes sheet-up {
   from { transform: translateY(100%); }
   to   { transform: translateY(0); }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

@@ -1,6 +1,7 @@
 import {redirect} from "next/navigation";
 
 import {Link} from "@/i18n/navigation";
+import {SurfaceCard} from "@/components/ui/surface-card";
 import {canManageAdminLists, getCurrentSession} from "@/lib/auth/session";
 import {
   listDisabledIntegrationProviders,
@@ -25,27 +26,29 @@ export default async function AdminIntegrationsPage({params}: AdminIntegrationsP
   const disabledProviders = listDisabledIntegrationProviders();
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <p className="text-xs uppercase tracking-[0.3em] text-coral">Admin audit</p>
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
-          Integration boundary
-        </h2>
-        <p className="max-w-3xl text-sm leading-7 text-ink/70">
-          Read-only registry. No live sync, no writes, no provider-specific workflow here.
-        </p>
-      </div>
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-coral">Admin audit</p>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
+            Integration boundary
+          </h2>
+          <p className="max-w-3xl text-sm leading-7 text-ink/70">
+            Read-only registry. No live sync, no writes, no provider-specific workflow here.
+          </p>
+        </div>
+      </SurfaceCard>
 
       <section className="grid gap-4 sm:grid-cols-3">
-        <div className="rounded-[24px] border border-mist bg-white p-5">
+        <div className="rounded-[28px] border border-ink/10 bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.06)]">
           <p className="text-xs uppercase tracking-[0.24em] text-ink/40">Providers</p>
           <p className="mt-3 text-3xl font-semibold text-ink">{providers.length}</p>
         </div>
-        <div className="rounded-[24px] border border-mist bg-white p-5">
+        <div className="rounded-[28px] border border-ink/10 bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.06)]">
           <p className="text-xs uppercase tracking-[0.24em] text-ink/40">Enabled</p>
           <p className="mt-3 text-3xl font-semibold text-ink">{enabledProviders.length}</p>
         </div>
-        <div className="rounded-[24px] border border-mist bg-white p-5">
+        <div className="rounded-[28px] border border-ink/10 bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.06)]">
           <p className="text-xs uppercase tracking-[0.24em] text-ink/40">Disabled</p>
           <p className="mt-3 text-3xl font-semibold text-ink">{disabledProviders.length}</p>
         </div>
@@ -53,7 +56,7 @@ export default async function AdminIntegrationsPage({params}: AdminIntegrationsP
 
       <section className="space-y-4">
         {providers.map((provider) => (
-          <article className="rounded-[24px] border border-mist bg-white p-5" key={provider.id}>
+          <article className="rounded-[28px] border border-ink/10 bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.06)]" key={provider.id}>
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
                 <p className="text-xs uppercase tracking-[0.24em] text-ink/40">{provider.id}</p>

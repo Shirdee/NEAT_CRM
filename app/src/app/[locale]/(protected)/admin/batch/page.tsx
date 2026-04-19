@@ -45,12 +45,14 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
   ]);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
-      </div>
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+          <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
+        </div>
+      </SurfaceCard>
 
       {error ? (
         <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{decodeURIComponent(error)}</p>
@@ -115,9 +117,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
               <h3 className="mt-2 text-lg font-semibold text-ink">{t("records.title")}</h3>
               <p className="mt-2 text-sm text-ink/70">{t("records.body")}</p>
             </div>
-            <StatusChip
-              tone="ink"
-            >
+            <StatusChip tone="ink">
               {t("records.count", {
                 count:
                   entity === "companies"
@@ -137,7 +137,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
               <div className="grid gap-4 lg:grid-cols-2">
                 {companyRecords.map((record) => (
                   <label
-                    className="flex cursor-pointer gap-3 rounded-[24px] border border-mist bg-mist/70 p-4"
+                    className="flex cursor-pointer gap-3 rounded-[24px] border border-ink/10 bg-white/80 p-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)]"
                     key={record.id}
                   >
                     <input className="mt-1 h-4 w-4" name="ids" type="checkbox" value={record.id} />
@@ -170,7 +170,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
               <div className="grid gap-4 lg:grid-cols-2">
                 {taskRecords.map((record) => (
                   <label
-                    className="flex cursor-pointer gap-3 rounded-[24px] border border-mist bg-mist/70 p-4"
+                    className="flex cursor-pointer gap-3 rounded-[24px] border border-ink/10 bg-white/80 p-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)]"
                     key={record.id}
                   >
                     <input className="mt-1 h-4 w-4" name="ids" type="checkbox" value={record.id} />
@@ -204,7 +204,7 @@ export default async function AdminBatchPage({params, searchParams}: AdminBatchP
             <div className="grid gap-4 lg:grid-cols-2">
               {opportunityRecords.map((record) => (
                 <label
-                  className="flex cursor-pointer gap-3 rounded-[24px] border border-mist bg-mist/70 p-4"
+                  className="flex cursor-pointer gap-3 rounded-[24px] border border-ink/10 bg-white/80 p-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)]"
                   key={record.id}
                 >
                   <input className="mt-1 h-4 w-4" name="ids" type="checkbox" value={record.id} />

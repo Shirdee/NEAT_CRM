@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_13/todo/sprint_13_todo.md",
+                "file": "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sprint_13_todo"
+              "title": "SPRINT_14_UI_REDESIGN"
             }
           }
         ]
@@ -196,10 +196,17 @@
       "bases:Create new base": false
     }
   },
-  "active": "d5b5131d1506c929",
+  "active": "af9b1f03307986e2",
   "lastOpenFiles": [
-    "sprints/sprint_12/todo/sprint_12_todo.md",
+    "sprints/sprint_14/todo/sprint_14_todo.md",
+    "sprints/sprint_14/sprint_14_index.md",
+    "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
+    "sprints/sprint_14/todo",
+    "new_design.md",
+    "sprints/sprint_14",
+    "PERMISSIONS.md",
     "sprints/sprint_13/todo/sprint_13_todo.md",
+    "sprints/sprint_12/todo/sprint_12_todo.md",
     "sprints/sprint_13/todo",
     "sprints/sprint_13/sprint_13_index.md",
     "sprints/sprint_13",
@@ -225,14 +232,7 @@
     "PRD.md",
     "sprints/README.md",
     "sprints/sprint_08/todo/sprint_08_todo.md",
-    "sprints/sprint_08/sprint_08_index.md",
-    "sprints/sprint_08/sprint_08_resume.md",
-    "sprints/sprint_05/todo/sprint_05_todo.md",
     "sprints/sprint_08/todo",
-    "sprints/sprint_08",
-    "sprints/sprint_05/sprint_05_index.md",
-    "sprints/sprint_05/ui/Design.md",
-    "sprints/sprint_08/reviews",
-    "Users/shir/Documents/Claude/Coding/_Codex_tamplate/crm/app/src/app/[locale]/(protected)/admin/imports"
+    "sprints/sprint_08"
   ]
 }

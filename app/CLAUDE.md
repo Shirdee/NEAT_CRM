@@ -24,24 +24,42 @@ All routes live under `src/app/[locale]/` — the locale prefix is always presen
 
 ### Data Layer
 
-`src/lib/data/crm.ts` is the main read/write surface for all CRM entities. It delegates to either Prisma (when `DATABASE_URL` is set) or the in-memory fallback store (`src/lib/data/fallback-store.ts`). This dual-path pattern lets the app run fully without a database during local dev. All data functions check `hasDatabaseUrl()` and branch accordingly — maintain both paths when adding new queries.
+Two distinct surfaces:
+- `src/lib/data/crm.ts` — all CRM entity reads/writes (companies, contacts, interactions, tasks, opportunities, saved views)
+- `src/lib/data/repository.ts` — user and admin queries (user management, lookup lists)
 
-### Server Actions
+Both delegate to either Prisma (when `DATABASE_URL` is set) or the in-memory fallback store (`src/lib/data/fallback-store.ts`). All data functions check `hasDatabaseUrl()` and branch accordingly — maintain both paths when adding new queries.
 
-Mutations happen in `src/lib/actions/` via `"use server"` functions. Actions validate the session, check RBAC, call the data layer, then call `revalidatePath()`. Never mutate data from client components.
+**Prisma client** is a singleton: `globalThis.prisma` in `src/lib/prisma/client.ts`, lazy-imported via `await import("@/lib/prisma/client")` only when `DATABASE_URL` exists.
+
+### Server Actions vs API Routes
+
+- **Mutations** (create/update/delete CRM records) → `src/lib/actions/` using `"use server"`. Actions validate session, check RBAC, call data layer, then `revalidatePath()`.
+- **API routes** (`src/app/api/`) → only for: logout, import pipeline (multi-step chunked upload), and any operation that can't be a server action (e.g., streaming, external webhooks).
+- Never mutate data from client components.
 
 ### Auth & RBAC
 
 - Session token: `base64url(payload).HMAC-SHA256-signature`, 12-hour TTL
+- Payload contains: `{id, email, fullName, role, languagePreference, exp}`
 - Three roles: `admin`, `editor`, `viewer`
 - Role checks: `canManageAdminLists()` (admin only), `canEditRecords()` (admin/editor)
 - Key files: `src/lib/auth/session.ts`, `src/lib/auth/authenticate.ts`
+- RBAC enforced in server actions, API routes, and server components (for UI gating)
+
+### Error Handling Pattern
+
+- Server actions return `{ok: true; id: string} | {ok: false; message: string}` — client renders `result.message` on failure
+- API routes return `NextResponse.json({error: "..."}, {status: 400|403|500})`
+- Data layer throws on unexpected DB errors; actions catch and return `{ok: false}`
 
 ### i18n
 
 - Locales: `en`, `he` — always included in URL (prefix: `always`)
 - Translations: `src/messages/{locale}.json`
 - Navigation helpers: `src/i18n/navigation.ts` — use these instead of raw `next/navigation`
+- Server components/actions: `getTranslations()` from `next-intl/server`
+- Client components: `useTranslations()` from `next-intl`
 - All admin lookup values have bilingual labels (`labelEn` / `labelHe`) in the `ListValue` table
 
 ### Key Entities (Prisma)
@@ -51,9 +69,9 @@ Mutations happen in `src/lib/actions/` via `"use server"` functions. Actions val
 `Contact` → `Interaction`, `Task`  
 `ListCategory` → `ListValue` — drives all dropdown fields (bilingual)  
 `ImportBatch` → `ImportRow` → `ImportIssue` — three-table import pipeline  
-`SavedView` — user-scoped JSON filter presets per module  
+`SavedView` — user-scoped JSON filter presets per module (unique on `userId + module + name`)  
 
-All PKs are UUIDs.
+All PKs are UUIDs. Major entities carry `createdById` / `updatedById` audit fields.
 
 ### Import Flow
 
@@ -64,6 +82,16 @@ Admin-only, multi-step: upload → staging → validation → conflict review �
 - `src/components/crm/searchable-option-field.tsx` — use for any field that selects an existing record (live DB-backed search, not static dropdown)
 - `src/components/shell/` — app chrome (nav, layout wrapper)
 - Forms use React Hook Form + Zod; live search pattern replaces static selects
+
+### Tests
+
+Tests live alongside source in `src/`. Naming: `*.test.ts`. Key coverage areas:
+- `src/lib/auth/session.test.ts` — token creation, validation, tamper detection
+- `src/lib/data/crm.test.ts` / `repository.test.ts` — data layer (tests against fallback store)
+- `src/lib/import/workbook.test.ts` — import parsing
+- `src/lib/data/saved-views.test.ts` — filter serialization
+
+Tests use the fallback store (no real DB needed). Vitest config at `vitest.config.ts` with path alias `@: ./src`.
 
 ### Environment Variables
 

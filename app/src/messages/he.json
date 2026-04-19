@@ -71,6 +71,19 @@
     "eyebrow": "המיקוד של היום",
     "title": "מה דורש פעולה עכשיו",
     "subtitle": "מתחילים מתור המשימות באיחור, משאירים פעילות חדשה בתנועה ומשתמשים בדשבורד כמסך העבודה היומי של תפקיד {role}.",
+    "greeting": "נעים לראות אותך, {name}.",
+    "greetingFallback": "שם",
+    "greetingSub": "העבודה של היום נשארת ממוקדת בסביבת העבודה של תפקיד {role}.",
+    "quickLog": "תיעוד אינטראקציה",
+    "quickTask": "מעקב חדש",
+    "quickOpportunity": "הזדמנות חדשה",
+    "quickViewTasks": "צפייה במעקבים",
+    "viewAll": "צפייה בכל הפריטים",
+    "roles": {
+      "admin": "מנהל",
+      "editor": "עורך",
+      "viewer": "צופה"
+    },
     "actions": {
       "reviewTasks": "לסקור מעקבים",
       "logInteraction": "לתעד אינטראקציה",
@@ -79,10 +92,14 @@
     "metrics": {
       "overdue": "מעקבים באיחור",
       "overdueDetail": "דורש טיפול ראשון",
+      "dueToday": "לתיעוד היום",
+      "dueTodayDetail": "דורש תשומת לב עכשיו",
       "upcoming": "המשך השבוע",
       "upcomingDetail": "כבר מתוזמן",
       "meetings": "פגישות",
       "meetingsDetail": "אינטראקציות מסוג פגישה",
+      "openDeals": "הזדמנויות פתוחות",
+      "openDealsDetail": "שווי כולל של עסקאות פתוחות",
       "opportunities": "הזדמנויות פתוחות",
       "opportunitiesDetail": "עדיין בתנועה",
       "companies": "חברות פעילות",
@@ -109,6 +126,36 @@
       "eyebrow": "רשימת מעקב",
       "title": "חברות בתנועה",
       "noStage": "דורש/ת סיווג"
+    },
+    "sections": {
+      "overdue": "באיחור",
+      "recent": "אינטראקציות אחרונות",
+      "activity": "פיד פעילות"
+    },
+    "activity": {
+      "title": "פעילות אחרונה",
+      "subtitle": "עבודה אחרונה ולחץ על משימות המשך",
+      "empty": "עדיין אין פעילות אחרונה.",
+      "fallbackInteraction": "אינטראקציה",
+      "types": {
+        "interaction": "אינטראקציה",
+        "taskDone": "משימה הושלמה",
+        "taskOverdue": "משימה באיחור",
+        "created": "נוצר",
+        "stageChange": "שינוי שלב"
+      },
+      "groups": {
+        "today": "היום",
+        "yesterday": "אתמול",
+        "earlier": "קודם"
+      }
+    },
+    "watchlist": {
+      "title": "חברות פעילות",
+      "subtitle": "סט עבודה",
+      "empty": "אין חברות פעילות.",
+      "fallback": "דורש/ת סיווג",
+      "contacts": "{count, plural, one {# איש קשר} other {# אנשי קשר}}"
     },
     "cards": {
       "roleTitle": "סביבת עבודה מודעת לתפקיד",
