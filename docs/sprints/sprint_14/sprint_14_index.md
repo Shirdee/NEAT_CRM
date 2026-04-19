@@ -45,6 +45,20 @@ Parent: [[sprints/README|CRM Sprints]]
   - `npm run typecheck` pass
   - targeted eslint on owned TS/TSX files pass
 
+## PM Refinement Update 2 (2026-04-19)
+
+- Main branch UI polish pass completed for contact/interactions/dashboard layout parity
+- delivered adjustments:
+  - added inner page padding on detail screens so cards do not touch viewport edges
+  - contact detail metadata tightened (company + role grouped closer)
+  - interactions list copy separators standardized from `+` to `-` and row density reduced
+  - dashboard Recent Interactions and Activity Feed now render `FirstName - Company` on row 1 and subject on row 2
+  - dashboard cards retain rounded-corner styling consistency
+- checks:
+  - `npm run typecheck` pass
+  - `npm run lint` pass
+  - `npm run test` pass
+
 ## Next Action
 
 - QA executes manual sweep and files any regressions

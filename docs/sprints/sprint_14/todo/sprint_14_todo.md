@@ -99,6 +99,24 @@ Sprint is now in QA/PM closeout phase.
   - [x] `npm run typecheck`
   - [x] `npx eslint src/app/[locale]/layout.tsx src/app/[locale]/(public)/login/page.tsx src/components/auth/login-form.tsx`
 
+- [x] `DEV-1410` Layout and list-density polish from PM feedback:
+  - [x] detail page content padding added for `contacts/[contactId]` and `interactions/[interactionId]`
+  - [x] contact detail header chips tightened so company and role sit closer together
+  - [x] interactions list separators switched from `+` to `-` and row spacing made compact
+  - [x] dashboard recent interactions row model set to line 1: `FirstName - Company`, line 2: `subject`
+  - [x] dashboard activity feed interaction entries include subject as second line
+  - [x] dashboard card corner treatment kept consistent (`rounded-[20px]` family)
+- files updated:
+  - `app/src/app/[locale]/(protected)/contacts/[contactId]/page.tsx`
+  - `app/src/app/[locale]/(protected)/interactions/[interactionId]/page.tsx`
+  - `app/src/app/[locale]/(protected)/interactions/page.tsx`
+  - `app/src/app/[locale]/(protected)/dashboard/page.tsx`
+  - `app/src/lib/data/activity.ts`
+- checks:
+  - [x] `npm run typecheck`
+  - [x] `npm run lint`
+  - [x] `npm run test`
+
 ## Risks / Blockers
 
 - source sprint package incomplete (missing sprint-14 review doc)

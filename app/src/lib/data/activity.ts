@@ -5,6 +5,7 @@ export type ActivityItem = {
   type: "interaction" | "task_done" | "task_overdue" | "created" | "stage_change";
   timestamp: number;
   text: string;
+  secondaryText?: string;
   href: string;
 };
 
@@ -60,6 +61,7 @@ export async function getRecentActivity(limit = 10): Promise<ActivityItem[]> {
     type: "interaction",
     timestamp: toTimestamp(interaction.updatedAt ?? interaction.interactionDate),
     text: formatInteractionTitle(interaction.contactName, interaction.companyName, interaction.subject),
+    secondaryText: interaction.subject,
     href: `/interactions/${interaction.id}`
   }));
 

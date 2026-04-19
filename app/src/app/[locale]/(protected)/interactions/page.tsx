@@ -39,7 +39,7 @@ function firstNameFromFullName(fullName: string | null) {
 
 function buildLineOne(firstName: string | null, companyName: string | null) {
   const parts = [firstName, companyName].filter((value): value is string => Boolean(value));
-  return parts.join(" + ");
+  return parts.join(" - ");
 }
 
 export default async function InteractionsPage({params, searchParams}: InteractionsPageProps) {
@@ -131,29 +131,29 @@ export default async function InteractionsPage({params, searchParams}: Interacti
         <SurfaceCard className="overflow-hidden p-0">
           {interactions.map((interaction) => (
             <Link
-              className="block px-4 py-4 transition hover:bg-sand/70 sm:px-5 sm:py-5 [&:not(:last-child)]:shadow-[inset_0_-1px_0_rgba(16,36,63,0.04)]"
+              className="block px-4 py-3 transition hover:bg-sand/70 sm:px-5 sm:py-4 [&:not(:last-child)]:shadow-[inset_0_-1px_0_rgba(16,36,63,0.04)]"
               href={`/interactions/${interaction.id}`}
               key={interaction.id}
               locale={locale}
             >
-              <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+              <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
                 <div className="space-y-1">
                   {(() => {
                     const firstName = firstNameFromFullName(interaction.contactName);
                     const lineOne = buildLineOne(firstName, interaction.companyName);
-                    const lineTwo = `${interaction.subject} + ${formatDate(locale, interaction.interactionDate)}`;
+                    const lineTwo = `${interaction.subject} - ${formatDate(locale, interaction.interactionDate)}`;
 
                     return (
                       <>
-                        <p className="font-display text-xl font-semibold tracking-tight text-ink">
+                        <p className="font-display text-lg font-semibold tracking-tight text-ink">
                           {lineOne || interaction.subject}
                         </p>
-                        <p className="text-sm leading-7 text-ink/60">{lineTwo}</p>
+                        <p className="text-sm leading-6 text-ink/60">{lineTwo}</p>
                       </>
                     );
                   })()}
                 </div>
-                <div className="flex flex-wrap gap-2 lg:justify-end">
+                <div className="flex flex-wrap gap-1.5 lg:justify-end">
                   <StatusChip tone="teal">
                     {labelForLocale(locale, {
                       en: interaction.interactionTypeLabelEn,

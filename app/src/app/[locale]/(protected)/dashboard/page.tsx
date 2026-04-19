@@ -6,7 +6,7 @@ import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {listInteractions, listTasks, getDashboardSnapshot} from "@/lib/data/crm";
-import {formatInteractionTitle, formatRelativeActivityTime, getOpenDealValue, getRecentActivity, type ActivityItem} from "@/lib/data/activity";
+import {formatRelativeActivityTime, getOpenDealValue, getRecentActivity, type ActivityItem} from "@/lib/data/activity";
 
 type DashboardPageProps = {
   params: Promise<{locale: "en" | "he"}>;
@@ -65,6 +65,18 @@ function sameDay(a: Date | string, b: Date) {
 
 function firstName(fullName: string | null | undefined) {
   return fullName?.trim().split(/\s+/)[0] ?? "";
+}
+
+function interactionRowTitle(interaction: {
+  contactName: string | null;
+  companyName: string | null;
+  subject: string;
+}) {
+  const name = firstName(interaction.contactName);
+  const company = interaction.companyName?.trim() ?? "";
+
+  if (name && company) return `${name} - ${company}`;
+  return name || company || interaction.subject;
 }
 
 function activityTypeLabel(item: ActivityItem, t: Awaited<ReturnType<typeof getTranslations>>) {
@@ -271,20 +283,16 @@ export default async function DashboardPage({params, searchParams}: DashboardPag
               <div className="space-y-0.5">
                 {recentInteractionsSlice.map((interaction) => (
                   <Link
-                    className="flex items-center gap-3 rounded-[14px] py-2 transition-colors hover:bg-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/70"
+                    className="flex items-start gap-2.5 rounded-[14px] py-1.5 transition-colors hover:bg-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/70"
                     href={`/interactions/${interaction.id}`}
                     key={interaction.id}
                   >
-                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-teal/15 font-display text-[11px] font-bold text-teal">
+                    <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-teal/15 font-display text-[10px] font-bold text-teal">
                       {interaction.contactName ? interaction.contactName.slice(0, 2).toUpperCase() : "IN"}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="truncate text-[13px] font-semibold text-ink">
-                        {formatInteractionTitle(interaction.contactName, interaction.companyName, interaction.subject)}
-                      </p>
-                      <p className="truncate text-[12px] text-ink/50">
-                        {interaction.companyName || interaction.contactName || t("timeline.general")}
-                      </p>
+                      <p className="truncate text-[13px] font-semibold text-ink">{interactionRowTitle(interaction)}</p>
+                      <p className="truncate text-[12px] text-ink/50">{interaction.subject}</p>
                     </div>
                     <StatusChip tone="teal">
                       {interaction.interactionTypeLabelHe && locale === "he"
@@ -386,7 +394,7 @@ function ActivityFeed({
 
                 return (
                   <Link
-                    className="flex items-start gap-2.5 rounded-[14px] px-3 py-2.5 transition hover:bg-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/70"
+                    className="flex items-start gap-2.5 rounded-[14px] px-3 py-2 transition hover:bg-sand focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/70"
                     href={item.href}
                     key={item.id}
                   >
@@ -397,6 +405,9 @@ function ActivityFeed({
                     </span>
                     <div className="min-w-0 flex-1">
                       <p className="truncate text-[12.5px] leading-snug text-ink/80">{item.text}</p>
+                      {item.secondaryText ? (
+                        <p className="truncate text-[12px] leading-snug text-ink/55">{item.secondaryText}</p>
+                      ) : null}
                       <p className="mt-0.5 text-[11px] text-ink/30">
                         {activityTypeLabel(item, t)} · {formatRelativeActivityTime(item.timestamp, locale)}
                       </p>
