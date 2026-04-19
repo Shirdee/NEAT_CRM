@@ -5,7 +5,6 @@ import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getCompanyFormOptions, listCompanies} from "@/lib/data/crm";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
-import {FilterShell} from "@/components/ui/filter-shell";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
@@ -44,52 +43,51 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
   });
 
   return (
-    <div className="space-y-4 lg:space-y-5">
-      <SurfaceCard className="overflow-hidden bg-white/95">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("columns.company")}</p>
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-            <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
-          </div>
-          {session && canEditRecords(session.role) ? (
-            <Link
-              className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-ink/95 sm:w-auto"
-              href="/companies/new"
-              locale={locale}
-            >
-              {t("create")}
-            </Link>
-          ) : null}
+    <div className="flex flex-col gap-5 px-4 py-4 lg:px-8 lg:py-7">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <h1 className="font-display text-2xl font-bold text-ink">{t("title")}</h1>
+          <span className="rounded-full bg-mist px-3 py-0.5 text-[13px] font-medium text-ink/50">
+            {companies.length}
+          </span>
         </div>
-      </SurfaceCard>
+        {session && canEditRecords(session.role) ? (
+          <Link
+            className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
+            href="/companies/new"
+            locale={locale}
+          >
+            {t("create")}
+          </Link>
+        ) : null}
+      </div>
 
       {query.error ? (
         <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("errors.generic")}</p>
       ) : null}
 
-      {session ? (
-        <SavedViewBar
-          activeFilters={filters}
-          locale={locale}
-          module="companies"
-          selectedViewId={savedViewState.selectedViewId}
-          selectedViewName={savedViewState.selectedView?.name ?? null}
-          views={savedViews.map((view) => ({id: view.id, name: view.name}))}
-        />
-      ) : null}
+      <SurfaceCard className="space-y-4">
+        {session ? (
+          <SavedViewBar
+            activeFilters={filters}
+            locale={locale}
+            module="companies"
+            selectedViewId={savedViewState.selectedViewId}
+            selectedViewName={savedViewState.selectedView?.name ?? null}
+            views={savedViews.map((view) => ({id: view.id, name: view.name}))}
+          />
+        ) : null}
 
-      <FilterShell>
-        <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.3fr)_repeat(2,minmax(0,0.8fr))_auto]">
+        <LiveFilterForm className="flex flex-col gap-3 xl:flex-row xl:flex-wrap xl:items-center">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
-            className="rounded bg-mist px-4 py-3 text-ink/70"
+            className="min-w-[220px] flex-1 rounded-[12px] bg-mist px-4 py-3 text-[13.5px] text-ink/70 placeholder:text-ink/30 focus:outline-none focus:ring-2 focus:ring-teal/20"
             defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded bg-mist px-4 py-3 text-ink/70"
+            className="rounded-[12px] bg-mist px-4 py-3 text-[13px] text-ink/70 focus:outline-none focus:ring-2 focus:ring-teal/20"
             defaultValue={filters.source ?? ""}
             name="source"
           >
@@ -101,7 +99,7 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             ))}
           </select>
           <select
-            className="rounded bg-mist px-4 py-3 text-ink/70"
+            className="rounded-[12px] bg-mist px-4 py-3 text-[13px] text-ink/70 focus:outline-none focus:ring-2 focus:ring-teal/20"
             defaultValue={filters.stage ?? ""}
             name="stage"
           >
@@ -113,79 +111,86 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             ))}
           </select>
           <button
-            className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white sm:col-span-2 xl:col-span-1"
+            className="rounded-full bg-ink px-5 py-3 text-sm font-medium text-white transition hover:bg-ink/95 xl:ml-auto"
             type="submit"
           >
             {t("filters.apply")}
           </button>
         </LiveFilterForm>
-      </FilterShell>
+      </SurfaceCard>
 
-      <SurfaceCard className="space-y-4 bg-white/95">
+      <SurfaceCard className="overflow-hidden p-0">
         {companies.length === 0 ? (
-          <div className="rounded-[24px] border border-dashed border-ink/10 bg-white/70 px-4 py-5 text-sm text-ink/70">
-            {t("empty")}
-          </div>
+          <div className="px-5 py-6 text-sm text-ink/60">{t("empty")}</div>
         ) : (
-          <div className="space-y-3">
-            <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] gap-4 rounded-[22px] bg-mist px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-ink/50 lg:grid">
-              <span>{t("columns.company")}</span>
-              <span>{t("columns.website")}</span>
-              <span>{t("columns.stage")}</span>
-              <span>{t("columns.source")}</span>
-              <span>{t("columns.contacts")}</span>
-            </div>
-            <div className="space-y-3">
+          <table className="w-full border-separate border-spacing-0">
+            <thead>
+              <tr className="bg-mist">
+                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
+                  {t("columns.company")}
+                </th>
+                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
+                  {t("columns.website")}
+                </th>
+                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
+                  {t("columns.stage")}
+                </th>
+                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
+                  {t("columns.source")}
+                </th>
+                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
+                  {t("columns.contacts")}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
               {companies.map((company) => (
-                <Link
-                  className="block rounded-[24px] border border-ink/10 bg-white/80 px-4 py-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)] transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:px-5 sm:py-5"
-                  href={`/companies/${company.id}`}
+                <tr
+                  className="group transition-colors hover:bg-sand/70 [&:not(:last-child)]:shadow-[inset_0_-1px_0_rgba(16,36,63,0.04)]"
                   key={company.id}
-                  locale={locale}
                 >
-                  <div className="space-y-3 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,1fr)_minmax(0,1fr)_120px_120px] lg:items-center lg:gap-4 lg:space-y-0">
-                    <div className="min-w-0">
-                      <div className="flex items-start justify-between gap-3">
-                        <p className="text-base font-semibold leading-snug text-ink sm:text-lg">
-                          {company.companyName}
-                        </p>
-                        <StatusChip tone="teal">
-                          {displayLabel(locale, {
-                            en: company.stageLabelEn,
-                            he: company.stageLabelHe
-                          })}
-                        </StatusChip>
-                      </div>
-                      <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-ink/50 lg:hidden">
+                  <td className="px-5 py-0 align-middle">
+                    <Link
+                      className="flex min-h-[52px] items-center gap-2.5 py-3 text-[13.5px] font-semibold text-ink transition group-hover:text-coral"
+                      href={`/companies/${company.id}`}
+                      locale={locale}
+                    >
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal/12 font-display text-[13px] font-bold text-teal">
+                        {company.companyName[0]?.toUpperCase() || "C"}
+                      </span>
+                      <span className="truncate">{company.companyName}</span>
+                    </Link>
+                  </td>
+                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
+                    <div className="min-h-[52px] py-3">{company.website || "—"}</div>
+                  </td>
+                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
+                    <div className="min-h-[52px] py-3">
+                      <StatusChip tone="teal">
                         {displayLabel(locale, {
-                          en: company.sourceLabelEn,
-                          he: company.sourceLabelHe
-                        }) !== "—" && (
-                          <span>
-                            {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}
-                          </span>
-                        )}
-                        {company.website ? (
-                          <span className="max-w-[160px] truncate text-teal">{company.website}</span>
-                        ) : null}
-                        <span className="rounded-full bg-ink/8 px-2 py-0.5 text-xs font-semibold text-ink">
-                          {company.contactsCount} {t("columns.contacts").toLowerCase()}
-                        </span>
-                      </div>
+                          en: company.stageLabelEn,
+                          he: company.stageLabelHe
+                        })}
+                      </StatusChip>
                     </div>
-                    <div className="hidden text-sm text-ink/70 lg:block">{company.website || "—"}</div>
-                    <div className="hidden text-sm text-ink/70 lg:block">
-                      {displayLabel(locale, {en: company.stageLabelEn, he: company.stageLabelHe})}
+                  </td>
+                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
+                    <div className="min-h-[52px] py-3">
+                      {displayLabel(locale, {
+                        en: company.sourceLabelEn,
+                        he: company.sourceLabelHe
+                      })}
                     </div>
-                    <div className="hidden text-sm text-ink/70 lg:block">
-                      {displayLabel(locale, {en: company.sourceLabelEn, he: company.sourceLabelHe})}
+                  </td>
+                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
+                    <div className="min-h-[52px] py-3 font-medium text-ink">
+                      {company.contactsCount}
                     </div>
-                    <div className="hidden text-sm font-medium text-ink lg:block">{company.contactsCount}</div>
-                  </div>
-                </Link>
+                  </td>
+                </tr>
               ))}
-            </div>
-          </div>
+            </tbody>
+          </table>
         )}
       </SurfaceCard>
     </div>

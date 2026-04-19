@@ -17,10 +17,7 @@ type InteractionsPageProps = {
   }>;
 };
 
-function labelForLocale(
-  locale: "en" | "he",
-  values: {en?: string | null; he?: string | null}
-) {
+function labelForLocale(locale: "en" | "he", values: {en?: string | null; he?: string | null}) {
   return locale === "he" ? values.he || values.en || "—" : values.en || values.he || "—";
 }
 
@@ -44,10 +41,7 @@ function buildLineOne(firstName: string | null, companyName: string | null) {
   return parts.join(" + ");
 }
 
-export default async function InteractionsPage({
-  params,
-  searchParams
-}: InteractionsPageProps) {
+export default async function InteractionsPage({params, searchParams}: InteractionsPageProps) {
   const {locale} = await params;
   const query = await searchParams;
   const t = await getTranslations("Interactions");
@@ -64,27 +58,24 @@ export default async function InteractionsPage({
   const totalInteractions = interactions.length;
 
   return (
-    <div className="space-y-6">
-      <SurfaceCard className="space-y-5 bg-white/95">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-3">
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">
-              {t("title")}
-            </h2>
-            <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("title")}</p>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+            <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
             <div className="flex flex-wrap gap-2">
-              {session ? (
-                <StatusChip tone="teal">{t("readiness")}</StatusChip>
-              ) : null}
+              {session ? <StatusChip tone="teal">{t("readiness")}</StatusChip> : null}
               <StatusChip tone="ink">
                 {locale === "he" ? `${totalInteractions} תוצאות` : `${totalInteractions} results`}
               </StatusChip>
             </div>
           </div>
-          <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap lg:w-auto lg:justify-end">
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end lg:w-auto">
             {session && canEditRecords(session.role) ? (
               <Link
-                className="inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white"
+                className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90"
                 href="/interactions/new"
                 locale={locale}
               >
@@ -96,7 +87,7 @@ export default async function InteractionsPage({
       </SurfaceCard>
 
       <SurfaceCard className="space-y-4 bg-white/95">
-        <div className="space-y-3">
+        <div className="space-y-2">
           <p className="text-xs uppercase tracking-[0.24em] text-coral">
             {locale === "he" ? "סינון אינטראקציות" : "Interaction filters"}
           </p>
@@ -104,13 +95,13 @@ export default async function InteractionsPage({
         </div>
         <LiveFilterForm className="grid gap-4 lg:grid-cols-4">
           <input
-            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-ink/50 focus:ring-coral/30"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition placeholder:text-ink/50 focus:ring-coral/30"
             defaultValue={query.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.companyId ?? ""}
             name="companyId"
           >
@@ -122,7 +113,7 @@ export default async function InteractionsPage({
             ))}
           </select>
           <select
-            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.contactId ?? ""}
             name="contactId"
           >
@@ -134,7 +125,7 @@ export default async function InteractionsPage({
             ))}
           </select>
           <select
-            className="rounded bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
+            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70 shadow-inner shadow-white/60 outline-none ring-1 ring-transparent transition focus:ring-coral/30"
             defaultValue={query.interactionTypeValueId ?? ""}
             name="interactionTypeValueId"
           >
@@ -156,55 +147,51 @@ export default async function InteractionsPage({
       </SurfaceCard>
 
       {interactions.length === 0 ? (
-        <SurfaceCard className="bg-white/95 text-sm text-ink/60">
-          {t("empty")}
-        </SurfaceCard>
+        <SurfaceCard className="bg-white/95 text-sm text-ink/60">{t("empty")}</SurfaceCard>
       ) : (
-        <div className="space-y-4">
-          <div className="space-y-3">
-            {interactions.map((interaction) => (
-              <Link
-                className="block rounded-[18px] bg-white px-4 py-3.5 shadow-[0_1px_0_rgba(16,36,63,0.04)] transition hover:bg-mist hover:shadow-soft"
-                href={`/interactions/${interaction.id}`}
-                key={interaction.id}
-                locale={locale}
-              >
-                <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
-                  <div className="space-y-1">
-                    {(() => {
-                      const firstName = firstNameFromFullName(interaction.contactName);
-                      const lineOne = buildLineOne(firstName, interaction.companyName);
-                      const lineTwo = `${interaction.subject} + ${formatDate(locale, interaction.interactionDate)}`;
+        <SurfaceCard className="space-y-3 bg-white/95">
+          {interactions.map((interaction) => (
+            <Link
+              className="block rounded-[24px] border border-ink/10 bg-white/80 px-4 py-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)] transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:px-5 sm:py-5"
+              href={`/interactions/${interaction.id}`}
+              key={interaction.id}
+              locale={locale}
+            >
+              <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+                <div className="space-y-1">
+                  {(() => {
+                    const firstName = firstNameFromFullName(interaction.contactName);
+                    const lineOne = buildLineOne(firstName, interaction.companyName);
+                    const lineTwo = `${interaction.subject} + ${formatDate(locale, interaction.interactionDate)}`;
 
-                      return (
-                        <>
-                          <p className="font-display text-xl font-semibold tracking-tight text-ink">
-                            {lineOne || interaction.subject}
-                          </p>
-                          <p className="text-sm leading-7 text-ink/60">{lineTwo}</p>
-                        </>
-                      );
-                    })()}
-                  </div>
-                  <div className="flex flex-wrap gap-2 lg:justify-end">
-                    <StatusChip tone="teal">
-                      {labelForLocale(locale, {
-                        en: interaction.interactionTypeLabelEn,
-                        he: interaction.interactionTypeLabelHe
-                      })}
-                    </StatusChip>
-                    <StatusChip tone="ink">
-                      {labelForLocale(locale, {
-                        en: interaction.outcomeLabelEn,
-                        he: interaction.outcomeLabelHe
-                      })}
-                    </StatusChip>
-                  </div>
+                    return (
+                      <>
+                        <p className="font-display text-xl font-semibold tracking-tight text-ink">
+                          {lineOne || interaction.subject}
+                        </p>
+                        <p className="text-sm leading-7 text-ink/60">{lineTwo}</p>
+                      </>
+                    );
+                  })()}
                 </div>
-              </Link>
-            ))}
-          </div>
-        </div>
+                <div className="flex flex-wrap gap-2 lg:justify-end">
+                  <StatusChip tone="teal">
+                    {labelForLocale(locale, {
+                      en: interaction.interactionTypeLabelEn,
+                      he: interaction.interactionTypeLabelHe
+                    })}
+                  </StatusChip>
+                  <StatusChip tone="ink">
+                    {labelForLocale(locale, {
+                      en: interaction.outcomeLabelEn,
+                      he: interaction.outcomeLabelHe
+                    })}
+                  </StatusChip>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </SurfaceCard>
       )}
     </div>
   );

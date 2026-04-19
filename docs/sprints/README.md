@@ -5,7 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Sprints
-updated: 2026-04-16
+updated: 2026-04-19
 ---
 
 # CRM Sprints
@@ -18,6 +18,8 @@ updated: 2026-04-16
 ## Start Here
 
 - [Open Tasks](open_tasks.md)
+- [Sprint 14 Index](sprint_14/sprint_14_index.md)
+- [Sprint 14 Todo](sprint_14/todo/sprint_14_todo.md)
 - [Sprint 13 Index](sprint_13/sprint_13_index.md)
 - [Sprint 13 Todo](sprint_13/todo/sprint_13_todo.md)
 - [Sprint 12 Index](sprint_12/sprint_12_index.md)

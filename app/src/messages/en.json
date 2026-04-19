@@ -71,6 +71,19 @@
     "eyebrow": "Today’s focus",
     "title": "What needs action now",
     "subtitle": "Start with the overdue queue, keep new activity moving, and use the dashboard as the daily operating view for the {role} role.",
+    "greeting": "Good to see you, {name}.",
+    "greetingFallback": "there",
+    "greetingSub": "Today’s work stays centered on the {role} workspace.",
+    "quickLog": "Log interaction",
+    "quickTask": "New follow-up",
+    "quickOpportunity": "New opportunity",
+    "quickViewTasks": "View follow-ups",
+    "viewAll": "View all",
+    "roles": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    },
     "actions": {
       "reviewTasks": "Review follow-ups",
       "logInteraction": "Log interaction",
@@ -79,10 +92,14 @@
     "metrics": {
       "overdue": "Overdue follow-ups",
       "overdueDetail": "Needs action first",
+      "dueToday": "Due today",
+      "dueTodayDetail": "Needs attention now",
       "upcoming": "Upcoming this week",
       "upcomingDetail": "Already scheduled",
       "meetings": "Meetings",
       "meetingsDetail": "Logged meeting interactions",
+      "openDeals": "Open opportunities",
+      "openDealsDetail": "Total open deal value",
       "opportunities": "Open opportunities",
       "opportunitiesDetail": "Still in motion",
       "companies": "Active companies",
@@ -109,6 +126,36 @@
       "eyebrow": "Watchlist",
       "title": "Companies in motion",
       "noStage": "Needs qualification"
+    },
+    "sections": {
+      "overdue": "Overdue",
+      "recent": "Recent Interactions",
+      "activity": "Activity Feed"
+    },
+    "activity": {
+      "title": "Recent activity",
+      "subtitle": "Latest logged work and follow-up pressure",
+      "empty": "No recent activity yet.",
+      "fallbackInteraction": "Interaction",
+      "types": {
+        "interaction": "Interaction",
+        "taskDone": "Task done",
+        "taskOverdue": "Task overdue",
+        "created": "Created",
+        "stageChange": "Stage change"
+      },
+      "groups": {
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "earlier": "Earlier"
+      }
+    },
+    "watchlist": {
+      "title": "Active companies",
+      "subtitle": "Working set",
+      "empty": "No active companies.",
+      "fallback": "Needs qualification",
+      "contacts": "{count, plural, one {# contact} other {# contacts}}"
     },
     "cards": {
       "roleTitle": "Role-aware workspace",

@@ -1,5 +1,6 @@
 "use client";
 
+// Deprecated in Sprint 14. Replaced by SidebarNavItem for dark sidebar layout.
 import clsx from "clsx";
 
 import {Link, usePathname} from "@/i18n/navigation";

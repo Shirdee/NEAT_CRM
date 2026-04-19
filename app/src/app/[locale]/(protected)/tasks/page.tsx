@@ -5,10 +5,9 @@ import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getTaskListFilterOptions, listTasks} from "@/lib/data/crm";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {TaskListClient} from "@/components/tasks/task-list-client";
-import {FilterShell} from "@/components/ui/filter-shell";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
-import {SurfaceCard} from "@/components/ui/surface-card";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
+import {SurfaceCard} from "@/components/ui/surface-card";
 
 type TasksPageProps = {
   params: Promise<{locale: "en" | "he"}>;
@@ -71,49 +70,50 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
     done: tasks.filter((task) => Boolean(task.completedAt))
   };
 
+  const totalCount = tasks.length;
+
   return (
-    <div className="space-y-6">
-      <SurfaceCard className="space-y-4 bg-white/95">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-3">
-            <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("title")}</p>
-            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-            <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
-          </div>
-          {session && canEditRecords(session.role) ? (
-            <Link
-              className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(16,36,63,0.18)] transition hover:-translate-y-0.5 sm:w-auto"
-              href="/tasks/new"
-              locale={locale}
-            >
-              {t("create")}
-            </Link>
-          ) : null}
+    <div className="flex flex-col gap-5 px-4 py-4 lg:max-w-[860px] lg:px-8 lg:py-7">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
+          <h1 className="font-display text-2xl font-bold text-ink">{t("title")}</h1>
+          <span className="rounded-full bg-mist px-3 py-0.5 text-[13px] font-medium text-ink/50">
+            {totalCount}
+          </span>
         </div>
-      </SurfaceCard>
+        {session && canEditRecords(session.role) ? (
+          <Link
+            className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
+            href="/tasks/new"
+            locale={locale}
+          >
+            {t("create")}
+          </Link>
+        ) : null}
+      </div>
 
-      {session ? (
-        <SavedViewBar
-          activeFilters={filters}
-          locale={locale}
-          module="tasks"
-          selectedViewId={savedViewState.selectedViewId}
-          selectedViewName={savedViewState.selectedView?.name ?? null}
-          views={savedViews.map((view) => ({id: view.id, name: view.name}))}
-        />
-      ) : null}
+      <SurfaceCard className="space-y-4">
+        {session ? (
+          <SavedViewBar
+            activeFilters={filters}
+            locale={locale}
+            module="tasks"
+            selectedViewId={savedViewState.selectedViewId}
+            selectedViewName={savedViewState.selectedView?.name ?? null}
+            views={savedViews.map((view) => ({id: view.id, name: view.name}))}
+          />
+        ) : null}
 
-      <FilterShell>
         <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
           <input
-            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
+            className="rounded-[12px] bg-mist px-4 py-3 text-ink/70 placeholder:text-ink/30"
             defaultValue={filters.q ?? ""}
             name="q"
             placeholder={t("filters.query")}
           />
           <select
-            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
+            className="rounded-[12px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.companyId ?? ""}
             name="companyId"
           >
@@ -125,7 +125,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
+            className="rounded-[12px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.contactId ?? ""}
             name="contactId"
           >
@@ -137,7 +137,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <select
-            className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
+            className="rounded-[12px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.statusValueId ?? ""}
             name="statusValueId"
           >
@@ -149,24 +149,22 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             ))}
           </select>
           <button
-            className="rounded-full bg-coral px-5 py-3 text-sm font-medium text-white shadow-[0_10px_30px_rgba(221,107,77,0.22)] sm:col-span-2 xl:col-span-4 xl:justify-self-start"
+            className="rounded-full bg-ink px-5 py-3 text-sm font-medium text-white transition hover:bg-ink/95 sm:col-span-2 xl:col-span-4 xl:justify-self-start"
             type="submit"
           >
             {t("filters.apply")}
           </button>
         </LiveFilterForm>
-      </FilterShell>
-
-      <SurfaceCard className="space-y-4 bg-white/95">
-        <TaskListClient
-          groups={groups}
-          locale={locale}
-          noCompanyLabel={t("labels.noCompany")}
-          noContactLabel={t("labels.noContact")}
-          noNotesLabel={t("labels.noNotes")}
-          noTasksLabel={t("empty")}
-        />
       </SurfaceCard>
+
+      <TaskListClient
+        groups={groups}
+        locale={locale}
+        noCompanyLabel={t("labels.noCompany")}
+        noContactLabel={t("labels.noContact")}
+        noNotesLabel={t("labels.noNotes")}
+        noTasksLabel={t("empty")}
+      />
     </div>
   );
 }

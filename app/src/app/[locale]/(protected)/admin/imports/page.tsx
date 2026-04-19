@@ -95,14 +95,16 @@ export default async function AdminImportsPage({
     : [];
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <p className="text-xs uppercase tracking-[0.3em] text-coral">
-          {locale === "he" ? "סקירת ניהול" : "Admin review"}
-        </p>
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
-      </div>
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-coral">
+            {locale === "he" ? "סקירת ניהול" : "Admin review"}
+          </p>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+          <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
+        </div>
+      </SurfaceCard>
 
       {error ? (
         <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">
@@ -143,10 +145,10 @@ export default async function AdminImportsPage({
 
                   return (
                     <Link
-                      className={`block rounded-[24px] px-4 py-4 transition ${
+                      className={`block rounded-[24px] border px-4 py-4 transition ${
                         isActive
-                          ? "bg-ink text-white shadow-[0_12px_32px_rgba(16,36,63,0.18)]"
-                          : "bg-mist text-ink/70 hover:bg-mist"
+                          ? "border-ink bg-ink text-white shadow-[0_12px_32px_rgba(16,36,63,0.18)]"
+                          : "border-ink/10 bg-white/80 text-ink/70 hover:border-coral/30 hover:bg-sand/70"
                       }`}
                       href={`/admin/imports?batch=${item.id}`}
                       key={item.id}
@@ -195,7 +197,7 @@ export default async function AdminImportsPage({
 
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                   {summaryCards.map((card) => (
-                    <div className="rounded-[24px] bg-mist px-4 py-4" key={card.key}>
+                    <div className="rounded-[24px] bg-mist/80 px-4 py-4" key={card.key}>
                       <p className="text-xs uppercase tracking-[0.24em] text-ink/40">{card.label}</p>
                       <p className="mt-3 text-2xl font-semibold text-ink">{card.value}</p>
                     </div>
@@ -204,7 +206,7 @@ export default async function AdminImportsPage({
 
                 <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
                   {selectedBatch.summary?.profile.sheets.map((sheet) => (
-                    <div className="rounded-[24px] bg-[rgba(255,255,255,0.72)] p-4" key={sheet.name}>
+                    <div className="rounded-[24px] bg-white/80 p-4" key={sheet.name}>
                       <p className="text-sm font-semibold text-ink">{sheet.name}</p>
                       <p className="mt-2 text-xs uppercase tracking-[0.2em] text-ink/40">
                         {sheet.guessedEntityType}

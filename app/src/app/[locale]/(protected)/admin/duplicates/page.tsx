@@ -45,12 +45,14 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
   const totalGroups = groups.companies.length + groups.contacts.length;
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
-        <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-        <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
-      </div>
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="space-y-3">
+          <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+          <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
+        </div>
+      </SurfaceCard>
 
       {error ? (
         <p className="rounded-2xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{decodeURIComponent(error)}</p>
@@ -77,7 +79,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
         ) : (
           <div className="space-y-5">
             {groups.companies.map((group) => (
-              <article className="space-y-4 rounded-[24px] border border-mist bg-mist/70 p-4" key={group.key}>
+              <article className="space-y-4 rounded-[28px] border border-ink/10 bg-white/95 p-4 shadow-[0_12px_40px_rgba(58,48,45,0.06)]" key={group.key}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <p className="text-xs uppercase tracking-[0.24em] text-ink/40">
@@ -94,7 +96,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
 
                     return (
                       <div
-                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-mist bg-white"}`}
+                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-ink/10 bg-white"}`}
                         key={record.id}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">
@@ -143,7 +145,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
             ))}
 
             {groups.contacts.map((group) => (
-              <article className="space-y-4 rounded-[24px] border border-mist bg-mist/70 p-4" key={group.key}>
+              <article className="space-y-4 rounded-[28px] border border-ink/10 bg-white/95 p-4 shadow-[0_12px_40px_rgba(58,48,45,0.06)]" key={group.key}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <p className="text-xs uppercase tracking-[0.24em] text-ink/40">
@@ -160,7 +162,7 @@ export default async function AdminDuplicatesPage({params, searchParams}: AdminD
 
                     return (
                       <div
-                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-mist bg-white"}`}
+                        className={`rounded-[24px] border p-4 ${isPrimary ? "border-emerald-200 bg-emerald-50/60" : "border-ink/10 bg-white"}`}
                         key={record.id}
                       >
                         <div className="flex flex-wrap items-start justify-between gap-3">

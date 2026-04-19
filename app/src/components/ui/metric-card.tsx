@@ -1,30 +1,35 @@
 import clsx from "clsx";
 
-import {SurfaceCard} from "./surface-card";
-
 type MetricCardProps = {
   label: string;
-  value: string;
-  tone?: "ink" | "teal" | "coral" | "amber";
+  value: string | number;
+  sub?: string;
   detail?: string;
+  tone?: "coral" | "amber" | "teal" | "lime" | "ink";
 };
 
-const toneClasses = {
-  ink: "bg-ink text-white",
-  teal: "bg-teal text-white",
-  coral: "bg-coral text-white",
-  amber: "bg-amber text-ink"
+const valueTone = {
+  coral: "text-coral",
+  amber: "text-amber-text",
+  teal: "text-teal",
+  lime: "text-lime/80",
+  ink: "text-ink"
 } as const;
 
-export function MetricCard({label, value, tone = "ink", detail}: MetricCardProps) {
+export function MetricCard({label, value, sub, detail, tone = "teal"}: MetricCardProps) {
+  const supportingText = sub ?? detail;
+
   return (
-    <SurfaceCard className="relative min-w-0 overflow-hidden p-0">
-      <div className="absolute inset-x-0 top-0 h-1 bg-white/20" />
-      <div className={clsx("flex h-full min-w-0 w-full flex-col gap-3 rounded-[28px] px-3 py-3 sm:px-5 sm:py-5", toneClasses[tone])}>
-        <p className="text-xs uppercase tracking-[0.24em] opacity-70">{label}</p>
-        <p className="font-display text-3xl font-semibold tracking-tight">{value}</p>
-        {detail ? <p className="text-sm opacity-80">{detail}</p> : null}
-      </div>
-    </SurfaceCard>
+    <div className="flex flex-col gap-1.5 rounded-[20px] bg-white p-5 shadow-card transition-shadow hover:shadow-hover">
+      <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
+        {label}
+      </p>
+      <p className={clsx("font-display text-4xl font-extrabold leading-none", valueTone[tone])}>
+        {value}
+      </p>
+      {supportingText ? (
+        <p className="mt-1 text-xs text-ink/40">{supportingText}</p>
+      ) : null}
+    </div>
   );
 }

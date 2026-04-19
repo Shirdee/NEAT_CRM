@@ -2,14 +2,15 @@ import clsx from "clsx";
 
 type StatusChipProps = {
   children: React.ReactNode;
-  tone?: "default" | "teal" | "coral" | "amber" | "ink";
+  tone?: "default" | "teal" | "coral" | "amber" | "lime" | "ink";
 };
 
 const toneClasses = {
-  default: "bg-sand text-ink",
-  teal: "bg-mint/90 text-teal",
-  coral: "bg-coral/12 text-coral",
-  amber: "bg-mist text-ink",
+  default: "bg-sand text-ink/70",
+  teal: "bg-teal/10 text-teal",
+  coral: "bg-coral/10 text-coral",
+  amber: "bg-amber/15 text-amber-text",
+  lime: "bg-lime/15 text-lime/80",
   ink: "bg-ink text-white"
 } as const;
 

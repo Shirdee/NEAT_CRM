@@ -2,6 +2,7 @@ import {getTranslations} from "next-intl/server";
 import {redirect} from "next/navigation";
 
 import {Link} from "@/i18n/navigation";
+import {SurfaceCard} from "@/components/ui/surface-card";
 import {canManageAdminLists, getCurrentSession} from "@/lib/auth/session";
 import {listAdminUsers} from "@/lib/data/repository";
 
@@ -35,18 +36,20 @@ export default async function AdminUsersPage({params, searchParams}: AdminUsersP
             : null;
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-3">
-        <h2 className="text-3xl font-semibold text-ink">{t("title")}</h2>
-        <p className="max-w-2xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
-      </div>
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="space-y-3">
+          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+          <p className="max-w-2xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
+        </div>
+      </SurfaceCard>
 
       {errorMessage ? (
         <p className="rounded-2xl bg-coral/10 px-4 py-3 text-sm text-coral">{errorMessage}</p>
       ) : null}
 
       <section className="grid gap-6 xl:grid-cols-[330px_minmax(0,1fr)]">
-        <article className="rounded-[24px] border border-mist bg-white p-5">
+        <article className="rounded-[28px] border border-ink/10 bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.06)]">
           <h3 className="text-lg font-semibold text-ink">{t("create.title")}</h3>
           <p className="mt-2 text-sm leading-6 text-ink/70">{t("create.body")}</p>
           <form action={createUserAction} className="mt-5 space-y-3">
@@ -96,7 +99,7 @@ export default async function AdminUsersPage({params, searchParams}: AdminUsersP
 
         <div className="space-y-4">
           {users.map((user) => (
-            <article className="rounded-[24px] border border-mist bg-white p-5" key={user.id}>
+            <article className="rounded-[28px] border border-ink/10 bg-white/95 p-5 shadow-[0_12px_40px_rgba(58,48,45,0.06)]" key={user.id}>
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <h3 className="text-lg font-semibold text-ink">{user.fullName}</h3>

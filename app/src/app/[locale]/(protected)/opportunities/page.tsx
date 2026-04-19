@@ -4,12 +4,14 @@ import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getOpportunityFormOptions, listOpportunities} from "@/lib/data/crm";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
-import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {FilterShell} from "@/components/ui/filter-shell";
 import {InfoPair} from "@/components/ui/info-pair";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
+import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
+import {KanbanBoard} from "@/components/opportunities/kanban-board";
+import {ViewToggle} from "@/components/opportunities/view-toggle";
 
 type OpportunitiesPageProps = {
   params: Promise<{locale: "en" | "he"}>;
@@ -49,36 +51,45 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
     searchParams: query
   });
   const filters = savedViewState.filters;
-  const [{companies, contacts, stageOptions, typeOptions, statusOptions}, opportunities] = await Promise.all([
-    getOpportunityFormOptions(),
-    listOpportunities({
-      query: filters.q,
-      companyId: filters.companyId,
-      contactId: filters.contactId,
-      opportunityStageValueId: filters.stage,
-      opportunityTypeValueId: filters.type,
-      statusValueId: filters.status
-    })
-  ]);
+  const viewMode = query.view === "pipeline" ? "pipeline" : "table";
+  const [{companies, contacts, stageOptions, typeOptions, statusOptions}, opportunities] =
+    await Promise.all([
+      getOpportunityFormOptions(),
+      listOpportunities({
+        query: filters.q,
+        companyId: filters.companyId,
+        contactId: filters.contactId,
+        opportunityStageValueId: filters.stage,
+        opportunityTypeValueId: filters.type,
+        statusValueId: filters.status
+      })
+    ]);
+  const selectedViewId = viewMode === "pipeline" ? null : savedViewState.selectedViewId;
+  const selectedViewName = viewMode === "pipeline" ? null : savedViewState.selectedView?.name ?? null;
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="space-y-3">
-          <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
-          <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
-          <p className="max-w-3xl text-sm leading-7 text-ink/60">{t("subtitle")}</p>
+    <div className="space-y-4 lg:space-y-5">
+      <SurfaceCard className="overflow-hidden bg-white/95">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="space-y-3">
+            <p className="text-xs uppercase tracking-[0.3em] text-coral">{t("eyebrow")}</p>
+            <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{t("title")}</h2>
+            <p className="max-w-3xl text-sm leading-7 text-ink/70">{t("subtitle")}</p>
+          </div>
+          <div className="flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-end lg:w-auto">
+            <ViewToggle current={viewMode} locale={locale} />
+            {session && canEditRecords(session.role) ? (
+              <Link
+                className="inline-flex w-full items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 sm:w-auto"
+                href="/opportunities/new"
+                locale={locale}
+              >
+                {t("create")}
+              </Link>
+            ) : null}
+          </div>
         </div>
-        {session && canEditRecords(session.role) ? (
-          <Link
-            className="inline-flex w-full items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white sm:w-auto"
-            href="/opportunities/new"
-            locale={locale}
-          >
-            {t("create")}
-          </Link>
-        ) : null}
-      </div>
+      </SurfaceCard>
 
       {query.error ? (
         <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">{t("errors.generic")}</p>
@@ -89,15 +100,15 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
           activeFilters={filters}
           locale={locale}
           module="opportunities"
-          selectedViewId={savedViewState.selectedViewId}
-          selectedViewName={savedViewState.selectedView?.name ?? null}
+          selectedViewId={selectedViewId}
+          selectedViewName={selectedViewName}
           views={savedViews.map((view) => ({id: view.id, name: view.name}))}
         />
       ) : null}
 
       <FilterShell>
         <LiveFilterForm className="grid gap-3 sm:grid-cols-2 xl:grid-cols-[minmax(0,1.2fr)_repeat(4,minmax(0,0.8fr))_auto]">
-          <input name="view" type="hidden" value={savedViewState.selectedViewId ?? ""} />
+          <input name="view" type="hidden" value={viewMode === "pipeline" ? "pipeline" : selectedViewId ?? ""} />
           <input
             className="rounded-[22px] bg-mist px-4 py-3 text-ink/70"
             defaultValue={filters.q ?? ""}
@@ -177,64 +188,73 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
         <SurfaceCard className="bg-white/95 p-8 text-sm text-ink/60">
           {t("empty")}
         </SurfaceCard>
+      ) : viewMode === "pipeline" ? (
+        <SurfaceCard className="overflow-hidden bg-white/95">
+          <KanbanBoard locale={locale} opportunities={opportunities} stages={stageOptions} />
+        </SurfaceCard>
       ) : (
-        <div className="space-y-4">
-          <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_140px_140px] gap-4 rounded-[24px] bg-mist px-5 py-4 text-xs font-semibold uppercase tracking-[0.24em] text-ink/50 lg:grid">
+        <SurfaceCard className="space-y-4 bg-white/95">
+          <div className="hidden grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_140px_140px] gap-4 rounded-[22px] bg-mist px-4 py-3 text-xs font-semibold uppercase tracking-[0.24em] text-ink/50 lg:grid">
             <span>{t("columns.opportunity")}</span>
             <span>{t("columns.company")}</span>
             <span>{t("columns.stage")}</span>
             <span>{t("columns.status")}</span>
             <span>{t("columns.value")}</span>
           </div>
-          {opportunities.map((opportunity) => (
-            <Link
-              className="block rounded-[28px] bg-white/95 p-4 shadow-[0_12px_32px_rgba(58,48,45,0.06)] transition hover:-translate-y-0.5 hover:shadow-[0_18px_36px_rgba(58,48,45,0.1)] sm:p-5"
-              href={`/opportunities/${opportunity.id}`}
-              key={opportunity.id}
-              locale={locale}
-            >
-              <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_140px_140px] lg:items-center lg:gap-4 lg:space-y-0">
-                <div className="space-y-3">
-                  <div className="flex flex-wrap items-start justify-between gap-3">
-                    <div>
-                      <p className="text-lg font-semibold text-ink">{opportunity.opportunityName}</p>
-                      <p className="mt-2 line-clamp-2 text-sm text-ink/60">
-                        {opportunity.notes || t("labels.noNotes")}
-                      </p>
+          <div className="space-y-3">
+            {opportunities.map((opportunity) => (
+              <Link
+                className="block rounded-[24px] border border-ink/10 bg-white/80 px-4 py-4 shadow-[0_8px_24px_rgba(58,48,45,0.04)] transition hover:-translate-y-0.5 hover:border-coral/30 hover:bg-sand/70 sm:px-5 sm:py-5"
+                href={`/opportunities/${opportunity.id}`}
+                key={opportunity.id}
+                locale={locale}
+              >
+                <div className="space-y-4 lg:grid lg:grid-cols-[minmax(0,1.4fr)_minmax(0,0.9fr)_minmax(0,0.9fr)_140px_140px] lg:items-center lg:gap-4 lg:space-y-0">
+                  <div className="space-y-3">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <p className="text-lg font-semibold text-ink">{opportunity.opportunityName}</p>
+                        <p className="mt-2 line-clamp-2 text-sm text-ink/60">
+                          {opportunity.notes || t("labels.noNotes")}
+                        </p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        <StatusChip tone="teal">
+                          {displayLabel(locale, {en: opportunity.stageLabelEn, he: opportunity.stageLabelHe})}
+                        </StatusChip>
+                        <StatusChip>
+                          {displayLabel(locale, {en: opportunity.statusLabelEn, he: opportunity.statusLabelHe})}
+                        </StatusChip>
+                      </div>
                     </div>
-                    <div className="flex flex-wrap gap-2">
-                      <StatusChip tone="teal">
-                        {displayLabel(locale, {en: opportunity.stageLabelEn, he: opportunity.stageLabelHe})}
-                      </StatusChip>
-                      <StatusChip>
-                        {displayLabel(locale, {en: opportunity.statusLabelEn, he: opportunity.statusLabelHe})}
-                      </StatusChip>
+                    <div className="grid gap-3 sm:grid-cols-3 lg:hidden">
+                      <InfoPair label={t("columns.company")} value={opportunity.companyName ?? "—"} />
+                      <InfoPair
+                        label={t("columns.status")}
+                        value={displayLabel(locale, {
+                          en: opportunity.statusLabelEn,
+                          he: opportunity.statusLabelHe
+                        })}
+                      />
+                      <InfoPair
+                        label={t("columns.value")}
+                        value={<span className="font-semibold text-ink">{formatMoney(opportunity.estimatedValue)}</span>}
+                      />
                     </div>
                   </div>
-                  <div className="grid gap-3 sm:grid-cols-3 lg:hidden">
-                    <InfoPair label={t("columns.company")} value={opportunity.companyName ?? "—"} />
-                    <InfoPair
-                      label={t("columns.status")}
-                      value={displayLabel(locale, {en: opportunity.statusLabelEn, he: opportunity.statusLabelHe})}
-                    />
-                    <InfoPair
-                      label={t("columns.value")}
-                      value={<span className="font-semibold text-ink">{formatMoney(opportunity.estimatedValue)}</span>}
-                    />
+                  <div className="text-sm text-ink/60">{opportunity.companyName ?? "—"}</div>
+                  <div className="hidden text-sm text-ink/60 lg:block">
+                    {displayLabel(locale, {en: opportunity.stageLabelEn, he: opportunity.stageLabelHe})}
                   </div>
+                  <div className="hidden text-sm text-ink/60 lg:block">
+                    {displayLabel(locale, {en: opportunity.statusLabelEn, he: opportunity.statusLabelHe})}
+                  </div>
+                  <div className="hidden text-sm font-medium text-ink lg:block">{formatMoney(opportunity.estimatedValue)}</div>
                 </div>
-                <div className="text-sm text-ink/60">{opportunity.companyName ?? "—"}</div>
-                <div className="hidden text-sm text-ink/60 lg:block">
-                  {displayLabel(locale, {en: opportunity.stageLabelEn, he: opportunity.stageLabelHe})}
-                </div>
-                <div className="hidden text-sm text-ink/60 lg:block">
-                  {displayLabel(locale, {en: opportunity.statusLabelEn, he: opportunity.statusLabelHe})}
-                </div>
-                <div className="hidden text-sm font-medium text-ink lg:block">{formatMoney(opportunity.estimatedValue)}</div>
-              </div>
-            </Link>
-          ))}
-        </div>
+              </Link>
+            ))}
+          </div>
+        </SurfaceCard>
       )}
     </div>
   );
