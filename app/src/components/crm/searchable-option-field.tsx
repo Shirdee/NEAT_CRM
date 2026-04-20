@@ -34,13 +34,12 @@ export function SearchableOptionField({
   searchPlaceholder,
   value
 }: SearchableOptionFieldProps) {
-  const selectedOption = useMemo(
-    () => options.find((option) => option.id === value) ?? null,
-    [options, value]
-  );
-  const selectedId = value ?? "";
-  const [query, setQuery] = useState(selectedOption?.label ?? "");
+  const isControlled = Boolean(onValueChange);
+  const [uncontrolledSelectedId, setUncontrolledSelectedId] = useState(value ?? "");
+  const selectedId = isControlled ? (value ?? "") : uncontrolledSelectedId;
+  const [query, setQuery] = useState(() => options.find((option) => option.id === selectedId)?.label ?? "");
   const [isOpen, setIsOpen] = useState(false);
+  const selectedOption = useMemo(() => options.find((option) => option.id === selectedId) ?? null, [options, selectedId]);
   const displayQuery = isOpen ? query : selectedOption?.label ?? query;
 
   const filteredOptions = useMemo(() => {
@@ -72,13 +71,18 @@ export function SearchableOptionField({
                 return;
               }
 
-              const selected = options.find((option) => option.id === selectedId);
-              setQuery(selected?.label ?? "");
+              setQuery(selectedOption?.label ?? "");
             }, 120);
           }}
           onChange={(event) => {
             setQuery(event.target.value);
-            onValueChange?.("");
+            if (selectedId) {
+              if (isControlled) {
+                onValueChange?.("");
+              } else {
+                setUncontrolledSelectedId("");
+              }
+            }
             setIsOpen(true);
           }}
           onFocus={() => setIsOpen(true)}
@@ -91,7 +95,11 @@ export function SearchableOptionField({
             onClick={() => {
               setQuery("");
               setIsOpen(false);
-              onValueChange?.("");
+              if (isControlled) {
+                onValueChange?.("");
+              } else {
+                setUncontrolledSelectedId("");
+              }
             }}
             type="button"
           >
@@ -108,7 +116,11 @@ export function SearchableOptionField({
                 event.preventDefault();
                 setQuery("");
                 setIsOpen(false);
-                onValueChange?.("");
+                if (isControlled) {
+                  onValueChange?.("");
+                } else {
+                  setUncontrolledSelectedId("");
+                }
               }}
               type="button"
             >
@@ -125,9 +137,13 @@ export function SearchableOptionField({
                   key={option.id}
                   onMouseDown={(event) => {
                     event.preventDefault();
+                    if (isControlled) {
+                      onValueChange?.(option.id);
+                    } else {
+                      setUncontrolledSelectedId(option.id);
+                    }
                     setQuery(option.label);
                     setIsOpen(false);
-                    onValueChange?.(option.id);
                   }}
                   type="button"
                 >

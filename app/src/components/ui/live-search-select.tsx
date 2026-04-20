@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import {flushSync} from "react-dom";
 import {useEffect, useMemo, useRef, useState} from "react";
 
 type Option = {
@@ -29,19 +30,29 @@ export function LiveSearchSelect({
 }: LiveSearchSelectProps) {
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
+  const [committedSelectedId, setCommittedSelectedId] = useState(value);
   const [query, setQuery] = useState(() => options.find((option) => option.id === value)?.label ?? "");
+
+  useEffect(() => {
+    setCommittedSelectedId(value);
+  }, [value]);
+
+  const committedOption = useMemo(
+    () => options.find((option) => option.id === committedSelectedId),
+    [committedSelectedId, options]
+  );
 
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
         setOpen(false);
-        setQuery(options.find((option) => option.id === value)?.label ?? "");
+        setQuery(committedOption?.label ?? "");
       }
     };
 
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
-  }, [options, value]);
+  }, [committedOption]);
 
   const filteredOptions = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -49,7 +60,7 @@ export function LiveSearchSelect({
     return options.filter((option) => option.label.toLowerCase().includes(normalized));
   }, [options, query]);
 
-  const committedLabel = options.find((option) => option.id === value)?.label ?? placeholder;
+  const committedLabel = committedOption?.label ?? placeholder;
 
   const submitNearestForm = (target: HTMLElement | null) => {
     const form = target?.closest("form");
@@ -58,7 +69,7 @@ export function LiveSearchSelect({
 
   return (
     <div ref={rootRef} className={clsx("relative min-w-0", className)}>
-      <input name={name} type="hidden" value={value} />
+      <input name={name} type="hidden" value={committedSelectedId} />
       <button
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -68,7 +79,7 @@ export function LiveSearchSelect({
         )}
         type="button"
         onClick={() => {
-          setQuery(options.find((option) => option.id === value)?.label ?? "");
+          setQuery(committedOption?.label ?? "");
           setOpen((current) => !current);
         }}
       >
@@ -89,8 +100,11 @@ export function LiveSearchSelect({
               className="flex w-full items-center rounded-[10px] px-3 py-2 text-left text-[13px] text-ink/70 transition hover:bg-sand"
               type="button"
               onClick={() => {
+                flushSync(() => {
+                  setCommittedSelectedId("");
+                  setOpen(false);
+                });
                 setQuery("");
-                setOpen(false);
                 submitNearestForm(rootRef.current);
               }}
             >
@@ -100,13 +114,16 @@ export function LiveSearchSelect({
               <button
                 className={clsx(
                   "flex w-full items-center rounded-[10px] px-3 py-2 text-left text-[13px] transition hover:bg-sand",
-                  option.id === value ? "bg-teal/10 text-teal" : "text-ink/70"
+                  option.id === committedSelectedId ? "bg-teal/10 text-teal" : "text-ink/70"
                 )}
                 key={option.id}
                 type="button"
                 onClick={() => {
+                  flushSync(() => {
+                    setCommittedSelectedId(option.id);
+                    setOpen(false);
+                  });
                   setQuery(option.label);
-                  setOpen(false);
                   submitNearestForm(rootRef.current);
                 }}
               >
