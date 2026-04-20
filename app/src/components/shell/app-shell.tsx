@@ -262,7 +262,9 @@ export async function AppShell({children, locale, session}: AppShellProps) {
         </header>
 
         <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden overscroll-y-contain bg-sand">
-          {children}
+          <div className="mx-auto w-full max-w-[1680px] px-4 py-4 lg:px-6 lg:py-6">
+            {children}
+          </div>
         </main>
 
         <BottomNav locale={locale} />

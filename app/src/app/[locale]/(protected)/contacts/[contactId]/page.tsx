@@ -48,7 +48,7 @@ export default async function ContactDetailPage({
   const openTasksLabel = t("openTasksCount", {count: 0}).replace(/^0\s*/, "");
   const overdueTasksLabel = t("overdueTasksCount", {count: 0}).replace(/^0\s*/, "");
   return (
-    <div className="space-y-6 px-5 py-6 lg:px-10 lg:py-8">
+    <div className="space-y-6">
       <SurfaceCard className="space-y-6 bg-white/95">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-4">

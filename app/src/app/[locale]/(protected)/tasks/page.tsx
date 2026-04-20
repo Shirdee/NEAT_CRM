@@ -73,7 +73,7 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
   const totalCount = tasks.length;
 
   return (
-    <div className="flex flex-col gap-5 px-4 py-4 lg:max-w-[860px] lg:px-8 lg:py-7">
+    <div className="flex flex-col gap-5 lg:max-w-[860px]">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="font-display text-2xl font-bold text-ink">{t("title")}</h1>

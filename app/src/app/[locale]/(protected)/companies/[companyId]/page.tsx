@@ -45,7 +45,7 @@ export default async function CompanyDetailPage({
   const isStale = company.inactivityLabel === "stale";
 
   return (
-    <div className="flex flex-col gap-5 px-4 py-4 lg:px-8 lg:py-7">
+    <div className="flex flex-col gap-5">
       <div className="text-[12px] text-ink/40">
         <Link className="text-teal transition hover:text-teal/80" href="/companies" locale={locale}>
           {tCompanies("title")}

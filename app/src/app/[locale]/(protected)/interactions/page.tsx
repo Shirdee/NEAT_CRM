@@ -59,7 +59,7 @@ export default async function InteractionsPage({params, searchParams}: Interacti
   const totalInteractions = interactions.length;
 
   return (
-    <div className="flex flex-col gap-5 px-5 py-6 lg:px-10 lg:py-8">
+    <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <h1 className="font-display text-2xl font-bold text-ink">{t("title")}</h1>
