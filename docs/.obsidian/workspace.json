@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_14/todo/DESIGN_FIXES.md",
+                "file": "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "DESIGN_FIXES"
+              "title": "SPRINT_14_UI_REDESIGN"
             }
           }
         ]
@@ -198,11 +198,13 @@
   },
   "active": "d5b5131d1506c929",
   "lastOpenFiles": [
-    "sprints/sprint_14/new_design.md",
+    "Notes.md",
     "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
+    "sprints/open_tasks.md",
+    "sprints/sprint_14/todo/DESIGN_FIXES.md",
+    "sprints/sprint_14/new_design.md",
     "sprints/sprint_14/todo/ui-mockup.html",
     "sprints/sprint_14/ui-mockup.html",
-    "sprints/sprint_14/todo/DESIGN_FIXES.md",
     "sprints/sprint_14/todo/sprint_14_todo.md",
     "IMPORT_MAPPING.md",
     "ui-mockup.html",
@@ -216,8 +218,6 @@
     "sprints/sprint_13/sprint_13_index.md",
     "sprints/sprint_13",
     "sprints/sprint_12/sprint_12_index.md",
-    "Notes.md",
-    "sprints/open_tasks.md",
     "sprints/sprint_11/todo/sprint_11_todo.md",
     "sprints/sprint_11/sprint_11_index.md",
     "sprints/sprint_11/todo",

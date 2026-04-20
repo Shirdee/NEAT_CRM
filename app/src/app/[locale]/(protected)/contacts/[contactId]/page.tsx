@@ -48,7 +48,7 @@ export default async function ContactDetailPage({
   const openTasksLabel = t("openTasksCount", {count: 0}).replace(/^0\s*/, "");
   const overdueTasksLabel = t("overdueTasksCount", {count: 0}).replace(/^0\s*/, "");
   return (
-    <div className="space-y-6 px-4 py-4 lg:px-8 lg:py-7">
+    <div className="space-y-6 px-5 py-6 lg:px-10 lg:py-8">
       <SurfaceCard className="space-y-6 bg-white/95">
         <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-4">
@@ -57,7 +57,7 @@ export default async function ContactDetailPage({
               <h2 className="font-display text-3xl font-semibold tracking-tight text-ink">{contact.fullName}</h2>
               <p className="max-w-3xl text-sm leading-7 text-ink/70">{contact.notes || t("noNotes")}</p>
             </div>
-            <div className="flex flex-wrap items-center gap-1.5">
+            <div className="flex flex-wrap items-center gap-2">
               <StatusChip tone="teal">{contact.companyName || t("noCompany")}</StatusChip>
               <StatusChip tone="default">{contact.roleTitle || t("role")}</StatusChip>
               <StatusChip tone={contact.inactivityLabel === "stale" ? "amber" : "ink"}>

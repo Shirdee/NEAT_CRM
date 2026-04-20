@@ -1,13 +1,12 @@
 
-- interactions in list use "-" instead of "+"
-- interaction summary in dashboard
-	- in bold - first name + Company
-	- below subject + date
 - add option to close interuction/follow-up with cause (not relevant/etc)
 - add archive option
 	- for contact - archive all inteructions and followups
 	- for companies - archive all contacts (and therefore all inteructions and followups)
 - **log in!**
-- right click manu
+- margins and paddings
+- right click menu
 - select and export (companies)
 - search box for companies resets once clicking outside of it
+- live search boxes does not save the choice once cloesing
+- open folloups in dashboard

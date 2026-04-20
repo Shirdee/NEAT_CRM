@@ -39,7 +39,7 @@ export default async function InteractionDetailPage({params, searchParams}: Inte
   }
 
   return (
-    <div className="space-y-6 px-4 py-4 lg:px-8 lg:py-7">
+    <div className="space-y-6 px-5 py-6 lg:px-10 lg:py-8">
       {success ? (
         <p className="rounded-2xl bg-teal/8 px-4 py-3 text-sm text-teal">
           {success === "created" ? t("created") : t("updated")}
