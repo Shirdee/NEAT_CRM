@@ -30,18 +30,18 @@ export function LiveSearchSelect({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState(() => options.find((option) => option.id === value)?.label ?? "");
-  const [selectedId, setSelectedId] = useState(value);
 
   useEffect(() => {
     const onClickOutside = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
         setOpen(false);
+        setQuery(options.find((option) => option.id === value)?.label ?? "");
       }
     };
 
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
-  }, []);
+  }, [options, value]);
 
   const filteredOptions = useMemo(() => {
     const normalized = query.trim().toLowerCase();
@@ -49,7 +49,7 @@ export function LiveSearchSelect({
     return options.filter((option) => option.label.toLowerCase().includes(normalized));
   }, [options, query]);
 
-  const selectedLabel = options.find((option) => option.id === selectedId)?.label ?? allLabel;
+  const committedLabel = options.find((option) => option.id === value)?.label ?? placeholder;
 
   const submitNearestForm = (target: HTMLElement | null) => {
     const form = target?.closest("form");
@@ -58,7 +58,7 @@ export function LiveSearchSelect({
 
   return (
     <div ref={rootRef} className={clsx("relative min-w-0", className)}>
-      <input name={name} type="hidden" value={selectedId} />
+      <input name={name} type="hidden" value={value} />
       <button
         aria-haspopup="listbox"
         aria-expanded={open}
@@ -67,9 +67,12 @@ export function LiveSearchSelect({
           inputClassName
         )}
         type="button"
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => {
+          setQuery(options.find((option) => option.id === value)?.label ?? "");
+          setOpen((current) => !current);
+        }}
       >
-        <span className="truncate">{selectedLabel || placeholder}</span>
+        <span className="truncate">{committedLabel}</span>
         <span className="text-ink/30">⌄</span>
       </button>
       {open ? (
@@ -86,7 +89,6 @@ export function LiveSearchSelect({
               className="flex w-full items-center rounded-[10px] px-3 py-2 text-left text-[13px] text-ink/70 transition hover:bg-sand"
               type="button"
               onClick={() => {
-                setSelectedId("");
                 setQuery("");
                 setOpen(false);
                 submitNearestForm(rootRef.current);
@@ -98,12 +100,11 @@ export function LiveSearchSelect({
               <button
                 className={clsx(
                   "flex w-full items-center rounded-[10px] px-3 py-2 text-left text-[13px] transition hover:bg-sand",
-                  option.id === selectedId ? "bg-teal/10 text-teal" : "text-ink/70"
+                  option.id === value ? "bg-teal/10 text-teal" : "text-ink/70"
                 )}
                 key={option.id}
                 type="button"
                 onClick={() => {
-                  setSelectedId(option.id);
                   setQuery(option.label);
                   setOpen(false);
                   submitNearestForm(rootRef.current);

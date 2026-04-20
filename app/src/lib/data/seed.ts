@@ -40,6 +40,8 @@ export type SeedCompany = {
   sourceValueId: string | null;
   stageValueId: string | null;
   notes: string | null;
+  archivedAt?: string | null;
+  archivedById?: string | null;
   createdAt: string;
   updatedAt: string;
   createdById: string | null;
@@ -70,6 +72,8 @@ export type SeedContact = {
   roleTitle: string | null;
   companyId: string | null;
   notes: string | null;
+  archivedAt?: string | null;
+  archivedById?: string | null;
   createdAt: string;
   updatedAt: string;
   createdById: string | null;
@@ -87,6 +91,9 @@ export type SeedInteraction = {
   subject: string;
   summary: string;
   outcomeStatusValueId: string | null;
+  closeReasonValueId?: string | null;
+  archivedAt?: string | null;
+  archivedById?: string | null;
   createdById: string;
   createdAt: string;
   updatedAt: string;
@@ -101,7 +108,10 @@ export type SeedTask = {
   dueDate: string;
   priorityValueId: string;
   statusValueId: string;
+  closeReasonValueId?: string | null;
   notes: string | null;
+  archivedAt?: string | null;
+  archivedById?: string | null;
   createdById: string;
   createdAt: string;
   updatedAt: string;
@@ -119,6 +129,8 @@ export type SeedOpportunity = {
   statusValueId: string;
   targetCloseDate: string | null;
   notes: string | null;
+  archivedAt?: string | null;
+  archivedById?: string | null;
   createdById: string;
   updatedById: string | null;
   createdAt: string;
@@ -141,6 +153,7 @@ const opportunityStatusId = "cat_opportunity_status";
 const taskTypeId = "cat_task_type";
 const taskPriorityId = "cat_task_priority";
 const taskStatusId = "cat_task_status";
+const closeReasonId = "cat_close_reason";
 const importStatusId = "cat_import_status";
 
 export const seededUsers: SeedUser[] = [
@@ -523,6 +536,47 @@ export const seededCategories: SeedListCategory[] = [
         labelEn: "Completed",
         labelHe: "הושלם",
         sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      }
+    ]
+  },
+  {
+    id: closeReasonId,
+    key: "close_reason",
+    name: "Close Reasons",
+    createdAt: now,
+    values: [
+      {
+        id: "value_close_reason_not_relevant",
+        categoryId: closeReasonId,
+        key: "not_relevant",
+        labelEn: "Not relevant",
+        labelHe: "לא רלוונטי",
+        sortOrder: 1,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_close_reason_no_response",
+        categoryId: closeReasonId,
+        key: "no_response",
+        labelEn: "No response",
+        labelHe: "ללא מענה",
+        sortOrder: 2,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
+      },
+      {
+        id: "value_close_reason_completed",
+        categoryId: closeReasonId,
+        key: "completed",
+        labelEn: "Completed / resolved",
+        labelHe: "הושלם / טופל",
+        sortOrder: 3,
         isActive: true,
         createdAt: now,
         updatedAt: now

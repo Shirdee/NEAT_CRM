@@ -116,7 +116,7 @@ export async function deleteCompanyAction(boundLocale: string, formData: FormDat
   }
 
   try {
-    const deleted = await deleteCompany(companyId);
+    const deleted = await deleteCompany(companyId, session.id);
 
     if (!deleted) {
       redirect(`/${locale}/companies?error=missing`);

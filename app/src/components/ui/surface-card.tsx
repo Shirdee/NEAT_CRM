@@ -10,8 +10,8 @@ export function SurfaceCard({children, className}: SurfaceCardProps) {
   return (
     <section
       className={clsx(
-        "min-w-0 w-full rounded-[20px] p-5 shadow-card sm:p-6",
-        !hasCustomBg && "bg-white",
+        "min-w-0 w-full rounded-[24px] p-5 shadow-card sm:p-6",
+        !hasCustomBg && "bg-white/95",
         className
       )}
     >

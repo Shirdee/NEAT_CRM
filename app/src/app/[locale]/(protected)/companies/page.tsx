@@ -7,20 +7,13 @@ import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {LiveSearchSelect} from "@/components/ui/live-search-select";
-import {StatusChip} from "@/components/ui/status-chip";
+import {CompanyTable} from "@/components/ui/company-table";
 import {SurfaceCard} from "@/components/ui/surface-card";
 
 type CompaniesPageProps = {
   params: Promise<{locale: "en" | "he"}>;
   searchParams: Promise<{q?: string; source?: string; stage?: string; view?: string; error?: string}>;
 };
-
-function displayLabel(
-  locale: "en" | "he",
-  values: {en?: string | null; he?: string | null}
-) {
-  return locale === "he" ? values.he || values.en || "—" : values.en || values.he || "—";
-}
 
 export default async function CompaniesPage({params, searchParams}: CompaniesPageProps) {
   const {locale} = await params;
@@ -120,74 +113,22 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
         {companies.length === 0 ? (
           <div className="px-5 py-6 text-sm text-ink/60">{t("empty")}</div>
         ) : (
-          <table className="w-full border-separate border-spacing-0">
-            <thead>
-              <tr className="bg-mist">
-                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
-                  {t("columns.company")}
-                </th>
-                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
-                  {t("columns.website")}
-                </th>
-                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
-                  {t("columns.stage")}
-                </th>
-                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
-                  {t("columns.source")}
-                </th>
-                <th className="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">
-                  {t("columns.contacts")}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {companies.map((company) => (
-                <tr
-                  className="group transition-colors hover:bg-sand/70 [&:not(:last-child)]:shadow-[inset_0_-1px_0_rgba(16,36,63,0.04)]"
-                  key={company.id}
-                >
-                  <td className="px-5 py-0 align-middle">
-                    <Link
-                      className="flex min-h-[52px] items-center gap-2.5 py-3 text-[13.5px] font-semibold text-ink transition group-hover:text-coral"
-                      href={`/companies/${company.id}`}
-                      locale={locale}
-                    >
-                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-teal/12 font-display text-[13px] font-bold text-teal">
-                        {company.companyName[0]?.toUpperCase() || "C"}
-                      </span>
-                      <span className="truncate">{company.companyName}</span>
-                    </Link>
-                  </td>
-                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
-                    <div className="min-h-[52px] py-3">{company.website || "—"}</div>
-                  </td>
-                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
-                    <div className="min-h-[52px] py-3">
-                      <StatusChip tone="teal">
-                        {displayLabel(locale, {
-                          en: company.stageLabelEn,
-                          he: company.stageLabelHe
-                        })}
-                      </StatusChip>
-                    </div>
-                  </td>
-                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
-                    <div className="min-h-[52px] py-3">
-                      {displayLabel(locale, {
-                        en: company.sourceLabelEn,
-                        he: company.sourceLabelHe
-                      })}
-                    </div>
-                  </td>
-                  <td className="px-5 py-0 align-middle text-sm text-ink/60">
-                    <div className="min-h-[52px] py-3 font-medium text-ink">
-                      {company.contactsCount}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <CompanyTable
+            companies={companies}
+            labels={{
+              company: t("columns.company"),
+              contacts: t("columns.contacts"),
+              copyLink: t("actions.copyLink"),
+              edit: t("actions.edit"),
+              export: t("actions.export"),
+              open: t("actions.open"),
+              source: t("columns.source"),
+              stage: t("columns.stage"),
+              website: t("columns.website"),
+              empty: t("empty")
+            }}
+            locale={locale}
+          />
         )}
       </SurfaceCard>
     </div>

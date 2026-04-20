@@ -212,12 +212,12 @@ export async function AppShell({children, locale, session}: AppShellProps) {
           ) : null}
         </nav>
 
-        <div className="border-t border-white/7 p-3">
-          <div className="flex items-center gap-2.5 rounded-lg px-2.5 py-2 transition hover:bg-white/5">
+        <div className="border-t border-white/10 p-3">
+          <div className="flex items-center gap-2.5 rounded-xl px-2.5 py-2 transition hover:bg-white/6">
             <AvatarInitial name={session.fullName} size="md" />
             <div className="min-w-0 flex-1">
-              <p className="truncate text-[13px] font-semibold text-white/90">{session.fullName}</p>
-              <p className="text-[11px] text-white/35">{t(`roles.${session.role}`)}</p>
+              <p className="truncate text-[13px] font-semibold text-white/92">{session.fullName}</p>
+              <p className="text-[11px] text-white/45">{t(`roles.${session.role}`)}</p>
             </div>
             <div className="flex items-center gap-1.5">
               <LocaleSwitcher />
@@ -251,10 +251,10 @@ export async function AppShell({children, locale, session}: AppShellProps) {
               <LocaleSwitcher />
               <form action="/api/logout" method="post">
                 <button
-                  className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/80 transition hover:bg-white/10"
-                  type="submit"
-                >
-                  {t("signOut")}
+                className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10"
+                type="submit"
+              >
+                {t("signOut")}
                 </button>
               </form>
             </div>

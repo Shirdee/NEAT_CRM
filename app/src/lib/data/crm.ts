@@ -11,6 +11,8 @@ import type {
 import {cache} from "react";
 
 import {
+  closeFallbackInteractionWithReason,
+  closeFallbackTaskWithReason,
   createFallbackCompany,
   createFallbackContact,
   createFallbackInteraction,
@@ -186,6 +188,8 @@ export type InteractionDetail = Interaction & {
   interactionTypeLabelHe?: string | null;
   outcomeLabelEn?: string | null;
   outcomeLabelHe?: string | null;
+  closeReasonLabelEn?: string | null;
+  closeReasonLabelHe?: string | null;
   relatedTasks: Array<{
     id: string;
     dueDate: Date | string;
@@ -217,6 +221,8 @@ export type TaskDetail = Task & {
   priorityLabelHe?: string | null;
   statusLabelEn?: string | null;
   statusLabelHe?: string | null;
+  closeReasonLabelEn?: string | null;
+  closeReasonLabelHe?: string | null;
 };
 
 export type OpportunityListItem = Opportunity & {
@@ -946,6 +952,7 @@ export async function listCompanies(filters?: {
   const prisma = await getPrisma();
   const companies = await prisma.company.findMany({
     where: {
+      archivedAt: null,
       sourceValueId: filters?.sourceValueId || undefined,
       stageValueId: filters?.stageValueId || undefined,
       OR: filters?.query
@@ -1024,10 +1031,11 @@ export async function getCompanyById(id: string) {
   }
 
   const prisma = await getPrisma();
-  const company = await prisma.company.findUnique({
-    where: {id},
+  const company = await prisma.company.findFirst({
+    where: {id, archivedAt: null},
     include: {
       contacts: {
+        where: {archivedAt: null},
         include: {
           emails: true,
           phones: true
@@ -1037,6 +1045,7 @@ export async function getCompanyById(id: string) {
         }
       },
       interactions: {
+        where: {archivedAt: null},
         select: {
           interactionDate: true
         },
@@ -1046,6 +1055,7 @@ export async function getCompanyById(id: string) {
         take: 1
       },
       tasks: {
+        where: {archivedAt: null},
         select: {
           dueDate: true,
           completedAt: true
@@ -1131,9 +1141,9 @@ export async function updateCompany(id: string, input: CompanyInput) {
   });
 }
 
-export async function deleteCompany(id: string) {
+export async function deleteCompany(id: string, actorUserId: string) {
   if (!hasDatabaseUrl()) {
-    const result = await deleteFallbackCompany(id);
+    const result = await deleteFallbackCompany(id, actorUserId);
 
     if (!result.deleted && result.blockedBy.length > 0) {
       throw new DeleteBlockedError("Company has linked records.", result.blockedBy);
@@ -1143,25 +1153,49 @@ export async function deleteCompany(id: string) {
   }
 
   const prisma = await getPrisma();
-  const [contactsCount, interactionsCount, tasksCount, opportunitiesCount] = await Promise.all([
-    prisma.contact.count({where: {companyId: id}}),
-    prisma.interaction.count({where: {companyId: id}}),
-    prisma.task.count({where: {companyId: id}}),
-    prisma.opportunity.count({where: {companyId: id}})
+  const now = new Date();
+  const companyContacts = await prisma.contact.findMany({
+    where: {companyId: id, archivedAt: null},
+    select: {id: true}
+  });
+  const contactIds = companyContacts.map((contact) => contact.id);
+
+  const [, companyResult] = await prisma.$transaction([
+    prisma.contact.updateMany({
+      where: {companyId: id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    prisma.company.updateMany({
+      where: {id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    prisma.interaction.updateMany({
+      where: {companyId: id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    prisma.task.updateMany({
+      where: {companyId: id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    prisma.opportunity.updateMany({
+      where: {companyId: id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    ...(contactIds.length > 0
+      ? [
+          prisma.interaction.updateMany({
+            where: {contactId: {in: contactIds}, archivedAt: null},
+            data: {archivedAt: now, archivedById: actorUserId}
+          }),
+          prisma.task.updateMany({
+            where: {contactId: {in: contactIds}, archivedAt: null},
+            data: {archivedAt: now, archivedById: actorUserId}
+          })
+        ]
+      : [])
   ]);
-  const blockedBy: string[] = [];
 
-  if (contactsCount > 0) blockedBy.push("contacts");
-  if (interactionsCount > 0) blockedBy.push("interactions");
-  if (tasksCount > 0) blockedBy.push("tasks");
-  if (opportunitiesCount > 0) blockedBy.push("opportunities");
-
-  if (blockedBy.length > 0) {
-    throw new DeleteBlockedError("Company has linked records.", blockedBy);
-  }
-
-  const result = await prisma.company.deleteMany({where: {id}});
-  return result.count > 0;
+  return companyResult.count > 0;
 }
 
 export async function listContacts(filters?: {query?: string; companyId?: string}) {
@@ -1172,6 +1206,7 @@ export async function listContacts(filters?: {query?: string; companyId?: string
   const prisma = await getPrisma();
   const contacts = await prisma.contact.findMany({
     where: {
+      archivedAt: null,
       companyId: filters?.companyId || undefined,
       OR: filters?.query
         ? [
@@ -1225,8 +1260,8 @@ export async function getContactById(id: string) {
   }
 
   const prisma = await getPrisma();
-  const contact = await prisma.contact.findUnique({
-    where: {id},
+  const contact = await prisma.contact.findFirst({
+    where: {id, archivedAt: null},
     include: {
       company: {
         select: {
@@ -1352,9 +1387,9 @@ export async function updateContact(id: string, input: ContactInput) {
   });
 }
 
-export async function deleteContact(id: string) {
+export async function deleteContact(id: string, actorUserId: string) {
   if (!hasDatabaseUrl()) {
-    const result = await deleteFallbackContact(id);
+    const result = await deleteFallbackContact(id, actorUserId);
 
     if (!result.deleted && result.blockedBy.length > 0) {
       throw new DeleteBlockedError("Contact has linked records.", result.blockedBy);
@@ -1364,23 +1399,37 @@ export async function deleteContact(id: string) {
   }
 
   const prisma = await getPrisma();
-  const [interactionsCount, tasksCount, opportunitiesCount] = await Promise.all([
-    prisma.interaction.count({where: {contactId: id}}),
-    prisma.task.count({where: {contactId: id}}),
-    prisma.opportunity.count({where: {contactId: id}})
+  const now = new Date();
+  const contactInteractions = await prisma.interaction.findMany({
+    where: {contactId: id, archivedAt: null},
+    select: {id: true}
+  });
+  const interactionIds = contactInteractions.map((interaction) => interaction.id);
+
+  const [, contactResult] = await prisma.$transaction([
+    prisma.interaction.updateMany({
+      where: {contactId: id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    prisma.task.updateMany({
+      where: {contactId: id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    ...(interactionIds.length > 0
+      ? [
+          prisma.task.updateMany({
+            where: {relatedInteractionId: {in: interactionIds}, archivedAt: null},
+            data: {archivedAt: now, archivedById: actorUserId}
+          })
+        ]
+      : []),
+    prisma.contact.updateMany({
+      where: {id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    })
   ]);
-  const blockedBy: string[] = [];
 
-  if (interactionsCount > 0) blockedBy.push("interactions");
-  if (tasksCount > 0) blockedBy.push("tasks");
-  if (opportunitiesCount > 0) blockedBy.push("opportunities");
-
-  if (blockedBy.length > 0) {
-    throw new DeleteBlockedError("Contact has linked records.", blockedBy);
-  }
-
-  const result = await prisma.contact.deleteMany({where: {id}});
-  return result.count > 0;
+  return contactResult.count > 0;
 }
 
 export async function searchCrm(query: string) {
@@ -1451,9 +1500,9 @@ export async function updateInteraction(id: string, input: InteractionInput) {
   });
 }
 
-export async function deleteInteraction(id: string) {
+export async function deleteInteraction(id: string, actorUserId: string) {
   if (!hasDatabaseUrl()) {
-    const result = await deleteFallbackInteraction(id);
+    const result = await deleteFallbackInteraction(id, actorUserId);
 
     if (!result.deleted && result.blockedBy.length > 0) {
       throw new DeleteBlockedError("Interaction has linked records.", result.blockedBy);
@@ -1463,13 +1512,33 @@ export async function deleteInteraction(id: string) {
   }
 
   const prisma = await getPrisma();
-  const tasksCount = await prisma.task.count({where: {relatedInteractionId: id}});
+  const now = new Date();
 
-  if (tasksCount > 0) {
-    throw new DeleteBlockedError("Interaction has linked records.", ["tasks"]);
+  const [result] = await prisma.$transaction([
+    prisma.interaction.updateMany({
+      where: {id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    }),
+    prisma.task.updateMany({
+      where: {relatedInteractionId: id, archivedAt: null},
+      data: {archivedAt: now, archivedById: actorUserId}
+    })
+  ]);
+
+  return result.count > 0;
+}
+
+export async function closeInteractionWithReason(id: string, closeReasonValueId: string, actorUserId: string) {
+  if (!hasDatabaseUrl()) {
+    return closeFallbackInteractionWithReason(id, closeReasonValueId, actorUserId);
   }
 
-  const result = await prisma.interaction.deleteMany({where: {id}});
+  const prisma = await getPrisma();
+  const result = await prisma.interaction.updateMany({
+    where: {id, archivedAt: null},
+    data: {closeReasonValueId, updatedAt: new Date()}
+  });
+
   return result.count > 0;
 }
 
@@ -1532,14 +1601,44 @@ export async function updateTask(id: string, input: TaskInput) {
   });
 }
 
-export async function deleteTask(id: string) {
+export async function deleteTask(id: string, actorUserId: string) {
   if (!hasDatabaseUrl()) {
-    const result = await deleteFallbackTask(id);
+    const result = await deleteFallbackTask(id, actorUserId);
     return result.deleted;
   }
 
   const prisma = await getPrisma();
-  const result = await prisma.task.deleteMany({where: {id}});
+  const result = await prisma.task.updateMany({
+    where: {id, archivedAt: null},
+    data: {archivedAt: new Date(), archivedById: actorUserId}
+  });
+  return result.count > 0;
+}
+
+export async function closeTaskWithReason(id: string, closeReasonValueId: string, actorUserId: string) {
+  const statusOptions = await listLookupOptions("task_status");
+  const completedStatus = statusOptions.find((option) => option.key === "completed");
+
+  if (!completedStatus) {
+    throw new ValidationError("Task close requires a completed status lookup value.", ["statusValueId"]);
+  }
+
+  if (!hasDatabaseUrl()) {
+    return closeFallbackTaskWithReason(id, closeReasonValueId, completedStatus.id);
+  }
+
+  const prisma = await getPrisma();
+  const result = await prisma.task.updateMany({
+    where: {id, archivedAt: null},
+    data: {
+      closeReasonValueId,
+      statusValueId: completedStatus.id,
+      completedAt: new Date(),
+      updatedAt: new Date()
+    }
+  });
+
+  void actorUserId;
   return result.count > 0;
 }
 
@@ -1571,6 +1670,7 @@ export async function listInteractions(filters?: {
   const prisma = await getPrisma();
   const interactions = await prisma.interaction.findMany({
     where: {
+      archivedAt: null,
       companyId: filters?.companyId || undefined,
       contactId: filters?.contactId || undefined,
       interactionTypeValueId: filters?.interactionTypeValueId || undefined,
@@ -1616,14 +1716,16 @@ export async function listInteractions(filters?: {
 }
 
 export async function getInteractionById(id: string) {
-  const [typeOptions, outcomeOptions, taskStatusOptions] = await Promise.all([
+  const [typeOptions, outcomeOptions, taskStatusOptions, closeReasonOptions] = await Promise.all([
     listLookupOptions("interaction_type"),
     listLookupOptions("interaction_outcome_status"),
-    listLookupOptions("task_status")
+    listLookupOptions("task_status"),
+    listLookupOptions("close_reason")
   ]);
   const typeMap = buildLookupMap(typeOptions);
   const outcomeMap = buildLookupMap(outcomeOptions);
   const taskStatusMap = buildLookupMap(taskStatusOptions);
+  const closeReasonMap = buildLookupMap(closeReasonOptions);
 
   if (!hasDatabaseUrl()) {
     const interaction = await getFallbackInteractionById(id);
@@ -1642,6 +1744,12 @@ export async function getInteractionById(id: string) {
       outcomeLabelHe: interaction.outcomeStatusValueId
         ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelHe ?? null
         : null,
+      closeReasonLabelEn: interaction.closeReasonValueId
+        ? closeReasonMap.get(interaction.closeReasonValueId)?.labelEn ?? null
+        : null,
+      closeReasonLabelHe: interaction.closeReasonValueId
+        ? closeReasonMap.get(interaction.closeReasonValueId)?.labelHe ?? null
+        : null,
       relatedTasks: interaction.relatedTasks.map((task) => ({
         ...task,
         statusLabelEn: taskStatusMap.get(task.statusValueId)?.labelEn ?? null,
@@ -1651,8 +1759,8 @@ export async function getInteractionById(id: string) {
   }
 
   const prisma = await getPrisma();
-  const interaction = await prisma.interaction.findUnique({
-    where: {id},
+  const interaction = await prisma.interaction.findFirst({
+    where: {id, archivedAt: null},
     include: {
       company: {
         select: {
@@ -1687,6 +1795,12 @@ export async function getInteractionById(id: string) {
       : null,
     outcomeLabelHe: interaction.outcomeStatusValueId
       ? outcomeMap.get(interaction.outcomeStatusValueId)?.labelHe ?? null
+      : null,
+    closeReasonLabelEn: interaction.closeReasonValueId
+      ? closeReasonMap.get(interaction.closeReasonValueId)?.labelEn ?? null
+      : null,
+    closeReasonLabelHe: interaction.closeReasonValueId
+      ? closeReasonMap.get(interaction.closeReasonValueId)?.labelHe ?? null
       : null,
     relatedTasks: interaction.tasks.map((task) => ({
       id: task.id,
@@ -1731,6 +1845,7 @@ export async function listTasks(filters?: {
   const prisma = await getPrisma();
   const tasks = await prisma.task.findMany({
     where: {
+      archivedAt: null,
       companyId: filters?.companyId || undefined,
       contactId: filters?.contactId || undefined,
       statusValueId: filters?.statusValueId || undefined,
@@ -1771,14 +1886,16 @@ export async function listTasks(filters?: {
 }
 
 export async function getTaskById(id: string) {
-  const [taskTypeOptions, priorityOptions, statusOptions] = await Promise.all([
+  const [taskTypeOptions, priorityOptions, statusOptions, closeReasonOptions] = await Promise.all([
     listLookupOptions("task_type"),
     listLookupOptions("task_priority"),
-    listLookupOptions("task_status")
+    listLookupOptions("task_status"),
+    listLookupOptions("close_reason")
   ]);
   const taskTypeMap = buildLookupMap(taskTypeOptions);
   const priorityMap = buildLookupMap(priorityOptions);
   const statusMap = buildLookupMap(statusOptions);
+  const closeReasonMap = buildLookupMap(closeReasonOptions);
 
   if (!hasDatabaseUrl()) {
     const task = await getFallbackTaskById(id);
@@ -1794,13 +1911,15 @@ export async function getTaskById(id: string) {
       priorityLabelEn: priorityMap.get(task.priorityValueId)?.labelEn ?? null,
       priorityLabelHe: priorityMap.get(task.priorityValueId)?.labelHe ?? null,
       statusLabelEn: statusMap.get(task.statusValueId)?.labelEn ?? null,
-      statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null
+      statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null,
+      closeReasonLabelEn: task.closeReasonValueId ? closeReasonMap.get(task.closeReasonValueId)?.labelEn ?? null : null,
+      closeReasonLabelHe: task.closeReasonValueId ? closeReasonMap.get(task.closeReasonValueId)?.labelHe ?? null : null
     };
   }
 
   const prisma = await getPrisma();
-  const task = await prisma.task.findUnique({
-    where: {id},
+  const task = await prisma.task.findFirst({
+    where: {id, archivedAt: null},
     include: {
       company: {
         select: {
@@ -1834,7 +1953,9 @@ export async function getTaskById(id: string) {
     priorityLabelEn: priorityMap.get(task.priorityValueId)?.labelEn ?? null,
     priorityLabelHe: priorityMap.get(task.priorityValueId)?.labelHe ?? null,
     statusLabelEn: statusMap.get(task.statusValueId)?.labelEn ?? null,
-    statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null
+    statusLabelHe: statusMap.get(task.statusValueId)?.labelHe ?? null,
+    closeReasonLabelEn: task.closeReasonValueId ? closeReasonMap.get(task.closeReasonValueId)?.labelEn ?? null : null,
+    closeReasonLabelHe: task.closeReasonValueId ? closeReasonMap.get(task.closeReasonValueId)?.labelHe ?? null : null
   };
 }
 
@@ -1856,6 +1977,8 @@ export async function createOpportunity(input: OpportunityInput) {
       statusValueId: input.statusValueId,
       targetCloseDate: input.targetCloseDate ? new Date(input.targetCloseDate) : null,
       notes: input.notes,
+      archivedAt: null,
+      archivedById: null,
       createdById: input.actorUserId,
       updatedById: input.actorUserId
     }
@@ -1896,7 +2019,10 @@ export async function deleteOpportunity(id: string) {
   }
 
   const prisma = await getPrisma();
-  const result = await prisma.opportunity.deleteMany({where: {id}});
+  const result = await prisma.opportunity.updateMany({
+    where: {id, archivedAt: null},
+    data: {archivedAt: new Date()}
+  });
   return result.count > 0;
 }
 
@@ -1934,6 +2060,7 @@ export async function listOpportunities(filters?: {
   const prisma = await getPrisma();
   const opportunities = await prisma.opportunity.findMany({
     where: {
+      archivedAt: null,
       companyId: filters?.companyId || undefined,
       contactId: filters?.contactId || undefined,
       opportunityStageValueId: filters?.opportunityStageValueId || undefined,
@@ -2005,8 +2132,8 @@ export async function getOpportunityById(id: string) {
   }
 
   const prisma = await getPrisma();
-  const opportunity = await prisma.opportunity.findUnique({
-    where: {id},
+  const opportunity = await prisma.opportunity.findFirst({
+    where: {id, archivedAt: null},
     include: {
       company: {
         select: {

@@ -135,7 +135,7 @@ export async function deleteContactAction(boundLocale: string, formData: FormDat
   }
 
   try {
-    const deleted = await deleteContact(contactId);
+    const deleted = await deleteContact(contactId, session.id);
 
     if (!deleted) {
       redirect(`/${locale}/contacts?error=missing`);

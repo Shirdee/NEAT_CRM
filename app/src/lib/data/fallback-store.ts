@@ -243,6 +243,14 @@ function dedupeStrings(values: string[]) {
   });
 }
 
+function archiveStateEntry<T extends {archivedAt?: string | null; archivedById?: string | null}>(
+  entry: T,
+  actorUserId: string
+) {
+  entry.archivedAt = new Date().toISOString();
+  entry.archivedById = actorUserId;
+}
+
 export async function listFallbackLookupValues(categoryKey: string) {
   const category = getState().categories.find((item) => item.key === categoryKey);
 
@@ -258,6 +266,7 @@ export async function listFallbackLookupValues(categoryKey: string) {
 export async function listFallbackCompanyOptions() {
   return getState()
     .companies
+    .filter((company) => !company.archivedAt)
     .slice()
     .sort((left, right) => left.companyName.localeCompare(right.companyName))
     .map((company) => ({
@@ -275,6 +284,7 @@ export async function listFallbackCompanies(filters?: {
 
   return getState()
     .companies
+    .filter((company) => !company.archivedAt)
     .filter((company) => {
       if (filters?.sourceValueId && company.sourceValueId !== filters.sourceValueId) {
         return false;
@@ -303,7 +313,7 @@ export async function listFallbackCompanies(filters?: {
 export async function getFallbackCompanyById(id: string) {
   const company = getState().companies.find((item) => item.id === id);
 
-  if (!company) {
+  if (!company || company.archivedAt) {
     return null;
   }
 
@@ -349,6 +359,8 @@ export async function createFallbackCompany(input: {
     sourceValueId: input.sourceValueId,
     stageValueId: input.stageValueId,
     notes: input.notes,
+    archivedAt: null,
+    archivedById: null,
     createdAt: timestamp,
     updatedAt: timestamp,
     createdById: input.actorUserId,
@@ -390,6 +402,7 @@ export async function listFallbackContacts(filters?: {query?: string; companyId?
 
   return getState()
     .contacts
+    .filter((contact) => !contact.archivedAt)
     .filter((contact) => {
       if (filters?.companyId && contact.companyId !== filters.companyId) {
         return false;
@@ -428,7 +441,7 @@ export async function listFallbackContacts(filters?: {query?: string; companyId?
 export async function getFallbackContactById(id: string) {
   const contact = getState().contacts.find((item) => item.id === id);
 
-  if (!contact) {
+  if (!contact || contact.archivedAt) {
     return null;
   }
 
@@ -498,6 +511,8 @@ export async function createFallbackContact(input: {
     roleTitle: input.roleTitle,
     companyId: input.companyId,
     notes: input.notes,
+    archivedAt: null,
+    archivedById: null,
     createdAt: timestamp,
     updatedAt: timestamp,
     createdById: input.actorUserId,
@@ -567,6 +582,7 @@ export async function listFallbackInteractions(filters?: {
 
   return getState()
     .interactions
+    .filter((interaction) => !interaction.archivedAt)
     .filter((interaction) => {
       if (filters?.companyId && interaction.companyId !== filters.companyId) {
         return false;
@@ -613,7 +629,7 @@ export async function listFallbackInteractions(filters?: {
 export async function getFallbackInteractionById(id: string) {
   const interaction = getState().interactions.find((item) => item.id === id);
 
-  if (!interaction) {
+  if (!interaction || interaction.archivedAt) {
     return null;
   }
 
@@ -645,6 +661,7 @@ export async function listFallbackTasks(filters?: {
 
   return getState()
     .tasks
+    .filter((task) => !task.archivedAt)
     .filter((task) => {
       if (filters?.companyId && task.companyId !== filters.companyId) {
         return false;
@@ -678,7 +695,7 @@ export async function listFallbackTasks(filters?: {
 export async function getFallbackTaskById(id: string) {
   const task = getState().tasks.find((item) => item.id === id);
 
-  if (!task) {
+  if (!task || task.archivedAt) {
     return null;
   }
 
@@ -711,6 +728,9 @@ export async function createFallbackInteraction(input: {
     subject: input.subject,
     summary: input.summary,
     outcomeStatusValueId: input.outcomeStatusValueId,
+    closeReasonValueId: null,
+    archivedAt: null,
+    archivedById: null,
     createdById: input.actorUserId,
     createdAt: timestamp,
     updatedAt: timestamp
@@ -770,7 +790,10 @@ export async function createFallbackTask(input: {
     dueDate: new Date(input.dueDate).toISOString(),
     priorityValueId: input.priorityValueId,
     statusValueId: input.statusValueId,
+    closeReasonValueId: null,
     notes: input.notes,
+    archivedAt: null,
+    archivedById: null,
     createdById: input.actorUserId,
     createdAt: timestamp,
     updatedAt: timestamp,
@@ -825,6 +848,7 @@ export async function listFallbackOpportunities(filters?: {
 
   return getState()
     .opportunities
+    .filter((opportunity) => !opportunity.archivedAt)
     .filter((opportunity) => {
       if (filters?.companyId && opportunity.companyId !== filters.companyId) {
         return false;
@@ -879,7 +903,7 @@ export async function listFallbackOpportunities(filters?: {
 export async function getFallbackOpportunityById(id: string) {
   const opportunity = getState().opportunities.find((item) => item.id === id);
 
-  if (!opportunity) {
+  if (!opportunity || opportunity.archivedAt) {
     return null;
   }
 
@@ -916,6 +940,8 @@ export async function createFallbackOpportunity(input: {
     statusValueId: input.statusValueId,
     targetCloseDate: input.targetCloseDate ? new Date(input.targetCloseDate).toISOString() : null,
     notes: input.notes,
+    archivedAt: null,
+    archivedById: null,
     createdById: input.actorUserId,
     updatedById: input.actorUserId,
     createdAt: timestamp,
@@ -960,7 +986,7 @@ export async function updateFallbackOpportunity(input: {
   return opportunity;
 }
 
-export async function deleteFallbackCompany(id: string) {
+export async function deleteFallbackCompany(id: string, actorUserId: string) {
   const state = getState();
   const company = state.companies.find((item) => item.id === id);
 
@@ -968,26 +994,27 @@ export async function deleteFallbackCompany(id: string) {
     return {deleted: false, blockedBy: [] as string[]};
   }
 
-  const contactsCount = state.contacts.filter((contact) => contact.companyId === id).length;
-  const interactionsCount = state.interactions.filter((interaction) => interaction.companyId === id).length;
-  const tasksCount = state.tasks.filter((task) => task.companyId === id).length;
-  const opportunitiesCount = state.opportunities.filter((opportunity) => opportunity.companyId === id).length;
-  const blockedBy: string[] = [];
-
-  if (contactsCount > 0) blockedBy.push("contacts");
-  if (interactionsCount > 0) blockedBy.push("interactions");
-  if (tasksCount > 0) blockedBy.push("tasks");
-  if (opportunitiesCount > 0) blockedBy.push("opportunities");
-
-  if (blockedBy.length > 0) {
-    return {deleted: false, blockedBy};
-  }
-
-  state.companies = state.companies.filter((item) => item.id !== id);
+  archiveStateEntry(company, actorUserId);
+  state.contacts.filter((contact) => contact.companyId === id && !contact.archivedAt).forEach((contact) => {
+    archiveStateEntry(contact, actorUserId);
+  });
+  state.interactions
+    .filter((interaction) => interaction.companyId === id && !interaction.archivedAt)
+    .forEach((interaction) => {
+      archiveStateEntry(interaction, actorUserId);
+    });
+  state.tasks.filter((task) => task.companyId === id && !task.archivedAt).forEach((task) => {
+    archiveStateEntry(task, actorUserId);
+  });
+  state.opportunities
+    .filter((opportunity) => opportunity.companyId === id && !opportunity.archivedAt)
+    .forEach((opportunity) => {
+      archiveStateEntry(opportunity, actorUserId);
+    });
   return {deleted: true, blockedBy: [] as string[]};
 }
 
-export async function deleteFallbackContact(id: string) {
+export async function deleteFallbackContact(id: string, actorUserId: string) {
   const state = getState();
   const contact = state.contacts.find((item) => item.id === id);
 
@@ -995,24 +1022,19 @@ export async function deleteFallbackContact(id: string) {
     return {deleted: false, blockedBy: [] as string[]};
   }
 
-  const interactionsCount = state.interactions.filter((interaction) => interaction.contactId === id).length;
-  const tasksCount = state.tasks.filter((task) => task.contactId === id).length;
-  const opportunitiesCount = state.opportunities.filter((opportunity) => opportunity.contactId === id).length;
-  const blockedBy: string[] = [];
-
-  if (interactionsCount > 0) blockedBy.push("interactions");
-  if (tasksCount > 0) blockedBy.push("tasks");
-  if (opportunitiesCount > 0) blockedBy.push("opportunities");
-
-  if (blockedBy.length > 0) {
-    return {deleted: false, blockedBy};
-  }
-
-  state.contacts = state.contacts.filter((item) => item.id !== id);
+  archiveStateEntry(contact, actorUserId);
+  state.interactions
+    .filter((interaction) => interaction.contactId === id && !interaction.archivedAt)
+    .forEach((interaction) => {
+      archiveStateEntry(interaction, actorUserId);
+    });
+  state.tasks.filter((task) => task.contactId === id && !task.archivedAt).forEach((task) => {
+    archiveStateEntry(task, actorUserId);
+  });
   return {deleted: true, blockedBy: [] as string[]};
 }
 
-export async function deleteFallbackInteraction(id: string) {
+export async function deleteFallbackInteraction(id: string, actorUserId: string) {
   const state = getState();
   const interaction = state.interactions.find((item) => item.id === id);
 
@@ -1020,17 +1042,33 @@ export async function deleteFallbackInteraction(id: string) {
     return {deleted: false, blockedBy: [] as string[]};
   }
 
-  const tasksCount = state.tasks.filter((task) => task.relatedInteractionId === id).length;
-
-  if (tasksCount > 0) {
-    return {deleted: false, blockedBy: ["tasks"]};
-  }
-
-  state.interactions = state.interactions.filter((item) => item.id !== id);
+  archiveStateEntry(interaction, actorUserId);
+  state.tasks
+    .filter((task) => task.relatedInteractionId === id && !task.archivedAt)
+    .forEach((task) => {
+      archiveStateEntry(task, actorUserId);
+    });
   return {deleted: true, blockedBy: [] as string[]};
 }
 
-export async function deleteFallbackTask(id: string) {
+export async function closeFallbackInteractionWithReason(
+  id: string,
+  closeReasonValueId: string,
+  actorUserId: string
+) {
+  const interaction = getState().interactions.find((item) => item.id === id);
+
+  if (!interaction || interaction.archivedAt) {
+    return false;
+  }
+
+  interaction.closeReasonValueId = closeReasonValueId;
+  interaction.updatedAt = new Date().toISOString();
+  interaction.archivedById = interaction.archivedById ?? actorUserId;
+  return true;
+}
+
+export async function deleteFallbackTask(id: string, actorUserId: string) {
   const state = getState();
   const task = state.tasks.find((item) => item.id === id);
 
@@ -1038,19 +1076,37 @@ export async function deleteFallbackTask(id: string) {
     return {deleted: false, blockedBy: [] as string[]};
   }
 
-  state.tasks = state.tasks.filter((item) => item.id !== id);
+  archiveStateEntry(task, actorUserId);
   return {deleted: true, blockedBy: [] as string[]};
+}
+
+export async function closeFallbackTaskWithReason(
+  id: string,
+  closeReasonValueId: string,
+  completedStatusValueId: string
+) {
+  const task = getState().tasks.find((item) => item.id === id);
+
+  if (!task || task.archivedAt) {
+    return false;
+  }
+
+  task.closeReasonValueId = closeReasonValueId;
+  task.statusValueId = completedStatusValueId;
+  task.completedAt = new Date().toISOString();
+  task.updatedAt = new Date().toISOString();
+  return true;
 }
 
 export async function deleteFallbackOpportunity(id: string) {
   const state = getState();
   const opportunity = state.opportunities.find((item) => item.id === id);
 
-  if (!opportunity) {
+  if (!opportunity || opportunity.archivedAt) {
     return {deleted: false, blockedBy: [] as string[]};
   }
 
-  state.opportunities = state.opportunities.filter((item) => item.id !== id);
+  archiveStateEntry(opportunity, "system");
   return {deleted: true, blockedBy: [] as string[]};
 }
 

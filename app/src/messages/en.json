@@ -414,6 +414,12 @@
       "allStages": "All stages",
       "apply": "Apply filters"
     },
+    "actions": {
+      "export": "Export CSV",
+      "open": "Open company",
+      "edit": "Edit company",
+      "copyLink": "Copy company link"
+    },
     "columns": {
       "company": "Company",
       "website": "Website",
@@ -553,6 +559,7 @@
     "createFollowUp": "Create follow-up",
     "created": "Interaction created successfully.",
     "updated": "Interaction updated successfully.",
+    "closed": "Interaction closed successfully.",
     "date": "Interaction date",
     "type": "Type",
     "company": "Company",
@@ -560,6 +567,10 @@
     "tasksTitle": "Related follow-ups",
     "viewTasks": "View all follow-ups",
     "tasksEmpty": "No follow-up tasks are linked to this interaction yet.",
+    "closeAction": "Close with cause",
+    "closeReason": "Close cause",
+    "closeReasonPlaceholder": "Select close cause",
+    "closeReasonEmpty": "No close cause selected",
     "noTaskNotes": "Task without notes",
     "noCompany": "No linked company",
     "noContact": "No linked contact",
@@ -699,6 +710,11 @@
     "edit": "Edit follow-up",
     "created": "Follow-up created successfully.",
     "updated": "Follow-up updated successfully.",
+    "closed": "Follow-up closed successfully.",
+    "closeActionTitle": "Close this follow-up with cause",
+    "closeAction": "Close follow-up",
+    "closeReason": "Close cause",
+    "closeReasonPlaceholder": "Select close cause",
     "subtitle": "Next actions stay linked to the exact record context they belong to.",
     "dueDate": "Due date",
     "status": "Status",

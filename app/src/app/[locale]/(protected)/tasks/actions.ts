@@ -6,8 +6,11 @@ import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
 import {
+  closeTaskWithReason,
   createTask,
   deleteTask,
+  getTaskById,
+  listLookupOptions,
   normalizeTaskPayload,
   updateTask,
   validateCompanyContactMatch,
@@ -131,7 +134,7 @@ export async function updateTaskAction(boundLocale: string, formData: FormData) 
 
 export async function deleteTaskAction(boundLocale: string, formData: FormData) {
   const locale = isLocale(boundLocale) ? boundLocale : "en";
-  await requireWritableUser(locale);
+  const session = await requireWritableUser(locale);
   const taskId = String(formData.get("taskId") ?? "");
   const confirm = String(formData.get("confirm") ?? "") === "1";
 
@@ -143,7 +146,7 @@ export async function deleteTaskAction(boundLocale: string, formData: FormData) 
     redirect(`/${locale}/tasks/${taskId}/edit?error=confirm`);
   }
 
-  const deleted = await deleteTask(taskId);
+  const deleted = await deleteTask(taskId, session.id);
 
   if (!deleted) {
     redirect(`/${locale}/tasks?error=missing`);
@@ -154,4 +157,37 @@ export async function deleteTaskAction(boundLocale: string, formData: FormData) 
   revalidatePath(`/${locale}/companies`);
   revalidatePath(`/${locale}/contacts`);
   redirect(`/${locale}/tasks?success=deleted`);
+}
+
+export async function closeTaskAction(boundLocale: string, formData: FormData) {
+  const locale = isLocale(boundLocale) ? boundLocale : "en";
+  const session = await requireWritableUser(locale);
+  const taskId = String(formData.get("taskId") ?? "");
+  const closeReasonValueId = String(formData.get("closeReasonValueId") ?? "");
+
+  if (!taskId || !closeReasonValueId) {
+    redirect(`/${locale}/tasks/${taskId || ""}?error=validation`);
+  }
+
+  const task = await getTaskById(taskId);
+
+  if (!task) {
+    redirect(`/${locale}/tasks?error=missing`);
+  }
+
+  const closeOptions = await listLookupOptions("close_reason");
+  const validReason = closeOptions.some((option) => option.id === closeReasonValueId);
+
+  if (!validReason) {
+    redirect(`/${locale}/tasks/${taskId}?error=validation`);
+  }
+
+  await closeTaskWithReason(taskId, closeReasonValueId, session.id);
+
+  revalidatePath(`/${locale}/tasks`);
+  revalidatePath(`/${locale}/dashboard`);
+  revalidatePath(`/${locale}/interactions`);
+  revalidatePath(`/${locale}/companies`);
+  revalidatePath(`/${locale}/contacts`);
+  redirect(`/${locale}/tasks/${taskId}?success=closed`);
 }

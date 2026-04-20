@@ -6,9 +6,12 @@ import {redirect} from "next/navigation";
 
 import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
 import {
+  closeInteractionWithReason,
   createInteraction,
   deleteInteraction,
   DeleteBlockedError,
+  getInteractionById,
+  listLookupOptions,
   normalizeInteractionPayload,
   updateInteraction,
   validateCompanyContactMatch,
@@ -154,7 +157,7 @@ export async function updateInteractionAction(boundLocale: string, formData: For
 
 export async function deleteInteractionAction(boundLocale: string, formData: FormData) {
   const locale = isLocale(boundLocale) ? boundLocale : "en";
-  await requireWritableUser(locale);
+  const session = await requireWritableUser(locale);
   const interactionId = String(formData.get("interactionId") ?? "");
   const confirm = String(formData.get("confirm") ?? "") === "1";
 
@@ -167,7 +170,7 @@ export async function deleteInteractionAction(boundLocale: string, formData: For
   }
 
   try {
-    const deleted = await deleteInteraction(interactionId);
+    const deleted = await deleteInteraction(interactionId, session.id);
 
     if (!deleted) {
       redirect(`/${locale}/interactions?error=missing`);
@@ -191,4 +194,36 @@ export async function deleteInteractionAction(boundLocale: string, formData: For
 
     redirect(`/${locale}/interactions/${interactionId}/edit?error=delete`);
   }
+}
+
+export async function closeInteractionAction(boundLocale: string, formData: FormData) {
+  const locale = isLocale(boundLocale) ? boundLocale : "en";
+  const session = await requireWritableUser(locale);
+  const interactionId = String(formData.get("interactionId") ?? "");
+  const closeReasonValueId = String(formData.get("closeReasonValueId") ?? "");
+
+  if (!interactionId || !closeReasonValueId) {
+    redirect(`/${locale}/interactions/${interactionId || ""}?error=validation`);
+  }
+
+  const interaction = await getInteractionById(interactionId);
+
+  if (!interaction) {
+    redirect(`/${locale}/interactions?error=missing`);
+  }
+
+  const closeOptions = await listLookupOptions("close_reason");
+  const validReason = closeOptions.some((option) => option.id === closeReasonValueId);
+
+  if (!validReason) {
+    redirect(`/${locale}/interactions/${interactionId}?error=validation`);
+  }
+
+  await closeInteractionWithReason(interactionId, closeReasonValueId, session.id);
+
+  revalidatePath(`/${locale}/interactions`);
+  revalidatePath(`/${locale}/dashboard`);
+  revalidatePath(`/${locale}/companies`);
+  revalidatePath(`/${locale}/contacts`);
+  redirect(`/${locale}/interactions/${interactionId}?success=closed`);
 }

@@ -5,7 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Sprints
-updated: 2026-04-19
+updated: 2026-04-20
 ---
 
 # CRM Sprints
@@ -18,6 +18,8 @@ updated: 2026-04-19
 ## Start Here
 
 - [Open Tasks](open_tasks.md)
+- [Sprint 15 Index](sprint_15/sprint_15_index.md)
+- [Sprint 15 Todo](sprint_15/todo/sprint_15_todo.md)
 - [Sprint 14 Index](sprint_14/sprint_14_index.md)
 - [Sprint 14 Todo](sprint_14/todo/sprint_14_todo.md)
 - [Sprint 13 Index](sprint_13/sprint_13_index.md)
@@ -45,7 +47,8 @@ updated: 2026-04-19
 
 All Sprint 1 to Sprint 11 index docs are now marked closed.
 Any unfinished work was moved to [Open Tasks](open_tasks.md) and should be treated as the active backlog.
-Sprint 12 and Sprint 13 are planned work and are not yet closed.
+Sprint 15 is active implementation sprint.
+Sprint 14 is completed baseline.
 
 See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprint implementation and deployment plan.
 
@@ -54,6 +57,7 @@ See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprin
 - [Delivery Plan](../DELIVERY_PLAN.md)
 - [PRD](../PRD.md)
 - [Decisions](../DECISIONS.md)
+- [Sprint 15 Index](sprint_15/sprint_15_index.md)
 - [Sprint 13 Index](sprint_13/sprint_13_index.md)
 - [Sprint 12 Index](sprint_12/sprint_12_index.md)
 - [Sprint 11 Index](sprint_11/sprint_11_index.md)

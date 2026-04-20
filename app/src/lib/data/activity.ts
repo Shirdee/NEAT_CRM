@@ -20,6 +20,10 @@ function sortNewestFirst(a: ActivityItem, b: ActivityItem) {
   return b.timestamp - a.timestamp;
 }
 
+function taskHref(taskId: string, completedAt: Date | string | null | undefined) {
+  return completedAt ? `/tasks/${taskId}` : `/tasks/${taskId}/edit`;
+}
+
 function isOverdue(dueDate: Date | string | null | undefined, now: number) {
   if (!dueDate) return false;
   return toTimestamp(dueDate) < now;
@@ -73,7 +77,7 @@ export async function getRecentActivity(limit = 10): Promise<ActivityItem[]> {
           type: "task_done",
           timestamp: toTimestamp(task.completedAt),
           text: task.notes || task.companyName || task.contactName || "Task completed",
-          href: `/tasks/${task.id}`
+          href: taskHref(task.id, task.completedAt)
         }
       ];
     }
@@ -85,7 +89,7 @@ export async function getRecentActivity(limit = 10): Promise<ActivityItem[]> {
           type: "task_overdue",
           timestamp: toTimestamp(task.updatedAt ?? task.dueDate),
           text: task.notes || task.companyName || task.contactName || "Follow-up task",
-          href: `/tasks/${task.id}`
+          href: taskHref(task.id, task.completedAt)
         }
       ];
     }

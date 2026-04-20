@@ -6,12 +6,12 @@ import {
   createContact,
   deleteCompany,
   deleteTask,
-  DeleteBlockedError,
   getCompanyFilterOptions,
   getContactFilterOptions,
   getDashboardSnapshot,
   getCompanyById,
   getInteractionListFilterOptions,
+  listOpportunities,
   listCompanies,
   listContacts,
   normalizeContactPayload,
@@ -93,11 +93,24 @@ describe("crm fallback repository", () => {
   });
 
   it("blocks deleting a company with linked records", async () => {
-    await expect(deleteCompany("company_northern")).rejects.toBeInstanceOf(DeleteBlockedError);
+    const opportunitiesBefore = await listOpportunities({companyId: "company_northern"});
+    expect(opportunitiesBefore.length).toBeGreaterThan(0);
+
+    const deleted = await deleteCompany("company_northern", "user_admin");
+
+    expect(deleted).toBe(true);
+
+    const companies = await listCompanies();
+    const contacts = await listContacts({companyId: "company_northern"});
+    const opportunitiesAfter = await listOpportunities({companyId: "company_northern"});
+
+    expect(companies.some((item) => item.id === "company_northern")).toBe(false);
+    expect(contacts.some((item) => item.companyId === "company_northern")).toBe(false);
+    expect(opportunitiesAfter.length).toBe(0);
   });
 
   it("deletes a task without dependencies", async () => {
-    const task = await deleteTask("task_talia_archive");
+    const task = await deleteTask("task_talia_archive", "user_admin");
 
     expect(task).toBe(true);
   });
