@@ -5,7 +5,7 @@ tags:
   - planning
 aliases:
   - CRM Context
-updated: 2026-04-16
+updated: 2026-04-23
 ---
 
 # CRM Project Context
@@ -14,10 +14,11 @@ CRM project context and working assumptions.
 
 ## Current Focus
 
-- Sprint 1 to Sprint 11 indexes are closed
+- Sprint 15 implementation is complete and QA review passed (ready for PM closeout alignment)
+- Sprint 16 Clerk auth cutover implementation is complete and in QA / PM closeout
 - Active backlog is consolidated in [[sprints/open_tasks|Open Tasks]]
-- Sprint 13 is planned for login and user-access updates
-- Latest visual direction remains Stitch `Ink & Quartz` with no-gradient enforcement
+- Current execution focus is closeout + production-readiness validation, with auth-platform migration now delivered in code
+- Visual baseline is `Ink & Quartz` with Sprint 14 focused-clarity redesign applied
 
 ## Start Here
 

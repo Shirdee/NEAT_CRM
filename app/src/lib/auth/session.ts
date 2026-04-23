@@ -1,8 +1,10 @@
 import {createHmac, timingSafeEqual} from "node:crypto";
 
+import {auth, currentUser} from "@clerk/nextjs/server";
 import {cookies} from "next/headers";
 
 import type {AppLocale} from "@/i18n/routing";
+import {getUserByClerkUserId, linkUserToClerkIdentity} from "@/lib/data/repository";
 
 export const SESSION_COOKIE = "crm_session";
 export const roles = ["admin", "editor", "viewer"] as const;
@@ -22,6 +24,12 @@ type SessionPayload = UserSession & {
 };
 
 const SESSION_DURATION_MS = 1000 * 60 * 60 * 12;
+
+export function hasClerkAuth() {
+  return Boolean(
+    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim() && process.env.CLERK_SECRET_KEY?.trim()
+  );
+}
 
 function getSessionSecret() {
   return process.env.SESSION_SECRET?.trim() || "crm-sprint-1-local-secret";
@@ -92,6 +100,46 @@ export function readSessionToken(token: string | undefined | null): UserSession 
 }
 
 export async function getCurrentSession(): Promise<UserSession | null> {
+  if (hasClerkAuth()) {
+    const authState = await auth();
+
+    if (!authState.userId) {
+      return null;
+    }
+
+    let user = await getUserByClerkUserId(authState.userId);
+
+    if (!user) {
+      const clerkUser = await currentUser();
+      const primaryEmail =
+        clerkUser?.emailAddresses.find((address) => address.id === clerkUser.primaryEmailAddressId)
+          ?.emailAddress ??
+        clerkUser?.emailAddresses[0]?.emailAddress ??
+        null;
+
+      if (!primaryEmail) {
+        return null;
+      }
+
+      user = await linkUserToClerkIdentity({
+        clerkUserId: authState.userId,
+        email: primaryEmail
+      });
+    }
+
+    if (!user || !user.isActive) {
+      return null;
+    }
+
+    return {
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      role: user.role,
+      languagePreference: user.languagePreference
+    };
+  }
+
   const cookieStore = await cookies();
   return readSessionToken(cookieStore.get(SESSION_COOKIE)?.value);
 }

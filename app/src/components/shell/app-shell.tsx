@@ -3,6 +3,7 @@ import {getTranslations} from "next-intl/server";
 
 import {canManageAdminLists, type UserSession} from "@/lib/auth/session";
 import {BottomNav} from "./bottom-nav";
+import {LogoutControl} from "./logout-control";
 
 import {LocaleSwitcher} from "../i18n/locale-switcher";
 import {AvatarInitial} from "../ui/avatar-initial";
@@ -221,15 +222,13 @@ export async function AppShell({children, locale, session}: AppShellProps) {
             </div>
             <div className="flex items-center gap-1.5">
               <LocaleSwitcher />
-              <form action="/api/logout" method="post">
-                <button
-                  aria-label={t("signOut")}
-                  className="rounded p-1 text-white/30 transition hover:text-white/70"
-                  type="submit"
-                >
-                  <LogoutIcon />
-                </button>
-              </form>
+              <LogoutControl
+                buttonClassName="rounded p-1 text-white/30 transition hover:text-white/70"
+                locale={locale}
+                signOutLabel={t("signOut")}
+              >
+                <LogoutIcon />
+              </LogoutControl>
             </div>
           </div>
         </div>
@@ -249,14 +248,11 @@ export async function AppShell({children, locale, session}: AppShellProps) {
             </div>
             <div className="flex items-center gap-2">
               <LocaleSwitcher />
-              <form action="/api/logout" method="post">
-                <button
-                className="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10"
-                type="submit"
-              >
-                {t("signOut")}
-                </button>
-              </form>
+              <LogoutControl
+                buttonClassName="rounded-full border border-white/20 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10"
+                locale={locale}
+                signOutLabel={t("signOut")}
+              />
             </div>
           </div>
         </header>

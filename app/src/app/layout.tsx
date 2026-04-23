@@ -1,4 +1,5 @@
 import type {Metadata, Viewport} from "next";
+import {ClerkProvider} from "@clerk/nextjs";
 import {Inter, Manrope} from "next/font/google";
 
 import "./globals.css";
@@ -35,9 +36,11 @@ export const viewport: Viewport = {
 };
 
 export default function RootLayout({children}: Readonly<{children: React.ReactNode}>) {
+  const hasClerkProvider = Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim());
+
   return (
     <html className={`${inter.variable} ${manrope.variable}`} suppressHydrationWarning>
-      <body>{children}</body>
+      <body>{hasClerkProvider ? <ClerkProvider>{children}</ClerkProvider> : children}</body>
     </html>
   );
 }

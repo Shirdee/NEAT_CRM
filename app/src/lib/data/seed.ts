@@ -5,12 +5,13 @@ import type {UserRole} from "@/lib/auth/session";
 
 export type SeedUser = {
   id: string;
+  clerkUserId: string | null;
   email: string;
   fullName: string;
   role: UserRole;
   languagePreference: AppLocale;
   isActive: boolean;
-  passwordHash: string;
+  passwordHash: string | null;
 };
 
 export type SeedListValue = {
@@ -159,6 +160,7 @@ const importStatusId = "cat_import_status";
 export const seededUsers: SeedUser[] = [
   {
     id: "user_admin",
+    clerkUserId: null,
     email: "shirdn@neat-tech.com",
     fullName: "Top Admin",
     role: "admin",
@@ -168,6 +170,7 @@ export const seededUsers: SeedUser[] = [
   },
   {
     id: "user_editor",
+    clerkUserId: null,
     email: "editor@crm.local",
     fullName: "CRM Editor",
     role: "editor",
@@ -177,6 +180,7 @@ export const seededUsers: SeedUser[] = [
   },
   {
     id: "user_viewer",
+    clerkUserId: null,
     email: "viewer@crm.local",
     fullName: "CRM Viewer",
     role: "viewer",

@@ -1,5 +1,6 @@
+import {clerkMiddleware} from "@clerk/nextjs/server";
 import createMiddleware from "next-intl/middleware";
-import {NextRequest, NextResponse} from "next/server";
+import {NextFetchEvent, NextRequest, NextResponse} from "next/server";
 
 import {routing} from "@/i18n/routing";
 
@@ -8,6 +9,9 @@ const SESSION_COOKIE = "crm_session";
 const intlMiddleware = createMiddleware(routing);
 
 const publicPages = new Set(["/login", "/access-denied"]);
+const hasClerkAuth =
+  Boolean(process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim()) &&
+  Boolean(process.env.CLERK_SECRET_KEY?.trim());
 
 function stripLocale(pathname: string) {
   const segments = pathname.split("/");
@@ -50,7 +54,11 @@ function hasLikelyValidSession(token: string | undefined) {
   }
 }
 
-export default function proxy(request: NextRequest) {
+function legacyProxy(request: NextRequest) {
+  if (request.nextUrl.pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
   const response = intlMiddleware(request);
   const pathname = request.nextUrl.pathname;
   const pathnameWithoutLocale = stripLocale(pathname);
@@ -69,6 +77,38 @@ export default function proxy(request: NextRequest) {
   return response;
 }
 
+const clerkProxy = clerkMiddleware(async (auth, request) => {
+  if (request.nextUrl.pathname.startsWith("/api/")) {
+    return NextResponse.next();
+  }
+
+  const pathnameWithoutLocale = stripLocale(request.nextUrl.pathname);
+  const locale = routing.locales.find((candidate) => request.nextUrl.pathname.startsWith(`/${candidate}`));
+  const activeLocale = locale ?? routing.defaultLocale;
+  const {isAuthenticated} = await auth();
+
+  if (!isAuthenticated && !publicPages.has(pathnameWithoutLocale)) {
+    return NextResponse.redirect(new URL(`/${activeLocale}/login`, request.url));
+  }
+
+  if (isAuthenticated && pathnameWithoutLocale === "/login") {
+    return NextResponse.redirect(new URL(`/${activeLocale}/dashboard`, request.url));
+  }
+
+  return intlMiddleware(request);
+});
+
+export default function proxy(request: NextRequest, event: NextFetchEvent) {
+  if (hasClerkAuth) {
+    return clerkProxy(request, event);
+  }
+
+  return legacyProxy(request);
+}
+
 export const config = {
-  matcher: ["/((?!api|_next|_vercel|.*\\..*).*)"]
+  matcher: [
+    "/((?!_next|_vercel|.*\\..*).*)",
+    "/(api)(.*)"
+  ]
 };

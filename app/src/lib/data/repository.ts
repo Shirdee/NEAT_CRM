@@ -1,11 +1,14 @@
 import type {User} from "@prisma/client";
+import {clerkClient} from "@clerk/nextjs/server";
 
 import {
   createFallbackUser,
   createFallbackCategory,
   createFallbackValue,
+  getFallbackUserByClerkUserId,
   getFallbackUserByEmail,
   getFallbackUserByIdentifier,
+  linkFallbackUserToClerkIdentity,
   listFallbackUsers,
   listFallbackCategories,
   toggleFallbackUserActive,
@@ -16,16 +19,22 @@ import {hashPassword} from "@/lib/auth/password";
 
 export type UserLike = Pick<
   User,
-  "id" | "email" | "fullName" | "passwordHash" | "role" | "languagePreference" | "isActive"
+  "id" | "clerkUserId" | "email" | "fullName" | "passwordHash" | "role" | "languagePreference" | "isActive"
 >;
 
 export type AdminUserItem = Pick<
   User,
-  "id" | "email" | "fullName" | "role" | "languagePreference" | "isActive"
+  "id" | "clerkUserId" | "email" | "fullName" | "role" | "languagePreference" | "isActive"
 >;
 
 function hasDatabaseUrl() {
   return Boolean(process.env.DATABASE_URL?.trim());
+}
+
+function hasClerkAuth() {
+  return Boolean(
+    process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY?.trim() && process.env.CLERK_SECRET_KEY?.trim()
+  );
 }
 
 async function getPrisma() {
@@ -74,6 +83,53 @@ export async function getUserByIdentifier(identifier: string): Promise<UserLike 
   });
 }
 
+export async function getUserByClerkUserId(clerkUserId: string): Promise<UserLike | null> {
+  if (!hasDatabaseUrl()) {
+    return getFallbackUserByClerkUserId(clerkUserId);
+  }
+
+  const prisma = await getPrisma();
+
+  return prisma.user.findUnique({
+    where: {clerkUserId}
+  });
+}
+
+export async function linkUserToClerkIdentity(input: {
+  clerkUserId: string;
+  email: string;
+}): Promise<UserLike | null> {
+  if (!hasDatabaseUrl()) {
+    return linkFallbackUserToClerkIdentity(input);
+  }
+
+  const prisma = await getPrisma();
+  const normalizedEmail = input.email.trim().toLowerCase();
+
+  const existingLinked = await prisma.user.findUnique({
+    where: {clerkUserId: input.clerkUserId}
+  });
+
+  if (existingLinked) {
+    return existingLinked;
+  }
+
+  const user = await prisma.user.findUnique({
+    where: {email: normalizedEmail}
+  });
+
+  if (!user || user.clerkUserId) {
+    return null;
+  }
+
+  return prisma.user.update({
+    where: {id: user.id},
+    data: {
+      clerkUserId: input.clerkUserId
+    }
+  });
+}
+
 export async function listAdminUsers(): Promise<AdminUserItem[]> {
   if (!hasDatabaseUrl()) {
     return listFallbackUsers();
@@ -83,6 +139,7 @@ export async function listAdminUsers(): Promise<AdminUserItem[]> {
   return prisma.user.findMany({
     select: {
       id: true,
+      clerkUserId: true,
       email: true,
       fullName: true,
       role: true,
@@ -102,10 +159,11 @@ export async function createAdminUser(input: {
 }) {
   const normalizedEmail = input.email.trim().toLowerCase();
   const fullName = input.fullName.trim();
-  const passwordHash = hashPassword(input.password);
+  const passwordHash = hasClerkAuth() ? null : hashPassword(input.password);
 
   if (!hasDatabaseUrl()) {
     return createFallbackUser({
+      clerkUserId: null,
       email: normalizedEmail,
       fullName,
       passwordHash,
@@ -115,8 +173,21 @@ export async function createAdminUser(input: {
   }
 
   const prisma = await getPrisma();
+  let clerkUserId: string | null = null;
+
+  if (hasClerkAuth()) {
+    const client = await clerkClient();
+    const clerkUser = await client.users.createUser({
+      emailAddress: [normalizedEmail],
+      password: input.password,
+      firstName: fullName
+    });
+    clerkUserId = clerkUser.id;
+  }
+
   return prisma.user.create({
     data: {
+      clerkUserId,
       email: normalizedEmail,
       fullName,
       passwordHash,

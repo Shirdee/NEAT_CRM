@@ -101,6 +101,27 @@ export async function getFallbackUserByIdentifier(identifier: string) {
   );
 }
 
+export async function getFallbackUserByClerkUserId(clerkUserId: string) {
+  return getState().users.find((user) => user.clerkUserId === clerkUserId && user.isActive) ?? null;
+}
+
+export async function linkFallbackUserToClerkIdentity(input: {
+  clerkUserId: string;
+  email: string;
+}) {
+  const normalizedEmail = input.email.trim().toLowerCase();
+  const user = getState().users.find(
+    (item) => item.email.toLowerCase() === normalizedEmail && !item.clerkUserId
+  );
+
+  if (!user) {
+    return null;
+  }
+
+  user.clerkUserId = input.clerkUserId;
+  return user;
+}
+
 export async function listFallbackUsers() {
   return getState().users
     .slice()
@@ -110,7 +131,8 @@ export async function listFallbackUsers() {
 export async function createFallbackUser(input: {
   email: string;
   fullName: string;
-  passwordHash: string;
+  clerkUserId?: string | null;
+  passwordHash: string | null;
   role: SeedUser["role"];
   languagePreference: SeedUser["languagePreference"];
 }) {
@@ -123,6 +145,7 @@ export async function createFallbackUser(input: {
 
   const user: SeedUser = {
     id: randomUUID(),
+    clerkUserId: input.clerkUserId ?? null,
     email: normalizedEmail,
     fullName: input.fullName.trim(),
     passwordHash: input.passwordHash,

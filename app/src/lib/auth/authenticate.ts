@@ -9,7 +9,7 @@ export async function authenticateUser(
 ): Promise<UserSession | null> {
   const user = await getUserByIdentifier(identifier);
 
-  if (!user || !user.isActive || !verifyPassword(password, user.passwordHash)) {
+  if (!user || !user.isActive || !user.passwordHash || !verifyPassword(password, user.passwordHash)) {
     return null;
   }
 

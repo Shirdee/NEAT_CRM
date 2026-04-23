@@ -1,6 +1,8 @@
 import {getTranslations} from "next-intl/server";
 
+import {ClerkLoginForm} from "@/components/auth/clerk-login-form";
 import {LoginForm} from "@/components/auth/login-form";
+import {hasClerkAuth} from "@/lib/auth/session";
 
 import {loginAction} from "./actions";
 
@@ -13,6 +15,7 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
   const {locale} = await params;
   const {error} = await searchParams;
   const t = await getTranslations("Login");
+  const useClerk = hasClerkAuth();
   const errorMessage =
     error === "missing"
       ? t("form.errors.missingCredentials")
@@ -61,19 +64,35 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
               </h2>
               <p className="max-w-md text-sm leading-6 text-ink/70">{t("form.subtitle")}</p>
             </div>
-            <LoginForm
-              action={loginAction}
-              copy={{
-                identifier: t("form.identifier"),
-                identifierPlaceholder: t("form.identifierPlaceholder"),
-                password: t("form.password"),
-                passwordPlaceholder: t("form.passwordPlaceholder"),
-                submit: t("form.submit"),
-                hint: t("form.hint")
-              }}
-              error={errorMessage}
-              locale={locale}
-            />
+            {useClerk ? (
+              <ClerkLoginForm
+                copy={{
+                  identifier: t("form.identifier"),
+                  identifierPlaceholder: t("form.identifierPlaceholder"),
+                  password: t("form.password"),
+                  passwordPlaceholder: t("form.passwordPlaceholder"),
+                  submit: t("form.submit"),
+                  loading: t("form.loading"),
+                  hint: t("form.hint")
+                }}
+                error={errorMessage}
+                locale={locale}
+              />
+            ) : (
+              <LoginForm
+                action={loginAction}
+                copy={{
+                  identifier: t("form.identifier"),
+                  identifierPlaceholder: t("form.identifierPlaceholder"),
+                  password: t("form.password"),
+                  passwordPlaceholder: t("form.passwordPlaceholder"),
+                  submit: t("form.submit"),
+                  hint: t("form.hint")
+                }}
+                error={errorMessage}
+                locale={locale}
+              />
+            )}
           </div>
         </div>
       </section>

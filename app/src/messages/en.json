@@ -29,6 +29,7 @@
       "password": "Password",
       "passwordPlaceholder": "••••••••",
       "submit": "Enter CRM",
+      "loading": "Signing in...",
       "hint": "Ask an admin if you need access.",
       "errors": {
         "missingCredentials": "Email address and password are required.",
@@ -222,7 +223,7 @@
     },
     "create": {
       "title": "Add user",
-      "body": "Create a credentials-based account. Microsoft sign-in is planned for a later sprint.",
+      "body": "Create a Clerk-backed CRM account, assign the correct role, and set the preferred language.",
       "fullNamePlaceholder": "Full name",
       "emailPlaceholder": "name@company.com",
       "passwordPlaceholder": "Temporary password",

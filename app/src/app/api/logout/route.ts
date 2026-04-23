@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   const response = NextResponse.redirect(new URL(`/${locale}/login`, request.url));
 
   response.cookies.delete(SESSION_COOKIE);
+  response.cookies.delete("__session");
 
   return response;
 }

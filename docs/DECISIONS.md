@@ -5,7 +5,8 @@ tags:
   - planning
 aliases:
   - CRM Decisions
-updated: 2026-04-16
+created: 2026-04-16
+updated: 2026-04-23
 ---
 
 # CRM Decisions
@@ -17,122 +18,94 @@ updated: 2026-04-16
 
 ## Status
 
-These are proposed PM and CTO decisions pending founder approval.
+Final decisions only. Proposed and pending-approval items were removed.
 
-## Proposed Decisions
+## Final Decisions
 
-### D-001: Build The MVP As A Next.js Web App On Vercel
+### D-001: Build The Product As A Next.js App On Vercel
 
-- status: proposed
+- status: final
 - owner: CTO
-- reason: fastest path to a mobile-friendly internal app with secure routes and preview deployments on Vercel Hobby
+- reason: fastest path to secure internal web delivery with preview deployments on free-tier infrastructure
 
-### D-002: Use PostgreSQL As The Source Of Truth
+### D-002: Use PostgreSQL + Prisma As The Main Data Source
 
-- status: proposed
+- status: final
 - owner: CTO
-- reason: CRM data is relational and requires strong filtering, reporting, and import control
+- reason: CRM workflows require relational integrity, filtering, and migration-backed schema control
 
-### D-003: Keep MVP Scope Focused On Lead Management
+### D-003: Keep Credentials Authentication As Primary (Username-Or-Email)
 
-- status: proposed
-- owner: PM
-- reason: the business goal is meetings booked, not full account management
+- status: final
+- owner: CTO
+- reason: credentials flow ships reliably without adding email-service dependencies, while matching operator login needs
 
-### D-004: Use Table-First UX For MVP
+### D-004: Keep Microsoft OAuth As A Deferred Extension
 
-- status: proposed
-- owner: PM
-- reason: this matches daily operational usage and reduces UI complexity
+- status: final
+- owner: CTO
+- reason: defer SSO expansion until credentials flow and user management are stable
 
-### D-005: Separate Historical Interactions From Follow-Up Tasks
+### D-005: Keep App-Level RBAC Without Record Ownership In MVP
 
-- status: proposed
+- status: final
 - owner: PM and CTO
-- reason: activity history and future action management serve different workflows
+- reason: `admin`/`editor`/`viewer` gates cover current operating needs without ownership complexity
 
-### D-006: Use App-Level Roles Without Record Ownership In MVP
+### D-006: Keep Interactions And Follow-Ups As Separate Lifecycle Objects
 
-- status: proposed
+- status: final
 - owner: PM and CTO
-- reason: internal collaboration is broad and ownership rules are not currently required
+- reason: historical logging and next-action management are distinct workflows and close states
 
-### D-007: Preserve Imported Raw Text While Normalizing Structured Values
+### D-007: Preserve Raw Import Text While Normalizing Structured Values
 
-- status: proposed
+- status: final
 - owner: CTO
-- reason: imported workbook text must remain trustworthy while structured values become queryable
+- reason: workbook-origin data must remain auditable while normalized fields stay queryable
 
-### D-008: Keep The MVP Compatible With A Fully Free Stack
+### D-008: Use Soft Archive With Cascade Rules
 
-- status: proposed
+- status: final
+- owner: CTO
+- reason: archive behavior must keep history intact and remove archived entities from active operations
+- note: company archive cascade includes linked opportunities (Sprint 15 QA recheck pass)
+
+### D-009: Keep MVP Infrastructure Free-Tier Friendly
+
+- status: final
 - owner: PM and CTO
-- reason: the founder explicitly requires Vercel free tier and minimal extra services
+- reason: no paid infra dependency is required for the delivered baseline
 
-### D-009: Prefer Credentials Login Over Magic Links In MVP
+### D-010: Keep Integration Scope Minimal And Provider-Agnostic
 
-- status: proposed
+- status: final
 - owner: CTO
-- reason: credentials login avoids adding an email delivery service just for authentication
+- reason: no provider sync/automation lane is opened without explicit post-baseline approval
 
-### D-010: Keep Integration Storage Provider-Agnostic And Minimal
+### D-011: Standardize UI On Ink & Quartz + Focused Clarity
 
-- status: proposed
+- status: final
 - owner: CTO
-- reason: integration config should stay narrow until boundary approval, with no sync, queue, automation, or paid infra assumptions
+- reason: route-level visual consistency and maintainable UI tokens are required for ongoing product work
 
-### D-011: Keep Credentials Auth As Primary, Plan Microsoft OAuth As Optional Extension
+### D-012: Keep Table-First Productivity UX
 
-- status: proposed
+- status: final
+- owner: PM and CTO
+- reason: daily use prioritizes dense lists, quick actions, and stable search/filter persistence over decorative layout patterns
+
+### D-013: If Clerk Is Approved, Use It As Identity Replacement, Not Parallel Optional Login
+
+- status: final
 - owner: CTO
-- reason: credentials auth unblocks immediate delivery while preserving a clean decision gate for Microsoft SSO migration
-
-## Founder Approval Needed
-
-### A-001: Login Method
-
-- options: email and password, or magic link
-- recommendation: email and password for MVP under the free-tier constraint
-- approval needed from: founder
-
-### A-002: Viewer Access Scope
-
-- question: should viewers see all notes and interaction summaries, or only limited read-only fields
-- approval needed from: founder
-
-### A-003: Import Cleanup Rules
-
-- question: what tolerance is acceptable for automatic normalization versus manual review
-- approval needed from: founder with PM recommendation after workbook audit
-
-### A-004: Dashboard Definitions
-
-- question: confirm exact conversion definitions, reporting periods, and inactive lead threshold
-- approval needed from: founder
-
-### A-005: Workbook Authority
-
-- question: if workbook content conflicts with the written requirements, which source wins
-- recommendation: written requirements define target behavior, workbook defines initial data only
-- approval needed from: founder
-
-### A-006: Integration Boundary Scope
-
-- question: confirm whether MVP integration scope is config-only or may include sync-ready fields
-- recommendation: config-only until CTO-803 boundary approval
-- approval needed from: founder
-
-### A-007: Microsoft Auth Timing
-
-- question: should Microsoft OAuth be enabled now or after Sprint 13 credentials + user-management stabilization
-- recommendation: ship Sprint 13 on credentials first, then approve Microsoft OAuth as the next auth iteration
-- approval needed from: founder
+- reason: live CRM already has working custom auth and RBAC, so a dual-auth steady state would add drift, unclear account ownership, and avoidable cutover risk
 
 ## Related
 
 - [[PRD|PRD]]
 - [[ARCHITECTURE|Architecture]]
+- [[CLERK_DEPLOYMENT_PLAN|Clerk Deployment Plan]]
 - [[DELIVERY_PLAN|Delivery Plan]]
-- [[IMPORT_MAPPING|Import Mapping]]
-- [[PERMISSIONS|Permissions]]
+- [[ROADMAP|Roadmap]]
 - [[CODEX|Project Context]]

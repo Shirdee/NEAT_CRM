@@ -29,6 +29,7 @@
       "password": "סיסמה",
       "passwordPlaceholder": "••••••••",
       "submit": "כניסה למערכת",
+      "loading": "מתחבר/ת...",
       "hint": "אם אין לכם גישה, פנו למנהל מערכת.",
       "errors": {
         "missingCredentials": "צריך למלא כתובת מייל וסיסמה.",
@@ -222,7 +223,7 @@
     },
     "create": {
       "title": "הוספת משתמש",
-      "body": "נוצר חשבון מבוסס סיסמה. התחברות Microsoft מתוכננת לספרינט המשך.",
+      "body": "יוצרים חשבון CRM מבוסס Clerk, מגדירים תפקיד נכון, ובוחרים שפת ממשק מועדפת.",
       "fullNamePlaceholder": "שם מלא",
       "emailPlaceholder": "name@company.com",
       "passwordPlaceholder": "סיסמה זמנית",
