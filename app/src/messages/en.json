@@ -29,6 +29,7 @@
       "password": "Password",
       "passwordPlaceholder": "••••••••",
       "submit": "Enter CRM",
+      "signUp": "Create first user",
       "loading": "Signing in...",
       "hint": "Ask an admin if you need access.",
       "errors": {
