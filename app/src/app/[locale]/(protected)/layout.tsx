@@ -2,7 +2,7 @@ import {redirect} from "next/navigation";
 
 import {AppShell} from "@/components/shell/app-shell";
 import {AppShellBodyLock} from "@/components/shell/app-shell-body-lock";
-import {getCurrentSession} from "@/lib/auth/session";
+import {getCurrentSession, hasClerkAuth} from "@/lib/auth/session";
 
 type ProtectedLayoutProps = {
   children: React.ReactNode;
@@ -17,7 +17,8 @@ export default async function ProtectedLayout({
   const session = await getCurrentSession();
 
   if (!session) {
-    return redirect(`/${locale}/login`);
+    // Clerk mode: authenticated with Clerk but no DB record → access denied (not login loop)
+    return redirect(`/${locale}/${hasClerkAuth() ? "access-denied" : "login"}`);
   }
 
   return (

@@ -5,15 +5,16 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev            # start dev server (port 3000)
-npm run build          # prisma generate + next build
-npm run lint           # eslint
-npm run typecheck      # tsc --noEmit
-npm run test           # vitest run
-npx vitest run <file>  # run a single test file
-npm run db:migrate     # prisma migrate deploy
-npm run db:seed        # seed from prisma/seed.mjs
-npm run import:local   # CLI import (src/lib/import/run-local.ts)
+npm run dev               # start dev server (port 3000)
+npm run build             # prisma generate + next build
+npm run lint              # eslint
+npm run typecheck         # tsc --noEmit
+npm run test              # vitest run
+npx vitest run <file>     # run a single test file
+npm run prisma:generate   # regenerate Prisma client after schema changes
+npm run db:migrate        # prisma migrate deploy
+npm run db:seed           # seed from prisma/seed.mjs
+npm run import:local      # CLI import for large files (src/lib/import/run-local.ts)
 ```
 
 ## Architecture
@@ -34,7 +35,7 @@ Both delegate to either Prisma (when `DATABASE_URL` is set) or the in-memory fal
 
 ### Server Actions vs API Routes
 
-- **Mutations** (create/update/delete CRM records) → `src/lib/actions/` using `"use server"`. Actions validate session, check RBAC, call data layer, then `revalidatePath()`.
+- **Mutations** (create/update/delete CRM records) → `"use server"` actions. Shared actions in `src/lib/actions/`; entity-specific actions in co-located `actions.ts` files (e.g. `src/app/[locale]/(protected)/companies/actions.ts`). Actions validate session, check RBAC, call data layer, then `revalidatePath()`.
 - **API routes** (`src/app/api/`) → only for: logout, import pipeline (multi-step chunked upload), and any operation that can't be a server action (e.g., streaming, external webhooks).
 - Never mutate data from client components.
 
@@ -46,6 +47,8 @@ Both delegate to either Prisma (when `DATABASE_URL` is set) or the in-memory fal
 - Role checks: `canManageAdminLists()` (admin only), `canEditRecords()` (admin/editor)
 - Key files: `src/lib/auth/session.ts`, `src/lib/auth/authenticate.ts`
 - RBAC enforced in server actions, API routes, and server components (for UI gating)
+
+**Dual auth mode:** if `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` + `CLERK_SECRET_KEY` are present, `src/proxy.ts` delegates to Clerk middleware and auto-links Clerk users to DB records. Without them, falls back to legacy password auth (bcrypt + custom JWT).
 
 ### Error Handling Pattern
 
@@ -90,8 +93,9 @@ Tests live alongside source in `src/`. Naming: `*.test.ts`. Key coverage areas:
 - `src/lib/data/crm.test.ts` / `repository.test.ts` — data layer (tests against fallback store)
 - `src/lib/import/workbook.test.ts` — import parsing
 - `src/lib/data/saved-views.test.ts` — filter serialization
+- `src/lib/integrations/index.test.ts` — integration logic
 
-Tests use the fallback store (no real DB needed). Vitest config at `vitest.config.ts` with path alias `@: ./src`.
+Tests use the fallback store (no real DB needed). Call `resetFallbackStore()` in `beforeEach` to isolate state. Vitest config at `vitest.config.ts` with path alias `@: ./src`.
 
 ### Environment Variables
 
@@ -100,3 +104,5 @@ Tests use the fallback store (no real DB needed). Vitest config at `vitest.confi
 | `DATABASE_URL` | Pooled PostgreSQL — triggers real DB mode |
 | `DATABASE_URL_UNPOOLED` | Direct connection (migrations, seeds) |
 | `SESSION_SECRET` | HMAC signing key (has a local dev fallback) |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Optional — enables Clerk auth mode |
+| `CLERK_SECRET_KEY` | Optional — required alongside the publishable key |
