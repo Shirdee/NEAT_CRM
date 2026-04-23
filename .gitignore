@@ -8,3 +8,4 @@ tsconfig.tsbuildinfo
 .env.production.local
 app/.env.production.local
 app/.vercel
+.vercel

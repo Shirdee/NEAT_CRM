@@ -1,43 +1,54 @@
-# Sprint 1 Closeout Runbook
+# Deployment Runbook (Vercel + Clerk)
 
-Use this runbook only after real PostgreSQL and Vercel access are available.
+Use this runbook for current CRM deployments from `crm/app`.
 
 ## Required Environment Variables
 
 - `DATABASE_URL`
+- `DATABASE_URL_UNPOOLED`
 - `SESSION_SECRET`
-- `VERCEL_ORG_ID`
-- `VERCEL_PROJECT_ID`
+- `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY`
+- `CLERK_SECRET_KEY`
 
-## Database Closeout
+## One-Time Link
 
-1. Generate the Prisma client if needed:
-   - `npm run prisma:generate`
-2. Apply the existing migration to the real database:
-   - `npm run db:migrate`
-3. Seed the baseline Sprint 1 users and lookup values:
-   - `npm run db:seed`
-4. Smoke-test the live data path:
-   - log in with `shirdn@neat-tech.com` / `shir1994`
-   - confirm admin lists load and edits persist
+1. Log in and link the project:
+   - `npx vercel login`
+   - `npx vercel link`
 
-## Preview Deployment Closeout
+## Environment Setup
 
-1. Install or log into the Vercel CLI if it is not already configured.
-2. Link the project:
-   - `vercel link`
-3. Set the required environment variables for preview and production.
-4. Create a preview deployment:
-   - `vercel`
-5. Smoke-test:
-   - `/en/login`
-   - `/en/dashboard`
-   - `/en/admin/lists`
-   - `/he/login`
+1. Add DB and session vars in all environments:
+   - `npx vercel env add DATABASE_URL production`
+   - `npx vercel env add DATABASE_URL preview`
+   - `npx vercel env add DATABASE_URL_UNPOOLED production`
+   - `npx vercel env add DATABASE_URL_UNPOOLED preview`
+   - `npx vercel env add SESSION_SECRET production`
+   - `npx vercel env add SESSION_SECRET preview`
+2. Add Clerk vars in all environments:
+   - `npx vercel env add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY production`
+   - `npx vercel env add NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY preview`
+   - `npx vercel env add CLERK_SECRET_KEY production`
+   - `npx vercel env add CLERK_SECRET_KEY preview`
+3. Verify env matrix:
+   - `npx vercel env ls`
 
-## Evidence To Capture For QA
+## Deploy
 
-- migration command output
-- seed command output
+1. Preview:
+   - from repo `crm` root: `npx vercel`
+2. Production:
+   - from repo `crm` root: `npx vercel --prod`
+
+## Smoke Checklist
+
+- `/en/login` renders Clerk sign-in UI
+- unauthenticated `/en/dashboard` redirects to `/en/login`
+- `/he/login` renders and keeps RTL layout
+- authenticated admin reaches `/en/admin/users`
+
+## QA Evidence
+
+- `npx vercel env ls` output showing Clerk vars on Development/Preview/Production
 - preview deployment URL
-- confirmation that login and admin lists work against database-backed data
+- production deployment URL (if promoted)

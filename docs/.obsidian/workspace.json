@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_15/sprint_15_index.md",
+                "file": "sprints/sprint_16/todo/sprint_16_todo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sprint_15_index"
+              "title": "sprint_16_todo"
             }
           }
         ]
@@ -198,20 +198,29 @@
   },
   "active": "9b3621cfe9231aa7",
   "lastOpenFiles": [
+    "sprints/sprint_16/sprint_16_index.md",
+    "sprints/open_tasks.md",
+    "CLERK_DEPLOYMENT_PLAN.md",
+    "sprints/sprint_16/todo/sprint_16_todo.md",
+    "CODEX.md",
+    "DOCUMENTATION_STANDARD.md",
+    "sprints/sprint_13/todo/sprint_13_todo.md",
+    "sprints/sprint_16/todo",
+    "sprints/sprint_16",
+    "DELIVERY_PLAN.md",
+    "ROADMAP.md",
+    "DECISIONS.md",
+    "sprints/sprint_13/sprint_13_index.md",
+    "sprints/sprint_15/sprint_15_index.md",
     "sprints/sprint_15/todo/sprint_15_todo.md",
     "sprints/sprint_15/reviews/sprint_15_review.md",
     "sprints/sprint_15/reviews",
     "DATA_MODEL.md",
-    "DECISIONS.md",
-    "DELIVERY_PLAN.md",
-    "DOCUMENTATION_STANDARD.md",
     "IMPORT_MAPPING.md",
-    "sprints/sprint_15/sprint_15_index.md",
     "sprints/sprint_15/todo",
     "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
     "sprints/sprint_15",
     "Notes.md",
-    "sprints/open_tasks.md",
     "sprints/sprint_14/todo/DESIGN_FIXES.md",
     "sprints/sprint_14/new_design.md",
     "sprints/sprint_14/todo/ui-mockup.html",
@@ -222,17 +231,8 @@
     "sprints/sprint_14/sprint_14_index.md",
     "sprints/sprint_14",
     "PERMISSIONS.md",
-    "sprints/sprint_13/todo/sprint_13_todo.md",
     "sprints/sprint_12/todo/sprint_12_todo.md",
-    "sprints/sprint_13/todo",
-    "sprints/sprint_13/sprint_13_index.md",
-    "sprints/sprint_13",
     "sprints/sprint_12/sprint_12_index.md",
-    "sprints/sprint_11/todo/sprint_11_todo.md",
-    "sprints/sprint_11/sprint_11_index.md",
-    "sprints/sprint_10/todo/sprint_10_todo.md",
-    "sprints/sprint_10/sprint_10_ink_quartz_cutover_plan.md",
-    "sprints/sprint_10/sprint_10_index.md",
-    "sprints/sprint_10/sprint_10_stitch_route_plan.md"
+    "sprints/sprint_11/todo/sprint_11_todo.md"
   ]
 }
