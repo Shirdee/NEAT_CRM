@@ -417,7 +417,9 @@
       "apply": "Apply filters"
     },
     "actions": {
-      "export": "Export CSV",
+      "export": "Export",
+      "exportCsv": "Export CSV",
+      "exportXlsx": "Export Excel",
       "open": "Open company",
       "edit": "Edit company",
       "copyLink": "Copy company link"
@@ -491,6 +493,11 @@
       "email": "Primary email",
       "phone": "Primary phone"
     },
+    "actions": {
+      "export": "Export",
+      "exportCsv": "Export CSV",
+      "exportXlsx": "Export Excel"
+    },
     "labels": {
       "noRole": "No role set",
       "noCompany": "No linked company"
@@ -550,6 +557,11 @@
       "allTypes": "All interaction types",
       "apply": "Apply filters"
     },
+    "actions": {
+      "export": "Export",
+      "exportCsv": "Export CSV",
+      "exportXlsx": "Export Excel"
+    },
     "labels": {
       "noCompany": "No company",
       "noContact": "No contact"
@@ -604,6 +616,11 @@
       "allStatuses": "All statuses",
       "apply": "Apply filters"
     },
+    "actions": {
+      "export": "Export",
+      "exportCsv": "Export CSV",
+      "exportXlsx": "Export Excel"
+    },
     "labels": {
       "noNotes": "No notes",
       "noCompany": "No company",
@@ -634,6 +651,11 @@
       "allTypes": "All types",
       "allStatuses": "All statuses",
       "apply": "Apply filters"
+    },
+    "actions": {
+      "export": "Export",
+      "exportCsv": "Export CSV",
+      "exportXlsx": "Export Excel"
     },
     "labels": {
       "noNotes": "No notes yet"

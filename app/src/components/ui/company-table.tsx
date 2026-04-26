@@ -1,6 +1,6 @@
 "use client";
 
-import {useMemo, useState} from "react";
+import {useState} from "react";
 
 import {Link} from "@/i18n/navigation";
 
@@ -26,7 +26,6 @@ type Props = {
     contacts: string;
     open: string;
     edit: string;
-    export: string;
     copyLink: string;
     empty: string;
   };
@@ -39,27 +38,10 @@ function displayLabel(locale: "en" | "he", values: {en?: string | null; he?: str
 export function CompanyTable({companies, locale, labels}: Props) {
   const [menu, setMenu] = useState<{id: string; x: number; y: number} | null>(null);
 
-  const exportHref = useMemo(() => {
-    const escape = (value: string) => `"${value.replaceAll('"', '""')}"`;
-    const rows = companies.map((company) =>
-      [company.companyName, company.website ?? "", String(company.contactsCount)].map(escape).join(",")
-    );
-    return `data:text/csv;charset=utf-8,${encodeURIComponent(["company,website,contacts", ...rows].join("\n"))}`;
-  }, [companies]);
-
   const closeMenu = () => setMenu(null);
 
   return (
     <div className="relative">
-      <div className="flex justify-end border-b border-ink/5 bg-sand/30 px-4 py-3 sm:px-5">
-        <a
-          className="inline-flex items-center justify-center rounded-full bg-ink px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-ink/95"
-          href={exportHref}
-          download="companies.csv"
-        >
-          {labels.export}
-        </a>
-      </div>
       <table className="w-full border-separate border-spacing-0">
         <thead>
           <tr className="bg-mist">

@@ -3,6 +3,7 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getCompanyFormOptions, listCompanies} from "@/lib/data/crm";
+import {buildCrmExportHref} from "@/lib/export/crm-export";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {SavedViewBar} from "@/components/ui/saved-view-bar";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
@@ -35,6 +36,23 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
     sourceValueId: filters.source,
     stageValueId: filters.stage
   });
+  const exportFilters = {
+    q: filters.q,
+    source: filters.source,
+    stage: filters.stage
+  };
+  const exportCsvHref = buildCrmExportHref({
+    module: "companies",
+    format: "csv",
+    locale,
+    filters: exportFilters
+  });
+  const exportXlsxHref = buildCrmExportHref({
+    module: "companies",
+    format: "xlsx",
+    locale,
+    filters: exportFilters
+  });
 
   return (
     <div className="flex flex-col gap-5">
@@ -45,15 +63,31 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
             {companies.length}
           </span>
         </div>
-        {session && canEditRecords(session.role) ? (
-          <Link
-            className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
-            href="/companies/new"
-            locale={locale}
-          >
-            {t("create")}
-          </Link>
-        ) : null}
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+          <div className="flex flex-wrap gap-2">
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportCsvHref}
+            >
+              {t("actions.exportCsv")}
+            </a>
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportXlsxHref}
+            >
+              {t("actions.exportXlsx")}
+            </a>
+          </div>
+          {session && canEditRecords(session.role) ? (
+            <Link
+              className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
+              href="/companies/new"
+              locale={locale}
+            >
+              {t("create")}
+            </Link>
+          ) : null}
+        </div>
       </div>
 
       {query.error ? (
@@ -120,7 +154,6 @@ export default async function CompaniesPage({params, searchParams}: CompaniesPag
               contacts: t("columns.contacts"),
               copyLink: t("actions.copyLink"),
               edit: t("actions.edit"),
-              export: t("actions.export"),
               open: t("actions.open"),
               source: t("columns.source"),
               stage: t("columns.stage"),

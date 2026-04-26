@@ -417,7 +417,9 @@
       "apply": "הפעלת מסננים"
     },
     "actions": {
-      "export": "ייצוא CSV",
+      "export": "ייצוא",
+      "exportCsv": "ייצוא CSV",
+      "exportXlsx": "ייצוא Excel",
       "open": "פתיחת חברה",
       "edit": "עריכת חברה",
       "copyLink": "העתקת קישור לחברה"
@@ -491,6 +493,11 @@
       "email": "אימייל ראשי",
       "phone": "טלפון ראשי"
     },
+    "actions": {
+      "export": "ייצוא",
+      "exportCsv": "ייצוא CSV",
+      "exportXlsx": "ייצוא Excel"
+    },
     "labels": {
       "noRole": "ללא תפקיד",
       "noCompany": "ללא חברה מקושרת"
@@ -550,6 +557,11 @@
       "allTypes": "כל סוגי האינטראקציות",
       "apply": "הפעלת מסננים"
     },
+    "actions": {
+      "export": "ייצוא",
+      "exportCsv": "ייצוא CSV",
+      "exportXlsx": "ייצוא Excel"
+    },
     "labels": {
       "noCompany": "ללא חברה",
       "noContact": "ללא איש קשר"
@@ -604,6 +616,11 @@
       "allStatuses": "כל הסטטוסים",
       "apply": "הפעלת מסננים"
     },
+    "actions": {
+      "export": "ייצוא",
+      "exportCsv": "ייצוא CSV",
+      "exportXlsx": "ייצוא Excel"
+    },
     "labels": {
       "noNotes": "ללא הערות",
       "noCompany": "ללא חברה",
@@ -634,6 +651,11 @@
       "allTypes": "כל הסוגים",
       "allStatuses": "כל הסטטוסים",
       "apply": "הפעלת מסננים"
+    },
+    "actions": {
+      "export": "ייצוא",
+      "exportCsv": "ייצוא CSV",
+      "exportXlsx": "ייצוא Excel"
     },
     "labels": {
       "noNotes": "אין עדיין הערות"

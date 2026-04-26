@@ -5,7 +5,7 @@ tags:
   - index
 aliases:
   - CRM Home
-updated: 2026-04-23
+updated: 2026-04-26
 ---
 
 # CRM
@@ -15,8 +15,9 @@ CRM docs home and fast entrypoint.
 ## Current Status
 
 - Sprint indexes closed through Sprint 15 (latest review pass: Sprint 15)
+- Active planning sprint: Sprint 17 universal CSV/XLSX export
 - Active backlog: [Open Tasks](sprints/open_tasks.md)
-- Latest execution baseline: [Sprint 15 Index](sprints/sprint_15/sprint_15_index.md)
+- Latest execution baseline: [Sprint 16 Index](sprints/sprint_16/sprint_16_index.md)
 
 ## Start Here
 

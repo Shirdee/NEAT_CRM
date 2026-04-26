@@ -3,6 +3,7 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getTaskListFilterOptions, listTasks} from "@/lib/data/crm";
+import {buildCrmExportHref} from "@/lib/export/crm-export";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {TaskListClient} from "@/components/tasks/task-list-client";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
@@ -55,6 +56,24 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
   ]);
   const todayStart = startOfToday();
   const todayEnd = endOfToday();
+  const exportFilters = {
+    q: filters.q,
+    companyId: filters.companyId,
+    contactId: filters.contactId,
+    statusValueId: filters.statusValueId
+  };
+  const exportCsvHref = buildCrmExportHref({
+    module: "tasks",
+    format: "csv",
+    locale,
+    filters: exportFilters
+  });
+  const exportXlsxHref = buildCrmExportHref({
+    module: "tasks",
+    format: "xlsx",
+    locale,
+    filters: exportFilters
+  });
   const groups = {
     overdue: tasks.filter(
       (task) => !task.completedAt && new Date(task.dueDate).getTime() < todayStart
@@ -81,15 +100,31 @@ export default async function TasksPage({params, searchParams}: TasksPageProps) 
             {totalCount}
           </span>
         </div>
-        {session && canEditRecords(session.role) ? (
-          <Link
-            className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
-            href="/tasks/new"
-            locale={locale}
-          >
-            {t("create")}
-          </Link>
-        ) : null}
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+          <div className="flex flex-wrap gap-2">
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportCsvHref}
+            >
+              {t("actions.exportCsv")}
+            </a>
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportXlsxHref}
+            >
+              {t("actions.exportXlsx")}
+            </a>
+          </div>
+          {session && canEditRecords(session.role) ? (
+            <Link
+              className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
+              href="/tasks/new"
+              locale={locale}
+            >
+              {t("create")}
+            </Link>
+          ) : null}
+        </div>
       </div>
 
       <SurfaceCard className="space-y-4">

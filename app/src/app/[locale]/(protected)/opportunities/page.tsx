@@ -3,6 +3,7 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getOpportunityFormOptions, listOpportunities} from "@/lib/data/crm";
+import {buildCrmExportHref} from "@/lib/export/crm-export";
 import {listSavedViews, resolveSavedViewFilters} from "@/lib/data/saved-views";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {LiveSearchSelect} from "@/components/ui/live-search-select";
@@ -65,6 +66,26 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
     ]);
   const selectedViewId = viewMode === "pipeline" ? null : savedViewState.selectedViewId;
   const selectedViewName = viewMode === "pipeline" ? null : savedViewState.selectedView?.name ?? null;
+  const exportFilters = {
+    q: filters.q,
+    companyId: filters.companyId,
+    contactId: filters.contactId,
+    stage: filters.stage,
+    type: filters.type,
+    status: filters.status
+  };
+  const exportCsvHref = buildCrmExportHref({
+    module: "opportunities",
+    format: "csv",
+    locale,
+    filters: exportFilters
+  });
+  const exportXlsxHref = buildCrmExportHref({
+    module: "opportunities",
+    format: "xlsx",
+    locale,
+    filters: exportFilters
+  });
 
   return (
     <div className="flex flex-col gap-5">
@@ -77,6 +98,20 @@ export default async function OpportunitiesPage({params, searchParams}: Opportun
         </div>
         <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
           <ViewToggle current={viewMode} locale={locale} />
+          <div className="flex flex-wrap gap-2">
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportCsvHref}
+            >
+              {t("actions.exportCsv")}
+            </a>
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportXlsxHref}
+            >
+              {t("actions.exportXlsx")}
+            </a>
+          </div>
           {session && canEditRecords(session.role) ? (
             <Link
               className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"

@@ -3,6 +3,7 @@ import {getTranslations} from "next-intl/server";
 import {Link} from "@/i18n/navigation";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
 import {getContactFormOptions, listContacts} from "@/lib/data/crm";
+import {buildCrmExportHref} from "@/lib/export/crm-export";
 import {LiveFilterForm} from "@/components/ui/live-filter-form";
 import {LiveSearchSelect} from "@/components/ui/live-search-select";
 import {SurfaceCard} from "@/components/ui/surface-card";
@@ -21,6 +22,19 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
     getContactFormOptions(),
     listContacts({query: query.q, companyId: query.companyId})
   ]);
+  const exportFilters = {q: query.q, companyId: query.companyId};
+  const exportCsvHref = buildCrmExportHref({
+    module: "contacts",
+    format: "csv",
+    locale,
+    filters: exportFilters
+  });
+  const exportXlsxHref = buildCrmExportHref({
+    module: "contacts",
+    format: "xlsx",
+    locale,
+    filters: exportFilters
+  });
 
   return (
     <div className="flex flex-col gap-5">
@@ -31,15 +45,31 @@ export default async function ContactsPage({params, searchParams}: ContactsPageP
             {contacts.length}
           </span>
         </div>
-        {session && canEditRecords(session.role) ? (
-          <Link
-            className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
-            href="/contacts/new"
-            locale={locale}
-          >
-            {t("create")}
-          </Link>
-        ) : null}
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center sm:justify-end">
+          <div className="flex flex-wrap gap-2">
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportCsvHref}
+            >
+              {t("actions.exportCsv")}
+            </a>
+            <a
+              className="inline-flex items-center justify-center rounded-full border border-ink/10 bg-white px-4 py-2 text-[13px] font-semibold text-ink transition hover:bg-sand"
+              href={exportXlsxHref}
+            >
+              {t("actions.exportXlsx")}
+            </a>
+          </div>
+          {session && canEditRecords(session.role) ? (
+            <Link
+              className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-2.5 text-[13.5px] font-semibold text-white transition hover:bg-coral/90"
+              href="/contacts/new"
+              locale={locale}
+            >
+              {t("create")}
+            </Link>
+          ) : null}
+        </div>
       </div>
 
       {query.error ? (
