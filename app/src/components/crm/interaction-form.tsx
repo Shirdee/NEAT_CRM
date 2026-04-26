@@ -208,6 +208,19 @@ export function InteractionForm({
           </select>
         </label>
       )}
+      {mode === "create" && allowFollowUpAfterCreate ? (
+        <label className="flex items-start gap-3 rounded-[22px] border border-sand/70 bg-sand/60 px-4 py-3 text-sm text-ink/70">
+          <input className="mt-1" name="autoFollowUp" type="checkbox" value="1" />
+          <span>
+            <span className="block font-medium text-ink">
+              {locale === "he" ? "יצירת מעקב אוטומטי" : "Create automatic follow-up"}
+            </span>
+            <span className="text-xs text-ink/50">
+              {locale === "he" ? "משימה תיפתח לשבוע הבא." : "A task will be opened for one week from now."}
+            </span>
+          </span>
+        </label>
+      ) : null}
       <div className={`flex flex-wrap gap-3 ${compact ? "flex-col" : ""}`}>
         <button
           className={`inline-flex items-center justify-center rounded-full bg-ink px-5 py-3 text-sm font-medium text-white ${compact ? "w-full" : ""}`}
@@ -221,16 +234,6 @@ export function InteractionForm({
               ? "שמירת שינויים"
               : "Save changes"}
         </button>
-        {mode === "create" && allowFollowUpAfterCreate ? (
-          <button
-            className={`inline-flex items-center justify-center rounded-full border border-sand/70 bg-sand/80 px-5 py-3 text-sm font-medium text-ink/70 ${compact ? "w-full" : ""}`}
-            name="intent"
-            type="submit"
-            value="create-and-add-follow-up"
-          >
-            {locale === "he" ? "יצירה והוספת מעקב" : "Create and add follow-up"}
-          </button>
-        ) : null}
       </div>
     </form>
   );

@@ -111,6 +111,7 @@ export type SeedTask = {
   statusValueId: string;
   closeReasonValueId?: string | null;
   notes: string | null;
+  followUpEmail?: string | null;
   archivedAt?: string | null;
   archivedById?: string | null;
   createdById: string;
@@ -584,6 +585,17 @@ export const seededCategories: SeedListCategory[] = [
         isActive: true,
         createdAt: now,
         updatedAt: now
+      },
+      {
+        id: "value_close_reason_meeting",
+        categoryId: closeReasonId,
+        key: "meeting",
+        labelEn: "Meeting booked",
+        labelHe: "נקבעה פגישה",
+        sortOrder: 4,
+        isActive: true,
+        createdAt: now,
+        updatedAt: now
       }
     ]
   },
@@ -813,6 +825,7 @@ export const seededTasks: SeedTask[] = [
     priorityValueId: "value_task_priority_high",
     statusValueId: "value_task_status_open",
     notes: "Prepare the tailored demo recap and confirm attendees.",
+    followUpEmail: null,
     createdById: "user_admin",
     createdAt: now,
     updatedAt: now,
@@ -828,6 +841,7 @@ export const seededTasks: SeedTask[] = [
     priorityValueId: "value_task_priority_medium",
     statusValueId: "value_task_status_open",
     notes: "Send pricing context and propose two meeting slots.",
+    followUpEmail: null,
     createdById: "user_editor",
     createdAt: now,
     updatedAt: now,
@@ -843,6 +857,7 @@ export const seededTasks: SeedTask[] = [
     priorityValueId: "value_task_priority_low",
     statusValueId: "value_task_status_completed",
     notes: "Close the loop after no response and keep the record searchable.",
+    followUpEmail: null,
     createdById: "user_editor",
     createdAt: now,
     updatedAt: now,

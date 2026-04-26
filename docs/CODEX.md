@@ -14,11 +14,12 @@ CRM project context and working assumptions.
 
 ## Current Focus
 
+- Sprint 18 is planned for closeout QA and daily UX improvements from Notes
 - Sprint 15 implementation is complete and QA review passed (ready for PM closeout alignment)
-- Sprint 16 Clerk auth cutover implementation is complete and in QA / PM closeout
-- Sprint 17 planning is open for universal list export to CSV/XLSX
+- Sprint 16 Clerk auth cutover implementation is complete; manual Clerk QA/env closeout remains open
+- Sprint 17 universal list export to CSV/XLSX is implemented; manual export QA remains open
 - Active backlog is consolidated in [[sprints/open_tasks|Open Tasks]]
-- Current execution focus is closeout + production-readiness validation, plus export sprint handoff
+- Current execution focus is Sprint 18 approval and DEV handoff
 - Visual baseline is `Ink & Quartz` with Sprint 14 focused-clarity redesign applied
 
 ## Start Here

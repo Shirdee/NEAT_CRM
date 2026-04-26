@@ -6,7 +6,7 @@ tags:
 aliases:
   - CRM Decisions
 created: 2026-04-16
-updated: 2026-04-23
+updated: 2026-04-26
 ---
 
 # CRM Decisions
@@ -34,11 +34,11 @@ Final decisions only. Proposed and pending-approval items were removed.
 - owner: CTO
 - reason: CRM workflows require relational integrity, filtering, and migration-backed schema control
 
-### D-003: Keep Credentials Authentication As Primary (Username-Or-Email)
+### D-003: Legacy Credentials Auth Was The MVP Starting Point
 
-- status: final
+- status: superseded by D-014
 - owner: CTO
-- reason: credentials flow ships reliably without adding email-service dependencies, while matching operator login needs
+- reason: credentials flow shipped the early MVP, then Clerk replaced it as the identity layer in Sprint 16
 
 ### D-004: Keep Microsoft OAuth As A Deferred Extension
 
@@ -100,6 +100,12 @@ Final decisions only. Proposed and pending-approval items were removed.
 - status: final
 - owner: CTO
 - reason: live CRM already has working custom auth and RBAC, so a dual-auth steady state would add drift, unclear account ownership, and avoidable cutover risk
+
+### D-014: Use Clerk As The Implemented Auth Platform
+
+- status: final
+- owner: CTO
+- reason: Sprint 16 implemented Clerk as session identity while CRM database keeps roles, language preference, active state, and audit ownership
 
 ## Related
 

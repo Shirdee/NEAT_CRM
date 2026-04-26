@@ -13,6 +13,7 @@ type TaskFormValues = {
   priorityValueId: string;
   statusValueId: string;
   notes: string;
+  followUpEmail: string;
 };
 
 type TaskFormProps = {
@@ -58,7 +59,8 @@ export function TaskForm({
     dueDate: values?.dueDate ?? "",
     priorityValueId: values?.priorityValueId ?? "",
     statusValueId: values?.statusValueId ?? "",
-    notes: values?.notes ?? ""
+    notes: values?.notes ?? "",
+    followUpEmail: values?.followUpEmail ?? ""
   };
   const isInvalid = (field: string) => invalidFields?.includes(field) ?? false;
 
@@ -171,6 +173,16 @@ export function TaskForm({
           />
         </>
       )}
+      <label className="block space-y-2 text-sm text-ink/70">
+        <span className="font-medium">{locale === "he" ? "אימייל למעקב" : "Follow-up email"}</span>
+        <input
+          className="w-full rounded-2xl border border-sand/70 bg-white px-4 py-3"
+          defaultValue={defaults.followUpEmail}
+          name="followUpEmail"
+          placeholder={locale === "he" ? "אימייל נוסף להקשר" : "Optional email context"}
+          type="email"
+        />
+      </label>
       <label className="block space-y-2 text-sm text-ink/70">
         <span className="font-medium">{locale === "he" ? "הערות" : "Notes"}</span>
         <textarea

@@ -8,6 +8,7 @@ import {canEditRecords, getCurrentSession, isLocale} from "@/lib/auth/session";
 import {
   closeInteractionWithReason,
   createInteraction,
+  createTask,
   deleteInteraction,
   DeleteBlockedError,
   getInteractionById,
@@ -63,7 +64,7 @@ function buildInteractionRedirectParams(formData: FormData, error: string, field
 export async function createInteractionAction(boundLocale: string, formData: FormData) {
   const locale = isLocale(boundLocale) ? boundLocale : "en";
   const session = await requireWritableUser(locale);
-  const intent = String(formData.get("intent") ?? "");
+  const autoFollowUp = String(formData.get("autoFollowUp") ?? "") === "1";
 
   try {
     const payload = normalizeInteractionPayload({
@@ -80,30 +81,45 @@ export async function createInteractionAction(boundLocale: string, formData: For
 
     const interaction = await createInteraction(payload);
 
+    if (autoFollowUp) {
+      const [taskTypes, priorities, statuses] = await Promise.all([
+        listLookupOptions("task_type"),
+        listLookupOptions("task_priority"),
+        listLookupOptions("task_status")
+      ]);
+      const taskType = taskTypes.find((option) => option.key === "call") ?? taskTypes[0];
+      const priority = priorities.find((option) => option.key === "medium") ?? priorities[0];
+      const status = statuses.find((option) => option.key === "open") ?? statuses[0];
+
+      if (!taskType || !priority || !status) {
+        throw new ValidationError("Follow-up task lookup values are missing.", [
+          "taskTypeValueId",
+          "priorityValueId",
+          "statusValueId"
+        ]);
+      }
+
+      const dueDate = new Date(new Date(payload.interactionDate).getTime() + 7 * 24 * 60 * 60 * 1000);
+
+      await createTask({
+        companyId: interaction.companyId,
+        contactId: interaction.contactId,
+        relatedInteractionId: interaction.id,
+        taskTypeValueId: taskType.id,
+        dueDate: dueDate.toISOString(),
+        priorityValueId: priority.id,
+        statusValueId: status.id,
+        notes: locale === "he" ? `מעקב: ${interaction.subject}` : `Follow up: ${interaction.subject}`,
+        followUpEmail: null,
+        actorUserId: session.id
+      });
+    }
+
     revalidatePath(`/${locale}/interactions`);
+    revalidatePath(`/${locale}/tasks`);
+    revalidatePath(`/${locale}/dashboard`);
     revalidatePath(`/${locale}/companies`);
     revalidatePath(`/${locale}/contacts`);
-
-    if (intent === "create-and-add-follow-up") {
-      const params = new URLSearchParams({
-        relatedInteractionId: interaction.id
-      });
-      const compact = String(formData.get("compact") ?? "");
-
-      if (interaction.companyId) {
-        params.set("companyId", interaction.companyId);
-      }
-
-      if (interaction.contactId) {
-        params.set("contactId", interaction.contactId);
-      }
-
-      if (compact) {
-        params.set("compact", compact);
-      }
-
-      redirect(`/${locale}/tasks/new?${params.toString()}`);
-    }
 
     redirect(`/${locale}/interactions/${interaction.id}?success=created`);
   } catch (error) {

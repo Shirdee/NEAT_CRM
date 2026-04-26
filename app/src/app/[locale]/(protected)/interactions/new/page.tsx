@@ -61,6 +61,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
   const lockedContact = contactId
     ? options.contacts.find((contact) => contact.id === contactId) ?? null
     : null;
+  const resolvedCompanyId = companyId ?? lockedContact?.companyId ?? "";
 
   return (
     <div className="space-y-6">
@@ -100,7 +101,7 @@ export default async function NewInteractionPage({params, searchParams}: NewInte
           mode="create"
           outcomeOptions={options.outcomeOptions}
           values={{
-            companyId: companyId ?? "",
+            companyId: resolvedCompanyId,
             contactId: contactId ?? "",
             interactionDate: interactionDate ?? nowLocalInput(),
             interactionTypeValueId: interactionTypeValueId ?? "",

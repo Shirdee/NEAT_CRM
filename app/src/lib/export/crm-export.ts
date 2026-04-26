@@ -109,6 +109,7 @@ type TaskExportRow = {
   statusLabelEn: string | null;
   statusLabelHe: string | null;
   notes: string | null;
+  followUpEmail: string | null;
 };
 
 type OpportunityExportRow = {
@@ -372,7 +373,8 @@ const exportDefinitions: ExportDefinitionMap = {
         priorityLabelHe: row.priorityLabelHe ?? null,
         statusLabelEn: row.statusLabelEn ?? null,
         statusLabelHe: row.statusLabelHe ?? null,
-        notes: row.notes
+        notes: row.notes,
+        followUpEmail: row.followUpEmail ?? null
       })),
     columns: [
       {
@@ -404,6 +406,11 @@ const exportDefinitions: ExportDefinitionMap = {
         headerEn: "Status",
         headerHe: "סטטוס",
         value: (row, locale) => pickLabel(locale, row.statusLabelEn, row.statusLabelHe)
+      },
+      {
+        headerEn: "Follow-up Email",
+        headerHe: "אימייל למעקב",
+        value: (row) => safeText(row.followUpEmail)
       },
       {
         headerEn: "Notes",

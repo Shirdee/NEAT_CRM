@@ -104,6 +104,11 @@ Pending QA:
 - manual filtered export check
 - manual Hebrew file open check in spreadsheet app
 
+## PM Smoke Update (2026-04-26)
+
+- unauthenticated `/api/exports` request returns `403`
+- full CSV/XLSX download QA still needs an authenticated Clerk user session
+
 ## Related
 
 - [[sprints/sprint_17/todo/sprint_17_todo|Sprint 17 Todo]]

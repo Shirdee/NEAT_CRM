@@ -705,7 +705,10 @@ export async function listFallbackTasks(filters?: {
       const companyName = getState().companies.find((company) => company.id === task.companyId)?.companyName ?? "";
       const contactName = getState().contacts.find((contact) => contact.id === task.contactId)?.fullName ?? "";
 
-      return [task.notes ?? "", companyName, contactName].join(" ").toLowerCase().includes(needle);
+      return [task.notes ?? "", task.followUpEmail ?? "", companyName, contactName]
+        .join(" ")
+        .toLowerCase()
+        .includes(needle);
     })
     .sort((left, right) => new Date(left.dueDate).getTime() - new Date(right.dueDate).getTime())
     .map((task) => ({
@@ -800,6 +803,7 @@ export async function createFallbackTask(input: {
   priorityValueId: string;
   statusValueId: string;
   notes: string | null;
+  followUpEmail?: string | null;
   actorUserId: string;
   completedAt: string | null;
 }) {
@@ -815,6 +819,7 @@ export async function createFallbackTask(input: {
     statusValueId: input.statusValueId,
     closeReasonValueId: null,
     notes: input.notes,
+    followUpEmail: input.followUpEmail ?? null,
     archivedAt: null,
     archivedById: null,
     createdById: input.actorUserId,
@@ -837,6 +842,7 @@ export async function updateFallbackTask(input: {
   priorityValueId: string;
   statusValueId: string;
   notes: string | null;
+  followUpEmail?: string | null;
   completedAt: string | null;
 }) {
   const task = getState().tasks.find((item) => item.id === input.id);
@@ -853,6 +859,7 @@ export async function updateFallbackTask(input: {
   task.priorityValueId = input.priorityValueId;
   task.statusValueId = input.statusValueId;
   task.notes = input.notes;
+  task.followUpEmail = input.followUpEmail ?? null;
   task.completedAt = input.completedAt;
   task.updatedAt = new Date().toISOString();
 
@@ -1106,12 +1113,46 @@ export async function deleteFallbackTask(id: string, actorUserId: string) {
 export async function closeFallbackTaskWithReason(
   id: string,
   closeReasonValueId: string,
-  completedStatusValueId: string
+  completedStatusValueId: string,
+  options?: {
+    actorUserId?: string;
+    interactionTypeValueId?: string;
+    meetingDate?: string | null;
+  }
 ) {
-  const task = getState().tasks.find((item) => item.id === id);
+  const state = getState();
+  const task = state.tasks.find((item) => item.id === id);
 
   if (!task || task.archivedAt) {
     return false;
+  }
+
+  if (options?.interactionTypeValueId && options.meetingDate) {
+    const timestamp = new Date().toISOString();
+    const interaction: SeedInteraction = {
+      id: randomUUID(),
+      interactionDate: new Date(options.meetingDate).toISOString(),
+      companyId: task.companyId,
+      contactId: task.contactId,
+      interactionTypeValueId: options.interactionTypeValueId,
+      subject: task.notes ? `Meeting: ${task.notes}` : "Meeting booked",
+      summary: [
+        "Created while closing follow-up task.",
+        task.followUpEmail ? `Email context: ${task.followUpEmail}` : null
+      ]
+        .filter(Boolean)
+        .join("\n"),
+      outcomeStatusValueId: null,
+      closeReasonValueId: null,
+      archivedAt: null,
+      archivedById: null,
+      createdById: options.actorUserId ?? task.createdById,
+      createdAt: timestamp,
+      updatedAt: timestamp
+    };
+
+    state.interactions.push(interaction);
+    task.relatedInteractionId = interaction.id;
   }
 
   task.closeReasonValueId = closeReasonValueId;

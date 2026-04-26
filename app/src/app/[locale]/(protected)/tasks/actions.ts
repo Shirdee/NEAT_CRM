@@ -42,7 +42,8 @@ function buildTaskRedirectParams(formData: FormData, fields: string[] = []) {
     "dueDate",
     "priorityValueId",
     "statusValueId",
-    "notes"
+    "notes",
+    "followUpEmail"
   ];
 
   for (const field of values) {
@@ -71,6 +72,7 @@ export async function createTaskAction(boundLocale: string, formData: FormData) 
       priorityValueId: String(formData.get("priorityValueId") ?? ""),
       statusValueId: String(formData.get("statusValueId") ?? ""),
       notes: String(formData.get("notes") ?? ""),
+      followUpEmail: String(formData.get("followUpEmail") ?? ""),
       actorUserId: session.id
     });
     await validateCompanyContactMatch(payload.companyId, payload.contactId);
@@ -112,6 +114,7 @@ export async function updateTaskAction(boundLocale: string, formData: FormData) 
       priorityValueId: String(formData.get("priorityValueId") ?? ""),
       statusValueId: String(formData.get("statusValueId") ?? ""),
       notes: String(formData.get("notes") ?? ""),
+      followUpEmail: String(formData.get("followUpEmail") ?? ""),
       actorUserId: session.id
     });
     await validateCompanyContactMatch(payload.companyId, payload.contactId);
@@ -164,6 +167,7 @@ export async function closeTaskAction(boundLocale: string, formData: FormData) {
   const session = await requireWritableUser(locale);
   const taskId = String(formData.get("taskId") ?? "");
   const closeReasonValueId = String(formData.get("closeReasonValueId") ?? "");
+  const meetingDate = String(formData.get("meetingDate") ?? "");
 
   if (!taskId || !closeReasonValueId) {
     redirect(`/${locale}/tasks/${taskId || ""}?error=validation`);
@@ -176,13 +180,20 @@ export async function closeTaskAction(boundLocale: string, formData: FormData) {
   }
 
   const closeOptions = await listLookupOptions("close_reason");
-  const validReason = closeOptions.some((option) => option.id === closeReasonValueId);
+  const closeReason = closeOptions.find((option) => option.id === closeReasonValueId);
+  const validReason = Boolean(closeReason);
 
   if (!validReason) {
     redirect(`/${locale}/tasks/${taskId}?error=validation`);
   }
 
-  await closeTaskWithReason(taskId, closeReasonValueId, session.id);
+  if (closeReason?.key === "meeting" && !meetingDate) {
+    redirect(`/${locale}/tasks/${taskId}?error=meeting-date`);
+  }
+
+  await closeTaskWithReason(taskId, closeReasonValueId, session.id, {
+    meetingDate
+  });
 
   revalidatePath(`/${locale}/tasks`);
   revalidatePath(`/${locale}/dashboard`);

@@ -18,8 +18,9 @@ updated: 2026-04-15
 
 ## Status
 
-PM and CTO recommendation prepared for approval on 2026-03-31.
-This is the proposed implementation direction for the MVP.
+MVP baseline is implemented. This architecture remains the baseline guide, with later sprint decisions taking precedence where they update the stack.
+
+Latest auth decision: Clerk is the implemented auth platform from Sprint 16. Older Auth.js planning is superseded by the Sprint 16 and decision-log records.
 
 ## PM And CTO Recommendation
 
@@ -29,7 +30,7 @@ This is the proposed implementation direction for the MVP.
 - deployment: Vercel Hobby
 - database: PostgreSQL on a free-tier provider
 - ORM and migrations: Prisma
-- auth: Auth.js with credentials-based login and app-level roles
+- auth: Clerk session identity with CRM-owned app-level roles
 - validation: Zod
 - forms: React Hook Form
 - UI foundation: Tailwind CSS with accessible reusable UI primitives
@@ -44,16 +45,15 @@ This is the proposed implementation direction for the MVP.
 - Prisma gives typed schema management and migrations for a business-data-heavy app.
 - TanStack Table is a strong fit for the table-first CRM requirement.
 - `next-intl` fits the bilingual Hebrew and English requirement and works with App Router.
-- Auth.js keeps auth inside the app and avoids paying for a separate auth SaaS in MVP.
+- Clerk is the implemented session identity provider; CRM keeps internal roles and audit identity.
 
 ### Important Tradeoff
 
-The free-tier constraint changes the auth recommendation:
+The auth tradeoff is now resolved by Sprint 16:
 
-- recommended default: email and password with admin-created users
-- not recommended as default: magic link, because it usually adds an email delivery service even if the app itself stays free
-
-If the business still wants magic links in MVP, we should treat that as an explicit service decision rather than the default path.
+- Clerk handles credentials/session identity
+- CRM remains authoritative for `admin`, `editor`, `viewer`, language preference, and active state
+- no Clerk Organizations or provider sync in the first cut
 
 ## Free-Tier Compatibility
 
@@ -64,7 +64,7 @@ The plan is still viable on a free stack, with one adjustment:
 - keep Vercel on the Hobby plan
 - use a free PostgreSQL provider as the single supporting infrastructure service
 - avoid paid queues, storage products, analytics, and email infrastructure in MVP
-- prefer credentials auth over magic-link auth
+- use Clerk for auth while keeping CRM roles and audit identity in Postgres
 
 ### Vercel Hobby Constraints That Affect The Plan
 
@@ -257,7 +257,7 @@ Detailed mapping and cleanup logic lives in `docs/IMPORT_MAPPING.md`.
 - interaction history may not have stable keys for deduplication
 - dashboard conversions may need clarified business definitions
 - large workbook imports may exceed the practical comfort zone of a hosted free-tier import flow
-- magic-link auth would likely increase service count and complexity
+- auth deployment wiring can block production if Clerk env values or allowed URLs are incomplete
 
 ## External References
 
@@ -268,7 +268,7 @@ The recommendation above aligns with current official docs checked on 2026-03-31
 - Prisma with Next.js and Vercel: [prisma.io](https://www.prisma.io/docs/guides/nextjs)
 - TanStack Table for table-heavy UI: [tanstack.com](https://tanstack.com/table/latest/docs/framework/react)
 - `next-intl` for App Router i18n: [next-intl.dev](https://next-intl.dev/)
-- Auth.js project overview: [authjs.dev](https://authjs.dev/)
+- Clerk deployment plan: [[CLERK_DEPLOYMENT_PLAN|Clerk Deployment Plan]]
 
 ## Related
 

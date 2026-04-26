@@ -17,6 +17,8 @@ updated: 2026-04-26
 
 ## Start Here
 
+- [Sprint 18 Index](sprint_18/sprint_18_index.md)
+- [Sprint 18 Todo](sprint_18/todo/sprint_18_todo.md)
 - [Sprint 17 Index](sprint_17/sprint_17_index.md)
 - [Sprint 17 Todo](sprint_17/todo/sprint_17_todo.md)
 - [Sprint 16 Index](sprint_16/sprint_16_index.md)
@@ -51,8 +53,9 @@ updated: 2026-04-26
 
 All Sprint 1 to Sprint 11 index docs are now marked closed.
 Any unfinished work was moved to [Open Tasks](open_tasks.md) and should be treated as the active backlog.
-Sprint 17 is planned as universal list export to CSV/XLSX.
-Sprint 16 is in QA / PM closeout for Clerk cutover.
+Sprint 18 is planned as closeout QA plus daily UX improvements from Notes.
+Sprint 17 universal list export is implemented and waiting on manual download QA.
+Sprint 16 Clerk cutover is implemented and waiting on manual auth/env QA.
 Sprint 15 implementation is complete with QA pass (PM closeout alignment pending doc hygiene).
 Sprint 14 is completed UI baseline.
 
@@ -63,6 +66,7 @@ See [Delivery Plan](../DELIVERY_PLAN.md) for the full PM and CTO sprint-by-sprin
 - [Delivery Plan](../DELIVERY_PLAN.md)
 - [PRD](../PRD.md)
 - [Decisions](../DECISIONS.md)
+- [Sprint 18 Index](sprint_18/sprint_18_index.md)
 - [Sprint 17 Index](sprint_17/sprint_17_index.md)
 - [Sprint 16 Index](sprint_16/sprint_16_index.md)
 - [Sprint 15 Index](sprint_15/sprint_15_index.md)

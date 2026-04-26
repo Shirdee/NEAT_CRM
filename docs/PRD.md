@@ -18,8 +18,7 @@ updated: 2026-04-11
 
 ## Status
 
-Planning draft prepared for approval on 2026-03-31.
-Execution must not begin until the founder approves the plan.
+MVP baseline is implemented. This PRD is the product baseline for closeout, QA, and controlled expansion.
 
 ## Product Summary
 
@@ -226,7 +225,7 @@ Exact workbook sheet and column mapping is pending workbook access. The plan bel
 
 ## Approval Questions
 
-- confirm whether login should be email and password in MVP, or whether a free magic-link email setup is still acceptable
+- Clerk auth is selected and implemented; confirm deployment/user rollout timing
 - confirm whether viewer users should see all notes or a limited read-only subset
 - confirm acceptable cleanup rules for inconsistent workbook values
 - confirm exact dashboard default periods and conversion formulas

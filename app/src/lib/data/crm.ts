@@ -114,6 +114,7 @@ export type TaskInput = {
   priorityValueId: string;
   statusValueId: string;
   notes: string | null;
+  followUpEmail: string | null;
   actorUserId: string;
 };
 
@@ -663,6 +664,7 @@ export function normalizeTaskPayload(input: {
   priorityValueId: string;
   statusValueId: string;
   notes: string;
+  followUpEmail?: string;
   actorUserId: string;
 }): TaskInput {
   const taskTypeValueId = cleanRequired(input.taskTypeValueId, "Task type");
@@ -694,6 +696,7 @@ export function normalizeTaskPayload(input: {
     priorityValueId,
     statusValueId,
     notes: cleanOptional(input.notes),
+    followUpEmail: cleanOptional(input.followUpEmail ?? ""),
     actorUserId: input.actorUserId
   };
 }
@@ -1565,6 +1568,7 @@ export async function createTask(input: TaskInput) {
       priorityValueId: input.priorityValueId,
       statusValueId: input.statusValueId,
       notes: input.notes,
+      followUpEmail: input.followUpEmail,
       createdById: input.actorUserId,
       completedAt: completedAt ? new Date(completedAt) : null
     }
@@ -1596,6 +1600,7 @@ export async function updateTask(id: string, input: TaskInput) {
       priorityValueId: input.priorityValueId,
       statusValueId: input.statusValueId,
       notes: input.notes,
+      followUpEmail: input.followUpEmail,
       completedAt: completedAt ? new Date(completedAt) : null
     }
   });
@@ -1615,7 +1620,12 @@ export async function deleteTask(id: string, actorUserId: string) {
   return result.count > 0;
 }
 
-export async function closeTaskWithReason(id: string, closeReasonValueId: string, actorUserId: string) {
+export async function closeTaskWithReason(
+  id: string,
+  closeReasonValueId: string,
+  actorUserId: string,
+  options?: {meetingDate?: string}
+) {
   const statusOptions = await listLookupOptions("task_status");
   const completedStatus = statusOptions.find((option) => option.key === "completed");
 
@@ -1623,22 +1633,102 @@ export async function closeTaskWithReason(id: string, closeReasonValueId: string
     throw new ValidationError("Task close requires a completed status lookup value.", ["statusValueId"]);
   }
 
+  const closeOptions = await listLookupOptions("close_reason");
+  const closeReason = closeOptions.find((option) => option.id === closeReasonValueId);
+  const shouldCreateMeeting = closeReason?.key === "meeting";
+  const meetingDate = cleanOptional(options?.meetingDate ?? "");
+
+  if (shouldCreateMeeting && !meetingDate) {
+    throw new ValidationError("Meeting date is required.", ["meetingDate"]);
+  }
+
   if (!hasDatabaseUrl()) {
-    return closeFallbackTaskWithReason(id, closeReasonValueId, completedStatus.id);
+    const interactionTypes = await listLookupOptions("interaction_type");
+    const meetingType = interactionTypes.find((option) => option.key === "meeting");
+
+    if (shouldCreateMeeting && !meetingType) {
+      throw new ValidationError("Meeting close requires a meeting interaction type.", ["interactionTypeValueId"]);
+    }
+
+    return closeFallbackTaskWithReason(id, closeReasonValueId, completedStatus.id, {
+      actorUserId,
+      interactionTypeValueId: shouldCreateMeeting ? meetingType?.id : undefined,
+      meetingDate
+    });
   }
 
   const prisma = await getPrisma();
-  const result = await prisma.task.updateMany({
-    where: {id, archivedAt: null},
-    data: {
-      closeReasonValueId,
-      statusValueId: completedStatus.id,
-      completedAt: new Date(),
-      updatedAt: new Date()
+  const result = await prisma.$transaction(async (tx) => {
+    const task = await tx.task.findFirst({
+      where: {id, archivedAt: null},
+      select: {
+        companyId: true,
+        contactId: true,
+        notes: true,
+        followUpEmail: true
+      }
+    });
+
+    if (!task) {
+      return {count: 0};
     }
+
+    let relatedInteractionId: string | undefined;
+
+    if (shouldCreateMeeting) {
+      const scheduledMeetingDate = meetingDate;
+
+      if (!scheduledMeetingDate) {
+        throw new ValidationError("Meeting date is required.", ["meetingDate"]);
+      }
+
+      const interactionTypes = await tx.listValue.findMany({
+        where: {
+          category: {key: "interaction_type"},
+          key: "meeting",
+          isActive: true
+        },
+        take: 1
+      });
+      const meetingType = interactionTypes[0];
+
+      if (!meetingType) {
+        throw new ValidationError("Meeting close requires a meeting interaction type.", ["interactionTypeValueId"]);
+      }
+
+      const interaction = await tx.interaction.create({
+        data: {
+          interactionDate: new Date(scheduledMeetingDate),
+          companyId: task.companyId,
+          contactId: task.contactId,
+          interactionTypeValueId: meetingType.id,
+          subject: task.notes ? `Meeting: ${task.notes}` : "Meeting booked",
+          summary: [
+            "Created while closing follow-up task.",
+            task.followUpEmail ? `Email context: ${task.followUpEmail}` : null
+          ]
+            .filter(Boolean)
+            .join("\n"),
+          outcomeStatusValueId: null,
+          createdById: actorUserId
+        }
+      });
+
+      relatedInteractionId = interaction.id;
+    }
+
+    return tx.task.updateMany({
+      where: {id, archivedAt: null},
+      data: {
+        closeReasonValueId,
+        statusValueId: completedStatus.id,
+        completedAt: new Date(),
+        updatedAt: new Date(),
+        ...(relatedInteractionId ? {relatedInteractionId} : {})
+      }
+    });
   });
 
-  void actorUserId;
   return result.count > 0;
 }
 
@@ -1852,6 +1942,7 @@ export async function listTasks(filters?: {
       OR: filters?.query
         ? [
             {notes: {contains: filters.query, mode: "insensitive"}},
+            {followUpEmail: {contains: filters.query, mode: "insensitive"}},
             {company: {companyName: {contains: filters.query, mode: "insensitive"}}},
             {contact: {fullName: {contains: filters.query, mode: "insensitive"}}}
           ]

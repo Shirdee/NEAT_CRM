@@ -10,7 +10,7 @@ aliases:
   - Sprint 16 Index
   - CRM Sprint 16 Index
 created: 2026-04-23
-updated: 2026-04-23
+updated: 2026-04-26
 ---
 
 # Sprint 16 Index — Clerk Auth Cutover Planning
@@ -94,6 +94,15 @@ Implementation should start only after founder approval of Clerk timing.
   - mobile width sweep
   - RTL/Hebrew sweep
   - environment/deployment wiring verification
+
+## PM / DEV Smoke Update (2026-04-26)
+
+- local smoke found a Clerk login page crash on EN/HE routes
+- fixed by replacing Clerk button wrappers with a small client action component
+- `/en/login` and `/he/login` now return `200`
+- protected dashboard redirects signed-out users to `/en/login`
+- unauthenticated export API returns `403`
+- full Clerk sign-in, role, mobile, RTL, and deployment-env sweep remains open under `QA-1601`
 
 ## Linked Sprint Docs
 

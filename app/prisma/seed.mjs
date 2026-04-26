@@ -96,6 +96,36 @@ const categories = [
     ]
   },
   {
+    id: "cat_task_priority",
+    key: "task_priority",
+    name: "Task Priorities",
+    values: [
+      {key: "high", labelEn: "High", labelHe: "גבוה", sortOrder: 1},
+      {key: "medium", labelEn: "Medium", labelHe: "בינוני", sortOrder: 2},
+      {key: "low", labelEn: "Low", labelHe: "נמוך", sortOrder: 3}
+    ]
+  },
+  {
+    id: "cat_task_status",
+    key: "task_status",
+    name: "Task Statuses",
+    values: [
+      {key: "open", labelEn: "Open", labelHe: "פתוח", sortOrder: 1},
+      {key: "completed", labelEn: "Completed", labelHe: "הושלם", sortOrder: 2}
+    ]
+  },
+  {
+    id: "cat_close_reason",
+    key: "close_reason",
+    name: "Close Reasons",
+    values: [
+      {key: "not_relevant", labelEn: "Not relevant", labelHe: "לא רלוונטי", sortOrder: 1},
+      {key: "no_response", labelEn: "No response", labelHe: "ללא מענה", sortOrder: 2},
+      {key: "completed", labelEn: "Completed / resolved", labelHe: "הושלם / טופל", sortOrder: 3},
+      {key: "meeting", labelEn: "Meeting booked", labelHe: "נקבעה פגישה", sortOrder: 4}
+    ]
+  },
+  {
     id: "cat_import_status",
     key: "import_status",
     name: "Import Statuses",

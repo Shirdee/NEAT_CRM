@@ -70,7 +70,8 @@ export default async function EditTaskPage({params, searchParams}: EditTaskPageP
             dueDate: toInputDateTime(task.dueDate),
             priorityValueId: task.priorityValueId,
             statusValueId: task.statusValueId,
-            notes: task.notes ?? ""
+            notes: task.notes ?? "",
+            followUpEmail: task.followUpEmail ?? ""
           }}
         />
       </section>

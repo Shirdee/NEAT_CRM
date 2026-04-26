@@ -5,7 +5,7 @@ import {PeriodToggle} from "@/components/dashboard/period-toggle";
 import {StatusChip} from "@/components/ui/status-chip";
 import {SurfaceCard} from "@/components/ui/surface-card";
 import {canEditRecords, getCurrentSession} from "@/lib/auth/session";
-import {listInteractions, listTasks, getDashboardSnapshot} from "@/lib/data/crm";
+import {getDashboardSnapshot, listInteractions, listLookupOptions, listTasks} from "@/lib/data/crm";
 import {formatRelativeActivityTime, getOpenDealValue, getRecentActivity, type ActivityItem} from "@/lib/data/activity";
 
 type DashboardPageProps = {
@@ -147,12 +147,20 @@ export default async function DashboardPage({params, searchParams}: DashboardPag
   const session = await getCurrentSession();
   const selectedPeriod = parsePeriodKey(period);
   const periodDays = parsePeriodDays(selectedPeriod);
-  const [snapshot, recentInteractions, tasks, recentActivity] = await Promise.all([
+  const [snapshot, recentInteractions, tasks, recentActivity, taskStatusOptions, opportunityStatusOptions] = await Promise.all([
     getDashboardSnapshot(periodDays),
     listInteractions(),
     listTasks(),
-    getRecentActivity(10)
+    getRecentActivity(10),
+    listLookupOptions("task_status"),
+    listLookupOptions("opportunity_status")
   ]);
+  const openTaskStatusId = taskStatusOptions.find((option) => option.key === "open")?.id;
+  const openOpportunityStatusId = opportunityStatusOptions.find((option) => option.key === "open")?.id;
+  const openTasksHref = openTaskStatusId ? `/tasks?statusValueId=${openTaskStatusId}` : "/tasks";
+  const openOpportunitiesHref = openOpportunityStatusId
+    ? `/opportunities?status=${openOpportunityStatusId}`
+    : "/opportunities";
   const openDealValue = getOpenDealValue(snapshot);
   const canCreate = session ? canEditRecords(session.role) : false;
   const greetingName = firstName(session?.fullName) || t("greetingFallback");
@@ -204,24 +212,28 @@ export default async function DashboardPage({params, searchParams}: DashboardPag
       <div className="grid grid-cols-2 gap-4 xl:grid-cols-4">
         <MetricTile
           detail={t("metrics.overdueDetail")}
+          href={`${openTasksHref}#overdue`}
           label={t("metrics.overdue")}
           tone="coral"
           value={String(snapshot.overdueTasksCount)}
         />
         <MetricTile
           detail={t("metrics.dueTodayDetail")}
+          href={`${openTasksHref}#today`}
           label={t("metrics.dueToday")}
           tone="amber"
           value={String(dueTodayCount)}
         />
         <MetricTile
           detail={t("metrics.meetingsDetail")}
+          href="/reports/meetings"
           label={t("metrics.meetings")}
           tone="teal"
           value={String(snapshot.meetingsInPeriodCount)}
         />
         <MetricTile
           detail={openDealValue == null ? undefined : t("metrics.openDealsDetail")}
+          href={openOpportunitiesHref}
           label={t("metrics.openDeals")}
           tone="lime"
           value={openOpportunitiesValue}
@@ -330,12 +342,14 @@ function MetricTile({
   label,
   value,
   detail,
-  tone
+  tone,
+  href
 }: {
   label: string;
   value: string;
   detail?: string;
   tone: MetricTone;
+  href?: string;
 }) {
   const toneClasses: Record<MetricTone, string> = {
     coral: "bg-coral/10 text-coral",
@@ -344,14 +358,24 @@ function MetricTile({
     lime: "bg-lime/15 text-lime/80"
   };
 
-  return (
-    <div className="rounded-[20px] bg-white p-5 shadow-[0_2px_12px_rgba(16,36,63,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(16,36,63,0.11)]">
+  const className =
+    "block rounded-[20px] bg-white p-5 shadow-[0_2px_12px_rgba(16,36,63,0.07)] transition hover:-translate-y-0.5 hover:shadow-[0_6px_24px_rgba(16,36,63,0.11)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-mint/70";
+  const content = (
+    <>
       <p className="text-[11px] font-semibold uppercase tracking-[0.07em] text-ink/50">{label}</p>
       <p className={`mt-2 font-display text-4xl font-extrabold leading-none ${toneClasses[tone]}`}>
         {value}
       </p>
       {detail ? <p className="mt-2 text-xs text-ink/40">{detail}</p> : null}
-    </div>
+    </>
+  );
+
+  return href ? (
+    <Link aria-label={label} className={className} href={href}>
+      {content}
+    </Link>
+  ) : (
+    <div className={className}>{content}</div>
   );
 }
 

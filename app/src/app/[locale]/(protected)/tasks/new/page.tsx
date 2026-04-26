@@ -22,6 +22,7 @@ type NewTaskPageProps = {
     priorityValueId?: string;
     statusValueId?: string;
     notes?: string;
+    followUpEmail?: string;
     relatedInteractionId?: string;
   }>;
 };
@@ -45,6 +46,7 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
     priorityValueId,
     statusValueId,
     notes,
+    followUpEmail,
     relatedInteractionId
   } = await searchParams;
   const session = await getCurrentSession();
@@ -105,7 +107,8 @@ export default async function NewTaskPage({params, searchParams}: NewTaskPagePro
             taskTypeValueId: taskTypeValueId ?? "",
             statusValueId: statusValueId ?? defaultStatus,
             priorityValueId: priorityValueId ?? defaultPriority,
-            notes: notes ?? (relatedInteraction ? `${relatedInteraction.subject}: ` : "")
+            notes: notes ?? (relatedInteraction ? `${relatedInteraction.subject}: ` : ""),
+            followUpEmail: followUpEmail ?? ""
           }}
         />
       </section>

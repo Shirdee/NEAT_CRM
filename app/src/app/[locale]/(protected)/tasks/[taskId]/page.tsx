@@ -9,7 +9,7 @@ import {SurfaceCard} from "@/components/ui/surface-card";
 
 type TaskDetailPageProps = {
   params: Promise<{locale: "en" | "he"; taskId: string}>;
-  searchParams: Promise<{success?: string}>;
+  searchParams: Promise<{error?: string; success?: string}>;
 };
 
 function labelForLocale(
@@ -32,7 +32,7 @@ function formatDate(locale: "en" | "he", value: Date | string | null) {
 
 export default async function TaskDetailPage({params, searchParams}: TaskDetailPageProps) {
   const {locale, taskId} = await params;
-  const {success} = await searchParams;
+  const {error, success} = await searchParams;
   const t = await getTranslations("TaskDetail");
   const session = await getCurrentSession();
   const [task, closeReasonOptions] = await Promise.all([getTaskById(taskId), listLookupOptions("close_reason")]);
@@ -67,6 +67,11 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
           {success === "created" ? t("created") : success === "closed" ? t("closed") : t("updated")}
         </p>
       ) : null}
+      {error ? (
+        <p className="rounded-2xl bg-amber/10 px-4 py-3 text-sm text-ink">
+          {error === "meeting-date" ? t("meetingDateError") : t("closeError")}
+        </p>
+      ) : null}
 
       {session && canEditRecords(session.role) ? (
         <SurfaceCard className="space-y-3 bg-white/95">
@@ -88,6 +93,12 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
                 </option>
               ))}
             </select>
+            <input
+              className="rounded-full bg-mist px-4 py-2.5 text-sm text-ink/80 focus:outline-none focus:ring-2 focus:ring-teal/20"
+              name="meetingDate"
+              title={t("meetingDate")}
+              type="datetime-local"
+            />
             <button
               className="inline-flex items-center justify-center rounded-full bg-coral px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-coral/90"
               type="submit"
@@ -153,6 +164,10 @@ export default async function TaskDetailPage({params, searchParams}: TaskDetailP
         <article className="rounded-[24px] border border-ink/8 bg-white p-5">
           <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("completedAt")}</p>
           <p className="mt-3 text-sm text-ink/70">{formatDate(locale, task.completedAt)}</p>
+        </article>
+        <article className="rounded-[24px] border border-ink/8 bg-white p-5">
+          <p className="text-xs uppercase tracking-[0.24em] text-ink/50">{t("followUpEmail")}</p>
+          <p className="mt-3 text-sm text-ink/70">{task.followUpEmail || "—"}</p>
         </article>
       </section>
 

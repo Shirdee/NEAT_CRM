@@ -1,6 +1,6 @@
 import {getTranslations} from "next-intl/server";
-import {SignInButton, SignUpButton} from "@clerk/nextjs";
 
+import {ClerkLoginActions} from "@/components/auth/clerk-login-actions";
 import {LoginForm} from "@/components/auth/login-form";
 import {hasClerkAuth} from "@/lib/auth/session";
 
@@ -66,24 +66,7 @@ export default async function LoginPage({params, searchParams}: LoginPageProps) 
             </div>
             {useClerk ? (
               <div className="space-y-5">
-                <div className="grid gap-3 sm:grid-cols-2">
-                  <SignInButton>
-                    <button
-                      className="w-full rounded-full bg-coral px-4 py-3.5 text-sm font-semibold text-white transition hover:-translate-y-0.5 hover:bg-coral/90 focus:outline-none focus:ring-2 focus:ring-coral/40 focus:ring-offset-2"
-                      type="button"
-                    >
-                      {t("form.submit")}
-                    </button>
-                  </SignInButton>
-                  <SignUpButton>
-                    <button
-                      className="w-full rounded-full border border-ink/10 bg-white px-4 py-3.5 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-mist focus:outline-none focus:ring-2 focus:ring-ink/10 focus:ring-offset-2"
-                      type="button"
-                    >
-                      {t("form.signUp")}
-                    </button>
-                  </SignUpButton>
-                </div>
+                <ClerkLoginActions signInLabel={t("form.submit")} signUpLabel={t("form.signUp")} />
                 {errorMessage ? (
                   <p className="rounded-[22px] border border-rose-100 bg-rose-50 px-4 py-3 text-sm text-rose-700">
                     {errorMessage}

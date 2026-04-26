@@ -219,6 +219,7 @@ model Task {
   statusValueId        String
   closeReasonValueId   String?
   notes                String?
+  followUpEmail        String?
   archivedAt           DateTime?
   archivedById         String?
   createdById          String

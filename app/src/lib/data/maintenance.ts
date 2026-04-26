@@ -267,6 +267,7 @@ export async function applyBatchEdit(input: {
         priorityValueId: input.field === "priorityValueId" ? input.valueId : task.priorityValueId,
         statusValueId: input.field === "statusValueId" ? input.valueId : task.statusValueId,
         notes: task.notes ?? null,
+        followUpEmail: task.followUpEmail ?? null,
         actorUserId: input.actorUserId
       });
     }

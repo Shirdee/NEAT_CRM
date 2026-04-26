@@ -77,7 +77,7 @@ export default async function ContactDetailPage({
             </div>
           ) : null}
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {primaryEmail ? (
             <a
               className="inline-flex items-center justify-center rounded-full bg-mist px-5 py-3 text-sm font-medium text-ink/80 transition hover:bg-sand"
@@ -108,15 +108,6 @@ export default async function ContactDetailPage({
           >
             {t("viewTasks")}
           </Link>
-          {canEdit ? (
-            <Link
-              className="inline-flex items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-medium text-white transition hover:opacity-95"
-              href={`/contacts/${contact.id}/edit`}
-              locale={locale}
-            >
-              {t("edit")}
-            </Link>
-          ) : null}
         </div>
         <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           <InfoPair label={t("role")} value={contact.roleTitle || "—"} />

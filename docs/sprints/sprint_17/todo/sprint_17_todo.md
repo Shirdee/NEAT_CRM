@@ -200,6 +200,7 @@ Sprint ready for QA.
 - [x] `npm run lint`
 - [x] `npm run test` (`48/48`)
 - [x] `npm run build`
+- [x] signed-out export request denied with `403`
 - [ ] manual export checks on all five modules
 - [ ] manual EN/HE spreadsheet open checks
 

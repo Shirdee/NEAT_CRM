@@ -86,7 +86,7 @@ export function TaskListClient({
         }
 
         return (
-          <section className="flex flex-col gap-2" key={key}>
+          <section className="flex scroll-mt-6 flex-col gap-2" id={key} key={key}>
             <div className="flex items-center gap-2 py-1">
               <h2 className={["font-display text-[13px] font-bold", groupTitleColor[key]].join(" ")}>
                 {label}

@@ -15,9 +15,11 @@ CRM docs home and fast entrypoint.
 ## Current Status
 
 - Sprint indexes closed through Sprint 15 (latest review pass: Sprint 15)
-- Active planning sprint: Sprint 17 universal CSV/XLSX export
+- Sprint 18 is planned for closeout QA and daily UX improvements from Notes
+- Sprint 16 Clerk cutover is implemented; QA/manual env verification remains open
+- Sprint 17 universal CSV/XLSX export is implemented; manual download QA remains open
 - Active backlog: [Open Tasks](sprints/open_tasks.md)
-- Latest execution baseline: [Sprint 16 Index](sprints/sprint_16/sprint_16_index.md)
+- Current execution focus: Sprint 18 approval and DEV handoff
 
 ## Start Here
 
