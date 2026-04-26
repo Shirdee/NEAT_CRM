@@ -1,12 +1,21 @@
 
+- Time is local not GMT
 - add option to close interuction/follow-up with cause (not relevant/etc)
 - add archive option
-	- for contact - archive all inteructions and followups
-	- for companies - archive all contacts (and therefore all inteructions and followups)
+	- for contact - archive all interactions and followups
+	- for companies - archive all contacts (and therefore all interactions and followups)
 - **log in!**
-- margins and paddings
+- open followups in dashboard
+- all company/contact names are links to the record page
+- in interaction form
+	- auto complete company by contact
+	- description not must only subject
+	- add "auto followup" checkbox to add a default followup check in one week from now (do not open follow up form)
+- contact view
+	- 2 edit contact button - keep top black one
+- dashboard
+	- click on one of KPI boxes opens list - over-dues/today/etc
+- follow ups
+	- can be also another email
+	- can close with a meeting as reason - move to log new interaction "meeting" in future time
 - right click menu
-- select and export (companies)
-- search box for companies resets once clicking outside of it
-- live search boxes does not save the choice once cloesing
-- open folloups in dashboard

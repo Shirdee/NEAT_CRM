@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "sprints/sprint_16/todo/sprint_16_todo.md",
+                "file": "Notes.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "sprint_16_todo"
+              "title": "Notes"
             }
           }
         ]
@@ -198,10 +198,11 @@
   },
   "active": "9b3621cfe9231aa7",
   "lastOpenFiles": [
-    "sprints/sprint_16/sprint_16_index.md",
+    "sprints/sprint_17/sprint_17_index.md",
     "sprints/open_tasks.md",
-    "CLERK_DEPLOYMENT_PLAN.md",
     "sprints/sprint_16/todo/sprint_16_todo.md",
+    "sprints/sprint_16/sprint_16_index.md",
+    "CLERK_DEPLOYMENT_PLAN.md",
     "CODEX.md",
     "DOCUMENTATION_STANDARD.md",
     "sprints/sprint_13/todo/sprint_13_todo.md",
@@ -232,7 +233,6 @@
     "sprints/sprint_14",
     "PERMISSIONS.md",
     "sprints/sprint_12/todo/sprint_12_todo.md",
-    "sprints/sprint_12/sprint_12_index.md",
-    "sprints/sprint_11/todo/sprint_11_todo.md"
+    "sprints/sprint_12/sprint_12_index.md"
   ]
 }
