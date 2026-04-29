@@ -9,7 +9,7 @@ updated: 2026-04-29
 Use this file as the local map for this folder.
 
 ```text
-crm/docs/sprints/sprint_05/ui/
+Project/crm/docs/sprints/sprint_05/ui/
 ├── Design.md
 ├── FRONTEND_IMPLEMENTATION_TASKS.md
 ├── FRONTEND_SPRINT_CHECKLIST.md

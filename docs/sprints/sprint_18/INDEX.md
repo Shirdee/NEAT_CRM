@@ -9,7 +9,7 @@ updated: 2026-04-29
 Use this folder for Sprint 18 closeout QA and daily UX work.
 
 ```text
-crm/docs/sprints/sprint_18/
+Project/crm/docs/sprints/sprint_18/
 ├── todo/
 │   └── sprint_18_todo.md  # DEV/QA checklist and results
 └── sprint_18_index.md  # sprint status, scope, shipped work

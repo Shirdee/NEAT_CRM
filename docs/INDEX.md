@@ -9,7 +9,7 @@ updated: 2026-04-29
 Use this folder for CRM project truth.
 
 ```text
-crm/docs/
+Project/crm/docs/
 ├── Engineering Docs/
 │   ├── README.md  # folder home
 │   └── SWRS.md

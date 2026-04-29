@@ -9,7 +9,7 @@ updated: 2026-04-29
 Use this file as the local map for this folder.
 
 ```text
-crm/docs/sprints/sprint_01/
+Project/crm/docs/sprints/sprint_01/
 ├── reports/  # report notes
 │   └── sprint_01_report.md
 ├── reviews/  # review notes

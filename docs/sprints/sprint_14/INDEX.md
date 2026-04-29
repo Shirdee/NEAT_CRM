@@ -9,7 +9,7 @@ updated: 2026-04-29
 Use this file as the local map for this folder.
 
 ```text
-crm/docs/sprints/sprint_14/
+Project/crm/docs/sprints/sprint_14/
 ├── todo/  # todo notes
 │   ├── DESIGN_FIXES.md
 │   ├── sprint_14_todo.md
