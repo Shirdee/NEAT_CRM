@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Notes.md",
+                "file": "sprints/sprint_18/todo/sprint_18_todo.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Notes"
+              "title": "sprint_18_todo"
             }
           }
         ]
@@ -198,8 +198,13 @@
   },
   "active": "9b3621cfe9231aa7",
   "lastOpenFiles": [
-    "sprints/sprint_17/sprint_17_index.md",
+    "sprints/sprint_18/sprint_18_index.md",
     "sprints/open_tasks.md",
+    "sprints/sprint_18/todo/sprint_18_todo.md",
+    "sprints/sprint_18/todo",
+    "sprints/sprint_18",
+    "Notes.md",
+    "sprints/sprint_17/sprint_17_index.md",
     "sprints/sprint_16/todo/sprint_16_todo.md",
     "sprints/sprint_16/sprint_16_index.md",
     "CLERK_DEPLOYMENT_PLAN.md",
@@ -221,18 +226,13 @@
     "sprints/sprint_15/todo",
     "sprints/sprint_14/SPRINT_14_UI_REDESIGN.md",
     "sprints/sprint_15",
-    "Notes.md",
     "sprints/sprint_14/todo/DESIGN_FIXES.md",
     "sprints/sprint_14/new_design.md",
     "sprints/sprint_14/todo/ui-mockup.html",
     "sprints/sprint_14/ui-mockup.html",
     "sprints/sprint_14/todo/sprint_14_todo.md",
     "ui-mockup.html",
-    "sprints/sprint_14/todo",
     "sprints/sprint_14/sprint_14_index.md",
-    "sprints/sprint_14",
-    "PERMISSIONS.md",
-    "sprints/sprint_12/todo/sprint_12_todo.md",
-    "sprints/sprint_12/sprint_12_index.md"
+    "PERMISSIONS.md"
   ]
 }
